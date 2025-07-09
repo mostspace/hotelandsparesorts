@@ -1,15 +1,14 @@
+import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server'
 
 const KEY_ID = '13324'
 const API_KEY = '66a9de03-3f16-4287-b594-fc9191a3669a' ///RATEHAWK API KEY
 
-export function GET(req:Request) {
+export function POST(req:Request) {
 
     return new Promise(async (resolve, reject) => {
 
-      const { searchParams } = new URL(req.url);
-
-      const body = await req.json();
+      const { lat,lng } = await req.json();
 
 
     const response = await fetch('https://api.worldota.net/api/b2b/v3/search/serp/geo/', {
@@ -29,17 +28,49 @@ export function GET(req:Request) {
               children: []
             }
           ],
-          longitude: 13.38886,
-          latitude: 52.517036,
-          radius: 150,
+          // IRELAND
+          // longitude: -6.256012415626754,
+          // latitude: 53.33891941773272, 
+          longitude: lng,
+          latitude: lat, 
+          radius: 3000,
           currency: "EUR"
         })
       });
       
       const data = await response.json();
       console.log(data);
-    resolve(NextResponse.json(data))
+
+      let hotels = data.data.hotels
+      let hotelIds = hotels.map((item: { hid: any; }) => item.hid);
+
+
+      const hotelsDB = await prisma.hotels.findMany({
+        where: {
+            hid: {
+            in: hotelIds,
+            },
+        },
+      });
+
+      const mergedArray = hotelsDB.map((hotel: { hid: any; }) => {
+        const match = hotels.find((rateObj: { hid: any; }) => rateObj.hid === hotel.hid);
+        return {
+          ...hotel,
+          rates: match ? match.rates : null
+        };
+      });
+
+
+    resolve(NextResponse.json(mergedArray))
 
     })
 
 }
+
+
+
+
+
+
+

@@ -10,11 +10,16 @@ export default function TestPage() {
 
     const apiClickGet = async () => {
         try {
-            const res = await fetch("/api/trip-advisor/reviews");
-            if (!res.ok) throw new Error(`Error: ${res.status}`);
-      
+            const res = await fetch("/api/ratehawk/hotel-page");
+            
             const data = await res.json();
-            console.log("API response:", data);
+
+            console.log("API RESPONSE", data)
+
+          
+
+
+
           } catch (error) {
             console.error("API call failed:", error);
           }
@@ -55,6 +60,29 @@ export default function TestPage() {
     const apiClick = async () => {
       try {
         const res = await fetch("/api/ratehawk/test?test=Cao", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            test: "GM",
+          }),
+        });
+    
+        if (!res.ok) throw new Error(`Error: ${res.status}`);
+        const data = await res.json();
+    
+        console.log("API response:", data);
+        // Expected: { sp: "queryValue", body: "bodyValue" }
+    
+      } catch (error) {
+        console.error("POST request failed:", error);
+      }
+    };
+
+    const api = async () => {
+      try {
+        const res = await fetch("/api/ratehawk/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
