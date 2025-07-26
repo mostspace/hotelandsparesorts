@@ -27,7 +27,7 @@ export default function HomeScreen() {
   } 
 
   return (
-    <div className="flex flex-col items-center gap-1" >
+    <div className="flex flex-col items-center gap-1 p-20" >
       
       <span>HOME PAGE</span>
 

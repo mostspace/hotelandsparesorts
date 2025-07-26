@@ -8,7 +8,7 @@ export function POST(req:Request) {
 
     return new Promise(async (resolve, reject) => {
 
-    const { hid } = await req.json();
+    const { hid,checkIn,checkOut } = await req.json();
 
 
     const response = await fetch('https://api.worldota.net/api/b2b/v3/search/hp/', {
@@ -18,8 +18,8 @@ export function POST(req:Request) {
           'Authorization': 'Basic ' + btoa(`${KEY_ID}:${API_KEY}`)
         },
         body: JSON.stringify({
-          checkin: "2025-10-22",
-          checkout: "2025-10-25",
+          checkin: checkIn,
+          checkout: checkOut,
           residency: "gb",
           language: "en",
           guests: [

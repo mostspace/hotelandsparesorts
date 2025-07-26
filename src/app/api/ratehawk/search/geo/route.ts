@@ -8,7 +8,7 @@ export function POST(req:Request) {
 
     return new Promise(async (resolve, reject) => {
 
-      const { lat,lng } = await req.json();
+      const { lat,lng,radius } = await req.json();
 
 
     const response = await fetch('https://api.worldota.net/api/b2b/v3/search/serp/geo/', {
@@ -33,7 +33,7 @@ export function POST(req:Request) {
           // latitude: 53.33891941773272, 
           longitude: lng,
           latitude: lat, 
-          radius: 3000,
+          radius: radius,
           currency: "EUR"
         })
       });

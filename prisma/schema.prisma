@@ -20,6 +20,7 @@ model Hotels {
   id                    String?
   hotel_name            String?
   address               String?
+  postcode              String?
   lat                   Decimal?
   lng                   Decimal?
   email                 String?

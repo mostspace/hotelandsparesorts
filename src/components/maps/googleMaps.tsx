@@ -6,8 +6,10 @@ we need to make this component client rendered as well else error occurs
 
 //Map component Component from library
 import { GoogleMap, Marker } from "@react-google-maps/api";
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ReactDOMServer from 'react-dom/server';
+import { Button } from "../ui/button";
+import { useRouter } from 'next/navigation';
 
 //Map's styling
 export const defaultMapContainerStyle = {
@@ -16,12 +18,7 @@ export const defaultMapContainerStyle = {
     borderRadius: '15px',
 };
 
-const defaultMapCenter = {
-    lat: 53.30473008552272,
-    lng: -6.205546749941808
-}
-
-const defaultMapZoom = 18
+const defaultMapZoom = 12
 
 const defaultMapOptions = {
     zoomControl: true,
@@ -31,64 +28,169 @@ const defaultMapOptions = {
 };
 
 
+interface MapProps{
+    hotels:any[]
+    lat:number,
+    lng:number,
+    newSearch:any,
+    updateVar:number
+}
 
-const MapComponent = () => {
+const MapComponent = (props:MapProps) => {
 
+const router = useRouter();
+
+const [showSearchAgainButton, setShowSearchAgainButton] = useState<any>(false);
+
+const defaultMapCenter = {
+    lat: props.lat,
+    lng: props.lng
+}
+
+const mapRef = useRef<google.maps.Map | null>(null);
+const markersRef = useRef<google.maps.Marker[]>([]);
+
+useEffect( () => {
+
+    if(props.updateVar>1){
+
+        
+        placeMarkers()
+    }
+
+  }, [props.updateVar]); // eslint-disable-line react-hooks/exhaustive-deps
+  
+    
 
 const initMap = useCallback((map: google.maps.Map) => {
     
-    const infoWindow = new google.maps.InfoWindow({
-        content: "",
-        disableAutoPan: false,
-      });
+    mapRef.current = map;
+    placeMarkers()
     
-    const marker = new google.maps.Marker({
-      position: { lat: 53.30473, lng: -6.20554 },
-      map,
-    });
-
-    marker.addListener("click", () => {
-      console.log("MARKER CLICKED");
-    });
-
-
-    marker.addListener("mouseover", () => {
-
-    
-        const contentStr = ReactDOMServer.renderToString(
-            <button onClick={() => alert('Clicked!')}>Test</button>
-            );
-      infoWindow.setContent(contentStr);
-      infoWindow.setOptions({disableAutoPan:false})
-      infoWindow.open(map, marker);
-    });
-
-    marker.addListener("mouseout", () => {
-        infoWindow.close()
-    });
-
-
-
 
   }, []);
+
+  const placeMarkers = () => {
+
+    let lat = props.lat
+    let lng = props.lng
+       
+    markersRef.current.forEach(marker => marker.setMap(null));
+    markersRef.current = [];
+  
+
+    let map = mapRef.current
+    map?.setCenter({ lat, lng });
+
+    let hotels = props.hotels
+
+    hotels.forEach(hotel => {
+        const infoWindow = new google.maps.InfoWindow({
+            content: "",
+            disableAutoPan: false,
+          });
+        
+        const marker = new google.maps.Marker({
+          position: { lat: +hotel.lat, lng: +hotel.lng },
+          map,
+        });
+
+        markersRef.current.push(marker);
+    
+        marker.addListener("click", () => {
+          let hid = hotel.hid
+          router.push(`/hotel-profile?hid=${hid}&checkIn=${'2025-10-22'}&checkOut=${'2025-10-25'}`)
+
+        });
+    
+    
+        marker.addListener("mouseover", () => {
+    
+        
+            const contentStr = ReactDOMServer.renderToString(
+                <button onClick={() => alert('Clicked!')}>{hotel.hotel_name}</button>
+                );
+          infoWindow.setContent(contentStr);
+          infoWindow.setOptions({disableAutoPan:false})
+          infoWindow.open(map, marker);
+        });
+    
+        marker.addListener("mouseout", () => {
+            infoWindow.close()
+        });
+    });
+  }
+
+  const handleMapIdle = () => {
+    if (!mapRef.current) return null;
+    const center = mapRef.current.getCenter();
+    if (!center) return null;
+    let lat = center.lat()
+    let lng = center.lng()
+
+    if(lat!== props.lat && lng != props.lng){
+        setShowSearchAgainButton(true)
+    }
+    console.log("Map idle")
+  }
+
+  const getMapDetails = () => {
+    if (!mapRef.current) return null;
+
+    const center = mapRef.current.getCenter();
+    const bounds = mapRef.current.getBounds();
+    if (!center || !bounds) return null;
+
+    const ne = bounds.getNorthEast();
+    const radiusMeters = google.maps.geometry.spherical.computeDistanceBetween(center, ne);
+
+    let res = {
+      centre: {
+        lat: center.lat(),
+        lng: center.lng(),
+      },
+      radiusKm: radiusMeters / 1000,
+    }
+    
+    console.log("Map Details", res)
+
+    props.newSearch(res)
+
+  };
+
+    const showHotels = () => {
+        
+        let hotels = props.hotels
+        
+        console.log("MAPS HOTELS",hotels)
+
+        let compArray:any[] = []
+        hotels.forEach(hotel => {
+            compArray.push(<Marker 
+                position={{ lat: +hotel.lat, lng: +hotel.lng }}
+                onClick={() => console.log(hotel.hotel_name," is CLICKED")} 
+            />)
+        });
+
+        return compArray
+    }
 
 
 
     return (
         <div className="w-full">
+            {showSearchAgainButton && <Button onClick={getMapDetails}>Seach this area</Button>}
             <GoogleMap 
                 id="map"
                 mapContainerStyle={defaultMapContainerStyle}
-                center={defaultMapCenter}
+                // center={defaultMapCenter}
                 zoom={defaultMapZoom}
-                options={defaultMapOptions} 
+                options={defaultMapOptions}
+                onIdle={handleMapIdle}
                 onLoad={initMap}
             >
 
-                <Marker 
-                    position={{ lat: 53.31473, lng: -6.21554 }}
-                    onClick={() => console.log("OTHER MARKER CLICKED")} 
-                />
+                {/* {showHotels()} */}
 
 
             </GoogleMap>

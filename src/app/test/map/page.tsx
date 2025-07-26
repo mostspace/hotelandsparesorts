@@ -1,6 +1,6 @@
 "use client";
 
-import { MapComponent } from "@/components/googleMaps";
+import { MapComponent } from "@/components/maps/googleMaps";
 import { MapProvider } from "@/providers/map-provider";
 
 
@@ -14,7 +14,7 @@ export default function MapTestPage() {
 
       <div className="flex flex-row items-center gap-2 w-100 h-100"  >
         <MapProvider>
-          <MapComponent />
+          <MapComponent hotels={[]} lat={53.30473008552272} lng={-6.205546749941808}/>
         </MapProvider>
       </div>
 

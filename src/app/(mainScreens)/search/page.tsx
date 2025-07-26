@@ -1,6 +1,8 @@
 "use client";
 
+import { MapComponent } from "@/components/maps/googleMaps";
 import { Button } from "@/components/ui/button";
+import { MapProvider } from "@/providers/map-provider";
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from "react";
 
@@ -9,26 +11,31 @@ export default function SearchScreen() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const lat = searchParams.get('lat');
-  const lng = searchParams.get('lng');
+  const latP = searchParams.get('lat');
+  const lngP = searchParams.get('lng');
 
-  const latNum = lat ? parseFloat(lat) : null;
-  const lngNum = lng ? parseFloat(lng) : null;
+  const latNum = latP ? parseFloat(latP) : null;
+  const lngNum = lngP ? parseFloat(lngP) : null;
 
   console.log("COORDS",latNum,lngNum)
 
     const [loading, setLoading] = useState(false);
     const [hotels, setHotels] = useState<any[]>([]);
+    const [mapOpen, setMapOpen] = useState(false);
+    const [updateVar, setUpdateVar] = useState(0);
+
+    const [lat, setLat] = useState(latNum);
+    const [lng, setLng] = useState(lngNum);
 
 
   useEffect( () => {
 
-    loadHotels()
+    loadHotels(latNum||0,lngNum||0,3000)
 
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   
   
-  const loadHotels = async () => {
+  const loadHotels = async (latNum:number,lngNum:number,radiusM:number) => {
 
     setLoading(true)
     const res = await fetch("/api/ratehawk/search/geo", {
@@ -36,7 +43,7 @@ export default function SearchScreen() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ lat: latNum,lng:lngNum}),
+      body: JSON.stringify({ lat: latNum,lng:lngNum,radius:radiusM}),
     });
 
     if (!res.ok) throw new Error(`Error: ${res.status}`);
@@ -45,6 +52,7 @@ export default function SearchScreen() {
 
     setHotels(data)
     setLoading(false)
+    setUpdateVar(updateVar+1)
   }
 
   const showHotels = () => {
@@ -93,9 +101,22 @@ export default function SearchScreen() {
   }
 
   const openHotel = (hid:number) => {
-    router.push(`/hotel-profile?hid=${hid}`)
+    router.push(`/hotel-profile?hid=${hid}&checkIn=${'2025-10-22'}&checkOut=${'2025-10-25'}`)
   }
 
+  const mapMovedNewSearch = (data:any) => {
+    let lat = data.centre.lat
+    let lng = data.centre.lng
+
+    let radiusKm = data.radiusKm
+
+    let radius = Math.floor(radiusKm*1000)
+
+    setLat(lat)
+    setLng(lng)
+    loadHotels(lat,lng,radius)
+
+  }
     
   return (
     <div className="flex flex-col items-center gap-1" >
@@ -104,10 +125,17 @@ export default function SearchScreen() {
 
       {loading && <span>Loading...</span>}
 
+      {!loading && <Button onClick={()=>setMapOpen(!mapOpen)}>Show {mapOpen?"List":"Map"}</Button>}
 
-      <div className="flex flex-col items-start gap-10" >
+      {!mapOpen && <div className="flex flex-col items-start gap-10" >
         {!loading && showHotels()}
-      </div>
+      </div>}
+
+      {mapOpen && <div className="flex flex-row items-center  gap-2 w-250 h-250"  >
+        <MapProvider>
+          <MapComponent hotels={hotels} lat={lat||0} lng={lng||0} newSearch={mapMovedNewSearch} updateVar={updateVar}/>
+        </MapProvider>
+      </div>}
 
 
     </div>
