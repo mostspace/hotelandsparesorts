@@ -24,11 +24,11 @@ const PlacesAutocomplete = ({ onPlaceSelected }: { onPlaceSelected: (place: goog
   }, []);
 
   return (
-    <Input
+    <input
       ref={inputRef}
       type="text"
-      placeholder="Search for a place"
-      className="border p-2 rounded w-full"
+      placeholder="Location, country"
+      className="w-full font-normal text-primary text-base  placeholder:font-normal placeholder:text-primary placeholder:text-base border-none focus:outline-none"
     />
   );
 };

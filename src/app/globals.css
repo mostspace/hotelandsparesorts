@@ -43,6 +43,7 @@
   --radius-xl: calc(var(--radius) + 4px);
   --color-alt: var(--alt);
   --color-light: var(--light);
+  --color-accentDark: var(--accentDark);
 
 }
 
@@ -83,6 +84,7 @@
   --primary: #4D4D4D;
   --alt: #333337;
   --accent: #A56658;
+  --accentDark: #774D46;
   --light: #FFFFFF;
   --muted: #EEE9E6;
 

@@ -8,7 +8,7 @@ export function POST(req:Request) {
 
     return new Promise(async (resolve, reject) => {
 
-      const { lat,lng,radius } = await req.json();
+      const { lat,lng,radius,filters } = await req.json();
 
 
     const response = await fetch('https://api.worldota.net/api/b2b/v3/search/serp/geo/', {
@@ -39,17 +39,71 @@ export function POST(req:Request) {
       });
       
       const data = await response.json();
-      console.log(data);
+      console.log("DATA",data);
 
-      let hotels = data.data.hotels
-      let hotelIds = hotels.map((item: { hid: any; }) => item.hid);
+      var hotels = data.data.hotels
+      var filteredHotels:any[] = hotels
 
+      const whereClause: any = {
+      };
+
+      filters.forEach((filter:any) => {
+        
+        if(filter.id === "A" && filter.selected.length>0){
+          
+          let hotelArray:any[] = []
+          filteredHotels.forEach((hotel:any) => {
+            let rates = hotel.rates
+            let dailyPrice = rates.length>0?+rates[0].daily_prices[0]:-1
+            if(dailyPrice>filter.selected[0] && dailyPrice<filter.selected[1]){
+
+              console.log("CAUGHT",dailyPrice,filter.selected[0],filter.selected[1])
+              hotelArray.push(hotel)
+            }
+          });
+          filteredHotels = hotelArray
+        }
+
+        if(filter.id === "B" && filter.selected.length>0){
+          whereClause.kind = {
+            in:filter.selected
+          }
+        }
+        if(filter.id === "C" && filter.selected.length>0){
+          
+          let stars = filter.selected.map((item:any) => {
+            return +(item.replace(" Stars","")); // for example
+          });
+          whereClause.star_rating = {
+            in:stars
+          }
+
+        }
+        if(filter.id === "D" && filter.selected.length>0){
+          
+        }
+        if(filter.id === "E" && filter.selected.length>0){
+          
+        }
+        if(filter.id === "N"){
+          whereClause.hotel_name = {
+            contains: filter.value,
+          }
+        }
+
+      });
+      
+      let hotelIds = filteredHotels.map((item: { hid: any; }) => item.hid);
+      
+      whereClause.hid = {
+          in: hotelIds,
+      }
+      
 
       const hotelsDB = await prisma.hotels.findMany({
-        where: {
-            hid: {
-            in: hotelIds,
-            },
+        where: whereClause,
+        include: {
+          images: true,
         },
       });
 

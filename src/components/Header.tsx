@@ -30,7 +30,7 @@ export const Header = () => {
 
          <div className="w-full flex flex-row justify-between items-center">
             
-            <img className="w-[270px] cursor-pointer" src='./assets/hotelLogo.png'/>
+            <img className="w-[270px] cursor-pointer" src='/assets/hotelLogo.png'/>
             
             <div className="flex flex-row">
                 <div className="flex flex-row gap-3 items-center">

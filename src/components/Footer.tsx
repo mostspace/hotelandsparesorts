@@ -73,7 +73,7 @@ export const Footer = () => {
                 
                 <div className="flex flex-col gap-3 items-start max-w-[638px]">
                     <span className="text-5xl font-normal">WIN a stylish break every month worth more than €250!</span>
-                    <span className="text-xl font-normal">Be the first to know about our latest deals, oers & competitions.
+                    <span className="text-xl font-normal">Be the first to know about our latest deals, offers & competitions.
                     Winners will be announced on our Instagram page monthly.</span>
                 </div>
 

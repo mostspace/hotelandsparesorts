@@ -10,21 +10,34 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import ReactDOMServer from 'react-dom/server';
 import { Button } from "../ui/button";
 import { useRouter } from 'next/navigation';
+import { HotelTile } from "../search/HotelTile";
 
 //Map's styling
 export const defaultMapContainerStyle = {
     width: '100%',
-    height: '500px',
+    height: '60%',
     borderRadius: '15px',
 };
 
 const defaultMapZoom = 12
 
 const defaultMapOptions = {
+    mapTypeControl: false,
     zoomControl: true,
     tilt: 0,
     gestureHandling: 'auto',
     // mapTypeId: 'satellite',
+    clickableIcons: false, // disables clicks on POIs (businesses, parks, etc.)
+    styles: [
+      {
+        featureType: "poi", // Points of Interest
+        stylers: [{ visibility: "off" }],
+      },
+      {
+        featureType: "transit", // Bus/train stations
+        stylers: [{ visibility: "off" }],
+      },
+    ],
 };
 
 
@@ -93,6 +106,15 @@ const initMap = useCallback((map: google.maps.Map) => {
         const marker = new google.maps.Marker({
           position: { lat: +hotel.lat, lng: +hotel.lng },
           map,
+          icon: {
+            path: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z", // classic pin shape
+            fillColor: "#A56658", // your accent color
+            fillOpacity: 1,
+            strokeColor: "#000",
+            strokeWeight: 1,
+            scale: 2, // adjust size as needed
+            anchor: new google.maps.Point(12, 24), // bottom center of pin
+          },
         });
 
         markersRef.current.push(marker);
@@ -107,11 +129,20 @@ const initMap = useCallback((map: google.maps.Map) => {
         marker.addListener("mouseover", () => {
     
         
-            const contentStr = ReactDOMServer.renderToString(
-                <button onClick={() => alert('Clicked!')}>{hotel.hotel_name}</button>
-                );
+          const contentStr = ReactDOMServer.renderToString(
+            <div className="flex flex-row max-w-[350px] items-start gap-3 rounded-2">
+                <img className="h-[100px]" src={hotel.images[0].url.replace('{size}','240x240')}/>
+                <div className="flex flex-col gap-2">
+                    <span className="text-lg font-bold">{hotel.hotel_name}</span>
+                    <span>{hotel.address}</span>
+                </div>
+            </div>
+          );
           infoWindow.setContent(contentStr);
-          infoWindow.setOptions({disableAutoPan:false})
+          infoWindow.setOptions({
+            headerDisabled: true,
+            disableAutoPan: false,
+          });
           infoWindow.open(map, marker);
         });
     
@@ -178,8 +209,8 @@ const initMap = useCallback((map: google.maps.Map) => {
 
 
     return (
-        <div className="w-full">
-            {showSearchAgainButton && <Button onClick={getMapDetails}>Seach this area</Button>}
+        <div className="w-full h-full relative">
+            {showSearchAgainButton && <Button className="absolute top-10 left-1/2 -translate-x-1/2 z-10 bg-accent border border-light " onClick={getMapDetails}>Search this area</Button>}
             <GoogleMap 
                 id="map"
                 mapContainerStyle={defaultMapContainerStyle}
@@ -188,12 +219,7 @@ const initMap = useCallback((map: google.maps.Map) => {
                 options={defaultMapOptions}
                 onIdle={handleMapIdle}
                 onLoad={initMap}
-            >
-
-                {/* {showHotels()} */}
-
-
-            </GoogleMap>
+            />
         </div>
     )
 };

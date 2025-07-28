@@ -1,14 +1,13 @@
 "use client";
 
 import PlacesAutocomplete from "@/components/maps/autocomplete";
+import { SearchBar } from "@/components/search/SearchBar";
 import { Button } from "@/components/ui/button";
 import { MapProvider } from "@/providers/map-provider";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function HomeScreen() {
 
-  const router = useRouter();
   const [coords, setCoords] = useState<any>(null);
 
   
@@ -21,23 +20,17 @@ export default function HomeScreen() {
     }
   };
 
-  const searchClicked = () => {
-
-      router.push(`/search?lat=${coords.lat}&lng=${coords.lng}`)
-  } 
+  
 
   return (
-    <div className="flex flex-col items-center gap-1 p-20" >
+    <div className="flex flex-col justify-center items-start gap-15 p-[140px] bg-[url('/assets/manorHouse.jpg')] bg-cover h-200" >
       
-      <span>HOME PAGE</span>
-
-      <MapProvider>
-      <div className="max-w-md mx-auto mt-10">
-        <PlacesAutocomplete onPlaceSelected={handlePlaceSelect} />
+      <div className="flex flex-col items-start text-light font-normal">
+          <span className="text-[80px]">BOOK A HOTEL STAY</span>
+          <span className="text-3xl">Explore and book our curated luxury hotels and redeem your voucher</span>
       </div>
-    </MapProvider>
 
-    <Button disabled={coords === null} onClick={searchClicked}>Search</Button>
+      <SearchBar />    
 
     </div>
   );
