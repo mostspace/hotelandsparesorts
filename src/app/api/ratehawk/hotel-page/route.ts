@@ -38,6 +38,20 @@ export function POST(req:Request) {
       const data = await response.json();
       let hotel = data.data.hotels[0]
 
+      let rates:any[] = hotel.rates
+
+      let filteredRates:any[] = []
+
+      rates.forEach(element => {
+        
+        let roomName = element.room_data_trans.main_name
+        let existing = filteredRates.filter(item => item.room_data_trans.main_name === roomName);
+        if(existing.length === 0){
+          console.log("NEW ROOM",roomName)
+          filteredRates.push(element)
+        }
+      });
+
       const hotelWithDetails = await prisma.hotels.findUnique({
         where: {
           hid: hid,
@@ -48,7 +62,7 @@ export function POST(req:Request) {
         },
       });
 
-      if(hotelWithDetails){(hotelWithDetails as any).rates = hotel.rates}
+      if(hotelWithDetails){(hotelWithDetails as any).rates = filteredRates}
       
 
       resolve(NextResponse.json(hotelWithDetails))

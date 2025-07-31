@@ -15,7 +15,7 @@ import { HotelTile } from "../search/HotelTile";
 //Map's styling
 export const defaultMapContainerStyle = {
     width: '100%',
-    height: '60%',
+    height: '100%',
     borderRadius: '15px',
 };
 
