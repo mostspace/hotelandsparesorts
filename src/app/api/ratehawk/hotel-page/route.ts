@@ -63,7 +63,7 @@ export function POST(req:Request) {
       });
 
       if(hotelWithDetails){(hotelWithDetails as any).rates = filteredRates}
-      
+      if(hotelWithDetails){(hotelWithDetails as any).amenities = (hotelWithDetails as any).amenities.split(",")}
 
       resolve(NextResponse.json(hotelWithDetails))
 

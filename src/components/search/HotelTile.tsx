@@ -29,7 +29,7 @@ export const HotelTile = (props:HotelTileProps) => {
     const showStars = () => {
         let compArray:any[] = []
 
-        let stars = props.hotel.star_ratingz || 5
+        let stars = props.hotel.star_rating || 5
 
         for(var i=0; i<stars; i++){
             compArray.push(<svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">

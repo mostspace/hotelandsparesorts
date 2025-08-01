@@ -30,7 +30,7 @@ export default function HomeScreen() {
           <span className="text-3xl">Explore and book our curated luxury hotels and redeem your voucher</span>
       </div>
 
-      <SearchBar />    
+      <SearchBar showLocation={true} showBorders={false} existingData={{}}/>    
 
     </div>
   );

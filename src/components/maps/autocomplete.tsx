@@ -3,7 +3,13 @@
 import { useEffect, useRef } from 'react';
 import { Input } from "@/components/ui/input";
 
-const PlacesAutocomplete = ({ onPlaceSelected }: { onPlaceSelected: (place: google.maps.places.PlaceResult) => void }) => {
+interface AutocompleteProps{
+  onPlaceSelected: (place: google.maps.places.PlaceResult) => void,
+}
+
+
+
+const PlacesAutocomplete = (props:AutocompleteProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
@@ -18,7 +24,7 @@ const PlacesAutocomplete = ({ onPlaceSelected }: { onPlaceSelected: (place: goog
     autocompleteRef.current.addListener('place_changed', () => {
       const place = autocompleteRef.current?.getPlace();
       if (place) {
-        onPlaceSelected(place);
+        props.onPlaceSelected(place);
       }
     });
   }, []);

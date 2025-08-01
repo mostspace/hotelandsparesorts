@@ -17,6 +17,13 @@ export default function SearchScreen() {
   const latP = searchParams.get('lat');
   const lngP = searchParams.get('lng');
 
+  const checkIn = searchParams.get('check-in');
+  const checkOut = searchParams.get('check-out');
+
+  const adults = +(searchParams.get('adults')||1);
+  const children = +(searchParams.get('children')||1);
+
+
   const latNum = latP ? parseFloat(latP) : null;
   const lngNum = lngP ? parseFloat(lngP) : null;
 
@@ -50,7 +57,16 @@ export default function SearchScreen() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ lat: latNum,lng:lngNum,radius:radiusM,filters:filters}),
+      body: JSON.stringify({ 
+        lat: latNum,
+        lng:lngNum, 
+        checkIn:checkIn, 
+        checkOut:checkOut,
+        radius:radiusM,
+        adults:adults,
+        children:children,
+        filters:filters
+      }),
     });
 
     if (!res.ok) throw new Error(`Error: ${res.status}`);
@@ -103,7 +119,7 @@ export default function SearchScreen() {
       <div className="flex flex-col items-start px-[120px] gap-10">
         <span className="text-lg">{'Home > Hotel Stays'}</span>
         <span className="text-6xl">BOOK A HOTEL STAY</span>
-        <SearchBar showBorders={true}/>
+        <SearchBar showLocation={true} showBorders={true}/>
       </div>
       
 

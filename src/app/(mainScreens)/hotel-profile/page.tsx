@@ -1,10 +1,12 @@
 "use client";
 
-import { Amentities } from "@/components/hotelProfile/Amenities";
+import { FAQs } from "@/components/general/FAQs";
+import { Amenities } from "@/components/hotelProfile/Amenities";
 import { HotelImageGallery } from "@/components/hotelProfile/HotelImageGallery";
 import { HotelInfoBox } from "@/components/hotelProfile/HotelInfoBox";
 import { HotelReview } from "@/components/hotelProfile/HotelReview";
 import { RoomTile } from "@/components/hotelProfile/RoomTile";
+import { SimiilarHotelTile } from "@/components/hotelProfile/SimilarHotelTile";
 import { MapComponent } from "@/components/maps/googleMaps";
 import { SearchBar } from "@/components/search/SearchBar";
 import { Button } from "@/components/ui/button";
@@ -33,8 +35,6 @@ export default function HotelProfileScreen() {
   const [reviews, setReviews] = useState<any[]>([]);
   const [checkInDate, setCheckInDate] = useState<String>(checkInDateP||"");
   const [checkOutDate, setCheckoutDate] = useState<String>(checkOutDateP||"");
-
-
 
 
     useEffect(() => {
@@ -130,82 +130,6 @@ export default function HotelProfileScreen() {
 
   }
 
-  const showImages = () => {
-
-    let imageArray:any[] = []
-
-    let i = 0
-    hotel.images.forEach((image: { url: any; }) => {
-    if(i<6 && i>2)
-    {
-      let imageUrl = image.url
-      let newURL = imageUrl.replace('{size}','240x240')
-
-      imageArray.push(<img src={newURL}/>)
-    }
-    i++;
-
-    });
-    
-    return imageArray
-  }
-
-  const showRates = () => {
-    let ratesArray:any[] = []
-    let rates:any[] = hotel.rates
-
-    let i = 0
-
-    rates.forEach(rate => {
-      if(i<3){
-        let price = rate.payment_options.payment_types[0].amount
-        let roomName = rate.room_data_trans?rate.room_data_trans.main_name:rate.room_name
-
-        ratesArray.push(<div className="flex flex-row items-start justify-start gap-2">
-
-          <span className="text-xs">{roomName}</span>
-          <span className="text-sm">€{price}</span>
-
-        </div>)
-      }
-      i++;
-    });
-
-    return ratesArray
-  }
-
-  const showReviews = () => {
-
-    let compArray:any[] = []
-
-    reviews.forEach(review => {
-      compArray.push(<div className="flex flex-col items-start gap-2">
-        
-        <div className="flex flex-row justify-between w-xl">
-          <span>Rating: {review.rating}</span>
-          <span>Date: {review.travel_date}</span>
-        </div>
-        <span className="text-lg max-w-xl">{review.title}</span>
-        <span className="text-sm max-w-xl">{review.text}</span>
-      </div>) 
-    });
-
-    return compArray
-
-  }
-
-  const changeDate = () => {
-    let split = checkInDate.split('-')
-    let newCheckIn = split[0]+"-"+((+split[1]+1)+"")+'-'+split[2]
-
-    let split2 = checkOutDate.split('-')
-    let newCheckOut = split2[0]+"-"+((+split2[1]+1)+"")+'-'+split2[2]
-
-    router.push(`/hotel-profile?hid=${hid}&checkIn=${newCheckIn}&checkOut=${newCheckOut}`)
-
-  }
-
-
   const showStars = () => {
     let compArray:any[] = []
 
@@ -221,6 +145,7 @@ export default function HotelProfileScreen() {
   }
 
 
+  
 
 
 
@@ -287,6 +212,7 @@ export default function HotelProfileScreen() {
 
             {/* Image Gallery */}
             <HotelImageGallery images={hotel.images}/>
+
             
         </div>
 
@@ -297,7 +223,7 @@ export default function HotelProfileScreen() {
             <div className=" flex flex-row items-start gap-12">
               
               <div className="w-full flex flex-col gap-[60px] items-start">
-                  <Amentities />
+                  <Amenities amenityList={hotel.amenities} source="profile"/>
 
                   <div className="w-full flex flex-col gap-8 items-start">
                       <span className="text-5xl" style={{fontFamily:'Harlow'}}>Overview</span>
@@ -311,7 +237,7 @@ export default function HotelProfileScreen() {
 
                 <div className="h-[280px] w-full p-[10px] rounded-[20px] bg-muted">
                   <MapProvider>
-                    <MapComponent hotels={[hotel]} lat={+hotel.lat||0} lng={+hotel.lng||0} newSearch={null} updateVar={2}/>
+                    <MapComponent hotels={[hotel]} lat={+hotel.lat||0} lng={+hotel.lng||0} newSearch={null} updateVar={2} mini={true}/>
                   </MapProvider>
                 </div>
                 
@@ -329,7 +255,7 @@ export default function HotelProfileScreen() {
             {/* DATES SECTION */}
             <div className="w-full flex flex-col gap-10 items-start">
                 <span className="text-5xl" style={{fontFamily:'Harlow'}}>Modify your dates:</span>
-                <SearchBar showBorders={true}/>
+                <SearchBar showLocation={false} showBorders={true} existingData={{hid:hid,checkInDate:checkInDate,checkOutDate:checkOutDate}}/>
             </div>
 
             {/* ROOMS SECTION */}
@@ -374,8 +300,26 @@ export default function HotelProfileScreen() {
 
 
             </div>
+
+
+            {/* FAQ SECTION */}
+            <FAQs />
+
+
+           
+
   
         </div>
+
+         {/* SIMILAR HOTELS */}
+         <div className="w-full p-[120px] flex flex-col gap-[80px] bg-[#D6C6B9]">
+            <span className="text-5xl" style={{fontFamily:'Harlow'}}>SIMILAR HOTELS IN DUBLIN</span>
+            <div className="w-full flex flex-row gap-[50px]">
+              <SimiilarHotelTile />
+              <SimiilarHotelTile />
+              <SimiilarHotelTile />
+            </div>
+         </div>
 
       </div>}
 

@@ -8,7 +8,12 @@ export function POST(req:Request) {
 
     return new Promise(async (resolve, reject) => {
 
-      const { lat,lng,radius,filters } = await req.json();
+      const { lat,lng,checkIn,checkOut,adults,children,radius,filters } = await req.json();
+
+      let childrenArray = []
+      for(var i=0;i<children;i++){
+        childrenArray.push(9)
+      }
 
 
     const response = await fetch('https://api.worldota.net/api/b2b/v3/search/serp/geo/', {
@@ -18,14 +23,14 @@ export function POST(req:Request) {
           'Authorization': 'Basic ' + btoa(`${KEY_ID}:${API_KEY}`)
         },
         body: JSON.stringify({
-          checkin: "2025-10-22",
-          checkout: "2025-10-25",
+          checkin: checkIn,
+          checkout: checkOut,
           residency: "gb",
           language: "en",
           guests: [
             {
-              adults: 2,
-              children: []
+              adults: adults,
+              children: childrenArray
             }
           ],
           // IRELAND

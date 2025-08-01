@@ -32,6 +32,7 @@ model Hotels {
   star_rating           Int?
   front_desk_time_start String?
   front_desk_time_end   String?
+  amenities             String? @db.Text
   tripadvisor_id        Int?
 
   hotelDescriptions     HotelDescriptions[]

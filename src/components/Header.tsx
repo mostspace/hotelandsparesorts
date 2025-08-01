@@ -1,7 +1,15 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import { Button } from "./ui/button"
 
 export const Header = () => {
 
+    const router = useRouter();
+    
+    const homeClicked = () => {
+        router.push(`/home`)
+    }
 
     return <div className="w-full flex flex-col items-start gap-6 px-[120px] py-[52px] text-base font-medium bg-light">
 
@@ -30,7 +38,7 @@ export const Header = () => {
 
          <div className="w-full flex flex-row justify-between items-center">
             
-            <img className="w-[270px] cursor-pointer" src='/assets/hotelLogo.png'/>
+            <img className="w-[270px] cursor-pointer" src='/assets/hotelLogo.png' onClick={homeClicked}/>
             
             <div className="flex flex-row">
                 <div className="flex flex-row gap-3 items-center">

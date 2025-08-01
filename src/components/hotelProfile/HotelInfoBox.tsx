@@ -1,6 +1,7 @@
 import { MapProvider } from "@/providers/map-provider";
 import { useState } from "react";
 import { MapComponent } from "../maps/googleMaps";
+import { Amenities } from "./Amenities";
 
 interface HotelInfoBoxProps{
     hotel:any
@@ -11,6 +12,16 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
 
     const [selectedTab, setSelectedTab] = useState("Key info");
     
+    const formatTime = (time:string) => {
+
+        const formatted = new Date(`1970-01-01T${time}`).toLocaleTimeString([], {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
+          });
+
+        return formatted
+    }
 
     return(
         <div className="w-full px-[49px] py-[37px] flex flex-col items-start gap-10 border border-primary">
@@ -50,12 +61,12 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
                     
                     <div className="flex flex-row gap-[20px] items-end">
                         <span className="text-2xl" style={{fontFamily:'Harlow'}}>Check-in time</span>
-                        <span className="font-medium">3:00 PM - 2:00 AM</span>
+                        <span className="font-medium">{formatTime(props.hotel.check_in_time)}</span>
                     </div>
 
                     <div className="flex flex-row gap-[20px] items-end">
                         <span className="text-2xl" style={{fontFamily:'Harlow'}}>Check-out time</span>
-                        <span className="font-medium">12:00 PM</span>
+                        <span className="font-medium">{formatTime(props.hotel.check_out_time)}</span>
                     </div>
 
                     <span className="text-2xl" style={{fontFamily:'Harlow'}}>Arriving/leaving instructions</span>
@@ -88,6 +99,8 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
 
                 </div>
             </div>}
+
+            {selectedTab == "Amenities" && <Amenities amenityList={props.hotel.amenities} source="at-a-glance"/>}
 
             {selectedTab=="Map" && <div className="w-full h-[500px]">
                 <MapProvider>

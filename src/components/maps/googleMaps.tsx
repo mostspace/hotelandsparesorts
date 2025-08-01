@@ -21,24 +21,6 @@ export const defaultMapContainerStyle = {
 
 const defaultMapZoom = 12
 
-const defaultMapOptions = {
-    mapTypeControl: false,
-    zoomControl: true,
-    tilt: 0,
-    gestureHandling: 'auto',
-    // mapTypeId: 'satellite',
-    clickableIcons: false, // disables clicks on POIs (businesses, parks, etc.)
-    styles: [
-      {
-        featureType: "poi", // Points of Interest
-        stylers: [{ visibility: "off" }],
-      },
-      {
-        featureType: "transit", // Bus/train stations
-        stylers: [{ visibility: "off" }],
-      },
-    ],
-};
 
 
 interface MapProps{
@@ -46,10 +28,36 @@ interface MapProps{
     lat:number,
     lng:number,
     newSearch:any,
+    mini:boolean
     updateVar:number
 }
 
 const MapComponent = (props:MapProps) => {
+
+
+const defaultMapOptions = {
+  mapTypeControl: false,
+  zoomControl: !props.mini,
+  disableDefaultUI: props.mini,
+  tilt: 0,
+  gestureHandling: 'greedy',
+  draggable: !props.mini,
+  streetViewControl: false,
+  fullscreenControl: false,
+  rotateControl: false,
+  clickableIcons: false, // disables clicks on POIs (businesses, parks, etc.)
+  styles: [
+    {
+      featureType: "poi", // Points of Interest
+      stylers: [{ visibility: "off" }],
+    },
+    {
+      featureType: "transit", // Bus/train stations
+      stylers: [{ visibility: "off" }],
+    },
+  ],
+};
+
 
 const router = useRouter();
 
@@ -211,6 +219,7 @@ const initMap = useCallback((map: google.maps.Map) => {
     return (
         <div className="w-full h-full relative">
             {showSearchAgainButton && <Button className="absolute top-10 left-1/2 -translate-x-1/2 z-10 bg-accent border border-light " onClick={getMapDetails}>Search this area</Button>}
+            {props.mini && <Button className="absolute top-1/2 left-1/2 -translate-x-1/2 z-10 bg-accent border border-light ">SHOW ON MAP</Button>}
             <GoogleMap 
                 id="map"
                 mapContainerStyle={defaultMapContainerStyle}
