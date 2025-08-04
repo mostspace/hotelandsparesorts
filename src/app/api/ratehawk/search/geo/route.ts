@@ -8,7 +8,7 @@ export function POST(req:Request) {
 
     return new Promise(async (resolve, reject) => {
 
-      const { lat,lng,checkIn,checkOut,adults,children,radius,filters } = await req.json();
+      const { lat,lng,checkIn,checkOut,adults,children,radius,filters,exludedHid } = await req.json();
 
       let childrenArray = []
       for(var i=0;i<children;i++){
@@ -39,7 +39,8 @@ export function POST(req:Request) {
           longitude: lng,
           latitude: lat, 
           radius: radius,
-          currency: "EUR"
+          currency: "EUR",
+          limit: exludedHid?5:50
         })
       });
       
@@ -100,10 +101,15 @@ export function POST(req:Request) {
       
       let hotelIds = filteredHotels.map((item: { hid: any; }) => item.hid);
       
+      if(exludedHid){
+        hotelIds = hotelIds.filter(item => item !== exludedHid);
+      }
+
       whereClause.hid = {
           in: hotelIds,
       }
       
+   
 
       const hotelsDB = await prisma.hotels.findMany({
         where: whereClause,

@@ -21,8 +21,11 @@ export default function HotelProfileScreen() {
 
   const hidStr = searchParams.get('hid');
 
-  const checkInDateP = searchParams.get('checkIn');
-  const checkOutDateP = searchParams.get('checkOut');
+  const checkInDateP = searchParams.get('check-in');
+  const checkOutDateP = searchParams.get('check-out');
+
+  const adults = +(searchParams.get('adults')||1);
+  const children = +(searchParams.get('children')||1);
 
   console.log("SEARCH PARAMS",checkInDateP,checkOutDateP)
 
@@ -31,6 +34,7 @@ export default function HotelProfileScreen() {
   const [loading, setLoading] = useState(false);
 
   const [hotel, setHotel] = useState<any>(null);
+  const [similarHotels, setSimilarHotels] = useState([]);
 
   const [reviews, setReviews] = useState<any[]>([]);
   const [checkInDate, setCheckInDate] = useState<String>(checkInDateP||"");
@@ -38,8 +42,8 @@ export default function HotelProfileScreen() {
 
 
     useEffect(() => {
-      const checkIn = searchParams.get('checkIn')||"";
-      const checkOut = searchParams.get('checkOut')||"";
+      const checkIn = searchParams.get('check-in')||"";
+      const checkOut = searchParams.get('check-out')||"";
       const hidStr = searchParams.get('hid');
       
       console.log("NEW PARAMS", checkIn,checkOut)
@@ -65,10 +69,41 @@ export default function HotelProfileScreen() {
     console.log("Hotel:", data);
 
     setHotel(data)
+    loadSimilarHotels(checkIn,checkout,+data.lat,+data.lng)
+
+  
     if(data.tripadvisor_id != null && data.tripadvisor_id!==0){
       loadReviews(data.tripadvisor_id)
     }
     setLoading(false)
+  }
+
+  const loadSimilarHotels = async (checkIn:string,checkOut:string,lat:number,lng:number) => {
+    const res = await fetch("/api/ratehawk/search/geo", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+        lat:lat,
+        lng:lng, 
+        checkIn:checkIn, 
+        checkOut:checkOut,
+        radius:3000,
+        adults:2,
+        children:0,
+        filters:[],
+        excludedHid:hid
+      }),
+    });
+
+    if (!res.ok) throw new Error(`Error: ${res.status}`);
+    const data = await res.json();
+    console.log("Similar Hotels:", data);
+
+    let filteredHotels = data.filter((item: { hid: any; }) => item.hid !== hid);
+
+    setSimilarHotels(filteredHotels)
   }
 
   const loadReviews = async (locationID:number) => {
@@ -315,9 +350,10 @@ export default function HotelProfileScreen() {
          <div className="w-full p-[120px] flex flex-col gap-[80px] bg-[#D6C6B9]">
             <span className="text-5xl" style={{fontFamily:'Harlow'}}>SIMILAR HOTELS IN DUBLIN</span>
             <div className="w-full flex flex-row gap-[50px]">
-              <SimiilarHotelTile />
-              <SimiilarHotelTile />
-              <SimiilarHotelTile />
+              {similarHotels.length > 0 && <SimiilarHotelTile hotel={similarHotels[0]} checkIn={checkInDateP+""} checkOut={checkOutDateP+""} adults={+adults} children={+children}/>}
+              {similarHotels.length > 1 && <SimiilarHotelTile hotel={similarHotels[1]} checkIn={checkInDateP+""} checkOut={checkOutDateP+""} adults={+adults} children={+children}/>}
+              {similarHotels.length > 2 && <SimiilarHotelTile hotel={similarHotels[2]} checkIn={checkInDateP+""} checkOut={checkOutDateP+""} adults={+adults} children={+children}/>}
+
             </div>
          </div>
 

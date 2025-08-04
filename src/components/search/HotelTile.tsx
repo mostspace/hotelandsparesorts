@@ -5,8 +5,12 @@ import PlacesAutocomplete from "../maps/autocomplete"
 import { useState } from "react"
 import { useRouter } from "next/navigation";
 
-interface HotelTileProps{
+export interface HotelTileProps{
     hotel:any
+    checkIn:string
+    checkOut:string
+    adults:number
+    children:number
 }
 
 export const HotelTile = (props:HotelTileProps) => {
@@ -40,8 +44,18 @@ export const HotelTile = (props:HotelTileProps) => {
         return compArray
     }
 
+    const calculateNights = () => {
+        const checkIn = new Date(props.checkIn);
+        const checkOut = new Date(props.checkOut);
+
+        const diffInTime = checkOut.getTime() - checkIn.getTime();
+        const diffInDays = diffInTime / (1000 * 60 * 60 * 24);
+
+        return diffInDays
+    }
+
     const openHotel = (hid:number) => {
-        router.push(`/hotel-profile?hid=${hid}&checkIn=${'2025-10-22'}&checkOut=${'2025-10-25'}`)
+        router.push(`/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&adults=${props.adults}&children=${props.children}`)
     }
 
     return(
@@ -75,7 +89,7 @@ export const HotelTile = (props:HotelTileProps) => {
 
                 <div className="flex flex-col items-end gap-2 text-alt">
                     <span className="text-3xl font-medium">€{getRate()}</span> 
-                    <span className="text-lg">1 room, 3 nights</span>
+                    <span className="text-lg">1 room, {calculateNights()} nights</span>
                     <span className="text-accent text-sm">Fully refundable</span>
                 </div>
             </div>          

@@ -60,7 +60,6 @@ export const Footer = () => {
             </div>)
         });
 
-        console.log("COMA", compArray)
 
         return compArray
     }

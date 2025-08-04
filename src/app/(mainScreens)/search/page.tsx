@@ -84,7 +84,7 @@ export default function SearchScreen() {
 
     hotels.forEach(hotel => {
 
-      compArray.push(<HotelTile hotel={hotel}/>)
+      compArray.push(<HotelTile hotel={hotel} checkIn={checkIn+""} checkOut={checkOut+""} adults={+adults} children={+children}/>)
     });
 
     return compArray
@@ -119,7 +119,7 @@ export default function SearchScreen() {
       <div className="flex flex-col items-start px-[120px] gap-10">
         <span className="text-lg">{'Home > Hotel Stays'}</span>
         <span className="text-6xl">BOOK A HOTEL STAY</span>
-        <SearchBar showLocation={true} showBorders={true}/>
+        <SearchBar showLocation={true} showBorders={true} existingData={{checkInDate:checkIn,checkOutDate:checkOut}}/>
       </div>
       
 
