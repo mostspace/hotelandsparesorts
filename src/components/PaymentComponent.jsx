@@ -143,7 +143,7 @@ const PaymentComponent = ({stripeResponse, submitCount, payment,savedCard,intent
 
   return (
     
-    <div className='servicePaymentRow width100'>
+    <div className='servicePaymentRow w-full'>
 
       <div className='servicePaymentColumn '>
           

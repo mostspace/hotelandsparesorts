@@ -297,10 +297,10 @@ export default function HotelProfileScreen() {
             <div className="w-full flex flex-col gap-10 items-start">
                 <span className="text-5xl" style={{fontFamily:'Harlow'}}>Select your room:</span>
                 <div className="w-full flex flex-row gap-5 items-start">
-                  <RoomTile images={hotel.images} rateObj={hotel.rates[0]}/>
-                  <RoomTile images={hotel.images} rateObj={hotel.rates[1]}/>
-                  <RoomTile images={hotel.images} rateObj={hotel.rates[2]}/>
-                  <RoomTile images={hotel.images} rateObj={hotel.rates[3]}/>
+                  {hotel.rates[0] &&<RoomTile images={hotel.images} rateObj={hotel.rates[0]}/>}
+                  {hotel.rates[1] &&<RoomTile images={hotel.images} rateObj={hotel.rates[1]}/>}
+                  {hotel.rates[2] &&<RoomTile images={hotel.images} rateObj={hotel.rates[2]}/>}
+                  {hotel.rates[3] &&<RoomTile images={hotel.images} rateObj={hotel.rates[3]}/>}
                 </div>
             </div>
 

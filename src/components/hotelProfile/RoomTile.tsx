@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Button } from "../ui/button"
+import { useRouter } from "next/navigation";
 
 interface RoomTileProps{
     rateObj:any
@@ -8,33 +9,39 @@ interface RoomTileProps{
 
 export const RoomTile = (props:RoomTileProps) => {
 
-      const [roomImages, setRoomImages] = useState<any[]>([]);
-      const [index, setIndex] = useState(0);
+    const router = useRouter();
 
-        useEffect(() => {
-            
-            let roomName = props.rateObj.room_data_trans.main_name
+    const [roomImages, setRoomImages] = useState<any[]>([]);
+    const [index, setIndex] = useState(0);
 
-            let images = props.images.filter(item => item.title === roomName);
-            setRoomImages(images)
-        }, [])
+    useEffect(() => {
+        
+        let roomName = props.rateObj.room_data_trans.main_name
 
-        const showImage = () => {
+        let images = props.images.filter(item => item.title === roomName);
+        setRoomImages(images)
+    }, [])
 
-            let image = roomImages.length>0?roomImages[index]:props.images[0]
+    const showImage = () => {
 
-            let imageUrl = image.url
-            let newURL = imageUrl.replace('{size}','240x240')
-            return newURL
-        }
+        let image = roomImages.length>0?roomImages[index]:props.images[0]
 
-        const changeImage = (direction:number) => {
+        let imageUrl = image.url
+        let newURL = imageUrl.replace('{size}','240x240')
+        return newURL
+    }
 
-            let newIndex = index + direction
-            if(newIndex<0){newIndex = roomImages.length-1}
-            else if(newIndex===roomImages.length){newIndex = 0}
-            setIndex(newIndex)
-        }
+    const changeImage = (direction:number) => {
+
+        let newIndex = index + direction
+        if(newIndex<0){newIndex = roomImages.length-1}
+        else if(newIndex===roomImages.length){newIndex = 0}
+        setIndex(newIndex)
+    }
+
+    const bookRoom = () => {
+        router.push(`/booking`)
+    }
 
     return(
         <div className="w-[375px] flex flex-col items-center gap-3.5">
@@ -96,7 +103,7 @@ export const RoomTile = (props:RoomTileProps) => {
                     </div>
                 </div>
 
-                <Button className="bg-accent text-light text-lg font-bold h-[54px]">BOOK</Button>
+                <Button className="bg-accent text-light text-lg font-bold h-[54px]" onClick={bookRoom}>BOOK</Button>
 
             </div>
 

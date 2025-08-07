@@ -36,7 +36,12 @@ export function POST(req:Request) {
       });
       
       const data = await response.json();
+
+
       let hotel = data.data.hotels[0]
+
+      console.log("HOTEL",hotel)
+
 
       let rates:any[] = hotel.rates
 
