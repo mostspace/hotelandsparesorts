@@ -1,8 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server'
-export function POST(request:Request) {
+export async function POST(request:Request) {
 
-    return new Promise(async (resolve, reject) => {
 
     const options = {method: 'GET', headers: {accept: 'application/json'}};
 
@@ -20,8 +19,8 @@ export function POST(request:Request) {
         },
         });
       
-        resolve(NextResponse.json(hotels))
+        NextResponse.json(hotels)
 
-    })
+    
 
 }

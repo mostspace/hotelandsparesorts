@@ -8,7 +8,7 @@ export async function GET() {
 export async function POST(request: Request) {
     const body = await request.json();
     
-    return new Promise((resolve, reject) => {
+    return new Promise<any>((resolve, reject) => {
 
 
       stripe.paymentIntents.create(

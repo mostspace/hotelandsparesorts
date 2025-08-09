@@ -6,7 +6,7 @@ export function GET(req:Request) {
     const locationID = searchParams.get("locationID");
 
 
-    return new Promise(async (resolve, reject) => {
+    return new Promise<any>(async (resolve, reject) => {
 
     const options = {method: 'GET', headers: {accept: 'application/json'}};
 

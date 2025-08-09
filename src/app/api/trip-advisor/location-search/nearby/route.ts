@@ -4,7 +4,7 @@ const API_KEY = '424E337DAFE14BE58C36ACA2ED22B998'
 const locationID = '17813462'
 export function GET() {
 
-    return new Promise(async (resolve, reject) => {
+    return new Promise<any>(async (resolve, reject) => {
 
     const options = {method: 'GET', headers: {accept: 'application/json'}};
 
