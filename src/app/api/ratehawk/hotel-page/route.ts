@@ -6,7 +6,7 @@ const API_KEY = '66a9de03-3f16-4287-b594-fc9191a3669a' ///RATEHAWK API KEY
 
 export function POST(req:Request) {
 
-    return new Promise(async (resolve, reject) => {
+    return new Promise<any>(async (resolve, reject) => {
 
     const { hid,checkIn,checkOut } = await req.json();
 
