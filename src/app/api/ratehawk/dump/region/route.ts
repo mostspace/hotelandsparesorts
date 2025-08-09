@@ -5,7 +5,7 @@ const API_KEY = '66a9de03-3f16-4287-b594-fc9191a3669a' ///RATEHAWK API KEY
 
 
 export async function GET(req:Request) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise<any>(async (resolve, reject) => {
 
 
     const response = await fetch('https://api.worldota.net/api/b2b/v3/hotel/region/dump/', {
