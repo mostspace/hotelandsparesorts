@@ -214,7 +214,7 @@ export default function SearchScreen() {
              
               {mapOpen && <div className="w-full h-[100%] flex flex-row gap-2 "  >
                 <MapProvider>
-                  <MapComponent hotels={hotels} lat={lat||0} lng={lng||0} newSearch={mapMovedNewSearch} updateVar={updateVar}/>
+                  <MapComponent hotels={hotels} lat={lat||0} lng={lng||0} newSearch={mapMovedNewSearch} updateVar={updateVar} mini={false} source={"searchPage"}/>
                 </MapProvider>
               </div>}
 

@@ -285,7 +285,7 @@ export default function HotelProfileScreen() {
 
                 <div className="h-[280px] w-full p-[10px] rounded-[20px] bg-muted">
                   <MapProvider>
-                    <MapComponent hotels={[hotel]} lat={+hotel.lat||0} lng={+hotel.lng||0} newSearch={null} updateVar={2} mini={true}/>
+                    <MapComponent hotels={[hotel]} lat={+hotel.lat||0} lng={+hotel.lng||0} newSearch={null} updateVar={2} mini={true} source={"profileMini"}/>
                   </MapProvider>
                 </div>
                 
