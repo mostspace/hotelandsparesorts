@@ -13,6 +13,9 @@ import { Button } from "@/components/ui/button";
 import { MapProvider } from "@/providers/map-provider";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import Head from "next/head";
+
+
 
 export default function HotelProfileScreen() {
 
@@ -35,6 +38,7 @@ export default function HotelProfileScreen() {
 
   const [hotel, setHotel] = useState<any>(null);
   const [similarHotels, setSimilarHotels] = useState([]);
+  const [tripAdvisorID, setTripAdvisorID] = useState<any>("");
 
   const [reviews, setReviews] = useState<any[]>([]);
   const [checkInDate, setCheckInDate] = useState<String>(checkInDateP||"");
@@ -74,6 +78,7 @@ export default function HotelProfileScreen() {
   
     if(data.tripadvisor_id != null && data.tripadvisor_id!==0){
       loadReviews(data.tripadvisor_id)
+      setTripAdvisorID(data.tripadvisor_id)
     }
     setLoading(false)
   }
@@ -180,13 +185,21 @@ export default function HotelProfileScreen() {
   }
 
 
-  
+  // 6161763
 
 
+  const openTripAdvisor = () => {
+    window.open("https://tripadvisor.com/"+tripAdvisorID, "_blank", "noopener,noreferrer");
+  }
 
 
     
   return (
+    <>
+    <Head>
+        <meta name="robots" content="noindex, nofollow" />
+      </Head>
+
     <div className="w-full flex flex-col items-center text-primary gap-[1000px]" >
       
       {/* <span>HOTEL PROFILE PAGE</span> */}
@@ -313,7 +326,7 @@ export default function HotelProfileScreen() {
             <div className="w-full flex flex-col gap-10 items-start">
                 <span className="text-5xl" style={{fontFamily:'Harlow'}}>REVIEWS</span>
 
-                <div className="p-[21px] flex flex-row gap-5 items-center bg-muted/50 border border-accent rounded-[10px]">
+                <div className="p-[21px] flex flex-row gap-5 items-center bg-muted/50 border border-accent rounded-[10px] cursor-pointer" onClick={openTripAdvisor}>
                     <span className="text-5xl" style={{fontFamily:'Harlow'}}>4.6</span>
                     <div className="flex flex-col items-start">
                         <span className="text-lg font-bold">Excellent</span>
@@ -326,10 +339,11 @@ export default function HotelProfileScreen() {
                 </div>
 
 
-                <div className="w-full flex flex-row gap-[160px] items-start">
+                <div className="w-full flex flex-row gap-[150px] items-start">
                   {reviews.length>0 && <HotelReview review={reviews[0]}/>}
                   {reviews.length>1 && <HotelReview review={reviews[1]}/>}
                   {reviews.length>2 && <HotelReview review={reviews[2]}/>}
+                  {reviews.length>3 && <HotelReview review={reviews[3]}/>}
 
                 </div>
 
@@ -424,5 +438,6 @@ export default function HotelProfileScreen() {
       </div>} */}
 
     </div>
+    </>
   );
 }

@@ -82,6 +82,8 @@ export default function SearchScreen() {
 
     let compArray:any[] = []
 
+    compArray.push(<span className="text-5xl" style={{fontFamily:'Harlow'}}>{`Showing ${hotels.length} results`}</span>)
+
     hotels.forEach(hotel => {
 
       compArray.push(<HotelTile hotel={hotel} checkIn={checkIn+""} checkOut={checkOut+""} adults={+adults} children={+children}/>)
@@ -154,6 +156,7 @@ export default function SearchScreen() {
             <div className="w-full flex flex-row justify-between">
               {/* <Button onClick={()=>setMapOpen(!mapOpen)}>Show {mapOpen?"List":"Map"}</Button> */}
 
+
               {/* TOGGLE */}
               <div className="flex flex-row border border-primary font-medium text-lg">
                   
@@ -201,6 +204,8 @@ export default function SearchScreen() {
               </div>
 
             </div>
+
+
 
             <div className="w-full h-[100%] flex flex-col gap-9">
              

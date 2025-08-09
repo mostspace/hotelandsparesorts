@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "../ui/button"
 
 interface HotelReviewProps{
@@ -7,6 +8,9 @@ interface HotelReviewProps{
 
 
 export const HotelReview = (props:HotelReviewProps) => {
+
+    const [expanded, setExpanded] = useState(false);
+
 
     const fullCircle = <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="8.09082" cy="8" r="7.5" stroke="#A56658"/>
@@ -52,9 +56,9 @@ export const HotelReview = (props:HotelReviewProps) => {
                 <span className="text-2xl font-bold line-clamp-1">{props.review.title}</span>
             </div>
 
-            <span className="line-clamp-3">{props.review.text}</span>
+            <span className={expanded?"":"line-clamp-3"}>{props.review.text}</span>
 
-            <Button className="rounded-xl border border-accent/50 bg-transparent text-primary">Read More</Button>
+            <Button className="rounded-xl border border-accent/50 bg-transparent text-primary" onClick={()=>setExpanded(!expanded)}>{expanded?"Read Less":"Read More"}</Button>
 
             <div className="flex flex-col items-start">
                 <div className="flex flex-row items-center gap-2">

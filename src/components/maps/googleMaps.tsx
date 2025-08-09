@@ -29,7 +29,8 @@ interface MapProps{
     lng:number,
     newSearch:any,
     mini:boolean
-    updateVar:number
+    updateVar:number,
+    source:string
 }
 
 const MapComponent = (props:MapProps) => {
@@ -132,31 +133,60 @@ const initMap = useCallback((map: google.maps.Map) => {
           router.push(`/hotel-profile?hid=${hid}&checkIn=${'2025-10-22'}&checkOut=${'2025-10-25'}`)
 
         });
-    
-    
-        marker.addListener("mouseover", () => {
-    
-        
-          const contentStr = ReactDOMServer.renderToString(
-            <div className="flex flex-row max-w-[350px] items-start gap-3 rounded-2">
-                <img className="h-[100px]" src={hotel.images[0].url.replace('{size}','240x240')}/>
-                <div className="flex flex-col gap-2">
-                    <span className="text-lg font-bold">{hotel.hotel_name}</span>
-                    <span>{hotel.address}</span>
-                </div>
-            </div>
-          );
-          infoWindow.setContent(contentStr);
-          infoWindow.setOptions({
-            headerDisabled: true,
-            disableAutoPan: false,
-          });
+
+        const contentDiv = document.createElement("div");
+        contentDiv.className = "flex flex-row max-w-[350px] items-start gap-3 rounded-2";
+
+        // Image
+        const img = document.createElement("img");
+        img.src = hotel.images[0].url.replace("{size}", "240x240");
+        img.className = "h-[100px]";
+        contentDiv.appendChild(img);
+
+        // Text container
+        const textDiv = document.createElement("div");
+        textDiv.className = "flex flex-col gap-2";
+
+        const nameSpan = document.createElement("span");
+        nameSpan.className = "text-lg font-bold";
+        nameSpan.innerText = hotel.hotel_name;
+
+        const addressSpan = document.createElement("span");
+        addressSpan.innerText = hotel.address;
+
+        textDiv.appendChild(nameSpan);
+        textDiv.appendChild(addressSpan);
+
+        // Optional button
+        if (props.source === "infoBox") {
+          const btn = document.createElement("button");
+          btn.innerText = "Get directions";
+          btn.className = "bg-accent text-white p-2 mt-2 rounded cursor-pointer"; // Make sure cursor is shown
+          btn.onclick = () => getDirections(hotel.lat, hotel.lng);
+          textDiv.appendChild(btn);
+        }
+
+        contentDiv.appendChild(textDiv);
+
+        infoWindow.setContent(contentDiv);
+        infoWindow.setOptions({
+          headerDisabled: true,
+          disableAutoPan: false,
+        });
+
+        if (props.source === "infoBox") {
           infoWindow.open(map, marker);
-        });
-    
-        marker.addListener("mouseout", () => {
-            infoWindow.close()
-        });
+        } else {
+          marker.addListener("mouseover", () => {
+            infoWindow.open(map, marker);
+          });
+
+          marker.addListener("mouseout", () => {
+            infoWindow.close();
+          });
+        }
+
+
     });
   }
 
@@ -212,6 +242,12 @@ const initMap = useCallback((map: google.maps.Map) => {
         });
 
         return compArray
+    }
+
+    const getDirections = (lat:number,lng:number) => {
+      console.log("OPEN DIRECTIONS",lat,lng)
+      const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+      window.open(url, "_blank");
     }
 
 
