@@ -20,6 +20,7 @@ import Head from "next/head";
 export default function HotelProfileScreen() {
 
   const router = useRouter();
+  // eslint-disable-next-line @next/next/no-async-client-component
   const searchParams = useSearchParams();
 
   const hidStr = searchParams.get('hid');

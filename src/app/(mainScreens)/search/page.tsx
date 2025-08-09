@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 
 export default function SearchScreen() {
 
+  // eslint-disable-next-line @next/next/no-async-client-component
   const searchParams = useSearchParams();
 
   const latP = searchParams.get('lat');
