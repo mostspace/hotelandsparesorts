@@ -2,6 +2,7 @@
 
 import { MapComponent } from "@/components/maps/googleMaps";
 import { MapProvider } from "@/providers/map-provider";
+import test from "node:test";
 
 
 export default function MapTestPage() {
@@ -14,7 +15,7 @@ export default function MapTestPage() {
 
       <div className="flex flex-row items-center gap-2 w-100 h-100"  >
         <MapProvider>
-          <MapComponent hotels={[]} lat={53.30473008552272} lng={-6.205546749941808}/>
+          <MapComponent hotels={[]} lat={53.30473008552272} lng={-6.205546749941808} mini={false} source={"test"} newSearch={null} updateVar={0}/>
         </MapProvider>
       </div>
 
