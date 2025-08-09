@@ -104,7 +104,7 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
 
             {selectedTab=="Map" && <div className="w-full h-[500px]">
                 <MapProvider>
-                    <MapComponent hotels={[props.hotel]} lat={+props.hotel.lat||0} lng={+props.hotel.lng||0} newSearch={null} updateVar={2} source="infoBox"/>
+                    <MapComponent hotels={[props.hotel]} lat={+props.hotel.lat||0} lng={+props.hotel.lng||0} newSearch={null} updateVar={2} mini={false} source="infoBox"/>
                 </MapProvider>
             </div>
             }
