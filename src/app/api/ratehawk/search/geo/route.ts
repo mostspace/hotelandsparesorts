@@ -4,8 +4,9 @@ import { NextResponse } from 'next/server'
 const KEY_ID = '13324'
 const API_KEY = '66a9de03-3f16-4287-b594-fc9191a3669a' ///RATEHAWK API KEY
 
-export async function POST(req:Request) {
+export function POST(req:Request) {
 
+    return new Promise<any>(async (resolve, reject) => {
 
       const { lat,lng,checkIn,checkOut,adults,children,radius,filters,exludedHid } = await req.json();
 
@@ -126,8 +127,9 @@ export async function POST(req:Request) {
       });
 
 
-    NextResponse.json(mergedArray)
+    resolve(NextResponse.json(mergedArray))
 
+    })
 
 }
 

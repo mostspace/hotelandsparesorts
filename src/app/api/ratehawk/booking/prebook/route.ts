@@ -5,8 +5,9 @@ const API_KEY = '66a9de03-3f16-4287-b594-fc9191a3669a' ///RATEHAWK API KEY
 
 const bookHash = 'h-385e0081-7650-54a1-ad38-d065b8681495'
 
-export async function GET(req:Request) {
+export function GET(req:Request) {
 
+    return new Promise<any>(async (resolve, reject) => {
 
 
 
@@ -23,8 +24,8 @@ export async function GET(req:Request) {
       
       const data = await response.json();
       console.log(data);
-      NextResponse.json(data)
+      resolve(NextResponse.json(data))
 
-    
+    })
 
 }
