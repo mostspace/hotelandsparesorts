@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma';
-import { Prisma } from '@/generated/prisma';
 
 export function POST(req:Request) {
 
