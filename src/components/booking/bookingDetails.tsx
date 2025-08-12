@@ -1,11 +1,15 @@
 
+interface BookingProps {
+    booking:any
+}
 
-export const BookingDetails = () => {
+
+export const BookingDetails = (props:BookingProps) => {
 
     const showStars = () => {
         let compArray:any[] = []
 
-        let stars = 5//props.hotel.star_rating || 5
+        let stars = props.booking.hotel.star_rating || 4
 
         for(var i=0; i<stars; i++){
             compArray.push(<svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
@@ -16,36 +20,76 @@ export const BookingDetails = () => {
         return compArray
     }
 
+    const formatTime = (time:string) => {
+
+        const formatted = new Date(`1970-01-01T${time}`).toLocaleTimeString([], {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
+          });
+
+        return formatted
+    }
+
+    const formatDate = (dateStr:string) => {
+        const date = new Date(dateStr);
+
+        const formatted = date.toLocaleDateString("en-US", {
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+          year: "numeric"
+        });
+        
+        return (formatted); // Wed, Oct 15, 2025
+    }
+
+    const amountOfDays = () => {
+        const checkIn = new Date(props.booking.check_in);
+        const checkOut = new Date(props.booking.check_out);
+
+        const diffTime = checkOut.getTime() - checkIn.getTime(); // milliseconds difference
+        const diffDays = diffTime / (1000 * 60 * 60 * 24); // convert to days
+
+        return diffDays + (diffDays>1?" nights":" night")
+
+    }
+
+    const getImageURL = () => {
+        let imageUrl = props.booking.hotel.images[0].url
+        return imageUrl.replace('{size}','240x240')
+    }
+
 
     return(
     <div className="flex flex-col items-start border border-primary/50 p-[21px] gap-7.5 max-w-[575px]">
 
-        <img className="w-full h-[250px]" src={'./assets/manorHouse.jpg'}/>
+        <img className="w-full h-[250px]" src={getImageURL()}/>
 
         <div className="w-full flex flex-col items-start gap-4">
-            <span className="text-4xl" style={{fontFamily:'Harlow'}}>Anantara The Marker Dublin - A Leading Hotel of the World</span>
+            <span className="text-4xl" style={{fontFamily:'Harlow'}}>{props.booking.hotel.hotel_name}</span>
             <div className="w-full flex flex-col items-start gap-2">
                 <div className="w-[130px] flex flex-row gap-2 justify-start">
                     {showStars()}
                 </div>
-                <span className="text-lg">Grand Canal Square, Docklands, Dublin, D02 CK38, Dublin,</span>
+                <span className="text-lg">{props.booking.hotel.address}</span>
             </div>
         </div>
 
         <div className="w-full flex flex-col gap-2 text-lg">
             <span className="font-medium">Rooms</span>
             <div className="w-full flex justify-between">
-                <span>Premium Room</span>
-                <span>£8,235.47</span>
+                <span>{props.booking.room_name}</span>
+                <span>£{props.booking.amount}</span>
             </div>
         </div>
 
         <div className="w-full flex flex-col gap-2 text-lg">
             <span className="font-medium">Guests</span>
-            <span>1 Adult</span>
+            <span>{props.booking.adults} Adults {props.booking.children>0?props.booking.children+", Children":""}</span>
         </div>
 
-        <div className="w-full flex flex-col gap-2 text-lg">
+        {/* <div className="w-full flex flex-col gap-2 text-lg">
             <span className="font-medium">Cancellation policy</span>
             <span>Non - Refundable 1 Aug. 2025 10:30</span>
         </div>
@@ -53,24 +97,24 @@ export const BookingDetails = () => {
         <div className="w-full flex flex-col gap-2 text-lg">
             <span className="font-medium">Extras</span>
             <span>Free round - trip airport transfer</span>
-        </div>
+        </div> */}
 
-        <div className="w-full flex gap-5 items-start">
+        <div className="w-full flex gap-3 items-start">
             <div className="w-full flex flex-col items-start gap-2">
                 <span className="text-xl" style={{fontFamily:'Harlow'}}>Check in</span>
-                <span className="text-lg font-medium">Thu Jul 31 2025</span>
-                <span className="text-lg">3:00 PM - 12:00 AM</span>
+                <span className="text-lg font-medium">{formatDate(props.booking.check_in)}</span>
+                <span className="text-lg">{formatTime(props.booking.hotel.check_in_time).toUpperCase()}</span>
             </div>
             <div className="w-px h-[100px] bg-primary"/>
             <div className="w-full flex flex-col items-start gap-2">
                 <span className="text-xl" style={{fontFamily:'Harlow'}}>Check out</span>
-                <span className="text-lg font-medium">Thu Aug 21 2025</span>
-                <span className="text-lg">Until 12:00 PM</span>
+                <span className="text-lg font-medium">{formatDate(props.booking.check_out)}</span>
+                <span className="text-lg">Until {formatTime(props.booking.hotel.check_out_time).toUpperCase()}</span>
             </div>
         </div>
         
 
-        <span className="text-lg font-medium">{"( 21 nights )"}</span>
+        <span className="text-lg font-medium">{`( ${amountOfDays()} )`}</span>
         
     </div>
     );

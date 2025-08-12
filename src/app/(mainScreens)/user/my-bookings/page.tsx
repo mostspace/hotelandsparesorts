@@ -1,7 +1,55 @@
 "use client";
 
+import { HotelTile } from "@/components/search/HotelTile";
+import { useEffect, useState } from "react";
+
 export default function MyBookings() {
 
+    const [bookings, setBookings] = useState<any[]>([]);
+
+    useEffect(() => {
+    
+        retrieveBookings()
+
+
+    }, []);
+
+    const retrieveBookings = async () => {
+        
+        const res = await fetch("/api/bookings/my-bookings", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+              uid: 'test-uid-123'
+            }),
+        });
+  
+        if (!res.ok) throw new Error(`Error: ${res.status}`);
+        const data = await res.json();
+        
+        setBookings(data)
+    }
+
+    const showBookings = () => {
+        let compArray:any[] = []
+
+        bookings.forEach(booking => {
+            compArray.push(
+            <HotelTile 
+                hotel={booking.hotel} 
+                checkIn={booking.check_in}
+                checkOut={booking.check_out}
+                adults={booking.adults}
+                children={booking.children}
+                booking={booking}
+                source={"MyBookings"}
+            />)
+        });
+
+        return compArray
+    }
 
     return(<div className="flex flex-col gap-[50px] items-start">
 
@@ -14,6 +62,7 @@ export default function MyBookings() {
             </div>
             <span className="text-6xl text-accent font-medium">My Bookings</span>
 
+            {showBookings()}
         </div>
 
     </div>)

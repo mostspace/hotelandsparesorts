@@ -1,5 +1,21 @@
+interface PriceSummaryProps {
+    booking:any
+    amountToCharge:number
+}
 
-export const PriceSummary = () => {
+
+export const PriceSummary = (props:PriceSummaryProps) => {
+
+    const amountOfDays = () => {
+        const checkIn = new Date(props.booking.check_in);
+        const checkOut = new Date(props.booking.check_out);
+
+        const diffTime = checkOut.getTime() - checkIn.getTime(); // milliseconds difference
+        const diffDays = diffTime / (1000 * 60 * 60 * 24); // convert to days
+
+        return diffDays + (diffDays>1?" nights":" night")
+
+    }
 
     return(
         <div className="flex flex-col items-start border border-primary/50 py-[21px] gap-5 min-w-100 max-w-[575px]">
@@ -7,21 +23,26 @@ export const PriceSummary = () => {
             <span className="px-[28px] text-4xl" style={{fontFamily:'Harlow'}}>Your price summary</span>
             
             <div className="px-[28px] text-lg w-full flex justify-between">
-                <span>Premium Room</span>
-                <span>£8,235.47</span>
+                <span>{props.booking.room_name}</span>
+                <span>£{props.booking.amount}</span>
             </div>
 
-            <div className="px-[28px] text-lg w-full flex justify-between">
+            {/* <div className="px-[28px] text-lg w-full flex justify-between">
                 <span>Taxes & fees</span>
                 <span>+1,111.79</span>
-            </div>
+            </div> */}
+
+            {props.booking.amount !== props.amountToCharge && <div className="px-[28px] text-lg w-full flex justify-between">
+                <span>Voucher</span>
+                <span>-£{(+props.booking.amount) - (+props.amountToCharge)}</span>
+            </div>}
 
             <div className="px-[28px] py-[13px] w-full flex justify-between items-center bg-muted">
                 <div className="flex flex-col items-start">
                     <span className="font-medium">Price</span>
-                    <span>{"(for 21 nights & all guests)"}</span>
+                    <span>{`(for ${amountOfDays()} & all guests)`}</span>
                 </div>
-                <span className="text-lg">£9347.26</span>
+                <span className="text-lg">£{+props.booking.amount + 0 - ((+props.booking.amount) - (+props.amountToCharge))}</span>
             </div>
 
             <div className="px-[28px] flex flex-row item-start gap-2">

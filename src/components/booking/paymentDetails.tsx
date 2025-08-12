@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import { PaymentComponent } from "../PaymentComponent";
+import { BillingAddressComponent } from "../BillingAddressComponent";
+
 import { Button } from "../ui/button";
-import { BPDProps } from "./personalDetails";
 
 const appearance = {
   variables: {},
@@ -14,18 +15,27 @@ const appearance = {
 const stripeTest = loadStripe('pk_test_51Pt4eIP0VWupOVM4V6pnDzuRafZp1xjCMslMceihfV2nKbbBjkm2QkLeGYBWGlCWCznxB4GMkZv7TnyjkgIglOY600TtaK2Q9s');
 // const stripeLive = loadStripe(process.env.NEXT_PUBLIC_STRIPE_LIVE);
 
+interface PaymentDetailsProps {
+    successfulPayment:any
+    amountToCharge:number
+}
 
-export const BookingPaymentDetails = (props:BPDProps) => {
+export const BookingPaymentDetails = (props:PaymentDetailsProps) => {
 
     const [intentID, setIntentID] = useState<any>('');
     const [options, setOptions] = useState<any>(null);
     const [submitCount, setSubmitCount] = useState(0);
+    const [noCharge, setNoCharge] = useState(false);
 
     useEffect(() => {
 
-        createPaymentIntent(5)
+        if(props.amountToCharge === 0){
+            setNoCharge(true)
+        }else{
+            createPaymentIntent(props.amountToCharge)
+        }
 
-    }, []);
+    }, [props.amountToCharge]);
 
 
     const createPaymentIntent = async (amount:number) => {
@@ -59,14 +69,17 @@ export const BookingPaymentDetails = (props:BPDProps) => {
 
     if (response.success) {
       setIntentID(null);
+      props.successfulPayment()
+
     } else {
       console.log('ERROR', response.error);
     }
   };
 
   const payClicked = () => {
-    if(submitCount>1){
-        props.nextStep()
+    
+    if(noCharge){
+        props.successfulPayment()
     }else{
         setSubmitCount(submitCount + 1);
     }
@@ -90,10 +103,13 @@ export const BookingPaymentDetails = (props:BPDProps) => {
                                 payment={true}
                                 savedCard={false}
                                 intentID={intentID}
+                                
                                 />
                             </Elements>
                         </div>
                     )}
+
+                    {noCharge && <div className="w-full flex justify-center">No charge</div>}
 
                 </div>
 
@@ -101,6 +117,16 @@ export const BookingPaymentDetails = (props:BPDProps) => {
 
                 <div className="w-full flex flex-col gap-5 items-start">
                     <span className="text-4xl" style={{fontFamily:'Harlow'}}>Step 3: Billing Address</span>
+                    {intentID && (
+                        <div className='w-full flex flex-col items-center gap-2'>
+                            <Elements stripe={stripeTest} options={options}>
+                                <BillingAddressComponent
+                                submitCount={submitCount}
+                                intentID={intentID}
+                                />
+                            </Elements>
+                        </div>
+                    )}
                 </div>
 
             </div>

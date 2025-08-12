@@ -5,8 +5,11 @@ const API_KEY = '66a9de03-3f16-4287-b594-fc9191a3669a' ///RATEHAWK API KEY
 
 const bookHash = 'h-995615c2-b3c3-530f-b2cb-5b29faf313ae'
 
-export async function GET(req:Request) {
+export async function POST(req:Request) {
 
+  return new Promise<any>(async (resolve, reject) => {
+
+    const { partnerID,personalDetails,amount } = await req.json();
 
 
     const response = await fetch('https://api.worldota.net/api/b2b/v3/hotel/order/booking/finish/', {
@@ -17,27 +20,27 @@ export async function GET(req:Request) {
         },
         body: JSON.stringify({
           user: {
-            email: "john.doe@example.com",
-            // comment: "The user comment.",
-            phone: "12124567899",
+            email: personalDetails.email,
+            comment: personalDetails.specialRequest,
+            phone: personalDetails.phoneNumber,
           },
           supplier_data: {
-            first_name_original: "Hotel",
-            last_name_original: "Spa",
-            phone: "12124567880",
-            email: "hotel.spa@example.com",
+            first_name_original: personalDetails.firstName,
+            last_name_original: personalDetails.lastName,
+            phone: personalDetails.phoneNumber,
+            email: personalDetails.email,
           },
           partner: {
-            partner_order_id: "6",
+            partner_order_id: partnerID,
             // comment: "The partner comment.",
-            amount_sell_b2b2c: "10", //This will appear on the invoice they receive, perhaps good for when using voucher
+            // amount_sell_b2b2c: "10", //This will appear on the invoice they receive, perhaps good for when using voucher
           },
           language: "en",
           rooms: [
             {
               guests: [
-                { first_name: "Martin", last_name: "Murphy" },
-                { first_name: "Saoirse", last_name: "Smith" },
+                { first_name: personalDetails.firstName, last_name: personalDetails.lastName },
+                // { first_name: "Saoirse", last_name: "Smith" },
               ],
             },
           ],
@@ -53,7 +56,7 @@ export async function GET(req:Request) {
           // ],
           payment_type: {
             type: "deposit",
-            amount: "490",
+            amount: amount,
             currency_code: "GBP",
           },
           return_path: "https://example.com",
@@ -62,7 +65,7 @@ export async function GET(req:Request) {
       
       const data = await response.json();
       console.log(data);
-      NextResponse.json(data)
+      resolve(NextResponse.json(data))
 
-
+   })
 }

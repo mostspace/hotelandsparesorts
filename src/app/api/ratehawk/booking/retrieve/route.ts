@@ -5,10 +5,13 @@ const API_KEY = '66a9de03-3f16-4287-b594-fc9191a3669a' ///RATEHAWK API KEY
 
 const bookHash = 'h-385e0081-7650-54a1-ad38-d065b8681495'
 
-export function GET(req:Request) {
+export function POST(req:Request) {
 
     return new Promise<any>(async (resolve, reject) => {
 
+    const { orderID } = await req.json();
+
+    console.log("ORDER ID", orderID)
 
     const response = await fetch('https://api.worldota.net/api/b2b/v3/hotel/order/info/', {
         method: 'POST',
@@ -25,9 +28,9 @@ export function GET(req:Request) {
             page_size: "10",
             page_number: "1"
           },
-          search: {
-            order_ids: [588006936]
-          },
+          // search: {
+          //   order_ids: [+orderID]
+          // },
           language: "en"
         })
       });

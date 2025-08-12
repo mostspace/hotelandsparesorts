@@ -150,7 +150,7 @@ const PaymentComponent = ({stripeResponse, submitCount, payment,savedCard,intent
       
       {/* {!savedCard && <PaymentElement />} */}
       <div id='payment' />
-      <div id='billingAddress' />
+      {/* <div id='billingAddress' /> */}
       </div>
 
       {/* <div className='servicePaymentColumn'>

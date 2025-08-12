@@ -1,7 +1,11 @@
 import { Button } from "../ui/button"
 import { useRouter } from "next/navigation";
 
-export const BookingConfirmed = () => {
+interface BookingConfirmedProps {
+    email:string
+}
+
+export const BookingConfirmed = (props:BookingConfirmedProps) => {
 
     const router = useRouter();
 
@@ -26,7 +30,7 @@ export const BookingConfirmed = () => {
             <div className="text-2xl flex flex-col items-center gap-5">
                 <span>Your booking is confirmed</span>
                 <span>A confirmation email has been sent to:</span>
-                <span className="text-accent font-medium">user@example.com</span>
+                <span className="text-accent font-medium">{props.email}</span>
             </div>
 
             <div className="flex flex-row gap-5 mt-4">

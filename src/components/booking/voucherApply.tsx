@@ -1,10 +1,54 @@
 import { useState } from "react";
 import { Button } from "../ui/button"
 
+interface VoucherApplyProps {
+    amount:number
+    setAmount: any
+    setVoucherCode:any
+}
 
-export const VoucherApply = () => {
+export const VoucherApply = (props:VoucherApplyProps) => {
 
     const [voucherCode, setVoucherCode] = useState<string>("");
+    const [voucherError,setVoucherError] = useState<string>("");
+    const [voucherApplied,setVoucherApplied] = useState<any>(null);
+
+    const validVoucherCodes = [
+        {code:"abcd",amount:20},
+        {code:"defg",amount:200},
+        {code:"fghi",amount:2000},
+    ]
+
+    const applyVoucher = () => {
+
+        var amount = 0
+        var found = false
+
+        setVoucherError("")
+
+        validVoucherCodes.forEach(option => {
+            if(option.code === voucherCode){
+                found = true
+                amount = option.amount
+                setVoucherApplied(option)
+            }
+        });
+
+        if(!found){setVoucherError("Invalid Voucher Code")}
+        else{
+            let remainderPayable = calculateNewPrice(amount)
+            props.setAmount(remainderPayable)
+            props.setVoucherCode(voucherCode)
+        }
+    }
+
+    const calculateNewPrice = (amount:number) => {
+
+        var newPrice = props.amount-amount
+        if(newPrice<0){newPrice=0}
+        return newPrice
+    }
+
 
     return(
         <div className="flex flex-col gap-[30px] w-full border border-primary/50 p-[33px]">
@@ -19,27 +63,31 @@ export const VoucherApply = () => {
                         value={voucherCode} 
                         onChange={(e) => setVoucherCode(e.target.value)}
                     />
-                    <Button className="bg-accent p-[12px] font-medium text-lg">APPLY</Button>
+                    <Button className="bg-accent p-[12px] font-medium text-lg" onClick={applyVoucher}>APPLY</Button>
                 </div>
+
+                <span className="text-[red]">{voucherError}</span>
+                {voucherApplied && <span className="font-medium">Voucher Applied</span>}
+
             </div>
 
             <div className="w-full bg-muted/50 p-[18px] flex flex-col gap-5 text-lg font-bold">
 
                 <div className="w-full flex flex-row justify-between items-center">
                     <span className="font-medium">Booking Total</span>
-                    <span>£9347.26</span>
+                    <span>£{props.amount}</span>
                 </div>
 
                 <div className="w-full h-px border-t border-dashed border-primary/50"/>
 
                 <div className="w-full flex flex-row justify-between items-center">
                     <span className="font-normal">Gift card total:</span>
-                    <span>£0</span>
+                    <span>£{voucherApplied?voucherApplied.amount:0}</span>
                 </div>
 
                 <div className="w-full flex flex-row justify-between items-center">
                     <span className="font-normal">Remainder Payable</span>
-                    <span>£9347.26</span>
+                    <span>£{calculateNewPrice(voucherApplied?voucherApplied.amount:0)}</span>
                 </div>
             </div>
 

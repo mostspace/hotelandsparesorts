@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Button } from "../ui/button"
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface RoomTileProps{
     rateObj:any
@@ -10,6 +10,7 @@ interface RoomTileProps{
 export const RoomTile = (props:RoomTileProps) => {
 
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     const [roomImages, setRoomImages] = useState<any[]>([]);
     const [index, setIndex] = useState(0);
@@ -39,8 +40,109 @@ export const RoomTile = (props:RoomTileProps) => {
         setIndex(newIndex)
     }
 
-    const bookRoom = () => {
-        router.push(`/booking`)
+
+
+    const prebookRoom = async () => {
+        
+        const res = await fetch("/api/ratehawk/booking/prebook", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+                hashID: props.rateObj.book_hash
+            }),
+        });
+
+        if (!res.ok) throw new Error(`Error: ${res.status}`);
+        const data = await res.json();
+
+
+        let priceChanged = data.data.changes.price_changed
+
+        if(priceChanged){
+
+        }else{
+            let bookHash = data.data.hotels[0].rates[0].book_hash
+            createBookingRateHawk(bookHash)
+        }
+        
+    }
+
+    const createBookingRateHawk = async (bookHash:string) => {
+        
+        const res = await fetch("/api/ratehawk/booking/create", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+                hashID: bookHash
+            }),
+        });
+
+        if (!res.ok) throw new Error(`Error: ${res.status}`);
+        const data = await res.json();
+
+        let status = data.status
+
+        if(status === "ok")
+        {
+
+            let orderID = data.data.order_id
+            let partnerID = data.data.partner_order_id
+            let amount = data.data.payment_types[0].amount
+            let currencyCode = data.data.payment_types[0].currency_code
+
+            createBooking(orderID,partnerID,amount,currencyCode)
+        }
+        
+    }
+
+    const createBooking = async (orderID:number,partnerID:string,amount:number,currencyCode:string) => {
+        
+        const hid = searchParams.get('hid');
+
+        const checkIn = searchParams.get('check-in');
+        const checkOut = searchParams.get('check-out');
+
+        const adults = +(searchParams.get('adults')||1);
+        const children = +(searchParams.get('children')||1);
+
+        const res = await fetch("/api/bookings/create", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+                bookingData:{
+                    orderID:orderID,
+                    partnerID:partnerID,
+                    hid:hid,
+                    checkIn:checkIn,
+                    checkOut:checkOut,
+                    adults:adults,
+                    children:children,
+                    amount:amount,
+                    currencyCode: currencyCode,
+                    roomName:props.rateObj.room_data_trans.main_name,
+                    amenities:props.rateObj.amenities_data
+                }
+            }),
+        });
+
+        if (!res.ok) throw new Error(`Error: ${res.status}`);
+        const data = await res.json();
+
+       
+        bookRoom(orderID)
+        
+        
+    }
+
+    const bookRoom = (orderID:number) => {
+
+        router.push(`/booking?order=${orderID}`)//&hid=${hid}&check-in=${checkIn}&check-out=${checkOut}&adults=${adults}&children=${children}`)
     }
 
     return(
@@ -103,7 +205,7 @@ export const RoomTile = (props:RoomTileProps) => {
                     </div>
                 </div>
 
-                <Button className="bg-accent text-light text-lg font-bold h-[54px]" onClick={bookRoom}>BOOK</Button>
+                <Button className="bg-accent text-light text-lg font-bold h-[54px]" onClick={prebookRoom}>BOOK</Button>
 
             </div>
 

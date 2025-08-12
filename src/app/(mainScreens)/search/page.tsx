@@ -87,7 +87,7 @@ export default function SearchScreen() {
 
     hotels.forEach(hotel => {
 
-      compArray.push(<HotelTile hotel={hotel} checkIn={checkIn+""} checkOut={checkOut+""} adults={+adults} children={+children}/>)
+      compArray.push(<HotelTile hotel={hotel} checkIn={checkIn+""} checkOut={checkOut+""} adults={+adults} children={+children} source={"Search"}/>)
     });
 
     return compArray

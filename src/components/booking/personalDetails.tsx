@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 
 export interface BPDProps{
     nextStep:any
+    setDetails:any
 }
 
 export const BookingPersonalDetails = (props:BPDProps) => {
@@ -14,6 +15,33 @@ export const BookingPersonalDetails = (props:BPDProps) => {
      const [country, setCountry] = useState("");
 
      const [specialRequest, setSpecialRequest] = useState("");
+
+     const [inputError, setInputError] = useState("");
+
+     
+     
+     const confirm = () => {
+        
+        if(firstName === ""){setInputError("firstName")}
+        else if(lastName === ""){setInputError("lastName")}
+        else if(email === ""){setInputError("email")}
+        else if(phoneNumber === ""){setInputError("phoneNumber")}
+        else if(country === ""){setInputError("country")}
+        else{
+
+            let details = {
+                firstName,
+                lastName,
+                email,
+                phoneNumber,
+                country,
+                specialRequest
+            }
+            props.setDetails(details)
+            props.nextStep()
+
+        }
+     }
 
 
     return(
@@ -27,9 +55,9 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                 <div className="w-full flex flex-row flex-wrap gap-8">
                     
                     <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
-                        <span className="font-medium">First Name*</span>
+                        <span className={`font-medium ${inputError==="firstName"?"text-[red]":""}`}>First Name*</span>
                         <input 
-                            className="w-full h-[54px] bg-transparent border border-primary/50 focus:outline-none p-[10px] text-xl" 
+                            className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl ${inputError==="firstName"?"border-[red]":"border-primary/50"}`} 
                             type="text"
                             value={firstName} 
                             onChange={(e) => setFirstName(e.target.value)}
@@ -37,9 +65,9 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                     </div>
 
                     <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
-                        <span className="font-medium">Last Name*</span>
+                        <span className={`font-medium ${inputError==="lastName"?"text-[red]":""}`}>Last Name*</span>
                         <input 
-                            className="w-full h-[54px] bg-transparent border border-primary/50 focus:outline-none p-[10px] text-xl" 
+                            className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl ${inputError==="lastName"?"border-[red]":"border-primary/50"}`} 
                             type="text"
                             value={lastName} 
                             onChange={(e) => setLastName(e.target.value)}
@@ -47,9 +75,9 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                     </div>
 
                     <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
-                        <span className="font-medium">Email*</span>
+                        <span className={`font-medium ${inputError==="email"?"text-[red]":""}`}>Email*</span>
                         <input 
-                            className="w-full h-[54px] bg-transparent border border-primary/50 focus:outline-none p-[10px] text-xl" 
+                            className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl ${inputError==="email"?"border-[red]":"border-primary/50"}`} 
                             type="text"
                             value={email} 
                             onChange={(e) => setEmail(e.target.value)}
@@ -57,9 +85,9 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                     </div>
 
                     <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
-                        <span className="font-medium">Phone Number*</span>
+                        <span className={`font-medium ${inputError==="phoneNumber"?"text-[red]":""}`}>Phone Number*</span>
                         <input 
-                            className="w-full h-[54px] bg-transparent border border-primary/50 focus:outline-none p-[10px] text-xl" 
+                            className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl ${inputError==="phoneNumber"?"border-[red]":"border-primary/50"}`} 
                             type="number"
                             value={phoneNumber} 
                             onChange={(e) => setPhoneNumber(e.target.value)}
@@ -67,9 +95,9 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                     </div>
 
                     <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
-                        <span className="font-medium">Country*</span>
+                        <span className={`font-medium ${inputError==="country"?"text-[red]":""}`}>Country*</span>
                         <input 
-                            className="w-full h-[54px] bg-transparent border border-primary/50 focus:outline-none p-[10px] text-xl" 
+                            className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl ${inputError==="country"?"border-[red]":"border-primary/50"}`} 
                             type="text"
                             value={country} 
                             onChange={(e) => setCountry(e.target.value)}
@@ -115,14 +143,20 @@ export const BookingPersonalDetails = (props:BPDProps) => {
             </div>
 
 
-            <Button className="bg-accent text-light p-[22px]" onClick={props.nextStep}>
-                <div className="flex flex-row gap-3 items-center">
-                    <span className="font-bold text-lg">CONFIRM & PAY</span>
-                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8 5.90937L8.97031 5L17 12.5L8.97031 20L8 19.0953L15.0547 12.5L8 5.90937Z" fill="white"/>
-                    </svg>
-                </div>
-            </Button>
+            <div className="flex gap-8 items-center">
+
+                {inputError!=="" && <span className="text-[red]">Invalid input, please update</span>}
+
+                <Button className="bg-accent text-light p-[22px]" onClick={confirm}>
+                    <div className="flex flex-row gap-3 items-center">
+                        <span className="font-bold text-lg">CONFIRM & PAY</span>
+                        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 5.90937L8.97031 5L17 12.5L8.97031 20L8 19.0953L15.0547 12.5L8 5.90937Z" fill="white"/>
+                        </svg>
+                    </div>
+                </Button>
+
+            </div>
 
 
         </div>

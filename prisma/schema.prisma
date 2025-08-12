@@ -37,6 +37,8 @@ model Hotels {
 
   hotelDescriptions     HotelDescriptions[]
   images                Images[]
+
+  Bookings Bookings[]
 }
 
 
@@ -66,5 +68,36 @@ model Users {
   uid      String  @id
   email    String?
   full_name String?
+
+  bookings Bookings[] // relation back to bookings
+
 }
+
+
+model Bookings {
+  order_id      Int      @id  // internal primary key
+  partner_id    String   // your internal PID for linking front-end flow
+  hid           Int      // hotel id from Hotels
+  check_in      DateTime
+  check_out     DateTime
+  adults        Int
+  children      Int
+  amount        Decimal  @db.Decimal(10,2)
+  currency_code String
+  status        String   // e.g. 'pending', 'paid', 'confirmed', 'cancelled'
+  room_name     String
+  amenities     String?  @db.Text
+  voucher_used  String?
+  amount_paid   Int?
+  uid           String?    // optional user ID
+  // rate_data     Json
+
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  hotel Hotels @relation(fields: [hid], references: [hid])
+  user  Users? @relation(fields: [uid], references: [uid])
+}
+
+
 

@@ -8,11 +8,101 @@ import { BookingPersonalDetails } from "@/components/booking/personalDetails";
 import { PriceSummary } from "@/components/booking/priceSummary";
 import { VoucherApply } from "@/components/booking/voucherApply";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function BookingScreen() {
 
   const [currentStep, setCurrentStep] = useState(2);
+  const [booking, setBooking] = useState<any>(null);
+  
+  const [amountToCharge, setAmountToCharge] = useState(0);
+  const [personalDetails, setPersonalDetails] = useState<any>(null);
+  const [voucherCode, setVoucherCode] = useState("");
+
+
+  const searchParams = useSearchParams();
+  
+
+
+  useEffect(() => {
+   
+      const order = +(searchParams.get('order') ||0);
+
+      
+      retrieveBooking(order || 0)
+
+
+    }, [searchParams]);
+
+  const retrieveBooking = async (order:number) => {
+        
+      const res = await fetch("/api/bookings/retrieve", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+            bookingID: order
+          }),
+      });
+
+      if (!res.ok) throw new Error(`Error: ${res.status}`);
+      const data = await res.json();
+      
+      console.log("BOOKING RETRIEVED",data )
+      setBooking(data)
+      setAmountToCharge(data.amount)
+      
+  }
+
+  const completeBookingRateHawk = async () => {
+    
+    const res = await fetch("/api/ratehawk/booking/start", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+            partnerID: booking.partner_id,
+            personalDetails,
+            amount:booking.amount
+          }),
+      });
+
+      if (!res.ok) throw new Error(`Error: ${res.status}`);
+      const data = await res.json();
+      return(data)
+  }
+
+  const completeBookingDB = async () => {
+    const order = +(searchParams.get('order') ||0);
+
+    const res = await fetch("/api/bookings/complete", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+            bookingID:order,
+            amountPaid:amountToCharge,
+            voucherUsed:voucherCode
+          }),
+      });
+
+      if (!res.ok) throw new Error(`Error: ${res.status}`);
+      const data = await res.json();
+      return(data)
+  }
+
+  const successfulPayment = async () => {
+
+    await completeBookingRateHawk()
+    await completeBookingDB()
+    setCurrentStep(4)
+  }
+
+
   
   const check = <svg width="22" height="18" viewBox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" clip-rule="evenodd" d="M7.33321 12.84L2.19988 7.8L0.48877 9.48L7.33321 16.2L21.9999 1.8L20.2888 0.119995L7.33321 12.84Z" fill="white"/>
@@ -25,7 +115,7 @@ export default function BookingScreen() {
     <div className="w-full flex flex-row gap-8 items-center text-lg font-medium">
         
         <div className="flex w-170 flex-row gap-4 items-center">
-            <div className={`w-[42px] h-[42px] rounded-full flex justify-center items-center bg-accent${currentStep>1?"/50":""}`}>
+            <div className={`w-[42px] h-[42px] rounded-full flex justify-center items-center ${currentStep>1?"bg-accent/50":"bg-accent"}`}>
                 {currentStep>1?check:<span className="text-light text-xl">1</span>}
             </div>
             <span>Hotel Selected</span>
@@ -34,7 +124,7 @@ export default function BookingScreen() {
         <div className="h-px w-full bg-primary/50"/>
 
         <div className="flex w-150 flex-row gap-4 items-center">
-            <div className={`w-[42px] h-[42px] rounded-full flex justify-center items-center bg-accent${currentStep>2?"/50":""}`}>
+            <div className={`w-[42px] h-[42px] rounded-full flex justify-center items-center ${currentStep>2?" bg-accent/50":" bg-accent"}`}>
                 {currentStep>2?check:<span className="text-light text-xl">2</span>}
             </div>
             <span>Your Details</span>
@@ -44,7 +134,7 @@ export default function BookingScreen() {
 
 
         <div className="flex w-140 flex-row gap-4 items-center">
-            <div className={`w-[42px] h-[42px] rounded-full flex justify-center items-center bg-accent${currentStep>3?"/50":""}`}>
+            <div className={`w-[42px] h-[42px] rounded-full flex justify-center items-center ${currentStep>3?"bg-accent/50":"bg-accent"}`}>
                 {currentStep>3?check:<span className="text-light text-xl">3</span>}
             </div>
             <span>Final Step</span>
@@ -52,21 +142,21 @@ export default function BookingScreen() {
     </div>
 
 
-    {currentStep === 2 && <div className="w-full flex flex-row items-start gap-8">
+    {currentStep === 2 && booking && <div className="w-full flex flex-row items-start gap-8">
       
       <div className="flex flex-col gap-7.5">
-        <BookingDetails />
-        <PriceSummary />
+        <BookingDetails booking={booking}/>
+        <PriceSummary booking={booking} amountToCharge={amountToCharge}/>
       </div>
 
-      <BookingPersonalDetails nextStep={()=>setCurrentStep(3)}/>
+      <BookingPersonalDetails nextStep={()=>setCurrentStep(3)} setDetails={setPersonalDetails}/>
     
     </div>}
       
-    {currentStep === 3 && <div className="w-full flex flex-row items-start gap-8">
+    {currentStep === 3 && booking  && <div className="w-full flex flex-row items-start gap-8">
 
       <div className="flex flex-col gap-7.5">
-        <PriceSummary />
+        <PriceSummary booking={booking} amountToCharge={amountToCharge}/>
         
         <div className="w-full border border-primary/50 p-6 flex flex-row gap-2 items-center">
           <span className="font-medium text-accent text-2xl">Cancellation policy</span>
@@ -93,14 +183,14 @@ export default function BookingScreen() {
       </div>
 
       <div className="w-full flex flex-col gap-7.5">
-        <VoucherApply />
-        <BookingPaymentDetails nextStep={()=>setCurrentStep(4)}/>
+        <VoucherApply amount={booking.amount} setAmount={setAmountToCharge} setVoucherCode={setVoucherCode}/>
+        <BookingPaymentDetails successfulPayment={successfulPayment} amountToCharge={amountToCharge}/>
       </div>
 
     </div>}
 
 
-    {currentStep === 4 && <BookingConfirmed />}
+    {currentStep === 4 && <BookingConfirmed email={personalDetails.email}/>}
 
 
 
@@ -108,3 +198,15 @@ export default function BookingScreen() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+

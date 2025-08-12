@@ -11,6 +11,8 @@ export interface HotelTileProps{
     checkOut:string
     adults:number
     children:number
+    source:string
+    booking?:any
 }
 
 export const HotelTile = (props:HotelTileProps) => {
@@ -24,10 +26,17 @@ export const HotelTile = (props:HotelTileProps) => {
     }
 
     const getRate = () => {
-        let rates = props.hotel.rates
-        let rate = rates[0]
-        let price = rate.payment_options.payment_types[0].show_amount
-        return (+price).toFixed(0)
+
+        if(props.source === "MyBookings"){
+            return +props.booking.amount
+        }else{
+            let rates = props.hotel.rates
+            let rate = rates[0]
+            let price = rate.payment_options.payment_types[0].show_amount
+            return (+price).toFixed(0)
+        }
+
+        
     }
 
     const showStars = () => {
@@ -58,8 +67,21 @@ export const HotelTile = (props:HotelTileProps) => {
         router.push(`/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&adults=${props.adults}&children=${props.children}`)
     }
 
+    const formatDate = (dateStr:string) => {
+        const date = new Date(dateStr);
+
+        const formatted = date.toLocaleDateString("en-US", {
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+          year: "numeric"
+        });
+        
+        return (formatted); // Wed, Oct 15, 2025
+    }
+
     return(
-    <div className="w-full h-[300px] flex flex-row border border-primary text-primary">
+    <div className="w-full h-[300px] flex flex-row border border-primary text-primary bg-light">
 
         <img className="h-full w-[40%] max-w-[480px]" src={getImageURL()} />
         
@@ -84,8 +106,15 @@ export const HotelTile = (props:HotelTileProps) => {
             </div>  
 
 
-            <div className="flex flex-row justify-between items-end">
-                <Button onClick={()=>openHotel(props.hotel.hid)} className="bg-accent text-light">VIEW DETAILS & BOOK</Button>
+            <div className={`flex flex-row justify-between items-end`}>
+                
+                {props.source!=="MyBookings"&&<Button onClick={()=>openHotel(props.hotel.hid)} className="bg-accent text-light">VIEW DETAILS & BOOK</Button>}
+                {props.source==="MyBookings"&&
+                    <div className="flex flex-col items-start gap-2 text-alt">
+                        <span className="text-lg"><strong>Check-In:</strong> {formatDate(props.checkIn)}</span>
+                        <span className="text-lg"><strong>Check-Out:</strong> {formatDate(props.checkOut)}</span>
+                    </div>
+                }
 
                 <div className="flex flex-col items-end gap-2 text-alt">
                     <span className="text-3xl font-medium">€{getRate()}</span> 
