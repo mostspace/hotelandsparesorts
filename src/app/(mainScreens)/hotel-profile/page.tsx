@@ -6,7 +6,7 @@ import { HotelImageGallery } from "@/components/hotelProfile/HotelImageGallery";
 import { HotelInfoBox } from "@/components/hotelProfile/HotelInfoBox";
 import { HotelReview } from "@/components/hotelProfile/HotelReview";
 import { RoomTile } from "@/components/hotelProfile/RoomTile";
-import { SimiilarHotelTile } from "@/components/hotelProfile/SimilarHotelTile";
+import { SimilarHotelTile } from "@/components/hotelProfile/SimilarHotelTile";
 import { MapComponent } from "@/components/maps/googleMaps";
 import { SearchBar } from "@/components/search/SearchBar";
 import { Button } from "@/components/ui/button";
@@ -365,9 +365,9 @@ export default function HotelProfileScreen() {
          <div className="w-full p-[120px] flex flex-col gap-[80px] bg-[#D6C6B9]">
             <span className="text-5xl" style={{fontFamily:'Harlow'}}>SIMILAR HOTELS IN DUBLIN</span>
             <div className="w-full flex flex-row gap-[50px]">
-              {similarHotels.length > 0 && <SimiilarHotelTile hotel={similarHotels[0]} checkIn={checkInDateP+""} checkOut={checkOutDateP+""} adults={+adults} children={+children}/>}
-              {similarHotels.length > 1 && <SimiilarHotelTile hotel={similarHotels[1]} checkIn={checkInDateP+""} checkOut={checkOutDateP+""} adults={+adults} children={+children}/>}
-              {similarHotels.length > 2 && <SimiilarHotelTile hotel={similarHotels[2]} checkIn={checkInDateP+""} checkOut={checkOutDateP+""} adults={+adults} children={+children}/>}
+              {similarHotels.length > 0 && <SimilarHotelTile hotel={similarHotels[0]} checkIn={checkInDateP+""} checkOut={checkOutDateP+""} adults={+adults} children={+children} source="similarHotel"/>}
+              {similarHotels.length > 1 && <SimilarHotelTile hotel={similarHotels[1]} checkIn={checkInDateP+""} checkOut={checkOutDateP+""} adults={+adults} children={+children} source="similarHotel"/>}
+              {similarHotels.length > 2 && <SimilarHotelTile hotel={similarHotels[2]} checkIn={checkInDateP+""} checkOut={checkOutDateP+""} adults={+adults} children={+children} source="similarHotel"/>}
 
             </div>
          </div>

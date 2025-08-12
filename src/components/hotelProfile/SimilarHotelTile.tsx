@@ -3,7 +3,7 @@ import { HotelTileProps } from "../search/HotelTile";
 
 
 
-export const SimiilarHotelTile = (props:HotelTileProps) => {
+export const SimilarHotelTile = (props:HotelTileProps) => {
 
     const router = useRouter();
 
