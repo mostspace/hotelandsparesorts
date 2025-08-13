@@ -19,26 +19,35 @@ export const VoucherApply = (props:VoucherApplyProps) => {
         {code:"fghi",amount:2000},
     ]
 
-    const applyVoucher = () => {
+    const applyVoucher = async () => {
 
         var amount = 0
         var found = false
 
         setVoucherError("")
 
-        validVoucherCodes.forEach(option => {
-            if(option.code === voucherCode){
-                found = true
-                amount = option.amount
-                setVoucherApplied(option)
-            }
-        });
+        // validVoucherCodes.forEach(option => {
+        //     if(option.code === voucherCode){
+        //         found = true
+        //         amount = option.amount
+        //         setVoucherApplied(option)
+        //     }
+        // });
+
+        const res = await fetch(`/api/vouchers/validate?voucherID=${voucherCode}`);
+        if (!res.ok) throw new Error(`Error: ${res.status}`);
+        const data = await res.json();
+
+        found = data.found
+
 
         if(!found){setVoucherError("Invalid Voucher Code")}
         else{
+            amount = +data.voucher.value
             let remainderPayable = calculateNewPrice(amount)
             props.setAmount(remainderPayable)
             props.setVoucherCode(voucherCode)
+            setVoucherApplied(data.voucher)
         }
     }
 
@@ -82,12 +91,12 @@ export const VoucherApply = (props:VoucherApplyProps) => {
 
                 <div className="w-full flex flex-row justify-between items-center">
                     <span className="font-normal">Gift card total:</span>
-                    <span>£{voucherApplied?voucherApplied.amount:0}</span>
+                    <span>£{voucherApplied?+voucherApplied.value:0}</span>
                 </div>
 
                 <div className="w-full flex flex-row justify-between items-center">
                     <span className="font-normal">Remainder Payable</span>
-                    <span>£{calculateNewPrice(voucherApplied?voucherApplied.amount:0)}</span>
+                    <span>£{calculateNewPrice(voucherApplied?+voucherApplied.value:0)}</span>
                 </div>
             </div>
 

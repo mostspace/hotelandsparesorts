@@ -1,8 +1,10 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
+import { auth } from '@/app/firebase';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
 
 export default function UserLayout({
   children,
@@ -13,6 +15,20 @@ export default function UserLayout({
     const options = ['my-details','my-bookings','vouchers','delete-account']
     const pathname = usePathname();
     const router = useRouter();
+
+    useEffect(() => {
+        if(auth){
+            const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                router.push(`/login`)
+            }
+       
+            })
+            return () => unsubscribe();
+        }
+    }, [auth]);// eslint-disable-line react-hooks/exhaustive-deps
+    
+
 
     const titleCase = (kebab:string) => {
         return kebab
@@ -93,6 +109,19 @@ export default function UserLayout({
         router.push(`/user/${path}`)
     }
 
+    const logoutClicked = () => {
+
+        if(auth){
+            signOut(auth).then(() => {
+                // Sign-out successful.
+                router.push(`/login`)
+            }).catch((error) => {
+                // An error happened.
+                console.log("ERROR: ", error.message);
+            });
+        }
+    }
+
 
 
 
@@ -104,7 +133,7 @@ export default function UserLayout({
         <div className='flex flex-col w-full gap-7.5 items-start'>
             {showSideBarOptions()}
         </div>
-        <Button className='mr-4'>Logout</Button>
+        <Button className='mr-4' onClick={logoutClicked}>Logout</Button>
       </div>
       
       <main className="flex-1 p-6 bg-muted px-[100px] py-[68px]">

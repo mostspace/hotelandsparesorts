@@ -1,5 +1,6 @@
 "use client";
 
+import { auth } from "@/app/firebase";
 import StripeTestPage from "@/app/test/stripe/page";
 import { BookingConfirmed } from "@/components/booking/bookingConfirmed";
 import { BookingDetails } from "@/components/booking/bookingDetails";
@@ -76,6 +77,12 @@ export default function BookingScreen() {
   }
 
   const completeBookingDB = async () => {
+
+    let uid = ""
+    if(auth?.currentUser){
+      uid = auth.currentUser.uid
+    }
+
     const order = +(searchParams.get('order') ||0);
 
     const res = await fetch("/api/bookings/complete", {
@@ -86,7 +93,8 @@ export default function BookingScreen() {
       body: JSON.stringify({ 
             bookingID:order,
             amountPaid:amountToCharge,
-            voucherUsed:voucherCode
+            voucherUsed:voucherCode,
+            uid:uid
           }),
       });
 

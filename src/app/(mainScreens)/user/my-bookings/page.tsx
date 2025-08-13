@@ -1,5 +1,6 @@
 "use client";
 
+import { auth } from "@/app/firebase";
 import { HotelTile } from "@/components/search/HotelTile";
 import { useEffect, useState } from "react";
 
@@ -22,7 +23,7 @@ export default function MyBookings() {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({ 
-              uid: 'test-uid-123'
+              uid: auth?.currentUser?auth.currentUser.uid:'test-uid-123'
             }),
         });
   

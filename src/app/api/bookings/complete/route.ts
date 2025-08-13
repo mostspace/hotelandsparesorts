@@ -6,7 +6,7 @@ export function POST(req:Request) {
     return new Promise<any>(async (resolve, reject) => {
 
 
-    const { bookingID,amountPaid,voucherUsed  } = await req.json();
+    const { bookingID,amountPaid,voucherUsed,uid  } = await req.json();
 
     
       const updateData: any = {
@@ -16,6 +16,10 @@ export function POST(req:Request) {
   
       if (voucherUsed && voucherUsed.trim() !== "") {
         updateData.voucher_used = voucherUsed;
+      }
+
+      if(uid !== ""){
+        updateData.uid = uid;
       }
   
       const updatedBooking = await prisma.bookings.update({
