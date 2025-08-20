@@ -3,9 +3,9 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(
     request: NextRequest,
-    { params }: { params: { id: string } } // 👈 works if you don't destructure in the signature
+    context: any   // 👈 loosen type here
   ) {
-    const uid = params.id;
+    const uid = context.params.id;
 
     return new Promise<any>(async (resolve, reject) => {
 
