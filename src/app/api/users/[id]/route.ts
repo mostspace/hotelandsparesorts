@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma';
 
-export function GET(request: NextRequest,
-    { params }: { params: { id: string } }) {
-
-    let uid = params.id
+export async function GET(
+    request: NextRequest,
+    context: { params: { id: string } }
+  ) {
+    const uid = context.params.id;
 
     return new Promise<any>(async (resolve, reject) => {
 
