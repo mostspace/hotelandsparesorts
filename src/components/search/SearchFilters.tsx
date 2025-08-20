@@ -18,7 +18,7 @@ export const SearchFilters = (props:SearchFiltersProps) => {
         let filter = props.filters.find(obj => obj.id === id)
 
         if(filter!==undefined && filter!==null){
-            return filter.selected
+            return filter.id=="N"?filter.value:filter.selected
         }else{
             return defaultValue
         }
@@ -64,7 +64,7 @@ export const SearchFilters = (props:SearchFiltersProps) => {
 
 
 
-    const [searchName, setSearchName] = useState<string>("");
+    const [searchName, setSearchName] = useState<string>(getExistingFilterValue('N',""));
     const [selectedFilters, setSelectedFilters] = useState<any[]>(filters);
     const [updateVar, setUpdateVar] = useState(0);
 

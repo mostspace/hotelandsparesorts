@@ -137,11 +137,21 @@ export default function SearchScreen() {
 
     let filterArray:any[] = []
     filters.forEach(filter => {
-      if(filter.selected.length>0){
-        filterArray.push({
-          id:filter.id,
-          selected:filter.selected
-        })
+      if(filter.value || filter.selected.length>0){
+
+        if(filter.id === "N"){
+          filterArray.push({
+            id:filter.id,
+            value:filter.value
+          })
+        }else{
+          filterArray.push({
+            id:filter.id,
+            selected:filter.selected
+          })
+        }
+
+       
       }
     });
 
