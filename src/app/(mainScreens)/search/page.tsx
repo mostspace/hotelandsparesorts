@@ -134,7 +134,18 @@ export default function SearchScreen() {
 
   const applyFilters = (filters:any[]) => {
 
-    router.push(`/search?searchID=${searchID}&location=${locationName}&lat=${latNum}&lng=${lngNum}&check-in=${checkIn}&check-out=${checkOut}&adults=${adults}&children=${children}&filters=${JSON.stringify(filters)}`)
+
+    let filterArray:any[] = []
+    filters.forEach(filter => {
+      if(filter.selected.length>0){
+        filterArray.push({
+          id:filter.id,
+          selected:filter.selected
+        })
+      }
+    });
+
+    router.push(`/search?searchID=${searchID}&location=${locationName}&lat=${latNum}&lng=${lngNum}&check-in=${checkIn}&check-out=${checkOut}&adults=${adults}&children=${children}&filters=${JSON.stringify(filterArray)}`)
     
 
     // loadHotels(lat||0,lng||0,radius,filters)
