@@ -21,7 +21,6 @@ export default function BookingScreen() {
   const [personalDetails, setPersonalDetails] = useState<any>(null);
   const [voucherCode, setVoucherCode] = useState("");
 
-
   const searchParams = useSearchParams();
   
 

@@ -13,6 +13,7 @@ export interface HotelTileProps{
     children:number
     source:string
     booking?:any
+    locationName:string
 }
 
 export const HotelTile = (props:HotelTileProps) => {
@@ -64,7 +65,7 @@ export const HotelTile = (props:HotelTileProps) => {
     }
 
     const openHotel = (hid:number) => {
-        router.push(`/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&adults=${props.adults}&children=${props.children}`)
+        router.push(`/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&adults=${props.adults}&children=${props.children}&location=${props.locationName}`)
     }
 
     const formatDate = (dateStr:string) => {

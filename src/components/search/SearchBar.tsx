@@ -18,7 +18,8 @@ export const SearchBar = (props:SearchBarProps) => {
     const rootRef = useRef<HTMLDivElement>(null)
 
     const router = useRouter();
-    const [coords, setCoords] = useState<any>(null);
+    const [coords, setCoords] = useState<any>(props.existingData.coords || null);
+    const [locationName, setLocationName] = useState<any>(props.existingData.locationName||"");
     
     const [checkInDate, setCheckInDate] = useState<Date | undefined>(props.existingData.checkInDate||undefined)
     const [checkOutDate, setCheckOutDate] = useState<Date | undefined>(props.existingData.checkOutDate||undefined)
@@ -27,8 +28,8 @@ export const SearchBar = (props:SearchBarProps) => {
     const [showCheckOutPicker, setShowCheckOutPicker] = useState(false);
     const [showGuestPicker, setShowGuestPicker] = useState(false);
 
-    const [adults, setAdults] = useState(1);
-    const [children, setChildren] = useState(0);
+    const [adults, setAdults] = useState(props.existingData.adults || 1);
+    const [children, setChildren] = useState(props.existingData.children || 0);
 
 
     const today = new Date()
@@ -76,6 +77,8 @@ export const SearchBar = (props:SearchBarProps) => {
         console.log('Selected place:', place);
         const location = place.geometry?.location;
         if (location) {
+            
+          setLocationName(place.name)
           let coords = {lat:location.lat(),lng:location.lng()}
           setCoords(coords)
         }
@@ -85,12 +88,15 @@ export const SearchBar = (props:SearchBarProps) => {
 
     const searchClicked = () => {
 
+        let searchID = Math.random().toString(16).slice(-8)
+
         if(props.existingData.hid){
             let hid = props.existingData.hid
             router.push(`/hotel-profile?hid=${hid}&checkIn=${format(checkInDate||new Date(), 'yyyy-MM-dd')}&checkOut=${format(checkOutDate||new Date(), 'yyyy-MM-dd')}`)
         }else{
-            router.push(`/search?lat=${coords.lat}&lng=${coords.lng}&check-in=${format(checkInDate||new Date(), 'yyyy-MM-dd')}&check-out=${format(checkOutDate||new Date(), 'yyyy-MM-dd')}&adults=${adults}&children=${children}`)
+            router.push(`/search?searchID=${searchID}&location=${locationName}&lat=${coords.lat}&lng=${coords.lng}&check-in=${format(checkInDate||new Date(), 'yyyy-MM-dd')}&check-out=${format(checkOutDate||new Date(), 'yyyy-MM-dd')}&adults=${adults}&children=${children}`)
         }
+
 
     } 
 
@@ -113,7 +119,7 @@ export const SearchBar = (props:SearchBarProps) => {
 
 
     return(
-    <div ref={rootRef} className="w-full flex flex-row gap-4 text-primary justify-center ">
+    <div ref={rootRef} className="w-full flex flex-row gap-4 text-primary justify-center z-10">
 
         {props.showLocation && <div className={`flex flex-row gap-3 bg-light px-[20px] py-[10px] w-[30%] items-center ${props.showBorders?"border border-primary":""}`} onClick={()=>openPicker("")}>
             
@@ -122,7 +128,7 @@ export const SearchBar = (props:SearchBarProps) => {
             </svg>
 
             <MapProvider>
-                <PlacesAutocomplete onPlaceSelected={handlePlaceSelect}/>
+                <PlacesAutocomplete onPlaceSelected={handlePlaceSelect} locationName={locationName}/>
             </MapProvider>
 
         </div>}

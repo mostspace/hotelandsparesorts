@@ -14,9 +14,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Hotels {
-  hid                   Int     @id
+  hid                   Int      @id
   id                    String?
   hotel_name            String?
   address               String?
@@ -32,24 +31,23 @@ model Hotels {
   star_rating           Int?
   front_desk_time_start String?
   front_desk_time_end   String?
-  amenities             String? @db.Text
+  amenities             String?  @db.Text
   tripadvisor_id        Int?
 
-  hotelDescriptions     HotelDescriptions[]
-  images                Images[]
+  hotelDescriptions HotelDescriptions[]
+  images            Images[]
 
   Bookings Bookings[]
 }
 
-
 model HotelDescriptions {
-  hid      Int
-  title    String
-  position Int
+  hid       Int
+  title     String
+  position  Int
   paragraph String? @db.Text
-  kind     String?
+  kind      String?
 
-  hotel      Hotels   @relation(fields: [hid], references: [hid])
+  hotel Hotels @relation(fields: [hid], references: [hid])
 
   @@id([hid, title, position])
 }
@@ -61,43 +59,41 @@ model Images {
   title      String?
   room_id    Int?
 
-  hotel      Hotels? @relation(fields: [hid], references: [hid])
+  hotel Hotels? @relation(fields: [hid], references: [hid])
 }
 
 model Users {
-  uid      String  @id
-  email    String?
-  full_name String?
+  uid        String  @id
+  email      String?
+  first_name String?
+  last_name  String?
+  phone      Int?
+  currency   String?
 
   bookings Bookings[] // relation back to bookings
-
 }
 
-
 model Bookings {
-  order_id      Int      @id  // internal primary key
-  partner_id    String   // your internal PID for linking front-end flow
-  hid           Int      // hotel id from Hotels
+  order_id      Int      @id // internal primary key
+  partner_id    String // your internal PID for linking front-end flow
+  hid           Int // hotel id from Hotels
   check_in      DateTime
   check_out     DateTime
   adults        Int
   children      Int
-  amount        Decimal  @db.Decimal(10,2)
+  amount        Decimal  @db.Decimal(10, 2)
   currency_code String
-  status        String   // e.g. 'pending', 'paid', 'confirmed', 'cancelled'
+  status        String // e.g. 'pending', 'paid', 'confirmed', 'cancelled'
   room_name     String
   amenities     String?  @db.Text
   voucher_used  String?
   amount_paid   Int?
-  uid           String?    // optional user ID
+  uid           String? // optional user ID
   // rate_data     Json
 
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   hotel Hotels @relation(fields: [hid], references: [hid])
   user  Users? @relation(fields: [uid], references: [uid])
 }
-
-
-

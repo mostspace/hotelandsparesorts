@@ -23,9 +23,11 @@ export default function HomeScreen() {
   
 
   return (
-    <div className="flex flex-col justify-center items-start gap-15 p-[140px] bg-[url('/assets/manorHouse.jpg')] bg-cover h-200" >
+    <div className="relative flex flex-col justify-center items-start gap-15 p-[140px] bg-[url('/assets/manorHouse.jpg')] bg-cover h-200" >
       
-      <div className="flex flex-col items-start text-light font-normal">
+      <div className="absolute top-0 left-0 w-full h-full bg-alt/30"/>
+
+      <div className="flex flex-col items-start text-light font-normal z-10">
           <span className="text-[80px]">BOOK A HOTEL STAY</span>
           <span className="text-3xl">Explore and book our curated luxury hotels and redeem your voucher</span>
       </div>

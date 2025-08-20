@@ -24,6 +24,7 @@ export default function HotelProfileScreen() {
   const searchParams = useSearchParams();
 
   const hidStr = searchParams.get('hid');
+  const locationName = searchParams.get('location') || "";
 
   const checkInDateP = searchParams.get('check-in');
   const checkOutDateP = searchParams.get('check-out');
@@ -193,6 +194,11 @@ export default function HotelProfileScreen() {
     window.open("https://tripadvisor.com/"+tripAdvisorID, "_blank", "noopener,noreferrer");
   }
 
+  // const openSearch = () => {
+  //   let searchID = Math.random().toString(16).slice(-8)
+  //   router.push(`/search?searchID=${searchID}&location=${locationName}&lat=${latNum}&lng=${lngNum}&check-in=${checkIn}&check-out=${checkOut}&adults=${adults}&children=${children}&filters=${JSON.stringify(filters)}`)
+  // }
+
 
     
   return (
@@ -217,8 +223,8 @@ export default function HotelProfileScreen() {
             <div className="flex flex-row items-center gap-2">
                 <span>Home</span>
                 <span>{">"}</span>
-                <span>Hotels in London</span>
-                <span>{">"}</span>
+                {locationName!=="" && <span>Hotels in {locationName}</span>}
+                {locationName!=="" && <span>{">"}</span>}
                 <span>{hotel.hotel_name}</span>
             </div>
 

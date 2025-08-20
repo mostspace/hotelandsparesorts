@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 
 interface AutocompleteProps{
   onPlaceSelected: (place: google.maps.places.PlaceResult) => void,
+  locationName:string
 }
 
 
@@ -33,7 +34,7 @@ const PlacesAutocomplete = (props:AutocompleteProps) => {
     <input
       ref={inputRef}
       type="text"
-      placeholder="Location, country"
+      placeholder= {props.locationName!==""?props.locationName:"Location, country"}
       className="w-full font-normal text-primary text-base  placeholder:font-normal placeholder:text-primary placeholder:text-base border-none focus:outline-none"
     />
   );

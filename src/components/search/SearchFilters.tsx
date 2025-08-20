@@ -6,53 +6,69 @@ import { SliderFilter } from "./filters/SliderFilter"
 
 interface SearchFiltersProps{
     applyFilters:any
+    filters:any[]
 }
 
 export const SearchFilters = (props:SearchFiltersProps) => {
+
+    console.log("EXISINTG FILTERS", props.filters)
+
+    const getExistingFilterValue = (id:string, defaultValue:any) => {
+
+        let filter = props.filters.find(obj => obj.id === id)
+
+        if(filter!==undefined && filter!==null){
+            return filter.selected
+        }else{
+            return defaultValue
+        }
+    }
 
     const filters = [
         {
             id:'A',
             title:"Price per night",
             type:"slider",
-            selected:[25,2500]
+            selected:getExistingFilterValue('A',[25,2500])
         },
         {
             id:'B',
             title:"Venue Type",
             type:'checkList',
             options:['Hotel','Hotel Spa','Boutique','Resort'],
-            selected:[]
+            selected:getExistingFilterValue('B',[])
         },
         {
             id:'C',
             title:"Star",
             type:'checkList',
             options:['5 Stars','4 Stars'],
-            selected:[]
+            selected:getExistingFilterValue('C',[])
         },
         {
             id:'D',
             title:"Facilities",
             type:'checkList',
             options:['Car Parking','Disabled Access','Wifi','Family Friendly','Pool','Gym','Breakfast included'],
-            selected:[]
+            selected:getExistingFilterValue('D',[])
         },
         {
             id:'E',
             title:"Payment Type",
             type:'checkList',
             options:['Fully Refundable','Reserve Now, Pay Later'],
-            selected:[]
+            selected:getExistingFilterValue('E',[])
         }
     ]
+
+
 
 
     const [searchName, setSearchName] = useState<string>("");
     const [selectedFilters, setSelectedFilters] = useState<any[]>(filters);
     const [updateVar, setUpdateVar] = useState(0);
 
-
+    
 
     const showFilters = () => {
 

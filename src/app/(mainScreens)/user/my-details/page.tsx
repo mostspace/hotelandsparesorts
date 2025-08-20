@@ -1,7 +1,9 @@
 "use client";
 
+import { auth } from "@/app/firebase";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { EmailAuthProvider, onAuthStateChanged, reauthenticateWithCredential, updatePassword } from "firebase/auth";
+import { useEffect, useState } from "react";
 
 export default function MyDetails() {
 
@@ -9,13 +11,105 @@ export default function MyDetails() {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
+    const [currency, setCurrency] = useState("");
 
 
-    const [currenPassword, setCurrentPassword] = useState("");
+    const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    
+    const [detailsStatus, setDetailsStatus] = useState("");
+    const [currencyStatus, setCurrencyStatus] = useState("");
+    const [passwordStatus, setPasswordStatus] = useState("");
 
+
+    useEffect(() => {
+        if(auth){
+            const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                loadDetails()
+            }
+    
+            })
+            return () => unsubscribe();
+        }
+    }, [auth]);// eslint-disable-line react-hooks/exhaustive-deps
+    
+
+
+    const loadDetails = async () => {
+
+        let currentUser = auth?.currentUser
+
+        const res = await fetch(`/api/users/${currentUser?.uid}`);
+        if (!res.ok) throw new Error(`Error: ${res.status}`);
+        const data = await res.json();
+
+        console.log("USER Details", data)
+
+        setEmail(data.email)
+        setFirstName(data.first_name || "")
+        setLastName(data.last_name || "")
+        setPhoneNumber(data.phone || "")
+        setCurrency(data.currency || "")
+
+    }
+
+    const updateDetails = () => {
+
+    }
+
+    const updateCurrency = () => {
+
+    }
+
+    const handleUpdatePassword = () => {
+
+        if(newPassword === ""){
+            setPasswordStatus("Please fill in a valid password");
+            return;
+        }
+        else if(newPassword.length<6){
+            setPasswordStatus("Password must be at least 6 characters long");
+            return;
+        }
+        else if(confirmPassword !== newPassword){
+            setPasswordStatus("Passwords don't match");
+            return;
+        }
+        
+
+        let currentUser = auth?.currentUser
+        
+        const credentials = EmailAuthProvider.credential(
+            currentUser?.email || "",
+            currentPassword
+        )
+
+        setPasswordStatus("Updating...")
+
+        if(currentUser)
+        {
+            reauthenticateWithCredential(currentUser,credentials)
+            .then(() => {
+
+                updatePassword(currentUser,newPassword)
+                .then(() => {
+                    setCurrentPassword("")
+                    setNewPassword("")
+                    setConfirmPassword("")
+                    setPasswordStatus("Password Updated Successfully")
+                }).catch((error) => {
+                    setPasswordStatus(error.message)
+                })
+            }).catch((error) => {
+                setPasswordStatus(error.message)
+            })
+
+        }
+        
+    }
 
     return(<div className="flex flex-col gap-[50px] items-start">
 
@@ -62,7 +156,7 @@ export default function MyDetails() {
             </div>
 
             <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
-                <span className="font-medium">Confirm Password*</span>
+                <span className="font-medium">Phone Number</span>
                 <input 
                     className="w-full h-[54px] bg-white border border-primary/50 focus:outline-none p-[10px] text-xl" 
                     type="text"
@@ -72,6 +166,9 @@ export default function MyDetails() {
             </div>
 
         </div>
+
+        <Button>UPDATE</Button>
+
 
         <div className="w-full h-px bg-primary/30"/>
         
@@ -84,11 +181,12 @@ export default function MyDetails() {
                 <input 
                     className="w-full h-[54px] bg-white border border-primary/50 focus:outline-none p-[10px] text-xl" 
                     type="text"
-                    value={firstName} 
-                    onChange={(e) => setFirstName(e.target.value)}
+                    value={currency} 
+                    onChange={(e) => setCurrency(e.target.value)}
                 />
             </div>
 
+            <Button>UPDATE</Button>
         </div>
 
     
@@ -105,7 +203,7 @@ export default function MyDetails() {
                     <input 
                         className="w-full h-[54px] bg-white border border-primary/50 focus:outline-none p-[10px] text-xl" 
                         type="password"
-                        value={currenPassword} 
+                        value={currentPassword} 
                         onChange={(e) => setCurrentPassword(e.target.value)}
                     />
                 </div>
@@ -133,7 +231,8 @@ export default function MyDetails() {
 
             </div>
 
-                <Button>UPDATE PASSWORD</Button>
+                <Button onClick={handleUpdatePassword}>UPDATE PASSWORD</Button>
+                <span>{passwordStatus}</span>
         </div>
 
 

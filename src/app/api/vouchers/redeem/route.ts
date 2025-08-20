@@ -15,9 +15,6 @@ export function GET(req:Request) {
     const url = 'https://www.hotelandsparesorts.com/api/vouchers';
 
 
-
-
-
     try {
         const response = await fetch(url, {
         method: 'GET',

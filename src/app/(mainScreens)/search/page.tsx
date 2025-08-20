@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 
 export default function SearchScreen() {
 
+  const router = useRouter();
   // eslint-disable-next-line @next/next/no-async-client-component
   const searchParams = useSearchParams();
 
@@ -28,24 +29,34 @@ export default function SearchScreen() {
   const latNum = latP ? parseFloat(latP) : null;
   const lngNum = lngP ? parseFloat(lngP) : null;
 
+  const searchID = searchParams.get('searchID')
+  const filtersStr = searchParams.get('filters') || "[]"
+
+
   console.log("COORDS",latNum,lngNum)
 
     const [loading, setLoading] = useState(false);
     const [hotels, setHotels] = useState<any[]>([]);
+    const [filteredHotels, setFilteredHotels] = useState<any[]>([]);
+
     const [mapOpen, setMapOpen] = useState(false);
     const [updateVar, setUpdateVar] = useState(0);
 
     const [lat, setLat] = useState(latNum);
     const [lng, setLng] = useState(lngNum);
     const [radius, setRadius] = useState(3000);
-    const [filters, setFilters] = useState<any[]>([]);
+    const [filters, setFilters] = useState<any[]>(JSON.parse(filtersStr));
+
+    const [locationName, setLocationName] = useState(searchParams.get('location') || "");
+
+    console.log("SEARCH PARAMS HERE", locationName,latNum,lngNum,adults,children)
 
 
   useEffect( () => {
 
-    loadHotels(latNum||0,lngNum||0,3000,[])
+    loadHotels(latNum||0,lngNum||0,3000,JSON.parse(filtersStr))
 
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [searchID]); // eslint-disable-line react-hooks/exhaustive-deps
   
   
   const loadHotels = async (latNum:number,lngNum:number,radiusM:number,filters:any[]) => {
@@ -75,6 +86,8 @@ export default function SearchScreen() {
     console.log("Hotels:", data);
 
     setHotels(data)
+    setFilteredHotels(data)
+
     setLoading(false)
     setUpdateVar(updateVar+1)
   }
@@ -83,11 +96,17 @@ export default function SearchScreen() {
 
     let compArray:any[] = []
 
-    compArray.push(<span className="text-5xl" style={{fontFamily:'Harlow'}}>{`Showing ${hotels.length} results`}</span>)
+    compArray.push(
+    <div className="flex flex-col items-start">
+      <span className="text-5xl" style={{fontFamily:'Harlow'}}>{`Showing ${filteredHotels.length} Hotels`}</span>
+      <span className="text-xl text-primary/70">{`out of ${hotels.length} results`}</span>
 
-    hotels.forEach(hotel => {
+    </div>
+  )
 
-      compArray.push(<HotelTile hotel={hotel} checkIn={checkIn+""} checkOut={checkOut+""} adults={+adults} children={+children} source={"Search"}/>)
+    filteredHotels.forEach(hotel => {
+
+      compArray.push(<HotelTile hotel={hotel} checkIn={checkIn+""} checkOut={checkOut+""} adults={+adults} children={+children} source={"Search"} locationName={locationName}/>)
     });
 
     return compArray
@@ -104,6 +123,8 @@ export default function SearchScreen() {
 
     let radius = Math.floor(radiusKm*1000)
 
+    
+    setLocationName("Map Area")
     setLat(lat)
     setLng(lng)
     setRadius(radius)
@@ -112,9 +133,74 @@ export default function SearchScreen() {
   }
 
   const applyFilters = (filters:any[]) => {
-    loadHotels(lat||0,lng||0,radius,filters)
+
+    router.push(`/search?searchID=${searchID}&location=${locationName}&lat=${latNum}&lng=${lngNum}&check-in=${checkIn}&check-out=${checkOut}&adults=${adults}&children=${children}&filters=${JSON.stringify(filters)}`)
+    
+
+    // loadHotels(lat||0,lng||0,radius,filters)
+
+    filterLocally(filters)
     setFilters(filters)
   }
+
+
+  const filterLocally = (filters:any) => {
+    
+    let filteredList:any[] = []
+
+    filters.forEach((filter:any) => {
+      
+      if(filter.id === "A" && filter.selected.length>0){
+          
+        let hotelArray:any[] = []
+        hotels.forEach((hotel:any) => {
+          let rates = hotel.rates
+          let dailyPrice = rates.length>0?+rates[0].daily_prices[0]:-1
+          if(dailyPrice>filter.selected[0] && dailyPrice<filter.selected[1]){
+
+            console.log("CAUGHT",dailyPrice,filter.selected[0],filter.selected[1])
+            hotelArray.push(hotel)
+          }
+        });
+        filteredList = hotelArray
+      }
+
+      if (filter.id === "B" && filter.selected.length > 0) {
+        filteredList = filteredList.filter(item =>
+          filter.selected.includes(item.kind)
+        );
+      }
+      
+      if (filter.id === "C" && filter.selected.length > 0) {
+        const stars = filter.selected.map((s: string) =>
+          +s.replace(" Stars", "")
+        );
+      
+        filteredList = filteredList.filter(item =>
+          stars.includes(item.star_rating)
+        );
+      }
+      
+      if (filter.id === "D" && filter.selected.length > 0) {
+        
+      }
+      
+      if (filter.id === "E" && filter.selected.length > 0) {
+       
+      }
+      
+      if (filter.id === "N" && filter.value) {
+        filteredList = filteredList.filter(item =>
+          item.hotel_name.toLowerCase().includes(filter.value.toLowerCase())
+        );
+      }
+
+    });
+
+    setFilteredHotels(filteredList)
+
+  }
+
     
   return (
     <div className="w-full flex flex-col gap-[60px] py-10 text-primary" >
@@ -122,7 +208,7 @@ export default function SearchScreen() {
       <div className="flex flex-col items-start px-[120px] gap-10">
         <span className="text-lg">{'Home > Hotel Stays'}</span>
         <span className="text-6xl">BOOK A HOTEL STAY</span>
-        <SearchBar showLocation={true} showBorders={true} existingData={{checkInDate:checkIn,checkOutDate:checkOut}}/>
+        <SearchBar showLocation={true} showBorders={true} existingData={{locationName:locationName, coords:{lat:latNum, lng:lngNum},checkInDate:checkIn,checkOutDate:checkOut,adults:adults,children:children}}/>
       </div>
       
 
@@ -145,7 +231,7 @@ export default function SearchScreen() {
       <div className="w-full flex flex-row gap-[70px] justify-start px-[120px]">
           
           {/* FILTERS */}
-          <SearchFilters applyFilters={applyFilters}/>
+          <SearchFilters applyFilters={applyFilters} filters={filters}/>
 
 
           {/* RESULTS SECTION */}

@@ -41,26 +41,26 @@ export const SliderFilter = (props:CheckedListFilterProps) => {
             onChange={(vals) => setValues(vals)}
             onFinalChange={(vals) => props.valueChanged(props.filterID, vals)}
             renderTrack={({ props, children }) => {
-            const [minVal, maxVal] = values;
-            const percentageLeft = ((minVal - MIN) / (MAX - MIN)) * 100;
-            const percentageWidth = ((maxVal - minVal) / (MAX - MIN)) * 100;
+                const [minVal, maxVal] = values;
+                const percentageLeft = ((minVal - MIN) / (MAX - MIN)) * 100;
+                const percentageWidth = Math.min(100 - percentageLeft, ((maxVal - minVal) / (MAX - MIN)) * 100);
 
-            return (
-                <div
-                {...props}
-                className="relative h-2 w-full rounded-full bg-light"
-                >
-                {/* Colored range between thumbs */}
-                <div
-                    className="absolute h-full bg-accent rounded-full"
-                    style={{
-                    left: `${percentageLeft}%`,
-                    width: `${percentageWidth}%`,
-                    }}
-                />
-                {children}
-                </div>
-            );
+                return (
+                    <div
+                    {...props}
+                    className="relative h-2 w-full rounded-full bg-light"
+                    >
+                    {/* Colored range between thumbs */}
+                    <div
+                        className="absolute h-full bg-accent rounded-full"
+                        style={{
+                        left: `${percentageLeft}%`,
+                        width: `${percentageWidth}%`,
+                        }}
+                    />
+                    {children}
+                    </div>
+                );
             }}
             renderThumb={({ props }) => (
             <div

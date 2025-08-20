@@ -8,10 +8,11 @@ export function POST(req:Request) {
 
     const { bookingID,amountPaid,voucherUsed,uid  } = await req.json();
 
+    try {
     
       const updateData: any = {
         status: "complete",
-        amount_paid: amountPaid
+        amount_paid: +amountPaid
       };
   
       if (voucherUsed && voucherUsed.trim() !== "") {
@@ -26,11 +27,15 @@ export function POST(req:Request) {
         where: { order_id: bookingID },
         data: updateData
       });
-      
+    
     
       
 
       resolve(NextResponse.json(updatedBooking))
+
+    } catch (err) {
+        console.error('Complete Error:', err);
+      }
 
     })
 

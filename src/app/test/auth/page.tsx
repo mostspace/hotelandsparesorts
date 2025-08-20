@@ -124,7 +124,8 @@ export default function AuthTestPage() {
                 onChange={(e) => setEmail(e.target.value)}
               />
 
-              {!onPasswordReset && (
+
+              {!onPasswordReset && !onLogin && (
                 <Input
                   className="auth-input responsive-auth-input"
                   type="password"
@@ -133,6 +134,8 @@ export default function AuthTestPage() {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               )}
+              
+
               <Button onClick={onPasswordReset?resetPassword:onLogin?signIn:register}>{onPasswordReset?"Reset Password":onLogin?"Login":"Register"}</Button>
 
               <div className="flex flex-row justify-between items-center gap-8" >
