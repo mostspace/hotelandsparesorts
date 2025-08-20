@@ -46,6 +46,7 @@ export default function MyBookings() {
                 children={booking.children}
                 booking={booking}
                 source={"MyBookings"}
+                locationName={""} 
             />)
         });
 
