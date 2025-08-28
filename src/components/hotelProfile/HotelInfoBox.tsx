@@ -44,9 +44,9 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
     const showDescriptions = () => {
         var compArray = []
         let currentTitle = ""
-        let paragraphs = []
+        let paragraphs:any[] = []
 
-        let descriptions = props.hotel.hotelDescriptions
+        let descriptions:any[] = props.hotel.hotelDescriptions
         descriptions.forEach(descr => {
             
             let title = descr.title

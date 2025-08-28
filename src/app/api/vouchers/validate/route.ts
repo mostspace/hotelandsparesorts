@@ -38,7 +38,7 @@ export function GET(req:Request) {
 
 
         var found = false
-        var voucher 
+        var voucher:any
 
         result.forEach((element: any) => {
             
@@ -49,19 +49,26 @@ export function GET(req:Request) {
         });
 
       
+        if(found)
+        {
 
-        if(+voucher.balance === 0){
-            resolve(NextResponse.json({found,error:"No remaining balance on voucher"}))
+
+            if(+voucher.balance === 0){
+                resolve(NextResponse.json({found,error:"No remaining balance on voucher"}))
+            }
+            else if(new Date(voucher.expiry_date) < new Date()){
+
+                let split = voucher.expiry_date.split("-")
+                let expiry = split[2]+'-'+split[1]+'-'+split[0]
+
+                resolve(NextResponse.json({found,error:`The voucher expired on ${expiry}. Previously, it had been valid for 5 years.`}))
+
+            }else{
+                resolve(NextResponse.json({found,voucher}))
+            }
         }
-        else if(new Date(voucher.expiry_date) < new Date()){
-
-            let split = voucher.expiry_date.split("-")
-            let expiry = split[2]+'-'+split[1]+'-'+split[0]
-
-            resolve(NextResponse.json({found,error:`The voucher expired on ${expiry}. Previously, it had been valid for 5 years.`}))
-
-        }else{
-            resolve(NextResponse.json({found,voucher}))
+        else{
+                resolve(NextResponse.json({found,error:"No voucher found"}))
         }
 
 

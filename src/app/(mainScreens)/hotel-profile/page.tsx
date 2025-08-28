@@ -52,8 +52,8 @@ export default function HotelProfileScreen() {
   const [tab, setTab] = useState<any>("Key info");
 
 
-  const reviewsRef = useRef(null);
-  const infoBoxRef = useRef(null);
+  const reviewsRef = useRef<any>(null);
+  const infoBoxRef = useRef<any>(null);
 
 
     useEffect(() => {
@@ -429,55 +429,6 @@ export default function HotelProfileScreen() {
 
 
 
-
-
-
-      {/* {hotel && <div className="flex flex-col items-start gap-10">
-        
-        <div className="flex flex-row item-centre">
-          {showImages()}
-        </div>
-
-        <div className="flex flex-col justify-start">
-          <span className="text-2xl max-w-xs	">{hotel.hotel_name}</span>
-          <span className="text-sm">{hotel.address}</span>
-          <span className="text-sm">{hotel.email}</span>
-        </div>
-
-        <div className="flex flex-col justify-start gap-3">
-          <span className="text-xl">Description</span>
-          {showDescriptions(hotel.hotelDescriptions.filter((descr: { kind: string; }) => descr.kind === "description"))}
-        </div>
-
-
-        <div className="flex flex-col justify-start">
-        <span className="text-xl">Rates</span>
-          <div className="flex flex-row gap-8">
-          {!loading &&<div className="flex flex-col justify-start">
-             {showRates()}
-          </div>}
-          {loading && <span>Loading...</span>}
-
-            <Button onClick={changeDate}>Next Month</Button>
-          </div>
-        </div>
-
-
-
-         <div className="flex flex-col justify-start gap-3">
-          <span className="text-xl">Policies</span>
-          {showDescriptions(hotel.hotelDescriptions.filter((descr: { kind: string; }) => descr.kind === "policy"))}
-
-        </div>
-
-        <div className="flex flex-col justify-start gap-10">
-          <span className="text-xl">Reviews</span>
-          {showReviews()}
-
-        </div>
-
-        
-      </div>} */}
 
     </div>
     </>
