@@ -12,11 +12,13 @@ export async function GET(
 
     return new Promise<any>(async (resolve, reject) => {
 
-        const user = await prisma.users.findUnique({
+        const user:any = await prisma.users.findUnique({
             where: { uid: uid },
           });
           
-        user.isAdmin = approvedUsers.includes(uid)
+        if(user){
+          user.isAdmin = approvedUsers.includes(uid)
+        }  
 
         resolve(NextResponse.json(user))
 
