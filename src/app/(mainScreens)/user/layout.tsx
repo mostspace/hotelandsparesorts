@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { auth } from '@/app/firebase';
@@ -12,7 +12,9 @@ export default function UserLayout({
   children: React.ReactNode;
 }) {
 
-    const options = ['my-details','my-bookings','vouchers','delete-account']
+    const [options,setOptions] = useState<any[]>(['my-details','my-bookings','vouchers','delete-account']);
+    const [updateVar, setUpdateVar] = useState(0);
+
     const pathname = usePathname();
     const router = useRouter();
 
@@ -21,6 +23,8 @@ export default function UserLayout({
             const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (!user) {
                 router.push(`/login`)
+            }else{
+                checkIfAdmin()
             }
        
             })
@@ -28,6 +32,30 @@ export default function UserLayout({
         }
     }, [auth]);// eslint-disable-line react-hooks/exhaustive-deps
     
+
+    const checkIfAdmin = async () => {
+
+        let uid = auth?.currentUser?auth.currentUser.uid:'test-uid-123'
+        
+        const res = await fetch(`/api/users/${uid}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+     
+        });
+  
+        if (!res.ok) throw new Error(`Error: ${res.status}`);
+        const data = await res.json();
+        
+        if(data.isAdmin){
+            console.log("IS ADMIN")
+            options.push('all-bookings')
+            setOptions(options)
+            setUpdateVar(updateVar+1)
+        }
+    }
+
 
 
     const titleCase = (kebab:string) => {
@@ -75,6 +103,21 @@ export default function UserLayout({
                     <path d="M15.5 18.5V9.5C15.5 9.23478 15.3946 8.98043 15.2071 8.79289C15.0196 8.60536 14.7652 8.5 14.5 8.5C14.2348 8.5 13.9804 8.60536 13.7929 8.79289C13.6054 8.98043 13.5 9.23478 13.5 9.5V18.5C13.5 18.7652 13.6054 19.0196 13.7929 19.2071C13.9804 19.3946 14.2348 19.5 14.5 19.5C14.7652 19.5 15.0196 19.3946 15.2071 19.2071C15.3946 19.0196 15.5 18.7652 15.5 18.5Z" fill={isActive?"#A56658":"#333337"}/>
                     </svg>
                     )
+            case 'all-bookings':
+                return(<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_105_570)">
+                    <path d="M14.25 21.75H0.75V2.25H23.25V15" stroke={isActive?"#A56658":"#333337"} stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M0.75 6.75H23.25" stroke={isActive?"#A56658":"#333337"} stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M3 4.5H4.5" stroke={isActive?"#A56658":"#333337"} stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M6 4.5H7.5" stroke={isActive?"#A56658":"#333337"} stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M15.75 18.75L18 21L22.5 16.5" stroke={isActive?"#A56658":"#333337"} stroke-width="2" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_105_570">
+                    <rect width="24" height="24" fill="white"/>
+                    </clipPath>
+                    </defs>
+                    </svg>)
         }
     }
 

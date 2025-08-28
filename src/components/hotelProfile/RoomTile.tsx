@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react"
 import { Button } from "../ui/button"
 import { useRouter, useSearchParams } from "next/navigation";
+import { LoadingPopUp } from "@/components/LoadingPopUp";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/app/firebase";
 
 interface RoomTileProps{
     rateObj:any
@@ -14,6 +17,22 @@ export const RoomTile = (props:RoomTileProps) => {
 
     const [roomImages, setRoomImages] = useState<any[]>([]);
     const [index, setIndex] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [loggedIn, setLoggedIn] = useState<any>(false);
+
+    useEffect(() => {
+    if(auth){
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+            setLoggedIn(true)
+        }else{
+            setLoggedIn(false)
+        }
+        })
+        return () => unsubscribe();
+    }
+}, [auth]);// eslint-disable-line react-hooks/exhaustive-deps
+
 
     useEffect(() => {
         
@@ -43,6 +62,8 @@ export const RoomTile = (props:RoomTileProps) => {
 
 
     const prebookRoom = async () => {
+
+        setLoading(true)
         
         const res = await fetch("/api/ratehawk/booking/prebook", {
         method: "POST",
@@ -57,6 +78,7 @@ export const RoomTile = (props:RoomTileProps) => {
         if (!res.ok) throw new Error(`Error: ${res.status}`);
         const data = await res.json();
 
+        setLoading(false)
 
         let priceChanged = data.data.changes.price_changed
 
@@ -147,6 +169,10 @@ export const RoomTile = (props:RoomTileProps) => {
 
     return(
         <div className="w-[375px] flex flex-col items-center gap-3.5">
+
+            {loading && <LoadingPopUp />}
+
+
             <div className="w-full p-[20px] rounded-[20px] flex flex-col gap-[22px] border border-muted">
                 
                 <div className="w-full flex flex-col gap-4 h-[300px]">
@@ -209,10 +235,10 @@ export const RoomTile = (props:RoomTileProps) => {
 
             </div>
 
-            <div className="flex flex-row items-center gap-2.5">
+            {!loggedIn && <div className="flex flex-row items-center gap-2.5">
                 <div className="w-px h-[50px] bg-primary"/>
-                <Button className="bg-[#A38561] text-light font-medium">Sign in for member discounts</Button>
-            </div>
+                <Button className="bg-[#A38561] text-light font-medium" onClick={()=>router.push('/login')}>Sign in for member discounts</Button>
+            </div>}
         </div>
     )
 }

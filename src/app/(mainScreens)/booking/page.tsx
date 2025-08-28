@@ -75,7 +75,7 @@ export default function BookingScreen() {
       return(data)
   }
 
-  const completeBookingDB = async () => {
+  const completeBookingDB = async (stripeID:string) => {
 
     let uid = ""
     if(auth?.currentUser){
@@ -93,6 +93,8 @@ export default function BookingScreen() {
             bookingID:order,
             amountPaid:amountToCharge,
             voucherUsed:voucherCode,
+            personalDetails,
+            stripeID:amountToCharge===0?"":stripeID,
             uid:uid
           }),
       });
@@ -102,11 +104,32 @@ export default function BookingScreen() {
       return(data)
   }
 
-  const successfulPayment = async () => {
+  const successfulPayment = async (stripeID:string) => {
 
+    if(voucherCode!==""){await redeemVoucher()}
     await completeBookingRateHawk()
-    await completeBookingDB()
+    await completeBookingDB(stripeID)
     setCurrentStep(4)
+  }
+
+  const redeemVoucher = async () => {
+
+    let amount = (+booking.amount) - (+amountToCharge)
+    
+    const res = await fetch("/api/vouchers/redeem", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+            voucherCode,
+            amount
+          }),
+      });
+
+      if (!res.ok) throw new Error(`Error: ${res.status}`);
+      const data = await res.json();
+      return(data)
   }
 
 
@@ -191,7 +214,7 @@ export default function BookingScreen() {
 
       <div className="w-full flex flex-col gap-7.5">
         <VoucherApply amount={booking.amount} setAmount={setAmountToCharge} setVoucherCode={setVoucherCode}/>
-        <BookingPaymentDetails successfulPayment={successfulPayment} amountToCharge={amountToCharge}/>
+        <BookingPaymentDetails bookingID={booking.order_id} successfulPayment={successfulPayment} amountToCharge={amountToCharge}/>
       </div>
 
     </div>}

@@ -42,8 +42,9 @@ export const VoucherApply = (props:VoucherApplyProps) => {
 
 
         if(!found){setVoucherError("Invalid Voucher Code")}
+        else if(data.error){setVoucherError(data.error)}
         else{
-            amount = +data.voucher.value
+            amount = +data.voucher.balance
             let remainderPayable = calculateNewPrice(amount)
             props.setAmount(remainderPayable)
             props.setVoucherCode(voucherCode)
@@ -91,12 +92,12 @@ export const VoucherApply = (props:VoucherApplyProps) => {
 
                 <div className="w-full flex flex-row justify-between items-center">
                     <span className="font-normal">Gift card total:</span>
-                    <span>£{voucherApplied?+voucherApplied.value:0}</span>
+                    <span>£{voucherApplied?+voucherApplied.balance:0}</span>
                 </div>
 
                 <div className="w-full flex flex-row justify-between items-center">
                     <span className="font-normal">Remainder Payable</span>
-                    <span>£{calculateNewPrice(voucherApplied?+voucherApplied.value:0)}</span>
+                    <span>£{calculateNewPrice(voucherApplied?+voucherApplied.balance:0)}</span>
                 </div>
             </div>
 

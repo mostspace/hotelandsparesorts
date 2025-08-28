@@ -3,12 +3,15 @@
 import { MapComponent } from "@/components/maps/googleMaps";
 import { HotelTile } from "@/components/search/HotelTile";
 import { SearchBar } from "@/components/search/SearchBar";
+import { LoadingPopUp } from "@/components/LoadingPopUp";
 import { SearchFilters } from "@/components/search/SearchFilters";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { MapProvider } from "@/providers/map-provider";
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from "react";
+import { auth } from "@/app/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function SearchScreen() {
 
@@ -48,6 +51,8 @@ export default function SearchScreen() {
     const [filters, setFilters] = useState<any[]>(JSON.parse(filtersStr));
 
     const [locationName, setLocationName] = useState(searchParams.get('location') || "");
+    const [loggedIn, setLoggedIn] = useState<any>(false);
+    const [showDiscounts, setShowDiscounts] = useState<any>(false);
 
     console.log("SEARCH PARAMS HERE", locationName,latNum,lngNum,adults,children)
 
@@ -58,6 +63,19 @@ export default function SearchScreen() {
 
   }, [searchID]); // eslint-disable-line react-hooks/exhaustive-deps
   
+  useEffect(() => {
+      if(auth){
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          if (user) {
+            setLoggedIn(true)
+          }else{
+            setLoggedIn(false)
+          }
+        })
+        return () => unsubscribe();
+      }
+  }, [auth]);// eslint-disable-line react-hooks/exhaustive-deps
+
   
   const loadHotels = async (latNum:number,lngNum:number,radiusM:number,filters:any[]) => {
 
@@ -106,7 +124,7 @@ export default function SearchScreen() {
 
     filteredHotels.forEach(hotel => {
 
-      compArray.push(<HotelTile hotel={hotel} checkIn={checkIn+""} checkOut={checkOut+""} adults={+adults} children={+children} source={"Search"} locationName={locationName}/>)
+      compArray.push(<HotelTile hotel={hotel} checkIn={checkIn+""} checkOut={checkOut+""} adults={+adults} children={+children} source={"Search"} locationName={locationName} showDiscount={showDiscounts}/>)
     });
 
     return compArray
@@ -204,6 +222,12 @@ export default function SearchScreen() {
       
       if (filter.id === "D" && filter.selected.length > 0) {
         
+        filteredList = filteredList.filter(item =>
+          
+          item.amenities.split(",").includes(filter.selected)
+
+          // filter.selected intersection amenities > 0
+        );
       }
       
       if (filter.id === "E" && filter.selected.length > 0) {
@@ -222,10 +246,14 @@ export default function SearchScreen() {
 
   }
 
+  const goToLogin = () => {
+        router.push(`/login`)
+  }
     
   return (
     <div className="w-full flex flex-col gap-[60px] py-10 text-primary" >
       
+
       <div className="flex flex-col items-start px-[120px] gap-10">
         <span className="text-lg">{'Home > Hotel Stays'}</span>
         <span className="text-6xl">BOOK A HOTEL STAY</span>
@@ -234,7 +262,7 @@ export default function SearchScreen() {
       
 
 
-      <div className="flex flex-row justify-between items-center px-[120px] py-[40px] bg-accentDark text-light">
+      {!loggedIn && <div className="flex flex-row justify-between items-center px-[120px] py-[40px] bg-accentDark text-light">
           
           <div className="flex flex-row gap-5 items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="44" height="54" viewBox="0 0 44 54" fill="none">
@@ -245,8 +273,8 @@ export default function SearchScreen() {
             <span className="text-3xl">Unlock exclusive discounts at hundreds of top hotels</span>
           </div>
 
-          <Button className="h-13 border border-light bg-accentDark">UNLOCK FOR FREE</Button>
-      </div>
+          <Button className="h-13 border border-light bg-accentDark" onClick={goToLogin}>UNLOCK FOR FREE</Button>
+      </div>}
 
 
       <div className="w-full flex flex-row gap-[70px] justify-start px-[120px]">
@@ -303,7 +331,7 @@ export default function SearchScreen() {
                   </div>
 
                   <div className="flex flex-row items-start gap-2">
-                      <Switch className="h-5 w-8 mt-[5px] data-[state=checked]:bg-accent"/>
+                      <Switch className="h-5 w-8 mt-[5px] data-[state=checked]:bg-accent" checked={showDiscounts} onClick={()=>!loggedIn?goToLogin():null} onCheckedChange={(isChecked) => setShowDiscounts(isChecked)}/>
                       <div className="flex flex-col justify-start items-start gap-2">
                         <span className="font-medium text-lg">Member Discounts</span>
                         <span className="font-light">Save up to 15%</span>
@@ -319,6 +347,7 @@ export default function SearchScreen() {
              
               {(!mapOpen && !loading) && showHotels()}
               {(!mapOpen && loading) && <span>Loading...</span>}
+              {(!mapOpen && loading) && <LoadingPopUp />}
              
               {mapOpen && <div className="w-full h-[100%] flex flex-row gap-2 "  >
                 <MapProvider>

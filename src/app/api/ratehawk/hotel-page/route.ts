@@ -30,7 +30,6 @@ export function POST(req:Request) {
           ],
           timeout:7,
           hid:hid,
-          // id: "test_hotel_do_not_book",
           currency: "EUR"
         })
       });

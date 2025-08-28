@@ -12,8 +12,11 @@ import { SearchBar } from "@/components/search/SearchBar";
 import { Button } from "@/components/ui/button";
 import { MapProvider } from "@/providers/map-provider";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Head from "next/head";
+import { LoadingPopUp } from "@/components/LoadingPopUp";
+import { auth } from "@/app/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 
 
@@ -45,12 +48,22 @@ export default function HotelProfileScreen() {
   const [reviews, setReviews] = useState<any[]>([]);
   const [checkInDate, setCheckInDate] = useState<String>(checkInDateP||"");
   const [checkOutDate, setCheckoutDate] = useState<String>(checkOutDateP||"");
+  const [loggedIn, setLoggedIn] = useState<any>(false);
+  const [tab, setTab] = useState<any>("Key info");
+
+
+  const reviewsRef = useRef(null);
+  const infoBoxRef = useRef(null);
 
 
     useEffect(() => {
       const checkIn = searchParams.get('check-in')||"";
       const checkOut = searchParams.get('check-out')||"";
       const hidStr = searchParams.get('hid');
+
+      const adults = +(searchParams.get('adults')||1);
+      const children = +(searchParams.get('children')||1);    
+
       
       console.log("NEW PARAMS", checkIn,checkOut)
       loadHotel(checkIn,checkOut)
@@ -59,6 +72,20 @@ export default function HotelProfileScreen() {
       setCheckInDate(checkIn || "");
       setCheckoutDate(checkOut || "");
     }, [searchParams]);
+
+  useEffect(() => {
+        if(auth){
+          const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+              setLoggedIn(true)
+            }else{
+              setLoggedIn(false)
+            }
+          })
+          return () => unsubscribe();
+        }
+    }, [auth]);// eslint-disable-line react-hooks/exhaustive-deps
+
 
   const loadHotel = async (checkIn:string,checkout:string) => {
     setLoading(true)
@@ -199,6 +226,11 @@ export default function HotelProfileScreen() {
   //   router.push(`/search?searchID=${searchID}&location=${locationName}&lat=${latNum}&lng=${lngNum}&check-in=${checkIn}&check-out=${checkOut}&adults=${adults}&children=${children}&filters=${JSON.stringify(filters)}`)
   // }
 
+  const showOnMap = () => {
+    setTab("Map")
+    infoBoxRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+
 
     
   return (
@@ -212,6 +244,7 @@ export default function HotelProfileScreen() {
       {/* <span>HOTEL PROFILE PAGE</span> */}
 
       {loading && <span>Loading...</span>}
+      {loading && <LoadingPopUp />}
 
    
       {hotel &&<div className="w-full flex flex-col items-center" >
@@ -252,7 +285,7 @@ export default function HotelProfileScreen() {
                     </div>
 
                     <div className="flex flex-row items-center gap-3.5">
-                      <span className="text-lg underline cursor-pointer">See Reviews</span>
+                      <span className="text-lg underline cursor-pointer" onClick={()=>(reviewsRef.current?.scrollIntoView({ behavior: 'smooth' }))}>See Reviews</span>
                       <div className="bg-accent p-[8px] font-medium text-xl text-light rounded-[10px]">9.6</div>
                       <div className="cursor-pointer w-[42px] h-[42px] rounded-full bg-accent flex items-center justify-center">
                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -290,16 +323,18 @@ export default function HotelProfileScreen() {
 
               <div className="flex flex-col w-[455px] gap-5">
 
-                <div className="h-[280px] w-full p-[10px] rounded-[20px] bg-muted">
+                <div className="relative h-[280px] w-full p-[10px] rounded-[20px] bg-muted">
                   <MapProvider>
                     <MapComponent hotels={[hotel]} lat={+hotel.lat||0} lng={+hotel.lng||0} newSearch={null} updateVar={2} mini={true} source={"profileMini"}/>
                   </MapProvider>
+                  <Button className="absolute top-1/2 left-1/2 -translate-x-1/2 z-10 bg-accent border border-light" onClick={showOnMap}>SHOW ON MAP</Button>
+
                 </div>
                 
-                <div className="w-full flex flex-col p-[30px] gap-8 items-center text-light bg-[#774D46]">
+                {!loggedIn && <div className="w-full flex flex-col p-[30px] gap-8 items-center text-light bg-[#774D46]">
                   <span className="text-4xl text-center" style={{fontFamily:'Harlow'}}>Unlock exclusive discounts at hundreds of top hotels</span>
-                  <Button className="bg-transparent border border-light">UNLOCK FOR FREE</Button>
-                </div>
+                  <Button className="bg-transparent border border-light" onClick={()=>router.push('/login')}>UNLOCK FOR FREE</Button>
+                </div>}
               </div>
 
 
@@ -310,27 +345,27 @@ export default function HotelProfileScreen() {
             {/* DATES SECTION */}
             <div className="w-full flex flex-col gap-10 items-start">
                 <span className="text-5xl" style={{fontFamily:'Harlow'}}>Modify your dates:</span>
-                <SearchBar showLocation={false} showBorders={true} existingData={{hid:hid,checkInDate:checkInDate,checkOutDate:checkOutDate}}/>
+                <SearchBar showLocation={false} showBorders={true} existingData={{hid,checkInDate,checkOutDate,adults,children}}/>
             </div>
 
             {/* ROOMS SECTION */}
             <div className="w-full flex flex-col gap-10 items-start">
                 <span className="text-5xl" style={{fontFamily:'Harlow'}}>Select your room:</span>
-                <div className="w-full flex flex-row gap-5 items-start">
+                {hotel.rates && <div className="w-full flex flex-row gap-5 items-start">
                   {hotel.rates[0] &&<RoomTile images={hotel.images} rateObj={hotel.rates[0]}/>}
                   {hotel.rates[1] &&<RoomTile images={hotel.images} rateObj={hotel.rates[1]}/>}
                   {hotel.rates[2] &&<RoomTile images={hotel.images} rateObj={hotel.rates[2]}/>}
                   {hotel.rates[3] &&<RoomTile images={hotel.images} rateObj={hotel.rates[3]}/>}
-                </div>
+                </div>}
             </div>
 
             {/* INFO SECTION */}
-            <div className="mt-[20px] mb-[20px]">
-                <HotelInfoBox hotel={hotel}/>
+            <div className="mt-[20px] mb-[20px]" ref={infoBoxRef}>
+                <HotelInfoBox hotel={hotel} tab={tab} setTab={setTab}/>
             </div>
 
             {/* REVIEWS SECTION */}
-            <div className="w-full flex flex-col gap-10 items-start">
+            <div className="w-full flex flex-col gap-10 items-start" ref={reviewsRef}>
                 <span className="text-5xl" style={{fontFamily:'Harlow'}}>REVIEWS</span>
 
                 <div className="p-[21px] flex flex-row gap-5 items-center bg-muted/50 border border-accent rounded-[10px] cursor-pointer" onClick={openTripAdvisor}>
@@ -369,7 +404,7 @@ export default function HotelProfileScreen() {
 
          {/* SIMILAR HOTELS */}
          <div className="w-full p-[120px] flex flex-col gap-[80px] bg-[#D6C6B9]">
-            <span className="text-5xl" style={{fontFamily:'Harlow'}}>SIMILAR HOTELS IN DUBLIN</span>
+            <span className="text-5xl" style={{fontFamily:'Harlow'}}>SIMILAR HOTELS IN {locationName.toUpperCase()}</span>
             <div className="w-full flex flex-row gap-[50px]">
               {similarHotels.length > 0 && <SimilarHotelTile hotel={similarHotels[0]} checkIn={checkInDateP+""} checkOut={checkOutDateP+""} adults={+adults} children={+children} source="similarHotel" locationName={locationName} />}
               {similarHotels.length > 1 && <SimilarHotelTile hotel={similarHotels[1]} checkIn={checkInDateP+""} checkOut={checkOutDateP+""} adults={+adults} children={+children} source="similarHotel" locationName={locationName} />}

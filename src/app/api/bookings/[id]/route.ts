@@ -6,19 +6,16 @@ export async function GET(
     context: any   // 👈 loosen type here
   ) {
     
-    let approvedUsers = ['zuynyjOJ9qgPvD3ROkhAROoWYRH3']
 
-    const uid = context.params.id;
+    const id = context.params.id;
 
     return new Promise<any>(async (resolve, reject) => {
 
-        const user = await prisma.users.findUnique({
-            where: { uid: uid },
+        const booking = await prisma.bookings.findUnique({
+            where: { order_id: id },
           });
           
-        user.isAdmin = approvedUsers.includes(uid)
-
-        resolve(NextResponse.json(user))
+        resolve(NextResponse.json(booking))
 
     })
 

@@ -13,7 +13,7 @@ export const HotelImageGallery = (props:HotelImageGalleryProps) => {
 
     const formatImage = (image:any) => {
         let imageUrl = image.url
-        let newURL = imageUrl.replace('{size}','240x240')
+        let newURL = imageUrl.replace('{size}','x500')
         return newURL
     }
 
@@ -22,8 +22,17 @@ export const HotelImageGallery = (props:HotelImageGalleryProps) => {
         let image = props.images.length>0?props.images[index]:props.images[0]
 
         let imageUrl = image.url
-        let newURL = imageUrl.replace('{size}','240x240')
+        let newURL = imageUrl.replace('{size}','1024x768')
         return newURL
+    }
+
+    const getCaption = () => {
+
+        let caption = props.images.length>0?props.images[index].title:props.images[0].title
+        if(caption === "unspecified"){return ""}
+        else{
+            return caption
+        }
     }
 
     const changeImage = (direction:number) => {
@@ -53,7 +62,7 @@ export const HotelImageGallery = (props:HotelImageGalleryProps) => {
             <Button className="bg-accent text-light absolute z-10 right-8 bottom-8" onClick={()=>setShowPopUp(true)}>VIEW ALL PHOTOS</Button>
 
 
-            {showPopUp && <div className="fixed z-5 bg-primary/50 inset-0 flex justify-center items-center">
+            {showPopUp && <div className="fixed z-15 bg-primary/50 inset-0 flex justify-center items-center">
                 <div className="z-10 rounded-xl bg-muted p-5 h-[700px] w-[900px] flex flex-col gap-4">
                     <div className="w-full flex flex-row justify-end">
                         <Button onClick={()=>setShowPopUp(false)}>Close</Button>
@@ -71,6 +80,7 @@ export const HotelImageGallery = (props:HotelImageGalleryProps) => {
                             </svg>
                         </div>
                     </div>
+                    <span className="text-xl font-medium">{getCaption()}</span>
                 </div>
             </div>}
         </div>

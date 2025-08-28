@@ -9,7 +9,7 @@ export function POST(req:Request) {
 
 
     
-    const url = 'https://www.hotelandsparesorts.com/api/vouchers/redeem';
+    const url = 'https://www.hotelandsparesorts.com/api/vouchers/refund';
 
     const { voucherCode,amount } = await req.json();
 

@@ -62,7 +62,7 @@ export const HotelReview = (props:HotelReviewProps) => {
 
             <div className="flex flex-col items-start">
                 <div className="flex flex-row items-center gap-2">
-                    <img className="rounded-full h-[24px] w-[24px]" src={props.review.user.avatar.small}/>
+                    <img className="rounded-full h-[24px] w-[24px]" src={props.review.user.avatar?props.review.user.avatar?.small:""}/>
                     <span className="text-accent text-lg font-medium">{props.review.user.username}</span>
                 </div>
                 <span>{props.review.travel_date} • Source: Tripadvisor</span>

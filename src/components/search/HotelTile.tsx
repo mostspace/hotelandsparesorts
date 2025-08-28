@@ -14,9 +14,13 @@ export interface HotelTileProps{
     source:string
     booking?:any
     locationName:string
+    showDiscount?:boolean
 }
 
 export const HotelTile = (props:HotelTileProps) => {
+
+    const [status, setStatus] = useState<string>(props.booking?props.booking.status:"");
+
 
     const router = useRouter();
     
@@ -28,7 +32,7 @@ export const HotelTile = (props:HotelTileProps) => {
 
     const getRate = () => {
 
-        if(props.source === "MyBookings"){
+        if(props.source.includes("Bookings")){
             return +props.booking.amount
         }else{
             let rates = props.hotel.rates
@@ -65,7 +69,12 @@ export const HotelTile = (props:HotelTileProps) => {
     }
 
     const openHotel = (hid:number) => {
-        router.push(`/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&adults=${props.adults}&children=${props.children}&location=${props.locationName}`)
+
+        // router.push(`/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&adults=${props.adults}&children=${props.children}&location=${props.locationName}`)
+
+        let url = `/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&adults=${props.adults}&children=${props.children}&location=${props.locationName}`
+        window.open(url, "_blank");
+
     }
 
     const formatDate = (dateStr:string) => {
@@ -81,8 +90,79 @@ export const HotelTile = (props:HotelTileProps) => {
         return (formatted); // Wed, Oct 15, 2025
     }
 
+    const refundStripe = async () => {
+        try {
+            const res = await fetch("/api/stripe/refunds", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ paymentID: props.booking.stripe_id}),
+            });
+        
+            if (!res.ok) throw new Error(`Error: ${res.status}`);
+        
+            const data = await res.json();
+            console.log("REFUND DATA",data)
+            updateStatus("Payment Refunded")
+
+
+        } catch (error) {
+            console.error("API POST call failed:", error);
+        }
+    }
+
+     const refundVoucher = async () => {
+
+        let overallAmount = +props.booking.amount
+        let amountPaid = +props.booking.amount_paid
+
+        try {
+            const res = await fetch("/api/vouchers/refund", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ voucherCode: props.booking.voucher_used,amount:overallAmount-amountPaid}),
+            });
+        
+            if (!res.ok) throw new Error(`Error: ${res.status}`);
+        
+            const data = await res.json();
+            console.log("REFUND DATA",data)
+            updateStatus("Voucher Refunded")
+
+        } catch (error) {
+            console.error("API POST call failed:", error);
+        }
+    }
+
+    const updateStatus = async (action:string) => {
+        
+
+        try {
+            const res = await fetch(`/api/bookings/${props.booking.order_id}/status`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ action}),
+            });
+        
+            if (!res.ok) throw new Error(`Error: ${res.status}`);
+        
+            const data = await res.json();
+            console.log("STATUS DATA",data)
+
+            setStatus(data.status)
+
+        } catch (error) {
+            console.error("API POST call failed:", error);
+        }
+    }
+
     return(
-    <div className="w-full h-[300px] flex flex-row border border-primary text-primary bg-light">
+    <div className={`w-full ${props.source==="AllBookings"?"h-[500px]":"h-[300px]"} flex flex-row border border-primary text-primary bg-light`}>
 
         <img className="h-full w-[40%] max-w-[480px]" src={getImageURL()} />
         
@@ -109,20 +189,50 @@ export const HotelTile = (props:HotelTileProps) => {
 
             <div className={`flex flex-row justify-between items-end`}>
                 
-                {props.source!=="MyBookings"&&<Button onClick={()=>openHotel(props.hotel.hid)} className="bg-accent text-light">VIEW DETAILS & BOOK</Button>}
-                {props.source==="MyBookings"&&
+                {!props.source.includes("Bookings")&&<Button onClick={()=>openHotel(props.hotel.hid)} className="bg-accent text-light">VIEW DETAILS & BOOK</Button>}
+                {props.source.includes("Bookings")&&
                     <div className="flex flex-col items-start gap-2 text-alt">
                         <span className="text-lg"><strong>Check-In:</strong> {formatDate(props.checkIn)}</span>
                         <span className="text-lg"><strong>Check-Out:</strong> {formatDate(props.checkOut)}</span>
+                        <span className="text-lg"><strong>Booking Num:</strong> {props.booking.order_id}</span>
                     </div>
                 }
 
                 <div className="flex flex-col items-end gap-2 text-alt">
-                    <span className="text-3xl font-medium">€{getRate()}</span> 
+                    <div className="flex gap-2 items-end">
+                        <span className={`text-3xl font-medium ${props.showDiscount?"line-through text-primary/50":""}`}>€{getRate()}</span> 
+                        {props.showDiscount && <span className="text-3xl font-medium">€{(+getRate()*0.8).toFixed(2)}</span> }
+                    </div>
                     <span className="text-lg">1 room, {calculateNights()} nights</span>
                     <span className="text-accent text-sm">Fully refundable</span>
                 </div>
-            </div>          
+            </div>   
+
+
+            {props.source === "AllBookings" && <div className="flex flex-col gap-3">
+                
+                <span className="font-bold text-xl underline">Admin Tools</span>
+                <div className="flex flex-col items-start gap-2 text-alt">
+                    <span className="text-lg"><strong>User:</strong> {props.booking.user?props.booking.user.email:"N/A"}</span>
+                    <span className="text-lg"><strong>Status: </strong>{status}</span>
+                    <span className="text-lg"><strong>Voucher Used: </strong>{props.booking.voucher_used || "N/A"}</span>
+                    <span className="text-lg"><strong>Amount Paid (after voucher): </strong>{props.booking.amount_paid}</span>
+                </div>
+
+                <div className="flex gap-4">
+                    <Button 
+                        disabled={props.booking.amount_paid === 0 || !props.booking.stripe_id || status.includes("Payment Refunded")} 
+                        onClick={refundStripe}>
+                            Refund Stripe
+                    </Button>
+                    <Button 
+                        className="bg-accent hover:bg-accent/90" 
+                        disabled={(!props.booking.voucher_used) || status.includes("Voucher Refunded") || status.includes("Voucher and Payment Refunded")} 
+                        onClick={refundVoucher}>
+                            Refund Voucher 
+                    </Button>
+                </div>
+            </div>}       
             
 
         </div>

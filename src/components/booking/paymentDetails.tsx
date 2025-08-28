@@ -16,6 +16,7 @@ const stripeTest = loadStripe('pk_test_51Pt4eIP0VWupOVM4V6pnDzuRafZp1xjCMslMceih
 // const stripeLive = loadStripe(process.env.NEXT_PUBLIC_STRIPE_LIVE);
 
 interface PaymentDetailsProps {
+    bookingID:any
     successfulPayment:any
     amountToCharge:number
 }
@@ -30,8 +31,10 @@ export const BookingPaymentDetails = (props:PaymentDetailsProps) => {
     useEffect(() => {
 
         if(props.amountToCharge === 0){
+            console.log("NO CHARGE")
             setNoCharge(true)
         }else{
+            setNoCharge(false)
             createPaymentIntent(props.amountToCharge)
         }
 
@@ -48,7 +51,7 @@ export const BookingPaymentDetails = (props:PaymentDetailsProps) => {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ customerID: "cus_SUCJDgGqMJtTX5", amount:amount*100 }),
+        body: JSON.stringify({ customerID: "cus_SUCJDgGqMJtTX5", amount:amount*100, bookingID:props.bookingID }),
         });
     
         if (!res.ok) throw new Error(`Error: ${res.status}`);
@@ -68,8 +71,8 @@ export const BookingPaymentDetails = (props:PaymentDetailsProps) => {
     console.log('STRIPRE RESPONSE', response);
 
     if (response.success) {
-      setIntentID(null);
-      props.successfulPayment()
+        setIntentID(null);
+        props.successfulPayment(response.response.paymentIntent.id)
 
     } else {
       console.log('ERROR', response.error);
@@ -89,7 +92,7 @@ export const BookingPaymentDetails = (props:PaymentDetailsProps) => {
     return(
         <div className="w-full flex flex-col gap-7.5 items-end">
 
-            <div className="w-full p-[28px] flex flex-col gap-[60px] items-start border border-primary/50">
+            {!noCharge && <div className="w-full p-[28px] flex flex-col gap-[60px] items-start border border-primary/50">
 
                 <div className="w-full flex flex-col gap-5 items-start">
                     <span className="text-4xl" style={{fontFamily:'Harlow'}}>Step 2: Payment Details</span>
@@ -109,7 +112,6 @@ export const BookingPaymentDetails = (props:PaymentDetailsProps) => {
                         </div>
                     )}
 
-                    {noCharge && <div className="w-full flex justify-center">No charge</div>}
 
                 </div>
 
@@ -129,7 +131,7 @@ export const BookingPaymentDetails = (props:PaymentDetailsProps) => {
                     )}
                 </div>
 
-            </div>
+            </div>}
 
             <Button className="bg-accent font-bold text-lg p-7" onClick={payClicked}>COMPLETE BOOKING</Button>
         </div>

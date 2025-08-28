@@ -1,9 +1,14 @@
 'use client'
 
+import { useState } from "react";
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 
 export const Footer = () => {
+
+    const [email, setEmail] = useState("");
+    const [addedToList, setAddedToList] = useState(false);
+
 
     const footerLinks = [
         {title:'DEALS', options:[
@@ -71,6 +76,12 @@ export const Footer = () => {
         window.open(url, "_blank");
     }
 
+    const addToNewsletter = () => {
+
+        setAddedToList(true)
+        setEmail("")
+    }
+
 
     return <div className="w-full flex flex-col">
         <div className="w-full px-[120px] py-[90px] bg-muted">
@@ -85,9 +96,12 @@ export const Footer = () => {
 
                 <div className="flex flex-col max-w-[638px] gap-3">
                     <div className="w-full flex flex-row gap-5 items-center">
-                        <Input placeholder="Your Email Address" className="text-lg text-accent font-medium placeholder:text-lg placeholder:text-accent placeholder:font-medium"/>
-                        <Button className="h-[65px] w-[209px] bg-accent text-lg font-bold">SIGN UP</Button>
+                        <Input placeholder="Your Email Address" className="text-lg text-accent font-medium placeholder:text-lg placeholder:text-accent placeholder:font-medium"
+                        value={email} onChange={(e) => setEmail(e.target.value)}/>
+                        <Button className="h-[65px] w-[209px] bg-accent text-lg font-bold" onClick={addToNewsletter}>SIGN UP</Button>
                     </div>
+
+                    {addedToList && <span className="text-lg text-accent">Added to mailing list</span>}
 
                     <div>By signing up you are agreeing to receive our newsletter bi-monthly. Learn more
                     about how hotelandspavouchers.ie collects and uses <span className="font-bold cursor-pointer" onClick={()=>openLink("https://www.hotelandsparesorts.com/privacy-policy")}>your data.</span></div>

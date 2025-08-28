@@ -1,16 +1,34 @@
 import { MapProvider } from "@/providers/map-provider";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MapComponent } from "../maps/googleMaps";
 import { Amenities } from "./Amenities";
 
 interface HotelInfoBoxProps{
     hotel:any
+    tab:string
+    setTab:any
 }
 
 
 export const HotelInfoBox = (props:HotelInfoBoxProps) => {
 
     const [selectedTab, setSelectedTab] = useState("Key info");
+
+    useEffect( () => {
+    
+        if(selectedTab !== props.tab){
+         setSelectedTab(props.tab)
+        }
+    
+    }, [props.tab]); // eslint-disable-line react-hooks/exhaustive-deps
+    
+    useEffect( () => {
+    
+        if(selectedTab !== props.tab){
+            props.setTab(selectedTab)
+        }
+    
+    }, [selectedTab]);
     
     const formatTime = (time:string) => {
 
@@ -21,6 +39,36 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
           });
 
         return formatted
+    }
+
+    const showDescriptions = () => {
+        var compArray = []
+        let currentTitle = ""
+        let paragraphs = []
+
+        let descriptions = props.hotel.hotelDescriptions
+        descriptions.forEach(descr => {
+            
+            let title = descr.title
+            if(title!==currentTitle){
+                currentTitle = title
+                compArray.push(paragraphs)
+                paragraphs = []
+                compArray.push(<span className="text-2xl" style={{fontFamily:'Harlow'}}>{title}</span>)
+            }
+            
+            if(descr.paragraph.includes('</')){ 
+                paragraphs.push( descr.paragraph )
+            }else{
+                paragraphs.push( <span>{descr.paragraph}</span> )
+            }
+            
+        });
+        compArray.push(paragraphs)
+
+
+        return compArray
+
     }
 
     return(
@@ -57,7 +105,7 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
             {/* MAIN CONTENT */}
             
             {selectedTab=="Key info" && <div className="flex flex-row h-full gap-[67px] items-start text-lg">
-                <div className="flex flex-col gap-[30px] items-start  w-[50%]">
+                <div className="flex flex-col max-h-[900px] gap-[30px] items-start  w-[50%] flex-wrap">
                     
                     <div className="flex flex-row gap-[20px] items-end">
                         <span className="text-2xl" style={{fontFamily:'Harlow'}}>Check-in time</span>
@@ -69,20 +117,10 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
                         <span className="font-medium">{formatTime(props.hotel.check_out_time)}</span>
                     </div>
 
-                    <span className="text-2xl" style={{fontFamily:'Harlow'}}>Arriving/leaving instructions</span>
-
-                    <span> Extra-person charges may apply and vary depending on property policy</span>
-                    <span>Government-issued photo identification and a credit card, debit card or cash deposit may be required at check-in for incidental charges</span>
-                    <span>Special requests are subject to availability upon check-in and may incur additional charges; special requests cannot be guaranteed</span>
-                    <span>Guests must contact this property in advance to reserve on-site parking</span>
-                    <span>This property accepts credit cards and cash</span>
-                    <span>Cashless transactions are available</span>
-                    <span>Safety features at this property include a smoke detector</span>
-                    <span>This property has outdoor spaces, such as balconies, patios and terraces, which may not be suitable for children; if you have any concerns, we recommend contacting the property prior to your arrival to confirm that they can accommodate you in a suitable room</span>
-
+                    {showDescriptions()}
                 </div>
 
-                <div className="flex flex-col gap-[30px] items-start w-[50%]">
+                {/* <div className="flex flex-col gap-[30px] items-start w-[50%]">
                      <span className="text-2xl" style={{fontFamily:'Harlow'}}>Know before you go</span>
                      <span>Reservations are required for massage services. Reservations can be made by contacting the hotel prior to arrival, using the contact information on the booking confirmation.</span>
                      <span>Only registered guests are allowed in the guest rooms.</span>
@@ -97,7 +135,7 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
                      <span className="text-2xl" style={{fontFamily:'Harlow'}}>Minumum age</span>
                      <span>Minimum age: 18</span>
 
-                </div>
+                </div> */}
             </div>}
 
             {selectedTab == "Amenities" && <Amenities amenityList={props.hotel.amenities} source="at-a-glance"/>}

@@ -1,3 +1,4 @@
+import { metadata } from '@/app/layout';
 import { NextResponse } from 'next/server'
 const stripe = require('stripe')('STRIPE_SECRET_REMOVED');
 
@@ -17,6 +18,9 @@ export async function POST(request: Request) {
           payment_method_types: ['card'],
           amount: body.amount, 
           currency: "eur",
+          metadata:{
+            bookingID:body.bookingID
+          }
       }
       ,
       function (err:any, paymentIntent:any) {

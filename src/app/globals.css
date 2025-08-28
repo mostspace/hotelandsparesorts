@@ -195,3 +195,27 @@
   font-style: normal;
 }
 
+
+.pac-container{
+  margin-top: 250px;
+  margin-left: 50px;
+}
+
+.pac-matched{
+    color: #A56658;
+}
+
+
+.pac-item{
+    font-family: 'Gotham';
+    font-size: 16px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+.pac-item-query	{
+    font-family: 'Gotham';
+    font-weight: 500;
+    font-size: 18px;
+}

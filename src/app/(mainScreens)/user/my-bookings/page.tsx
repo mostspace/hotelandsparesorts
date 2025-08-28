@@ -3,17 +3,22 @@
 import { auth } from "@/app/firebase";
 import { HotelTile } from "@/components/search/HotelTile";
 import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function MyBookings() {
 
     const [bookings, setBookings] = useState<any[]>([]);
 
     useEffect(() => {
-    
-        retrieveBookings()
-
-
-    }, []);
+        if(auth){
+          const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+              retrieveBookings()
+            }
+          })
+          return () => unsubscribe();
+        }
+    }, [auth]);// eslint-disable-line react-hooks/exhaustive-deps
 
     const retrieveBookings = async () => {
         

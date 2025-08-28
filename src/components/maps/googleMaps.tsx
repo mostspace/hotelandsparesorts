@@ -198,7 +198,9 @@ const initMap = useCallback((map: google.maps.Map) => {
     let lng = center.lng()
 
     if(lat!== props.lat && lng != props.lng){
-        setShowSearchAgainButton(true)
+        if(props.source === "searchPage"){
+          setShowSearchAgainButton(true)
+        }
     }
     console.log("Map idle")
   }
@@ -255,7 +257,6 @@ const initMap = useCallback((map: google.maps.Map) => {
     return (
         <div className="w-full h-full relative">
             {showSearchAgainButton && <Button className="absolute top-10 left-1/2 -translate-x-1/2 z-10 bg-accent border border-light " onClick={getMapDetails}>Search this area</Button>}
-            {props.mini && <Button className="absolute top-1/2 left-1/2 -translate-x-1/2 z-10 bg-accent border border-light ">SHOW ON MAP</Button>}
             <GoogleMap 
                 id="map"
                 mapContainerStyle={defaultMapContainerStyle}

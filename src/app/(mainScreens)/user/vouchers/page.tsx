@@ -27,9 +27,15 @@ export default function Vouchers() {
 
         if(!found){setVoucherError("Invalid Voucher Code")}
         else{
-            amount = +data.voucher.value
+            amount = +data.voucher.balance
             setVoucherApplied(data.voucher)
         }
+    }
+
+    const formatDate = (date:string) => {
+
+        let split = date.split("-")
+        return split[2]+'-'+split[1]+'-'+split[0]
     }
     
 
@@ -60,9 +66,16 @@ export default function Vouchers() {
                 </div>
 
                 
-                {voucherApplied && <div className="flex flex-row text-lg gap-2">
-                    <span>Remaining balance:</span>
-                    <span className="font-bold">£{voucherApplied.value}</span>
+                {voucherApplied && <div className="flex flex-col gap-2">
+                    <div className="flex flex-row text-lg gap-2">
+                        <span>Remaining balance:</span>
+                        <span className="font-bold">£{voucherApplied.balance}</span>
+                    </div>
+
+                    <div className="flex flex-row text-lg gap-2">
+                        <span>Expiry date:</span>
+                        <span className="font-bold">{formatDate(voucherApplied.expiry_date)}</span>
+                    </div>
                 </div>}
 
                 {voucherError && <span className="text-[red]">{voucherError}</span>}

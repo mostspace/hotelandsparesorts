@@ -6,7 +6,7 @@ export function POST(req:Request) {
     return new Promise<any>(async (resolve, reject) => {
 
 
-    const { bookingID,amountPaid,voucherUsed,uid  } = await req.json();
+    const { bookingID,amountPaid,voucherUsed,uid,personalDetails,stripeID  } = await req.json();
 
     try {
     
@@ -17,6 +17,14 @@ export function POST(req:Request) {
   
       if (voucherUsed && voucherUsed.trim() !== "") {
         updateData.voucher_used = voucherUsed;
+      }
+
+      if(personalDetails){
+        updateData.email = personalDetails.email;
+      }
+
+      if(stripeID !== ""){
+        updateData.stripe_id = stripeID;
       }
 
       if(uid !== ""){
