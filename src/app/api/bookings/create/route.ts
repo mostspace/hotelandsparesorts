@@ -9,7 +9,14 @@ export function POST(req:Request) {
 
     const { bookingData,uid } = await req.json();
 
-    
+    let rooms:any[] = bookingData.rooms
+    let adults = 0
+    let children = 0
+
+      rooms.forEach(room => {
+          adults+=room.adults
+          children+=room.children
+      });
       
     const bookingCreateData: any = {
         order_id: bookingData.orderID,

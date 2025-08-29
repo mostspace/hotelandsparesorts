@@ -8,8 +8,22 @@ export function POST(req:Request) {
 
     return new Promise<any>(async (resolve, reject) => {
 
-    const { hid,checkIn,checkOut } = await req.json();
+    const { hid,checkIn,checkOut,rooms} = await req.json();
 
+    let roomArray:any[] = []
+      rooms.forEach((room: { adults:number, children: number; }) => {
+        
+          let childrenArray = []
+          for(var i=0;i<room.children;i++){
+            childrenArray.push(9)
+          }
+
+          roomArray.push({
+            adults:room.adults,
+            children:childrenArray
+          })
+          
+      });
 
     const response = await fetch('https://api.worldota.net/api/b2b/v3/search/hp/', {
         method: 'POST',
@@ -22,12 +36,7 @@ export function POST(req:Request) {
           checkout: checkOut,
           residency: "gb",
           language: "en",
-          guests: [
-            {
-              adults: 2,
-              children: []
-            }
-          ],
+          guests: roomArray,
           timeout:7,
           hid:hid,
           currency: "EUR"
@@ -48,8 +57,10 @@ export function POST(req:Request) {
 
       rates.forEach(element => {
         
-        let roomName = element.room_data_trans.main_name
-        let existing = filteredRates.filter(item => item.room_data_trans.main_name === roomName);
+        // let roomName = element.room_data_trans.main_name
+        // let existing = filteredRates.filter(item => item.room_data_trans.main_name === roomName);
+        let roomName = element.room_name
+        let existing = filteredRates.filter(item => item.room_name === roomName);
         if(existing.length === 0){
           console.log("NEW ROOM",roomName)
           filteredRates.push(element)

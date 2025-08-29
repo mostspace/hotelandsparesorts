@@ -54,8 +54,7 @@ export default function AllBookings() {
                     hotel={booking.hotel} 
                     checkIn={booking.check_in}
                     checkOut={booking.check_out}
-                    adults={booking.adults}
-                    children={booking.children}
+                    rooms= {[]}
                     booking={booking}
                     source={"AllBookings"}
                     locationName={""} 

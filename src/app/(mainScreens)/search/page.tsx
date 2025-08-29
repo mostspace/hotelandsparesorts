@@ -25,8 +25,7 @@ export default function SearchScreen() {
   const checkIn = searchParams.get('check-in');
   const checkOut = searchParams.get('check-out');
 
-  const adults = +(searchParams.get('adults')||1);
-  const children = +(searchParams.get('children')||1);
+  const rooms = (searchParams.has('rooms')?JSON.parse(searchParams.get('rooms')||""):[]);
 
 
   const latNum = latP ? parseFloat(latP) : null;
@@ -54,7 +53,7 @@ export default function SearchScreen() {
     const [loggedIn, setLoggedIn] = useState<any>(false);
     const [showDiscounts, setShowDiscounts] = useState<any>(false);
 
-    console.log("SEARCH PARAMS HERE", locationName,latNum,lngNum,adults,children)
+    console.log("SEARCH PARAMS HERE", locationName,latNum,lngNum,rooms)
 
 
   useEffect( () => {
@@ -93,8 +92,7 @@ export default function SearchScreen() {
         checkIn:checkIn, 
         checkOut:checkOut,
         radius:radiusM,
-        adults:adults,
-        children:children,
+        rooms:rooms,
         filters:filters
       }),
     });
@@ -124,7 +122,7 @@ export default function SearchScreen() {
 
     filteredHotels.forEach(hotel => {
 
-      compArray.push(<HotelTile hotel={hotel} checkIn={checkIn+""} checkOut={checkOut+""} adults={+adults} children={+children} source={"Search"} locationName={locationName} showDiscount={showDiscounts}/>)
+      compArray.push(<HotelTile hotel={hotel} checkIn={checkIn+""} checkOut={checkOut+""} rooms={rooms} source={"Search"} locationName={locationName} showDiscount={showDiscounts}/>)
     });
 
     return compArray
@@ -173,7 +171,7 @@ export default function SearchScreen() {
       }
     });
 
-    router.push(`/search?searchID=${searchID}&location=${locationName}&lat=${latNum}&lng=${lngNum}&check-in=${checkIn}&check-out=${checkOut}&adults=${adults}&children=${children}&filters=${JSON.stringify(filterArray)}`)
+    router.push(`/search?searchID=${searchID}&location=${locationName}&lat=${latNum}&lng=${lngNum}&check-in=${checkIn}&check-out=${checkOut}&rooms=${JSON.stringify(rooms)}&filters=${JSON.stringify(filterArray)}`)
     
 
     // loadHotels(lat||0,lng||0,radius,filters)
@@ -221,13 +219,20 @@ export default function SearchScreen() {
       }
       
       if (filter.id === "D" && filter.selected.length > 0) {
-        
-        filteredList = filteredList.filter(item =>
-          
-          item.amenities.split(",").includes(filter.selected)
+      
 
-          // filter.selected intersection amenities > 0
-        );
+        filteredList = filteredList.filter(item => {
+          const amenitiesStr = item.amenities.toLowerCase(); // "wifi, parking, pool"
+
+          return filter.selected.every((amenity: string) =>
+            amenitiesStr.includes(amenity.toLowerCase())
+          );
+
+          // return filter.selected.some((amenity: string) =>
+          //   amenitiesStr.includes(amenity.toLowerCase())
+          // );
+
+        });
       }
       
       if (filter.id === "E" && filter.selected.length > 0) {
@@ -257,7 +262,7 @@ export default function SearchScreen() {
       <div className="flex flex-col items-start px-[120px] gap-10">
         <span className="text-lg">{'Home > Hotel Stays'}</span>
         <span className="text-6xl">BOOK A HOTEL STAY</span>
-        <SearchBar showLocation={true} showBorders={true} existingData={{locationName:locationName, coords:{lat:latNum, lng:lngNum},checkInDate:checkIn,checkOutDate:checkOut,adults:adults,children:children}}/>
+        <SearchBar showLocation={true} showBorders={true} existingData={{locationName:locationName, coords:{lat:latNum, lng:lngNum},checkInDate:checkIn,checkOutDate:checkOut,rooms}}/>
       </div>
       
 

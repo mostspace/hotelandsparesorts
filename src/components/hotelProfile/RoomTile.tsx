@@ -40,7 +40,7 @@ export const RoomTile = (props:RoomTileProps) => {
 
         let images = props.images.filter(item => item.title === roomName);
         setRoomImages(images)
-    }, [])
+    }, [props.rateObj.book_hash])
 
     const showImage = () => {
 
@@ -128,8 +128,8 @@ export const RoomTile = (props:RoomTileProps) => {
         const checkIn = searchParams.get('check-in');
         const checkOut = searchParams.get('check-out');
 
-        const adults = +(searchParams.get('adults')||1);
-        const children = +(searchParams.get('children')||1);
+        const rooms = (searchParams.has('rooms')?JSON.parse(searchParams.get('rooms')||""):[]);
+
 
         const res = await fetch("/api/bookings/create", {
         method: "POST",
@@ -143,11 +143,10 @@ export const RoomTile = (props:RoomTileProps) => {
                     hid:hid,
                     checkIn:checkIn,
                     checkOut:checkOut,
-                    adults:adults,
-                    children:children,
+                    rooms:rooms,
                     amount:amount,
                     currencyCode: currencyCode,
-                    roomName:props.rateObj.room_data_trans.main_name,
+                    roomName:props.rateObj.room_name,//props.rateObj.room_data_trans.main_name,
                     amenities:props.rateObj.amenities_data
                 }
             }),
@@ -164,7 +163,7 @@ export const RoomTile = (props:RoomTileProps) => {
 
     const bookRoom = (orderID:number) => {
 
-        router.push(`/booking?order=${orderID}`)//&hid=${hid}&check-in=${checkIn}&check-out=${checkOut}&adults=${adults}&children=${children}`)
+        router.push(`/booking?order=${orderID}`)
     }
 
     return(
@@ -189,7 +188,11 @@ export const RoomTile = (props:RoomTileProps) => {
                             </svg>
                         </div>
                     </div>
-                    <span className="text-xl font-medium select-none">{props.rateObj.room_data_trans.main_name}</span>
+                    <span className="text-xl font-medium select-none">
+                        {props.rateObj.allotment>1?props.rateObj.allotment+" ":""}
+                        {/* {props.rateObj.room_data_trans.main_name} */}
+                        {props.rateObj.room_name}
+                        {props.rateObj.allotment>1?"s":""}</span>
                 </div>
 
                 <div className="w-full h-px bg-alt/10"/>

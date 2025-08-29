@@ -8,12 +8,25 @@ export function POST(req:Request) {
 
     return new Promise<any>(async (resolve, reject) => {
 
-      const { lat,lng,checkIn,checkOut,adults,children,radius,filters,exludedHid } = await req.json();
+      const { lat,lng,checkIn,checkOut,rooms,radius,filters,exludedHid } = await req.json();
 
-      let childrenArray = []
-      for(var i=0;i<children;i++){
-        childrenArray.push(9)
-      }
+      let roomArray:any[] = []
+      rooms.forEach((room: { adults:number, children: number; }) => {
+        
+          let childrenArray = []
+          for(var i=0;i<room.children;i++){
+            childrenArray.push(9)
+          }
+
+          roomArray.push({
+            adults:room.adults,
+            children:childrenArray
+          })
+          
+      });
+     
+
+      console.log("ROOM ARRAY", roomArray)
 
 
     const response = await fetch('https://api.worldota.net/api/b2b/v3/search/serp/geo/', {
@@ -27,12 +40,7 @@ export function POST(req:Request) {
           checkout: checkOut,
           residency: "gb",
           language: "en",
-          guests: [
-            {
-              adults: adults,
-              children: childrenArray
-            }
-          ],
+          guests: roomArray,
           // IRELAND
           // longitude: -6.256012415626754,
           // latitude: 53.33891941773272, 

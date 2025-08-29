@@ -9,8 +9,7 @@ export interface HotelTileProps{
     hotel:any
     checkIn:string
     checkOut:string
-    adults:number
-    children:number
+    rooms?:any[]
     source:string
     booking?:any
     locationName:string
@@ -21,6 +20,8 @@ export const HotelTile = (props:HotelTileProps) => {
 
     const [status, setStatus] = useState<string>(props.booking?props.booking.status:"");
 
+
+    console.log("HT ROOMs",props.rooms)
 
     const router = useRouter();
     
@@ -35,13 +36,21 @@ export const HotelTile = (props:HotelTileProps) => {
         if(props.source.includes("Bookings")){
             return +props.booking.amount
         }else{
-            let rates = props.hotel.rates
-            let rate = rates[0]
-            let price = rate.payment_options.payment_types[0].show_amount
-            return (+price).toFixed(0)
-        }
 
-        
+            let lowestRate:any = null 
+
+            let rates:any[] = props.hotel.rates
+            rates.forEach(rate => {
+                let price = rate.payment_options.payment_types[0].show_amount
+
+                if(!lowestRate || +price<lowestRate){
+                    lowestRate = +price
+                }
+            });
+            
+            return (lowestRate).toFixed(0)
+        }
+    
     }
 
     const showStars = () => {
@@ -70,9 +79,8 @@ export const HotelTile = (props:HotelTileProps) => {
 
     const openHotel = (hid:number) => {
 
-        // router.push(`/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&adults=${props.adults}&children=${props.children}&location=${props.locationName}`)
 
-        let url = `/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&adults=${props.adults}&children=${props.children}&location=${props.locationName}`
+        let url = `/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&rooms=${JSON.stringify(props.rooms)}&location=${props.locationName}`
         window.open(url, "_blank");
 
     }

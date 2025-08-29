@@ -37,8 +37,20 @@ export const SimilarHotelTile = (props:HotelTileProps) => {
         return diffInDays
     }
 
+    const calculateGuests = () => {
+        let guests = 0
+        let rooms = props.rooms || []
+
+        rooms.forEach(room => {
+            guests+=room.adults
+            guests+=room.children
+        });
+
+        return guests
+    }
+
     const openHotel = (hid:number) => {
-        router.push(`/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&adults=${props.adults}&children=${props.children}`)
+        router.push(`/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&rooms=${props.rooms}`)
     }
 
     return(
@@ -68,7 +80,7 @@ export const SimilarHotelTile = (props:HotelTileProps) => {
                 
                 <div className="flex flex-col items-start gap-1 text-lg">
                     <span>from <strong>€{getDayRate()}</strong>/night</span>
-                    <span>{calculateNights()} nights, {props.adults+props.children} guests</span>
+                    <span>{calculateNights()} nights, {calculateGuests()} guests</span>
                 </div>
                 <div className="flex flex-col items-end gap-1">
                     <span className="text-3xl font-medium">€{getRate()}</span>

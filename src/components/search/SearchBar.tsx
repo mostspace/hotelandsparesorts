@@ -6,6 +6,8 @@ import { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns"
+import { SearchRoom } from "./SearchRoom"
+import { json } from "stream/consumers"
 
 interface SearchBarProps{
     showBorders:boolean
@@ -28,8 +30,9 @@ export const SearchBar = (props:SearchBarProps) => {
     const [showCheckOutPicker, setShowCheckOutPicker] = useState(false);
     const [showGuestPicker, setShowGuestPicker] = useState(false);
 
-    const [adults, setAdults] = useState(props.existingData.adults || 1);
-    const [children, setChildren] = useState(props.existingData.children || 0);
+
+    const [rooms, setRooms] = useState<any[]>(props.existingData.rooms || [{adults:2,children:0}]);
+    const [updateVar, setUpdateVar] = useState(0);
 
 
     const today = new Date()
@@ -83,7 +86,6 @@ export const SearchBar = (props:SearchBarProps) => {
           setCoords(coords)
         }
       };
-
     
 
     const searchClicked = () => {
@@ -94,25 +96,58 @@ export const SearchBar = (props:SearchBarProps) => {
             let hid = props.existingData.hid
             router.push(`/hotel-profile?hid=${hid}&checkIn=${format(checkInDate||new Date(), 'yyyy-MM-dd')}&checkOut=${format(checkOutDate||new Date(), 'yyyy-MM-dd')}`)
         }else{
-            router.push(`/search?searchID=${searchID}&location=${locationName}&lat=${coords.lat}&lng=${coords.lng}&check-in=${format(checkInDate||new Date(), 'yyyy-MM-dd')}&check-out=${format(checkOutDate||new Date(), 'yyyy-MM-dd')}&adults=${adults}&children=${children}`)
+            router.push(`/search?searchID=${searchID}&location=${locationName}&lat=${coords.lat}&lng=${coords.lng}&check-in=${format(checkInDate||new Date(), 'yyyy-MM-dd')}&check-out=${format(checkOutDate||new Date(), 'yyyy-MM-dd')}&rooms=${JSON.stringify(rooms)}`)
         }
 
     } 
 
-    const removeAdult = () => {
-        setAdults(adults-1>0?adults-1:0)
+    const showRooms = () => {
+
+        const compArray:any[] = []
+
+
+        let index = 1
+
+        rooms.forEach(room => {
+            compArray.push(<SearchRoom index={index} adults={room.adults} children={room.children} removeRoom={removeRoom} updateRoom={updateRoom}/>)
+            index++
+        });
+
+
+        return compArray
     }
 
-    const addAdult = () => {
-        setAdults(adults+1)
+    const addRoom = () => {
+        rooms.push({adults:0,children:0})
+        setRooms(rooms)
+        setUpdateVar(updateVar+1)
     }
 
-    const removeChild = () => {
-        setChildren(children-1>0?children-1:0)
+    const removeRoom = (index:number) => {
+        
+        rooms.splice(index-1, 1);
+        setRooms(rooms)
+        setUpdateVar(updateVar+1)
+
+        console.log("ROOMS REM",rooms)
     }
 
-    const addChild = () => {
-        setChildren(children+1)
+    const updateRoom = (index:number,data:any) => {
+        rooms[index-1] = data
+        setRooms(rooms)
+        setUpdateVar(updateVar+1)
+        console.log("ROOMS UPD",rooms)
+    }
+
+    const calculateGuests = () => {
+        let guests = 0
+
+        rooms.forEach(room => {
+            guests+=room.adults
+            guests+=room.children
+        });
+
+        return guests
     }
 
 
@@ -196,52 +231,19 @@ export const SearchBar = (props:SearchBarProps) => {
 
         <div className={`relative flex flex-col gap-1 items-start text-base  bg-light px-[20px] py-[10px] w-[20%] cursor-pointer ${props.showBorders?"border border-primary":""} rounded-lg`} onClick={()=>openPicker('guests')}>
             <span className="font-bold">Guests</span>
-            <span className={`font-normal`}>{`1 Room, ${adults+children} Guests`}</span>
+            <span className={`font-normal`}>{`${rooms.length} Room, ${calculateGuests()} Guests`}</span>
 
-           {showGuestPicker && <div className="absolute w-full left-0 top-21 rounded-md border border-primary bg-white flex flex-col gap-3 p-5 z-10">
+           {showGuestPicker && <div className="absolute w-full left-0 top-21 rounded-md border border-primary bg-white flex flex-col gap-4 p-5 z-10">
                 
-                <div className="w-full flex flex-row justify-between items-center">
-                    <div className="flex flex-col items-start">
-                        <span className="text-lg font-medium">Adults</span>
-                        <span>18+</span>
-                    </div>
-                    <div className=" flex flex-row justify-end items-center gap-3 font-medium text-2xl">
-                        <div className="h-[30px] w-[30px] bg-accent flex rounded-full justify-center items-center text-light" onClick={removeAdult}>
-                            -
-                        </div>
-                        <span  className="w-[20px] text-center">{adults}</span>
-                        <div className="h-[30px] w-[30px] bg-accent flex rounded-full justify-center items-center text-light"  onClick={addAdult}>
-                            +
-                        </div>
-                    </div>
-                </div>
+                {showRooms()}
 
-                <div className="w-full h-px bg-primary/50"/>
-
-                <div className="w-full flex flex-row justify-between items-center">
-                    <div className="flex flex-col items-start">
-                        <span className="text-lg font-medium">Children</span>
-                        <span>1-17</span>
-                    </div>
-                    <div className=" flex flex-row justify-end items-center gap-3 font-medium text-2xl">
-                        <div className="h-[30px] w-[30px] bg-accent flex rounded-full justify-center items-center text-light"  onClick={removeChild}>
-                            -
-                        </div>
-                        <span className="w-[20px] text-center">{children}</span>
-                        <div className="h-[30px] w-[30px] bg-accent flex rounded-full justify-center items-center text-light"  onClick={addChild}>
-                            +
-                        </div>
-                    </div>
-                </div>
-
-                <div className="w-full h-px bg-primary/50"/>
-
+                <Button className="bg-accent" onClick={addRoom} disabled={rooms.length>4}>Add Room</Button>
             </div>}
         </div>
 
         <Button 
             className="h-[80px] w-[15%] bg-accent text-lg font-bold" 
-            disabled={!coords || !checkInDate || !checkOutDate || adults === 0} 
+            disabled={(!coords && !props.existingData.hid)|| !checkInDate || !checkOutDate || calculateGuests() === 0} 
             onClick={searchClicked}
         >
             SEARCH
