@@ -427,10 +427,6 @@ export default function HotelProfileScreen() {
             {/* FAQ SECTION */}
             <FAQs />
 
-
-           
-
-  
         </div>
 
          {/* SIMILAR HOTELS */}

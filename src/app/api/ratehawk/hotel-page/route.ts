@@ -59,11 +59,53 @@ export function POST(req:Request) {
         
         // let roomName = element.room_data_trans.main_name
         // let existing = filteredRates.filter(item => item.room_data_trans.main_name === roomName);
+
         let roomName = element.room_name
         let existing = filteredRates.filter(item => item.room_name === roomName);
-        if(existing.length === 0){
+
+        let newPayType = element.payment_options.payment_types[0]
+        let newPayAmount = newPayType.amount
+        let newPayCancellation = newPayType.cancellation_penalties.free_cancellation_before
+        
+
+        if(existing.length === 0 && newPayCancellation!==null){
           console.log("NEW ROOM",roomName)
           filteredRates.push(element)
+        }
+        else{
+
+          if(newPayCancellation !== null){
+
+            let replace = false
+
+            let currentRate = existing[0]
+
+            let currentPayType = currentRate.payment_options.payment_types[0]
+            let currentAmount = currentPayType.amount
+            let currentCancellation = currentPayType.cancellation_penalties.free_cancellation_before
+            
+            let weeksNotice = cancellationAtLeastWeekLong(newPayCancellation,checkIn)
+
+            if(weeksNotice){
+
+              if(newPayAmount<currentAmount)
+              {
+                replace = true
+              }
+              else if(newPayAmount===currentAmount && moreNotice(currentCancellation,newPayCancellation)){
+                replace = true
+              }
+
+            }
+
+            if(replace){
+              let removed = filteredRates.filter(item => item.match_hash !== currentRate.match_hash);
+              removed.push(element)
+              filteredRates = removed
+            }
+          }
+
+          
         }
       });
 
@@ -84,4 +126,32 @@ export function POST(req:Request) {
 
     })
 
+}
+
+const cancellationAtLeastWeekLong = (cancellationDate:string,checkInDate:string) => {
+
+  let formattedCancellation = cancellationDate.split("T")[0]
+
+  let d1 = new Date(formattedCancellation)
+  let d2 = new Date(checkInDate)
+
+  const diffMs = Math.abs(d2.getTime() - d1.getTime());
+
+  // convert to days
+  const diffDays = diffMs / (1000 * 60 * 60 * 24);
+
+  return diffDays >= 7;
+}
+
+
+const moreNotice = (cancellationDate:string,newCancellationDate:string) => {
+
+  let formattedCancellation = cancellationDate.split("T")[0]
+  let formattedNewCancellation = newCancellationDate.split("T")[0]
+
+  let d1 = new Date(formattedCancellation)
+  let d2 = new Date(formattedNewCancellation)
+
+ 
+  return d2>d1;
 }
