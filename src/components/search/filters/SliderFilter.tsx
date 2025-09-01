@@ -11,7 +11,7 @@ interface CheckedListFilterProps{
 export const SliderFilter = (props:CheckedListFilterProps) => {
 
     const MIN = 25;
-    const MAX = 2500;
+    const MAX = 1000;
 
     const [values, setValues] = useState(props.selected);
 

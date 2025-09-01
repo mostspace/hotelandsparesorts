@@ -83,6 +83,7 @@ export const SearchBar = (props:SearchBarProps) => {
             
           setLocationName(place.name)
           let coords = {lat:location.lat(),lng:location.lng()}
+          console.log(`lat=${coords.lat}&lng=${coords.lng}`)
           setCoords(coords)
         }
       };

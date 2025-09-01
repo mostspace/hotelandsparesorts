@@ -29,7 +29,7 @@ export const SearchFilters = (props:SearchFiltersProps) => {
             id:'A',
             title:"Price per night",
             type:"slider",
-            selected:getExistingFilterValue('A',[25,2500])
+            selected:getExistingFilterValue('A',[25,1000])
         },
         {
             id:'B',
@@ -95,7 +95,7 @@ export const SearchFilters = (props:SearchFiltersProps) => {
                     <SliderFilter
                         filterID={filter.id}
                         title={filter.title}
-                        selected={filter.selected||[25,2500]}
+                        selected={filter.selected||[25,1000]}
                         valueChanged={filterChanged}
                     />
                 )
@@ -112,7 +112,7 @@ export const SearchFilters = (props:SearchFiltersProps) => {
     const clearAllFilters = () => {
         setSearchName("")
         selectedFilters.forEach(filter => {
-            if(filter.id=="A"){filter.selected=[25,2500]}
+            if(filter.id=="A"){filter.selected=[25,1000]}
             else{filter.selected=[]}
         });
 

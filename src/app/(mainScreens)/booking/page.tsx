@@ -141,9 +141,12 @@ export default function BookingScreen() {
   return (
     <div className="w-full flex flex-col items-center bg-light px-[118px] py-[90px] gap-[86px]" >
       
+    <span className="mt-[-50px] mb-[-30px] font-medium text-lg text-accent">You have 10 minutes to complete this booking, from when rate was selected.</span>
+
     {/* STEP BAR */}
     <div className="w-full flex flex-row gap-8 items-center text-lg font-medium">
         
+
         <div className="flex w-170 flex-row gap-4 items-center">
             <div className={`w-[42px] h-[42px] rounded-full flex justify-center items-center ${currentStep>1?"bg-accent/50":"bg-accent"}`}>
                 {currentStep>1?check:<span className="text-light text-xl">1</span>}
