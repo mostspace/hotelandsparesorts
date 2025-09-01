@@ -15,6 +15,21 @@ import { onAuthStateChanged } from "firebase/auth";
 
 export default function SearchScreen() {
 
+  const getTodayPlusDay = (days: number) => {
+    const today = new Date();
+
+    // add days
+    today.setDate(today.getDate() + days);
+
+    // format YYYY-MM-DD
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0"); 
+    const day = String(today.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
+
+
   const router = useRouter();
   // eslint-disable-next-line @next/next/no-async-client-component
   const searchParams = useSearchParams();
@@ -22,8 +37,8 @@ export default function SearchScreen() {
   const latP = searchParams.get('lat');
   const lngP = searchParams.get('lng');
 
-  const checkIn = searchParams.get('check-in');
-  const checkOut = searchParams.get('check-out');
+  const checkIn = searchParams.get('check-in') || getTodayPlusDay(10);
+  const checkOut = searchParams.get('check-out') || getTodayPlusDay(12);
 
   const rooms = (searchParams.has('rooms')?JSON.parse(searchParams.get('rooms')||""):[]);
 
@@ -106,6 +121,11 @@ export default function SearchScreen() {
 
     setLoading(false)
     setUpdateVar(updateVar+1)
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth" // or "auto" for instant jump
+    });
   }
 
   const showHotels = () => {
@@ -153,7 +173,7 @@ export default function SearchScreen() {
 
     let filterArray:any[] = []
     filters.forEach(filter => {
-      if(filter.value || filter.selected.length>0){
+      if(filter.value !== undefined || filter.selected.length>0){
 
         if(filter.id === "N"){
           filterArray.push({
@@ -171,7 +191,10 @@ export default function SearchScreen() {
       }
     });
 
-    router.push(`/search?searchID=${searchID}&location=${locationName}&lat=${latNum}&lng=${lngNum}&check-in=${checkIn}&check-out=${checkOut}&rooms=${JSON.stringify(rooms)}&filters=${JSON.stringify(filterArray)}`)
+    router.replace(
+      `/search?searchID=${searchID}&location=${locationName}&lat=${latNum}&lng=${lngNum}&check-in=${checkIn}&check-out=${checkOut}&rooms=${JSON.stringify(rooms)}&filters=${JSON.stringify(filterArray)}`,
+      { scroll: false }
+    );
     
 
     // loadHotels(lat||0,lng||0,radius,filters)

@@ -45,6 +45,7 @@ export default function HotelProfileScreen() {
   const [tripAdvisorID, setTripAdvisorID] = useState<any>("");
 
   const [reviews, setReviews] = useState<any[]>([]);
+  const [rating, setRating] = useState<any>(0);
 
   const [checkInDate, setCheckInDate] = useState<String>(checkInDateP||"");
   const [checkOutDate, setCheckoutDate] = useState<String>(checkOutDateP||"");
@@ -60,10 +61,19 @@ export default function HotelProfileScreen() {
 
 
     useEffect(() => {
-      const checkIn = searchParams.get('check-in')||"";
-      const checkOut = searchParams.get('check-out')||"";
+      let checkIn = searchParams.get('check-in')||"";
+      let checkOut = searchParams.get('check-out')||"";
       const hidStr = searchParams.get('hid');
 
+      if(checkIn === ""){
+        checkIn = getTodayPlusDay(10)
+        setCheckInDate(checkIn)
+      }
+
+      if(checkOut === ""){
+        checkOut = getTodayPlusDay(12)
+        setCheckoutDate(checkOut)
+      }
       
       console.log("NEW PARAMS", checkIn,checkOut)
       loadHotel(checkIn,checkOut)
@@ -102,6 +112,11 @@ export default function HotelProfileScreen() {
     console.log("Hotel:", data);
 
     setHotel(data)
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth" // or "auto" for instant jump
+    });
+
     loadSimilarHotels(checkIn,checkout,+data.lat,+data.lng)
 
   
@@ -110,6 +125,7 @@ export default function HotelProfileScreen() {
       setTripAdvisorID(data.tripadvisor_id)
     }
     setLoading(false)
+    
   }
 
   const loadSimilarHotels = async (checkIn:string,checkOut:string,lat:number,lng:number) => {
@@ -145,7 +161,8 @@ export default function HotelProfileScreen() {
     const data = await res.json();
 
     console.log("REVIEW DATA",data)
-    setReviews(data)
+    setReviews(data.reviews)
+    setRating(data.general.rating)
   }
 
 
@@ -255,6 +272,31 @@ export default function HotelProfileScreen() {
     infoBoxRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
+
+  const getTodayPlusDay = (days: number) => {
+    const today = new Date();
+
+    // add days
+    today.setDate(today.getDate() + days);
+
+    // format YYYY-MM-DD
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0"); 
+    const day = String(today.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
+
+
+  const getRatingTitle = () => {
+
+    if(rating>4.5){return "Excellent"}
+    else if(rating>3.9){return "Very Good"}
+    else if(rating>2.9){return "Average"}
+    else if(rating>1.9){return "Poor"}
+    else{return "Terrible"}
+
+  }
 
     
   return (
@@ -375,7 +417,7 @@ export default function HotelProfileScreen() {
             {/* ROOMS SECTION */}
             <div className="w-full flex flex-col gap-10 items-start">
                 <span className="text-5xl" style={{fontFamily:'Harlow'}}>Select your room:</span>
-                {hotel.rates && <div className="w-full flex flex-row gap-5 items-center flex-wrap">
+                {hotel.rates.length>0 && <div className="w-full flex flex-row gap-5 items-center flex-wrap">
                   <Button className="h-[42px] w-[42px] z-5 bg-light/78 rounded-[10px]  border border-primary" onClick={()=>scrollRooms(-1)} disabled={roomIndex===0}>
                       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M25.002 16.0001C25.002 16.5523 24.5547 17.0001 24.002 17.0001H9.8672L14.8301 24.4454C15.1367 24.9049 15.0127 25.526 14.5528 25.8321C14.3818 25.9459 14.1895 26.0001 13.999 26.0001C13.6758 26.0001 13.3584 25.8438 13.166 25.5548L6.7959 16.0001L13.166 6.44538C13.4717 5.98538 14.0908 5.86088 14.5527 6.16808C15.0127 6.47428 15.1367 7.09528 14.83 7.55478L9.8672 15.0001H24.002C24.5547 15.0001 25.002 15.4479 25.002 16.0001Z" fill="#333337"/>
@@ -388,6 +430,7 @@ export default function HotelProfileScreen() {
                         </svg>
                     </Button>
                 </div>}
+                {hotel.rates.length === 0 && <span>Unfortunately, there are no rooms available for the dates you have selected.</span>}
             </div>
 
             {/* INFO SECTION */}
@@ -400,9 +443,9 @@ export default function HotelProfileScreen() {
                 <span className="text-5xl" style={{fontFamily:'Harlow'}}>REVIEWS</span>
 
                 <div className="p-[21px] flex flex-row gap-5 items-center bg-muted/50 border border-accent rounded-[10px] cursor-pointer" onClick={openTripAdvisor}>
-                    <span className="text-5xl" style={{fontFamily:'Harlow'}}>4.6</span>
+                    <span className="text-5xl" style={{fontFamily:'Harlow'}}>{rating}</span>
                     <div className="flex flex-col items-start">
-                        <span className="text-lg font-bold">Excellent</span>
+                        <span className="text-lg font-bold">{getRatingTitle()}</span>
                         <span>Verified Reviews</span>
                     </div>
                     <svg width="46" height="47" viewBox="0 0 46 47" fill="none" xmlns="http://www.w3.org/2000/svg">

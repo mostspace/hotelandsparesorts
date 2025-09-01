@@ -12,7 +12,14 @@ export function GET(req:Request) {
 
     const res = await fetch(`https://api.content.tripadvisor.com/api/v1/location/${locationID}/reviews?key=${API_KEY}&language=en&limit=10`, options)
     const data = await res.json();
-    resolve(NextResponse.json(data.data))
+
+    const res2 = await fetch(`https://api.content.tripadvisor.com/api/v1/location/${locationID}/details?key=${API_KEY}&language=en&currency=USD`,options);
+    const data2 = await res2.json();
+   
+
+
+
+    resolve(NextResponse.json({reviews:data.data,general:data2}))
 
     })
 

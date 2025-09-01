@@ -11,16 +11,16 @@ export function POST(req:Request) {
     const { hid,checkIn,checkOut,rooms} = await req.json();
 
     let roomArray:any[] = []
-      rooms.forEach((room: { adults:number, children: number; }) => {
+      rooms.forEach((room: { adults:number, children: number, childrenAges:any[]; }) => {
         
-          let childrenArray = []
-          for(var i=0;i<room.children;i++){
-            childrenArray.push(9)
-          }
+          // let childrenArray = []
+          // for(var i=0;i<room.children;i++){
+          //   childrenArray.push(9)
+          // }
 
           roomArray.push({
             adults:room.adults,
-            children:childrenArray
+            children:room.childrenAges
           })
           
       });
@@ -45,13 +45,15 @@ export function POST(req:Request) {
       
       const data = await response.json();
 
+      console.log("HOTEL PROFILE RES",data)
+
 
       let hotel = data.data.hotels[0]
 
       console.log("HOTEL",hotel)
 
 
-      let rates:any[] = hotel.rates
+      let rates:any[] = hotel?hotel.rates:[]
 
       let filteredRates:any[] = []
 
@@ -68,9 +70,11 @@ export function POST(req:Request) {
         let newPayCancellation = newPayType.cancellation_penalties.free_cancellation_before
         
 
-        if(existing.length === 0 && newPayCancellation!==null){
-          console.log("NEW ROOM",roomName)
-          filteredRates.push(element)
+        if(existing.length === 0 ){
+
+            if(newPayCancellation!==null && cancellationAtLeastWeekLong(newPayCancellation,checkIn)){
+              filteredRates.push(element)
+            }
         }
         else{
 

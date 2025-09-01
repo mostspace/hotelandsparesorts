@@ -52,13 +52,13 @@ export const SearchFilters = (props:SearchFiltersProps) => {
             options:['Car Parking','Disabled Access','Wifi','Family Friendly','Pool','Gym','Breakfast included'],
             selected:getExistingFilterValue('D',[])
         },
-        {
-            id:'E',
-            title:"Payment Type",
-            type:'checkList',
-            options:['Fully Refundable','Reserve Now, Pay Later'],
-            selected:getExistingFilterValue('E',[])
-        }
+        // {
+        //     id:'E',
+        //     title:"Payment Type",
+        //     type:'checkList',
+        //     options:['Fully Refundable','Reserve Now, Pay Later'],
+        //     selected:getExistingFilterValue('E',[])
+        // }
     ]
 
 
@@ -137,20 +137,23 @@ export const SearchFilters = (props:SearchFiltersProps) => {
 
         let combined = [...updatedFilters]
 
-        if(searchName.length>3){
+        // if(searchName.length>3){
             combined.push({id:'N',value:searchName})
-        }
+        // }
+
+        console.log("COMBINED",combined)
 
         props.applyFilters(combined)
     }
     
     useEffect(() => {
 
-        if(searchName.length>3){
+        // if(searchName.length>3){
             let combined = [...selectedFilters]
             combined.push({id:'N',value:searchName})
+            console.log("COMBGINED",combined)
             props.applyFilters(combined)
-        }
+        // }
 
 
     }, [searchName]);

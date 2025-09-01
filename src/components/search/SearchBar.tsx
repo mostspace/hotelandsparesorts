@@ -31,7 +31,7 @@ export const SearchBar = (props:SearchBarProps) => {
     const [showGuestPicker, setShowGuestPicker] = useState(false);
 
 
-    const [rooms, setRooms] = useState<any[]>(props.existingData.rooms || [{adults:2,children:0}]);
+    const [rooms, setRooms] = useState<any[]>(props.existingData.rooms || [{adults:2,children:0,childrenAges:[]}]);
     const [updateVar, setUpdateVar] = useState(0);
 
 
@@ -94,7 +94,7 @@ export const SearchBar = (props:SearchBarProps) => {
 
         if(props.existingData.hid){
             let hid = props.existingData.hid
-            router.push(`/hotel-profile?hid=${hid}&checkIn=${format(checkInDate||new Date(), 'yyyy-MM-dd')}&checkOut=${format(checkOutDate||new Date(), 'yyyy-MM-dd')}`)
+            router.push(`/hotel-profile?hid=${hid}&check-in=${format(checkInDate||new Date(), 'yyyy-MM-dd')}&check-out=${format(checkOutDate||new Date(), 'yyyy-MM-dd')}&rooms=${JSON.stringify(rooms)}`)
         }else{
             router.push(`/search?searchID=${searchID}&location=${locationName}&lat=${coords.lat}&lng=${coords.lng}&check-in=${format(checkInDate||new Date(), 'yyyy-MM-dd')}&check-out=${format(checkOutDate||new Date(), 'yyyy-MM-dd')}&rooms=${JSON.stringify(rooms)}`)
         }
@@ -109,7 +109,7 @@ export const SearchBar = (props:SearchBarProps) => {
         let index = 1
 
         rooms.forEach(room => {
-            compArray.push(<SearchRoom index={index} adults={room.adults} children={room.children} removeRoom={removeRoom} updateRoom={updateRoom}/>)
+            compArray.push(<SearchRoom index={index} adults={room.adults} children={room.children} childrenAges={room.childrenAges} removeRoom={removeRoom} updateRoom={updateRoom}/>)
             index++
         });
 

@@ -11,16 +11,16 @@ export function POST(req:Request) {
       const { lat,lng,checkIn,checkOut,rooms,radius,filters,exludedHid } = await req.json();
 
       let roomArray:any[] = []
-      rooms.forEach((room: { adults:number, children: number; }) => {
+      rooms.forEach((room: { adults:number, children: number, childrenAges:any[]; }) => {
         
-          let childrenArray = []
-          for(var i=0;i<room.children;i++){
-            childrenArray.push(9)
-          }
+          // let childrenArray = []
+          // for(var i=0;i<room.children;i++){
+          //   childrenArray.push(9)
+          // }
 
           roomArray.push({
             adults:room.adults,
-            children:childrenArray
+            children:room.childrenAges
           })
           
       });

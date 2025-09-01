@@ -39,12 +39,15 @@ export const RoomTile = (props:RoomTileProps) => {
         let roomName = props.rateObj.room_data_trans.main_name
 
         let images = props.images.filter(item => item.title === roomName);
+        setIndex(0)
         setRoomImages(images)
     }, [props.rateObj.book_hash])
 
     const showImage = () => {
 
+
         let image = roomImages.length>0?roomImages[index]:props.images[0]
+
 
         let imageUrl = image.url
         let newURL = imageUrl.replace('{size}','240x240')
@@ -166,6 +169,42 @@ export const RoomTile = (props:RoomTileProps) => {
         router.push(`/booking?order=${orderID}`)
     }
 
+    const getCancellationDate = () => {
+        let cancellationBefore = props.rateObj.payment_options.payment_types[0].cancellation_penalties.free_cancellation_before
+        if(cancellationBefore){
+
+            let formattedDate = formatDate(cancellationBefore)
+            return "Full refund before " + formattedDate
+        }
+        else{
+            return "No refund"
+        }
+    }
+
+    function formatDate(dateStr: string): string {
+        const date = new Date(dateStr);
+
+        const day = date.getDate();
+        const month = date.toLocaleString("en-GB", { month: "short" }); // "Oct"
+
+        // add ordinal suffix (st, nd, rd, th)
+        const suffix =
+            day % 10 === 1 && day !== 11 ? "st" :
+            day % 10 === 2 && day !== 12 ? "nd" :
+            day % 10 === 3 && day !== 13 ? "rd" :
+            "th";
+
+        return `${day}${suffix} ${month}`;
+    }
+
+    const getExtras = () => {
+        let meal = props.rateObj.meal
+        if(meal === null || meal === "nomeal"){return "Room Only"}
+        else{
+            return meal + " included"
+        }
+    }
+
     return(
         <div className="w-[375px] flex flex-col items-center gap-3.5">
 
@@ -204,7 +243,7 @@ export const RoomTile = (props:RoomTileProps) => {
                             <rect x="0.25" y="0.25" width="14.5" height="14.5" rx="7.25" stroke="#333337" stroke-opacity="0.2" stroke-width="0.5"/>
                             <circle cx="7.5" cy="7.5" r="4.5" fill="#333337"/>
                         </svg>
-                        <span className="text-lg">Full refund before 3 Aug</span>
+                        <span className="text-lg">{getCancellationDate()}</span>
                     </div>
                 </div>
 
@@ -217,7 +256,7 @@ export const RoomTile = (props:RoomTileProps) => {
                             <rect x="0.25" y="0.25" width="14.5" height="14.5" rx="7.25" stroke="#333337" stroke-opacity="0.2" stroke-width="0.5"/>
                             <circle cx="7.5" cy="7.5" r="4.5" fill="#333337"/>
                         </svg>
-                        <span className="text-lg">Room Only</span>
+                        <span className="text-lg">{getExtras()}</span>
                     </div>
                 </div>
 

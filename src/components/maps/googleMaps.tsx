@@ -130,7 +130,7 @@ const initMap = useCallback((map: google.maps.Map) => {
     
         marker.addListener("click", () => {
           let hid = hotel.hid
-          router.push(`/hotel-profile?hid=${hid}&checkIn=${'2025-10-22'}&checkOut=${'2025-10-25'}`)
+          router.push(`/hotel-profile?hid=${hid}&check-in=${'2025-10-22'}&check-out=${'2025-10-25'}`)
 
         });
 

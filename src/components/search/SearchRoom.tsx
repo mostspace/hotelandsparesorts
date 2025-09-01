@@ -8,6 +8,7 @@ interface SearchRoomProps{
     index:number,
     adults:number,
     children:number,
+    childrenAges:number[]
     removeRoom:any,
     updateRoom:any
 }
@@ -18,6 +19,9 @@ export const SearchRoom = (props:SearchRoomProps) => {
     
     const [adults, setAdults] = useState(props.adults || 1);
     const [children, setChildren] = useState(props.children || 0);
+
+    const [childrenAges, setChildrenAges] = useState(props.childrenAges || []);
+    const [updateVar, setUpdateVar] = useState(0);
 
     
     useEffect(() => {
@@ -44,13 +48,58 @@ export const SearchRoom = (props:SearchRoomProps) => {
     const removeChild = () => {
         let childrenNew = children-1>0?children-1:0
         setChildren(childrenNew)
-        props.updateRoom(props.index,{adults:adults,children:childrenNew})
+        childrenAges.pop()
+        setChildrenAges(childrenAges)
+        props.updateRoom(props.index,{adults:adults,children:childrenNew,childrenAges})
     }
 
     const addChild = () => {
         let childrenNew = children+1
         setChildren(childrenNew)
-        props.updateRoom(props.index,{adults:adults,children:childrenNew})
+        childrenAges.push(10)
+        setChildrenAges(childrenAges)
+        props.updateRoom(props.index,{adults:adults,children:childrenNew,childrenAges})
+    }
+
+    const showChildrenAges = () => {
+        
+        let compArray:any[] = []
+
+        let index = 0
+        childrenAges.forEach(age => {
+            
+            const thisIndex = index
+            compArray.push(<div className="w-full flex justify-between items-center">
+                <span>Child {index+1} Age:</span>
+                <select 
+                    className="w-[80px] h-[54px] bg-white border border-primary/50 focus:outline-none p-[10px] text-xl" 
+                    value={age} 
+                    onChange={(e) => changeChildAge(thisIndex,+e.target.value)}
+                >
+
+                    {Array.from({ length: 17 }, (_, i) => i + 1).map((num) => (
+                        <option key={num} value={num}>
+                        {num}
+                        </option>
+                    ))}
+                </select>
+            </div>)
+            index++
+        });
+
+        return compArray
+    }
+
+    const changeChildAge = (index:number,value:number) => {
+
+
+        childrenAges[index] = value
+        setChildrenAges(childrenAges)
+        setUpdateVar(updateVar+1)
+        
+        props.updateRoom(props.index,{adults:adults,children:children,childrenAges})
+
+        console.log("CH AGES",childrenAges,index)
     }
 
 
@@ -76,11 +125,11 @@ export const SearchRoom = (props:SearchRoomProps) => {
                         <span>18+</span>
                     </div>
                     <div className=" flex flex-row justify-end items-center gap-3 font-medium text-2xl">
-                        <button className="h-[30px] w-[30px] bg-accent flex rounded-full justify-center items-center text-light disabled:bg-accent/50" onClick={removeAdult} disabled={adults===0}>
+                        <button className="h-[30px] w-[30px] bg-accent flex rounded-full justify-center items-center text-light disabled:bg-accent/50 cursor-pointer" onClick={removeAdult} disabled={adults===0}>
                             -
                         </button>
                         <span  className="w-[20px] text-center">{adults}</span>
-                        <button className="h-[30px] w-[30px] bg-accent flex rounded-full justify-center items-center text-light disabled:bg-accent/50"  onClick={addAdult} disabled={adults+children===5}>
+                        <button className="h-[30px] w-[30px] bg-accent flex rounded-full justify-center items-center text-light disabled:bg-accent/50 cursor-pointer"  onClick={addAdult} disabled={adults+children===5}>
                             +
                         </button>
                     </div>
@@ -94,15 +143,23 @@ export const SearchRoom = (props:SearchRoomProps) => {
                         <span>1-17</span>
                     </div>
                     <div className=" flex flex-row justify-end items-center gap-3 font-medium text-2xl">
-                        <button className="h-[30px] w-[30px] bg-accent flex rounded-full justify-center items-center text-light disabled:bg-accent/50"  onClick={removeChild} disabled={children===0}>
+                        <button className="h-[30px] w-[30px] bg-accent flex rounded-full justify-center items-center text-light disabled:bg-accent/50 cursor-pointer"  onClick={removeChild} disabled={children===0}>
                             -
                         </button>
                         <span className="w-[20px] text-center">{children}</span>
-                        <button className="h-[30px] w-[30px] bg-accent flex rounded-full justify-center items-center text-light disabled:bg-accent/50"  onClick={addChild} disabled={adults+children===5}>
+                        <button className="h-[30px] w-[30px] bg-accent flex rounded-full justify-center items-center text-light disabled:bg-accent/50 cursor-pointer"  onClick={addChild} disabled={adults+children===5}>
                             +
                         </button>
                     </div>
                 </div>
+
+
+                <div className="w-full h-px bg-primary/50"/>
+
+                <div className="w-full flex flex-col gap-2">
+                    {showChildrenAges()}
+                </div>
+
 
                 <div className="w-full h-[2px] bg-primary/50"/>
 
