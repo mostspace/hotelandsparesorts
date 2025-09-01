@@ -17,6 +17,7 @@ import Head from "next/head";
 import { LoadingPopUp } from "@/components/LoadingPopUp";
 import { auth } from "@/app/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import ErrorPopUp from "@/components/general/ErrorPopUp";
 
 
 
@@ -245,6 +246,17 @@ export default function HotelProfileScreen() {
 
     return compArray
   }
+  const showAllRates = () => {
+
+    let compArray:any = []
+
+    let rates:any[] = hotel.rates
+
+    rates.forEach(rate => {
+      compArray.push(<RoomTile images={hotel.images} rateObj={rate}/>)
+    });
+    return compArray
+  }
 
   const scrollRooms = (direction:number) => {
 
@@ -316,7 +328,7 @@ export default function HotelProfileScreen() {
       {hotel &&<div className="w-full flex flex-col items-center" >
         
         {/* TOP SECTION */}
-        <div className="w-full px-[120px] py-[55px] flex flex-col gap-[60px] items-start bg-muted">
+        <div className="w-full px-5 md:px-[120px] py-[55px] flex flex-col gap-[60px] items-start bg-muted">
             
             {/* BREADCRUMBS */}
             <div className="flex flex-row items-center gap-2">
@@ -330,8 +342,8 @@ export default function HotelProfileScreen() {
             {/* Hotel Basic Details */}
             <div className="w-full flex flex-col gap-5 items-start">
                 <span className="text-5xl" style={{fontFamily:'Harlow'}}>{(hotel.hotel_name).toUpperCase()}</span>
-                <div className="w-full flex flex-row justify-between items-center">
-                    <div className="flex flex-row gap-10 text-lg items-center">
+                <div className="w-full flex md:flex-row flex-col justify-between md:items-center items-start">
+                    <div className="flex md:flex-row flex-col gap-10 text-lg md:items-center items-start">
                         
                         <div className="flex flex-row gap-2.5 items-center">
                           <svg width="15" height="20" viewBox="0 0 15 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -340,7 +352,7 @@ export default function HotelProfileScreen() {
                           <span>{hotel.address}</span>
                         </div>
 
-                        <div className="h-[20px] w-px bg-primary"/>
+                        <div className="hidden md:block h-[20px] w-px bg-primary"/>
 
                         <div className="flex flex-row items-center gap-4">
                             <span>{hotel.star_rating} Star</span>
@@ -371,10 +383,10 @@ export default function HotelProfileScreen() {
         </div>
 
         {/* MAIN SECTION */}
-        <div className="w-full p-[120px] flex flex-col gap-[80px] bg-light">
+        <div className="w-full md:p-[120px] p-5 flex flex-col gap-[80px] bg-light">
 
             {/* BIO SECTION */}
-            <div className=" flex flex-row items-start gap-12">
+            <div className=" flex md:flex-row flex-col items-start gap-12">
               
               <div className="w-full flex flex-col gap-[60px] items-start">
                   <Amenities amenityList={hotel.amenities} source="profile"/>
@@ -417,14 +429,19 @@ export default function HotelProfileScreen() {
             {/* ROOMS SECTION */}
             <div className="w-full flex flex-col gap-10 items-start">
                 <span className="text-5xl" style={{fontFamily:'Harlow'}}>Select your room:</span>
-                {hotel.rates.length>0 && <div className="w-full flex flex-row gap-5 items-center flex-wrap">
-                  <Button className="h-[42px] w-[42px] z-5 bg-light/78 rounded-[10px]  border border-primary" onClick={()=>scrollRooms(-1)} disabled={roomIndex===0}>
+                {hotel.rates.length>0 && <div className="w-full flex flex-row gap-5 items-center">
+                  <Button className="hidden md:block h-[42px] w-[42px] z-5 bg-light/78 rounded-[10px]  border border-primary" onClick={()=>scrollRooms(-1)} disabled={roomIndex===0}>
                       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M25.002 16.0001C25.002 16.5523 24.5547 17.0001 24.002 17.0001H9.8672L14.8301 24.4454C15.1367 24.9049 15.0127 25.526 14.5528 25.8321C14.3818 25.9459 14.1895 26.0001 13.999 26.0001C13.6758 26.0001 13.3584 25.8438 13.166 25.5548L6.7959 16.0001L13.166 6.44538C13.4717 5.98538 14.0908 5.86088 14.5527 6.16808C15.0127 6.47428 15.1367 7.09528 14.83 7.55478L9.8672 15.0001H24.002C24.5547 15.0001 25.002 15.4479 25.002 16.0001Z" fill="#333337"/>
                       </svg>
                   </Button>
-                  {showRates()}
-                  <Button className="h-[42px] w-[42px] z-5 bg-light/78 rounded-[10px]  border border-primary" onClick={()=>scrollRooms(1)} disabled={roomIndex===hotel.rates.length-4}>
+                  <div className="w-full hidden md:flex flex-row gap-5 items-center flex-wrap">
+                    {showRates()}
+                  </div>
+                  <div className="w-full md:hidden flex flex-col gap-10 items-center">
+                      {showAllRates()}
+                  </div>
+                  <Button className="hidden md:block h-[42px] w-[42px] z-5 bg-light/78 rounded-[10px]  border border-primary" onClick={()=>scrollRooms(1)} disabled={roomIndex===hotel.rates.length-4}>
                         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M6.998 15.9999C6.998 15.4477 7.4453 14.9999 7.998 14.9999L22.1328 14.9999L17.1699 7.55462C16.8633 7.09512 16.9873 6.47402 17.4472 6.16792C17.6182 6.05412 17.8105 5.99992 18.001 5.99992C18.3242 5.99992 18.6416 6.15622 18.834 6.44522L25.2041 15.9999L18.834 25.5546C18.5283 26.0146 17.9092 26.1391 17.4473 25.8319C16.9873 25.5257 16.8633 24.9047 17.17 24.4452L22.1328 16.9999L7.998 16.9999C7.4453 16.9999 6.998 16.5521 6.998 15.9999Z" fill="#333337"/>
                         </svg>
@@ -455,7 +472,7 @@ export default function HotelProfileScreen() {
                 </div>
 
 
-                <div className="w-full flex flex-row gap-[150px] items-start">
+                <div className="w-full flex md:flex-row flex-col md:gap-[150px] gap-[50px] items-start">
                   {reviews.length>0 && <HotelReview review={reviews[0]}/>}
                   {reviews.length>1 && <HotelReview review={reviews[1]}/>}
                   {reviews.length>2 && <HotelReview review={reviews[2]}/>}
@@ -473,9 +490,9 @@ export default function HotelProfileScreen() {
         </div>
 
          {/* SIMILAR HOTELS */}
-         <div className="w-full p-[120px] flex flex-col gap-[80px] bg-[#D6C6B9]">
+         <div className="w-full p-5 md:p-[120px] flex flex-col gap-[80px] bg-[#D6C6B9]">
             <span className="text-5xl" style={{fontFamily:'Harlow'}}>SIMILAR HOTELS IN {locationName.toUpperCase()}</span>
-            <div className="w-full flex flex-row gap-[50px]">
+            <div className="w-full flex md:flex-row flex-col gap-[50px]">
               {similarHotels.length > 0 && <SimilarHotelTile hotel={similarHotels[0]} checkIn={checkInDateP+""} checkOut={checkOutDateP+""} rooms={rooms} source="similarHotel" locationName={locationName} />}
               {similarHotels.length > 1 && <SimilarHotelTile hotel={similarHotels[1]} checkIn={checkInDateP+""} checkOut={checkOutDateP+""} rooms={rooms} source="similarHotel" locationName={locationName} />}
               {similarHotels.length > 2 && <SimilarHotelTile hotel={similarHotels[2]} checkIn={checkInDateP+""} checkOut={checkOutDateP+""} rooms={rooms} source="similarHotel" locationName={locationName} />}

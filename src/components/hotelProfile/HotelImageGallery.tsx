@@ -44,16 +44,16 @@ export const HotelImageGallery = (props:HotelImageGalleryProps) => {
     }
 
     return(
-        <div className="w-full h-[760px] flex flex-row relative gap-6">
+        <div className="w-full md:h-[760px] h-[500px] flex flex-row relative gap-6">
             
-            <img className="h-full w-[50%]" src={formatImage(props.images[0])}/>
+            <img className="h-full md:w-[50%] w-full" src={formatImage(props.images[0])}/>
 
-            <div className="h-full w-[50%] flex flex-row gap-6">
+            <div className="hidden h-full w-[50%] md:flex flex-row gap-6">
                 <div className="h-full w-[50%] flex flex-col gap-6">
                     <img className="h-[48%] w-full bg-accent" src={formatImage(props.images[1])}/>
                     <img className="h-[49%] w-full bg-accent" src={formatImage(props.images[2])} />
                 </div>
-                <div className="h-full w-[50%] flex flex-col gap-6">
+                <div className="hidden h-full w-[50%] md:flex flex-col gap-6">
                     <img className="h-[48%] w-full bg-accent object-cover" src={formatImage(props.images[3])}/>
                     <img className="h-[49%] w-full bg-accent object-cover" src={formatImage(props.images[4])}/>
                 </div>

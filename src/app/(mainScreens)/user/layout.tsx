@@ -130,11 +130,11 @@ export default function UserLayout({
 
             const isActive = pathname.includes(option); 
             
-            compArray.push(<div className='w-full flex flex-row gap-8 items-start'>
+            compArray.push(<div className='w-full flex flex-row md:gap-8 gap-2 items-start'>
                 <div className='w-full flex flex-col gap-5 items-start'>
-                    <div className='flex flex-row justify-start items-center gap-8.5 cursor-pointer' onClick={()=>changePage(option)}>
+                    <div className='flex flex-row justify-start items-center md:gap-8.5 cursor-pointer' onClick={()=>changePage(option)}>
                         {getIcon(option,isActive)}
-                        <span className={`text-xl ${isActive?"font-bold text-accent":""}`}>{titleCase(option)}</span>
+                        <span className={`hidden md:block text-xl ${isActive?"font-bold text-accent":""}`}>{titleCase(option)}</span>
                     </div>
                     <div className='w-full h-px bg-primary/50'/>
                 </div>
@@ -171,7 +171,7 @@ export default function UserLayout({
   return (
     <div className="flex flex-row w-full">
       
-      <div className='w-[330px] h-full flex flex-col justify-between  pl-[20px] py-[32px]' style={{ minHeight: "calc(100vh - 200px)" }}>
+      <div className='md:w-[330px] h-full flex flex-col justify-between  pl-[20px] py-[32px]' style={{ minHeight: "calc(100vh - 200px)" }}>
 
         <div className='flex flex-col w-full gap-7.5 items-start'>
             {showSideBarOptions()}
@@ -179,7 +179,7 @@ export default function UserLayout({
         <Button className='mr-4' onClick={logoutClicked}>Logout</Button>
       </div>
       
-      <main className="flex-1 p-6 bg-muted px-[100px] py-[68px]">
+      <main className="flex-1 p-6 bg-muted px-5 md:px-[100px] py-[68px]">
         {children}
       </main>
     </div>

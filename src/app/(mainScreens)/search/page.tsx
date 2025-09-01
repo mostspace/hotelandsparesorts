@@ -282,7 +282,7 @@ export default function SearchScreen() {
     <div className="w-full flex flex-col gap-[60px] py-10 text-primary" >
       
 
-      <div className="flex flex-col items-start px-[120px] gap-10">
+      <div className="flex flex-col items-start px-5 md:px-[120px] gap-10">
         <span className="text-lg">{'Home > Hotel Stays'}</span>
         <span className="text-6xl">BOOK A HOTEL STAY</span>
         <SearchBar showLocation={true} showBorders={true} existingData={{locationName:locationName, coords:{lat:latNum, lng:lngNum},checkInDate:checkIn,checkOutDate:checkOut,rooms}}/>
@@ -290,7 +290,7 @@ export default function SearchScreen() {
       
 
 
-      {!loggedIn && <div className="flex flex-row justify-between items-center px-[120px] py-[40px] bg-accentDark text-light">
+      {!loggedIn && <div className="flex flex-row justify-between items-center px-5 md:px-[120px] py-[40px] bg-accentDark text-light">
           
           <div className="flex flex-row gap-5 items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="44" height="54" viewBox="0 0 44 54" fill="none">
@@ -305,19 +305,19 @@ export default function SearchScreen() {
       </div>}
 
 
-      <div className="w-full flex flex-row gap-[70px] justify-start px-[120px]">
+      <div className="w-full flex flex-row gap-5 md:gap-[70px] justify-start px-5 md:px-[120px]">
           
           {/* FILTERS */}
           <SearchFilters applyFilters={applyFilters} filters={filters}/>
 
 
           {/* RESULTS SECTION */}
-          <div className="w-full flex flex-col gap-10">
+          <div className="w-full flex flex-col gap-10 ">
 
             
 
 
-            <div className="w-full flex flex-row justify-between">
+            <div className="w-full flex flex-row justify-between gap-5">
               {/* <Button onClick={()=>setMapOpen(!mapOpen)}>Show {mapOpen?"List":"Map"}</Button> */}
 
 
@@ -344,7 +344,7 @@ export default function SearchScreen() {
               </div>
 
               <div className="flex flex-row gap-7">
-                  <div className="w-[200px] flex flex-row border border-primary justify-between items-center px-[20px] py-[10px]">
+                  <div className="w-[200px] flex flex-row border border-primary justify-between items-center px-[20px] py-[10px] hidden">
                     <span>Sort By</span>
                     
                     <div className="flex flex-col">
@@ -358,7 +358,7 @@ export default function SearchScreen() {
 
                   </div>
 
-                  <div className="flex flex-row items-start gap-2">
+                  <div className="flex md:flex-row flex-col items-start gap-2">
                       <Switch className="h-5 w-8 mt-[5px] data-[state=checked]:bg-accent" checked={showDiscounts} onClick={()=>!loggedIn?goToLogin():null} onCheckedChange={(isChecked) => setShowDiscounts(isChecked)}/>
                       <div className="flex flex-col justify-start items-start gap-2">
                         <span className="font-medium text-lg">Member Discounts</span>
@@ -377,7 +377,7 @@ export default function SearchScreen() {
               {(!mapOpen && loading) && <span>Loading...</span>}
               {(!mapOpen && loading) && <LoadingPopUp />}
              
-              {mapOpen && <div className="w-full h-[100%] flex flex-row gap-2 "  >
+              {mapOpen && <div className="w-full md:h-[100%] h-[500px] flex flex-row gap-2 "  >
                 <MapProvider>
                   <MapComponent hotels={hotels} lat={lat||0} lng={lng||0} newSearch={mapMovedNewSearch} updateVar={updateVar} mini={false} source={"searchPage"}/>
                 </MapProvider>

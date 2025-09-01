@@ -25,7 +25,7 @@ export const BookingConfirmed = (props:BookingConfirmedProps) => {
                 </svg>
             </div>
 
-            <span className="text-9xl" style={{fontFamily:'Harlow'}}>Thank You</span>
+            <span className="text-9xl text-center" style={{fontFamily:'Harlow'}}>Thank You</span>
 
             <div className="text-2xl flex flex-col items-center gap-5">
                 <span>Your booking is confirmed</span>

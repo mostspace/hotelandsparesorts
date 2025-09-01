@@ -60,7 +60,7 @@ export const Header = () => {
     }
 
 
-    return <div className="w-full flex flex-col items-start gap-6 px-[175px] py-[28px] text-base font-medium bg-light">
+    return <div className="w-full flex flex-col items-start gap-6 px-5 md:px-[175px] py-[28px] text-base font-medium bg-light">
 
         <div className="w-full flex flex-row justify-between">
             <div className="flex flex-row gap-3">
@@ -89,11 +89,11 @@ export const Header = () => {
 
         <div className="h-px w-full bg-primary/40" />
 
-         <div className="w-full flex flex-row justify-between items-center">
+         <div className="w-full flex md:flex-row flex-col justify-between md:items-center items-start gap-2">
             
             <img className="w-[270px] cursor-pointer" src='/assets/hotelLogo.png' onClick={homeClicked}/>
             
-            <div className="flex flex-row items-center gap-6">
+            <div className="flex md:flex-row flex-col md:items-center items-start gap-6">
 
             <div className="flex flex-row">
                 <div className="flex flex-row gap-3 items-center">

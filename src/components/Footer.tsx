@@ -84,9 +84,9 @@ export const Footer = () => {
 
 
     return <div className="w-full flex flex-col">
-        <div className="w-full px-[120px] py-[90px] bg-muted">
+        <div className="w-full md:px-[120px] px-5 py-[90px] bg-muted">
 
-            <div className="w-full flex flex-row item-end justify-between">
+            <div className="w-full flex md:flex-row flex-col item-end justify-between gap-5">
                 
                 <div className="flex flex-col gap-3 items-start max-w-[638px]">
                     <span className="text-5xl font-normal">WIN a stylish break every month worth more than €250!</span>
@@ -111,9 +111,9 @@ export const Footer = () => {
         </div>
 
 
-        <div className="w-full px-[120px] py-[90px] bg-[#774D46] flex flex-col gap-10 items-start">
+        <div className="w-full md:px-[120px] px-8 py-[90px] bg-[#774D46] flex flex-col gap-10 items-start">
             
-            <div className="w-full flex flex-row item-start gap-[140px] text-light">
+            <div className="w-full flex md:flex-row flex-col md:item-start gap-[140px] text-light">
                 {displayLinks()}
             </div>
 

@@ -35,6 +35,15 @@ export default function BookingScreen() {
 
     }, [searchParams]);
 
+  useEffect(() => {
+   
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth" // or "auto" for instant jump
+    });
+
+  }, [currentStep]);
+
   const retrieveBooking = async (order:number) => {
         
       const res = await fetch("/api/bookings/retrieve", {
@@ -139,12 +148,12 @@ export default function BookingScreen() {
   </svg>
 
   return (
-    <div className="w-full flex flex-col items-center bg-light px-[118px] py-[90px] gap-[86px]" >
+    <div className="w-full flex flex-col items-center bg-light px-5 md:px-[118px] py-[90px] gap-[86px]" >
       
     <span className="mt-[-50px] mb-[-30px] font-medium text-lg text-accent">You have 10 minutes to complete this booking, from when rate was selected.</span>
 
     {/* STEP BAR */}
-    <div className="w-full flex flex-row gap-8 items-center text-lg font-medium">
+    <div className="w-full flex flex-row md:gap-8 gap-2 items-center text-lg font-medium">
         
 
         <div className="flex w-170 flex-row gap-4 items-center">
@@ -175,7 +184,7 @@ export default function BookingScreen() {
     </div>
 
 
-    {currentStep === 2 && booking && <div className="w-full flex flex-row items-start gap-8">
+    {currentStep === 2 && booking && <div className="w-full flex md:flex-row flex-col items-start gap-8">
       
       <div className="flex flex-col gap-7.5">
         <BookingDetails booking={booking}/>
@@ -186,7 +195,7 @@ export default function BookingScreen() {
     
     </div>}
       
-    {currentStep === 3 && booking  && <div className="w-full flex flex-row items-start gap-8">
+    {currentStep === 3 && booking  && <div className="w-full flex md:flex-row flex-col items-start gap-8">
 
       <div className="flex flex-col gap-7.5">
         <PriceSummary booking={booking} amountToCharge={amountToCharge}/>

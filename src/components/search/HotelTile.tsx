@@ -170,32 +170,32 @@ export const HotelTile = (props:HotelTileProps) => {
     }
 
     return(
-    <div className={`w-full ${props.source==="AllBookings"?"h-[500px]":"h-[300px]"} flex flex-row border border-primary text-primary bg-light`}>
+    <div className={`w-full ${props.source==="AllBookings"?"md:h-[500px]":"md:h-[300px]"} flex md:flex-row flex-col border border-primary text-primary bg-light`}>
 
-        <img className="h-full w-[40%] max-w-[480px]" src={getImageURL()} />
+        <img className="md:h-full h-[200px] md:w-[40%] w-full max-w-[480px]" src={getImageURL()} />
         
-        <div className="w-full h-full flex flex-col justify-between p-6">
+        <div className="w-full h-full flex flex-col justify-between md:p-6 p-2">
 
             <div className="w-full flex flex-col gap-2.5">
                 
-                <div className="flex flex-row justify-between items-center">
+                <div className="flex md:flex-row flex-col-reverse justify-between md:items-center items-end">
                     
                     <div className="flex flex-row gap-3 items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="16" viewBox="0 0 13 16" fill="none">
                             <path d="M12.3636 6.18182C12.3636 2.75758 9.60606 0 6.18182 0C2.75758 0 0 2.75758 0 6.18182C0 9.60606 6.18182 16 6.18182 16C6.18182 16 12.3636 9.60606 12.3636 6.18182ZM3.30303 6.06061C3.30303 4.48485 4.60606 3.18182 6.18182 3.18182C7.75758 3.18182 9.06061 4.45455 9.06061 6.06061C9.06061 7.63636 7.78788 8.9394 6.18182 8.9394C4.60606 8.9394 3.30303 7.63636 3.30303 6.06061Z" fill="#4D4D4D"/>
                         </svg>
-                        <span className="text-lg">{props.hotel.address}</span>
+                        <span className="md:text-lg">{props.hotel.address}</span>
                     </div>
 
                     <div className="w-[130px] flex flex-row gap-2 justify-start">
                     {showStars()}
                     </div>
                 </div>
-                <span className="text-4xl">{props.hotel.hotel_name}</span>
+                <span className="md:text-4xl text-xl md:font-normal font-medium text-lg">{props.hotel.hotel_name}</span>
             </div>  
 
 
-            <div className={`flex flex-row justify-between items-end`}>
+            <div className={`flex md:flex-row flex-col-reverse justify-between items-end w-full`}>
                 
                 {!props.source.includes("Bookings")&&<Button onClick={()=>openHotel(props.hotel.hid)} className="bg-accent text-light">VIEW DETAILS & BOOK</Button>}
                 {props.source.includes("Bookings")&&
@@ -211,8 +211,10 @@ export const HotelTile = (props:HotelTileProps) => {
                         <span className={`text-3xl font-medium ${props.showDiscount?"line-through text-primary/50":""}`}>€{getRate()}</span> 
                         {props.showDiscount && <span className="text-3xl font-medium">€{(+getRate()*0.8).toFixed(2)}</span> }
                     </div>
-                    <span className="text-lg">1 room, {calculateNights()} nights</span>
-                    <span className="text-accent text-sm">Fully refundable</span>
+                    <div className="flex flex-col items-end gap-2 text-alt">
+                        <span className="md:text-lg">1 room, {calculateNights()} nights</span>
+                        <span className="text-accent text-sm">Fully refundable</span>
+                     </div>
                 </div>
             </div>   
 

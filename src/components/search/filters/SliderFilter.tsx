@@ -32,7 +32,7 @@ export const SliderFilter = (props:CheckedListFilterProps) => {
 
         <span className="text-xl">€{values[0]} – €{values[1]}</span>
 
-
+        <div className='w-full' style={{zoom:1.4}}>
         <Range
             step={10}
             min={MIN}
@@ -43,12 +43,12 @@ export const SliderFilter = (props:CheckedListFilterProps) => {
             renderTrack={({ props, children }) => {
                 const [minVal, maxVal] = values;
                 const percentageLeft = ((minVal - MIN) / (MAX - MIN)) * 100;
-                const percentageWidth = Math.min(100 - percentageLeft, ((maxVal - minVal) / (MAX - MIN)) * 100);
+                const percentageWidth = Math.min(100 - percentageLeft, ((maxVal - minVal) / (MAX - MIN)) * 100) ;
 
                 return (
                     <div
                     {...props}
-                    className="relative h-2 w-full rounded-full bg-light"
+                    className="relative h-1.5 w-full rounded-full bg-light"
                     >
                     {/* Colored range between thumbs */}
                     <div
@@ -65,10 +65,11 @@ export const SliderFilter = (props:CheckedListFilterProps) => {
             renderThumb={({ props }) => (
             <div
                 {...props}
-                className="h-5 w-5 rounded-full bg-muted shadow-md border-[5px] border-accent"
+                className="h-4 w-4 rounded-full bg-muted shadow-md border-[5px] border-accent"
             />
             )}
         />
+        </div>
     </div>
     )
 

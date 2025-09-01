@@ -23,7 +23,7 @@ export default function HomeScreen() {
   
 
   return (
-    <div className="relative flex flex-col justify-center items-start gap-15 p-[140px] bg-[url('/assets/manorHouse.jpg')] bg-cover h-200" >
+    <div className="relative flex flex-col justify-center items-start gap-15 px-5  md:p-[140px] bg-[url('/assets/manorHouse.jpg')] bg-cover h-200" >
       
       <div className="absolute top-0 left-0 w-full h-full bg-alt/30"/>
 

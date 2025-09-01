@@ -9,8 +9,8 @@ export const FAQs = () => {
 
 
     return(
-        <div className="w-full flex flex-row items-stretch bg-light border border-accent/30">
-            <div className="w-[413px] bg-muted px-[40px] py-[60px]">
+        <div className="w-full flex md:flex-row flex-col items-stretch bg-light border border-accent/30">
+            <div className="md:w-[413px] w-full bg-muted px-[40px] py-[60px]">
                 <span className="text-5xl" style={{fontFamily:'Harlow'}} >Redeeming a Hotel & Spa Resorts Voucher FAQ</span>
             </div>
             <Accordion type="single" collapsible className="w-full mx-auto">

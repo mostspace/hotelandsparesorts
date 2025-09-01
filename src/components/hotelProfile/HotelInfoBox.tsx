@@ -82,7 +82,7 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
                         <span className='cursor-pointer' onClick={()=>setSelectedTab('Key info')}>Key info</span>
                         {selectedTab=="Key info" && <div className="absolute w-[100%] h-[2px] bg-primary top-[35px]"/>}
                     </div>
-                    <div className={`relative ${selectedTab=="Location"?"font-medium":""}`}>
+                    <div className={`hidden md:block relative ${selectedTab=="Location"?"font-medium":""}`}>
                         <span className='cursor-pointer' onClick={()=>setSelectedTab("Location")}>Location</span>
                         {selectedTab=="Location" && <div className="absolute w-[100%] h-[2px] bg-primary top-[35px]"/>}
                     </div>
@@ -105,7 +105,7 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
             {/* MAIN CONTENT */}
             
             {selectedTab=="Key info" && <div className="flex flex-row h-full gap-[67px] items-start text-lg">
-                <div className="flex flex-col max-h-[900px] gap-[30px] items-start  w-[50%] flex-wrap">
+                <div className="flex flex-col md:max-h-[900px] gap-[30px] items-start  md:w-[50%] md:flex-wrap">
                     
                     <div className="flex flex-row gap-[20px] items-end">
                         <span className="text-2xl" style={{fontFamily:'Harlow'}}>Check-in time</span>

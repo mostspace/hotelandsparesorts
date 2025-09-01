@@ -4,10 +4,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { LoadingPopUp } from "@/components/LoadingPopUp";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/app/firebase";
+import ErrorPopUp from "../general/ErrorPopUp";
 
 interface RoomTileProps{
     rateObj:any
     images:any[]
+    
 }
 
 export const RoomTile = (props:RoomTileProps) => {
@@ -19,6 +21,8 @@ export const RoomTile = (props:RoomTileProps) => {
     const [index, setIndex] = useState(0);
     const [loading, setLoading] = useState(false);
     const [loggedIn, setLoggedIn] = useState<any>(false);
+
+    const [showError, setShowError] = useState<any>(false);
 
     useEffect(() => {
     if(auth){
@@ -81,16 +85,27 @@ export const RoomTile = (props:RoomTileProps) => {
         if (!res.ok) throw new Error(`Error: ${res.status}`);
         const data = await res.json();
 
+        console.log("PRE BOOK RES",data)
+
         setLoading(false)
+        
 
-        let priceChanged = data.data.changes.price_changed
 
-        if(priceChanged){
-
+        if(data.error){
+            setShowError(true)
         }else{
-            let bookHash = data.data.hotels[0].rates[0].book_hash
-            createBookingRateHawk(bookHash)
+            let priceChanged = data.data.changes.price_changed
+
+            if(priceChanged){
+                setShowError(true)
+            }else{
+                let bookHash = data.data.hotels[0].rates[0].book_hash
+                createBookingRateHawk(bookHash)
+            }
         }
+
+
+        
         
     }
 
@@ -209,6 +224,15 @@ export const RoomTile = (props:RoomTileProps) => {
         <div className="w-[375px] flex flex-col items-center gap-3.5">
 
             {loading && <LoadingPopUp />}
+
+            {showError && <ErrorPopUp 
+                title="Error booking room" 
+                subtitle="There was an issue when trying to create the booking. Perhaps the reate is no longer available. Please try again or refresh the page to view latest available rates" 
+                close={()=>setShowError(false)}
+                buttonText="Refresh page"
+                buttonClicked={()=>window.location.reload()}
+                
+            />}
 
 
             <div className="w-full p-[20px] rounded-[20px] flex flex-col gap-[22px] border border-muted">
