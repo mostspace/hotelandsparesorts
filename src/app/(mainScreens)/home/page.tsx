@@ -28,8 +28,8 @@ export default function HomeScreen() {
       <div className="absolute top-0 left-0 w-full h-full bg-alt/30"/>
 
       <div className="flex flex-col items-start text-light font-normal z-10">
-          <span className="text-[80px]">BOOK A HOTEL STAY</span>
-          <span className="text-3xl">Explore and book our curated luxury hotels and redeem your voucher</span>
+          <span className="text-[80px]" style={{fontFamily:'Harlow'}}>BOOK A HOTEL STAY</span>
+          <span className="text-3xl" style={{fontFamily:'Harlow'}}>Explore and book our curated luxury hotels and redeem your voucher</span>
       </div>
 
       <SearchBar showLocation={true} showBorders={false} existingData={{}}/>    

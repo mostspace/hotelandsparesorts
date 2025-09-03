@@ -10,7 +10,7 @@ export const SimilarHotelTile = (props:HotelTileProps) => {
 
     const getImageURL = () => {
         let imageUrl = props.hotel.images[0].url
-        return imageUrl.replace('{size}','240x240')
+        return imageUrl.replace('{size}','x500')
     }
 
     const getRate = () => {
@@ -64,15 +64,15 @@ export const SimilarHotelTile = (props:HotelTileProps) => {
                 <span className="font-bold">9.4</span>
             </div>
 
-            <img className="w-full h-[300px]" src={getImageURL()}/>
+            <img className="w-full h-[300px] object-cover object-center" src={getImageURL()}/>
 
             <div className="w-full flex flex-col items-start gap-4 px-[34px] ">
                 <span className="w-full text-3xl whitespace-nowrap overflow-hidden text-ellipsis"  style={{fontFamily:'Harlow'}}>{props.hotel.hotel_name}</span>
-                <div className="w-full flex flex-row gap-2.5 items-start">
+                <div className="w-full flex flex-row gap-2.5 items-center">
                     <svg width="15" height="20" viewBox="0 0 15 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M15 7.79394C15 3.63953 11.6544 0.293945 7.5 0.293945C3.34559 0.293945 0 3.63953 0 7.79394C0 11.9484 7.5 19.7057 7.5 19.7057C7.5 19.7057 15 11.9484 15 7.79394ZM4.00735 7.64689C4.00735 5.73512 5.58823 4.15424 7.5 4.15424C9.41176 4.15424 10.9926 5.69836 10.9926 7.64689C10.9926 9.55865 9.44853 11.1395 7.5 11.1395C5.58823 11.1395 4.00735 9.55865 4.00735 7.64689Z" fill="#333337"/>
                     </svg>
-                    <span className="w-full text-lg font-medium whitespace-nowrap overflow-hidden text-ellipsis">{props.hotel.address}</span>
+                    <span className="w-full text-lg font-medium whitespace-nowrap overflow-hidden text-ellipsis pt-px">{props.hotel.address}</span>
                 </div>
             </div>
 

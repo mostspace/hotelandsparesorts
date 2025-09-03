@@ -28,7 +28,7 @@ export const HotelTile = (props:HotelTileProps) => {
     
     const getImageURL = () => {
         let imageUrl = props.hotel.images[0].url
-        return imageUrl.replace('{size}','240x240')
+        return imageUrl.replace('{size}','x500')
     }
 
     const getRate = () => {
@@ -172,7 +172,7 @@ export const HotelTile = (props:HotelTileProps) => {
     return(
     <div className={`w-full ${props.source==="AllBookings"?"md:h-[500px]":"md:h-[300px]"} flex md:flex-row flex-col border border-primary text-primary bg-light`}>
 
-        <img className="md:h-full h-[200px] md:w-[40%] w-full max-w-[480px]" src={getImageURL()} />
+        <img className="md:h-full h-[200px] md:w-[40%] w-full max-w-[480px] object-cover object-center" src={getImageURL()} />
         
         <div className="w-full h-full flex flex-col justify-between md:p-6 p-2">
 
@@ -191,13 +191,13 @@ export const HotelTile = (props:HotelTileProps) => {
                     {showStars()}
                     </div>
                 </div>
-                <span className="md:text-4xl text-xl md:font-normal font-medium text-lg">{props.hotel.hotel_name}</span>
+                <span className="md:text-4xl text-xl md:font-normal font-medium text-lg" style={{fontFamily:'Harlow'}}>{props.hotel.hotel_name}</span>
             </div>  
 
 
             <div className={`flex md:flex-row flex-col-reverse justify-between items-end w-full`}>
                 
-                {!props.source.includes("Bookings")&&<Button onClick={()=>openHotel(props.hotel.hid)} className="bg-accent text-light">VIEW DETAILS & BOOK</Button>}
+                {!props.source.includes("Bookings")&&<Button onClick={()=>openHotel(props.hotel.hid)} className="bg-accent hover:bg-accent/90 text-light">VIEW DETAILS & BOOK</Button>}
                 {props.source.includes("Bookings")&&
                     <div className="flex flex-col items-start gap-2 text-alt">
                         <span className="text-lg"><strong>Check-In:</strong> {formatDate(props.checkIn)}</span>

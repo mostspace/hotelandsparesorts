@@ -154,11 +154,11 @@ export const SearchRoom = (props:SearchRoomProps) => {
                 </div>
 
 
-                <div className="w-full h-px bg-primary/50"/>
+                {children> 0 && <div className="w-full h-px bg-primary/50"/>}
 
-                <div className="w-full flex flex-col gap-2">
+                {children> 0 && <div className="w-full flex flex-col gap-2">
                     {showChildrenAges()}
-                </div>
+                </div>}
 
 
                 <div className="w-full h-[2px] bg-primary/50"/>

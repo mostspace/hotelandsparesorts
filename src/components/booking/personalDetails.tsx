@@ -44,6 +44,15 @@ export const BookingPersonalDetails = (props:BPDProps) => {
         }
      }
 
+     const isDisabled = () => {
+         if(firstName === ""){return true}
+        else if(lastName === ""){return true}
+        else if(email === ""){return true}
+        else if(phoneNumber === ""){return true}
+        else if(country === ""){return true}
+        else{return false}
+     }
+
 
     return(
         <div className="w-full flex flex-col gap-7.5 items-end">
@@ -61,7 +70,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                             className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl ${inputError==="firstName"?"border-[red]":"border-primary/50"}`} 
                             type="text"
                             value={firstName} 
-                            onChange={(e) => setFirstName(e.target.value)}
+                            onChange={(e) => {setFirstName(e.target.value);if(inputError==="firstName"){setInputError("")}}}
                         />
                     </div>
 
@@ -71,7 +80,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                             className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl ${inputError==="lastName"?"border-[red]":"border-primary/50"}`} 
                             type="text"
                             value={lastName} 
-                            onChange={(e) => setLastName(e.target.value)}
+                            onChange={(e) => {setLastName(e.target.value);if(inputError==="lastName"){setInputError("")}}}
                         />
                     </div>
 
@@ -81,7 +90,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                             className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl ${inputError==="email"?"border-[red]":"border-primary/50"}`} 
                             type="text"
                             value={email} 
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => {setEmail(e.target.value);if(inputError==="email"){setInputError("")}}}
                         />
                     </div>
 
@@ -91,7 +100,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                             className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl ${inputError==="phoneNumber"?"border-[red]":"border-primary/50"}`} 
                             type="number"
                             value={phoneNumber} 
-                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            onChange={(e) => {setPhoneNumber(e.target.value);if(inputError==="phoneNumber"){setInputError("")}}}
                         />
                     </div>
 
@@ -101,7 +110,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                             className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl ${inputError==="country"?"border-[red]":"border-primary/50"}`} 
                             type="text"
                             value={country} 
-                            onChange={(e) => setCountry(e.target.value)}
+                            onChange={(e) => {setCountry(e.target.value);if(inputError==="country"){setInputError("")}}}
                         />
                     </div>
 
@@ -148,7 +157,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
 
                 {inputError!=="" && <span className="text-[red]">Invalid input, please update</span>}
 
-                <Button className="bg-accent text-light p-[22px]" onClick={confirm}>
+                <Button className="bg-accent hover:bg-accent/90 text-light p-[22px]" disabled={isDisabled()} onClick={confirm}>
                     <div className="flex flex-row gap-3 items-center">
                         <span className="font-bold text-lg">CONFIRM & PAY</span>
                         <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">

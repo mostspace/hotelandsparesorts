@@ -132,7 +132,7 @@ export function POST(req:Request) {
 
 }
 
-const cancellationAtLeastWeekLong = (cancellationDate:string,checkInDate:string) => {
+export const cancellationAtLeastWeekLong = (cancellationDate:string,checkInDate:string) => {
 
   let formattedCancellation = cancellationDate.split("T")[0]
 
@@ -144,7 +144,7 @@ const cancellationAtLeastWeekLong = (cancellationDate:string,checkInDate:string)
   // convert to days
   const diffDays = diffMs / (1000 * 60 * 60 * 24);
 
-  return diffDays >= 7;
+  return diffDays >= 5;
 }
 
 

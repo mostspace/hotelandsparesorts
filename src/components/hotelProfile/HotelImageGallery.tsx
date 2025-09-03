@@ -13,7 +13,7 @@ export const HotelImageGallery = (props:HotelImageGalleryProps) => {
 
     const formatImage = (image:any) => {
         let imageUrl = image.url
-        let newURL = imageUrl.replace('{size}','x500')
+        let newURL = imageUrl.replace('{size}','x768')
         return newURL
     }
 
@@ -46,29 +46,45 @@ export const HotelImageGallery = (props:HotelImageGalleryProps) => {
     return(
         <div className="w-full md:h-[760px] h-[500px] flex flex-row relative gap-6">
             
-            <img className="h-full md:w-[50%] w-full" src={formatImage(props.images[0])}/>
+            <img className="h-full md:w-[50%] w-full object-cover object-center" src={formatImage(props.images[0])}/>
 
             <div className="hidden h-full w-[50%] md:flex flex-row gap-6">
                 <div className="h-full w-[50%] flex flex-col gap-6">
-                    <img className="h-[48%] w-full bg-accent" src={formatImage(props.images[1])}/>
-                    <img className="h-[49%] w-full bg-accent" src={formatImage(props.images[2])} />
+                    <img className="h-[48%] w-full bg-accent object-cover object-center" src={formatImage(props.images[1])}/>
+                    <img className="h-[49%] w-full bg-accent object-cover object-center" src={formatImage(props.images[2])} />
                 </div>
                 <div className="hidden h-full w-[50%] md:flex flex-col gap-6">
-                    <img className="h-[48%] w-full bg-accent object-cover" src={formatImage(props.images[3])}/>
-                    <img className="h-[49%] w-full bg-accent object-cover" src={formatImage(props.images[4])}/>
+                    <img className="h-[48%] w-full bg-accent object-cover object-cover object-center" src={formatImage(props.images[3])}/>
+                    <img className="h-[49%] w-full bg-accent object-cover object-cover object-center" src={formatImage(props.images[4])}/>
                 </div>
             </div>
 
-            <Button className="bg-accent text-light absolute z-10 right-8 bottom-8" onClick={()=>setShowPopUp(true)}>VIEW ALL PHOTOS</Button>
+            <Button className="bg-accent hover:bg-accent/90 text-light text-lg p-8 absolute z-10 right-8 bottom-8" onClick={()=>setShowPopUp(true)}>
+                <svg width="28" height="29" viewBox="0 0 28 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_88_406)">
+                    <path d="M10.5 0.5H1.75C0.783125 0.5 0 1.28312 0 2.25V11C0 11.966 0.783125 12.75 1.75 12.75H10.5C11.4669 12.75 12.25 11.966 12.25 11V2.25C12.25 1.28312 11.4669 0.5 10.5 0.5ZM10.5 11H1.75V2.25H10.5V11Z" fill="#EEE9E6"/>
+                    <path d="M26.25 0.5H17.5C16.5331 0.5 15.75 1.28312 15.75 2.25V11C15.75 11.966 16.5331 12.75 17.5 12.75H26.25C27.216 12.75 28 11.966 28 11V2.25C28 1.28312 27.216 0.5 26.25 0.5ZM26.25 11H17.5V2.25H26.25V11Z" fill="#EEE9E6"/>
+                    <path d="M26.25 16.25H17.5C16.5331 16.25 15.75 17.034 15.75 18V26.75C15.75 27.7169 16.5331 28.5 17.5 28.5H26.25C27.216 28.5 28 27.7169 28 26.75V18C28 17.0331 27.216 16.25 26.25 16.25ZM26.25 26.75H17.5V18H26.25V26.75Z" fill="#EEE9E6"/>
+                    <path d="M10.5 16.25H1.75C0.783125 16.25 0 17.034 0 18V26.75C0 27.7169 0.783125 28.5 1.75 28.5H10.5C11.4669 28.5 12.25 27.7169 12.25 26.75V18C12.25 17.0331 11.4669 16.25 10.5 16.25ZM10.5 26.75H1.75V18H10.5V26.75Z" fill="#EEE9E6"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_88_406">
+                    <rect width="28" height="28" fill="white" transform="translate(0 0.5)"/>
+                    </clipPath>
+                    </defs>
+                </svg>
+                VIEW ALL PHOTOS
+            </Button>
 
 
-            {showPopUp && <div className="fixed z-15 bg-primary/50 inset-0 flex justify-center items-center">
-                <div className="z-10 rounded-xl bg-muted p-5 h-[700px] w-[900px] flex flex-col gap-4">
+
+            {showPopUp && <div className="fixed z-15 bg-primary/50 inset-0 flex justify-center items-center p-10">
+                <div className="z-10 rounded-xl bg-muted p-5 h-full w-full flex flex-col gap-4 items-center" >
                     <div className="w-full flex flex-row justify-end">
                         <Button onClick={()=>setShowPopUp(false)}>Close</Button>
                     </div>
                     <div className="relative w-full h-[80%]">
-                        <img className="w-full h-full" src={showImage()}/>
+                        <img className="w-full h-full object-cover object-center" src={showImage()}/>
                         <div className="h-[42px] w-[42px] absolute z-5 left-3 top-1/2 bg-light/78 rounded-[10px] p-[5px] cursor-pointer" onClick={()=>changeImage(-1)}>
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M25.002 16.0001C25.002 16.5523 24.5547 17.0001 24.002 17.0001H9.8672L14.8301 24.4454C15.1367 24.9049 15.0127 25.526 14.5528 25.8321C14.3818 25.9459 14.1895 26.0001 13.999 26.0001C13.6758 26.0001 13.3584 25.8438 13.166 25.5548L6.7959 16.0001L13.166 6.44538C13.4717 5.98538 14.0908 5.86088 14.5527 6.16808C15.0127 6.47428 15.1367 7.09528 14.83 7.55478L9.8672 15.0001H24.002C24.5547 15.0001 25.002 15.4479 25.002 16.0001Z" fill="#333337"/>
@@ -80,7 +96,7 @@ export const HotelImageGallery = (props:HotelImageGalleryProps) => {
                             </svg>
                         </div>
                     </div>
-                    <span className="text-xl font-medium">{getCaption()}</span>
+                    <span className="text-4xl font-medium mt-4 text-accent">{getCaption()}</span>
                 </div>
             </div>}
         </div>

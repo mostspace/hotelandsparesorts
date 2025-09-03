@@ -214,6 +214,11 @@
     align-items: center;
     padding-left: 10px;
 }
+
+.pac-item:hover{
+  background-color: #A5665833;
+}
+
 .pac-item-query	{
     font-family: 'Gotham';
     font-weight: 500;

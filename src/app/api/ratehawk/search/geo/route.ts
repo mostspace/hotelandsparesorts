@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server'
+import { cancellationAtLeastWeekLong } from '../../hotel-page/route';
 
 const KEY_ID = '13324'
 const API_KEY = '66a9de03-3f16-4287-b594-fc9191a3669a' ///RATEHAWK API KEY
@@ -106,9 +107,12 @@ export function POST(req:Request) {
         }
 
       });
+
       
       let hotelIds = filteredHotels.map((item: { hid: any; }) => item.hid);
       
+      console.log("HOTEL IDS",hotelIds)
+
       if(exludedHid){
         hotelIds = hotelIds.filter(item => item !== exludedHid);
       }
@@ -134,8 +138,27 @@ export function POST(req:Request) {
         };
       });
 
+      let hotelsWithCancellation:any[] = []
+      mergedArray.forEach(hotel => {
+          let rates:any[] = hotel.rates
+          let acceptableRates:any[] = []
 
-    resolve(NextResponse.json(mergedArray))
+          rates.forEach(rate => {
+            let cancellation = rate.payment_options.payment_types[0].cancellation_penalties.free_cancellation_before
+            if(cancellation !== null && cancellationAtLeastWeekLong(cancellation,checkIn)){
+              acceptableRates.push(rate)
+            }
+          });
+
+          if(acceptableRates.length>0){
+            hotel.rates = acceptableRates
+            hotelsWithCancellation.push(hotel)
+          }
+
+      });
+
+
+    resolve(NextResponse.json(hotelsWithCancellation))
 
     })
 

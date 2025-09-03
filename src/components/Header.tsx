@@ -60,7 +60,7 @@ export const Header = () => {
     }
 
 
-    return <div className="w-full flex flex-col items-start gap-6 px-5 md:px-[175px] py-[28px] text-base font-medium bg-light">
+    return <div className="w-full flex flex-col items-start gap-7 px-5 md:px-[112px] py-[28px] text-base font-medium bg-light">
 
         <div className="w-full flex flex-row justify-between">
             <div className="flex flex-row gap-3">
@@ -89,14 +89,14 @@ export const Header = () => {
 
         <div className="h-px w-full bg-primary/40" />
 
-         <div className="w-full flex md:flex-row flex-col justify-between md:items-center items-start gap-2">
+         <div className="w-full flex md:flex-row flex-col justify-between md:items-center items-start gap-2 mt-1">
             
-            <img className="w-[270px] cursor-pointer" src='/assets/hotelLogo.png' onClick={homeClicked}/>
+            <img className="w-[340px] cursor-pointer" src='/assets/hotelLogo.png' onClick={homeClicked}/>
             
             <div className="flex md:flex-row flex-col md:items-center items-start gap-6">
 
             <div className="flex flex-row">
-                <div className="flex flex-row gap-3 items-center">
+                <div className="flex flex-row gap-3 items-center text-lg">
                     <span className="hover:text-accent cursor-pointer" onClick={()=>openLink("")}>BOOK HOTEL STAYS</span>
                     <div className="h-full w-[1.5px] bg-primary"/>
                     <span className="hover:text-accent cursor-pointer" onClick={()=>openLink("")}>BOOK PACKAGES</span>
@@ -109,7 +109,7 @@ export const Header = () => {
                 </div>
             </div>
 
-            <Button className="bg-accent font-bold text-base p-7" onClick={()=>openLink("https://hotelandsparesorts.com/shop-gift-voucher")}>BUY GIFT VOUCHER</Button>
+            <Button className="bg-accent hover:bg-accent/90 font-bold text-lg px-7 py-8" onClick={()=>openLink("https://hotelandsparesorts.com/shop-gift-voucher")}>SHOP GIFT VOUCHER</Button>
            
             </div>    
 

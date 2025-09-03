@@ -5,6 +5,7 @@ import { LoadingPopUp } from "@/components/LoadingPopUp";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/app/firebase";
 import ErrorPopUp from "../general/ErrorPopUp";
+import { motion, AnimatePresence } from "framer-motion"
 
 interface RoomTileProps{
     rateObj:any
@@ -19,6 +20,9 @@ export const RoomTile = (props:RoomTileProps) => {
 
     const [roomImages, setRoomImages] = useState<any[]>([]);
     const [index, setIndex] = useState(0);
+    const [direction, setDirection] = useState(0)
+
+
     const [loading, setLoading] = useState(false);
     const [loggedIn, setLoggedIn] = useState<any>(false);
 
@@ -54,12 +58,22 @@ export const RoomTile = (props:RoomTileProps) => {
 
 
         let imageUrl = image.url
-        let newURL = imageUrl.replace('{size}','240x240')
+        let newURL = imageUrl.replace('{size}','x500')
         return newURL
     }
 
+    // const changeImage = (dir: number) => {
+    //     setDirection(dir)
+    //     let newIndex = index + dir
+    //     if (newIndex < 0) newIndex = props.images.length - 1
+    //     else if (newIndex === props.images.length) newIndex = 0
+    //     setIndex(newIndex)
+    // }
+
+    
     const changeImage = (direction:number) => {
 
+        setDirection(direction)
         let newIndex = index + direction
         if(newIndex<0){newIndex = roomImages.length-1}
         else if(newIndex===roomImages.length){newIndex = 0}
@@ -238,16 +252,55 @@ export const RoomTile = (props:RoomTileProps) => {
             <div className="w-full p-[20px] rounded-[20px] flex flex-col gap-[22px] border border-muted">
                 
                 <div className="w-full flex flex-col gap-4 h-[300px]">
-                    <div className="relative w-full h-[225px]">
-                        <img className="w-full h-full" src={showImage()}/>
-                        <div className="h-[42px] w-[42px] absolute z-5 left-3 top-1/2 bg-light/78 rounded-[10px] p-[5px] cursor-pointer" onClick={()=>changeImage(-1)}>
-                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M25.002 16.0001C25.002 16.5523 24.5547 17.0001 24.002 17.0001H9.8672L14.8301 24.4454C15.1367 24.9049 15.0127 25.526 14.5528 25.8321C14.3818 25.9459 14.1895 26.0001 13.999 26.0001C13.6758 26.0001 13.3584 25.8438 13.166 25.5548L6.7959 16.0001L13.166 6.44538C13.4717 5.98538 14.0908 5.86088 14.5527 6.16808C15.0127 6.47428 15.1367 7.09528 14.83 7.55478L9.8672 15.0001H24.002C24.5547 15.0001 25.002 15.4479 25.002 16.0001Z" fill="#333337"/>
+                    <div className="relative w-full h-[225px] overflow-hidden">
+                        <AnimatePresence initial={false} custom={direction}>
+                            <motion.img
+                            key={index}
+                            src={showImage()}
+                            custom={direction}
+                            initial={{ x: direction > 0 ? 300 : -300, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            exit={{ x: direction > 0 ? -300 : 300, opacity: 0 }}
+                            transition={{ duration: 0.4 }}
+                            className="absolute w-full h-full object-cover object-center"
+                            />
+                        </AnimatePresence>
+
+                        {/* Left Arrow */}
+                        <div
+                            className="h-[42px] w-[42px] absolute z-10 left-3 top-1/2 -translate-y-1/2 bg-light/78 rounded-[10px] p-[5px] cursor-pointer"
+                            onClick={() => changeImage(-1)}
+                        >
+                            <svg
+                            width="32"
+                            height="32"
+                            viewBox="0 0 32 32"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            >
+                            <path
+                                d="M25.002 16.0001C25.002 16.5523 24.5547 17.0001 24.002 17.0001H9.8672L14.8301 24.4454C15.1367 24.9049 15.0127 25.526 14.5528 25.8321C14.3818 25.9459 14.1895 26.0001 13.999 26.0001C13.6758 26.0001 13.3584 25.8438 13.166 25.5548L6.7959 16.0001L13.166 6.44538C13.4717 5.98538 14.0908 5.86088 14.5527 6.16808C15.0127 6.47428 15.1367 7.09528 14.83 7.55478L9.8672 15.0001H24.002C24.5547 15.0001 25.002 15.4479 25.002 16.0001Z"
+                                fill="#333337"
+                            />
                             </svg>
                         </div>
-                        <div className="h-[42px] w-[42px] absolute z-5 right-3 top-1/2 bg-light/78 rounded-[10px] p-[5px] cursor-pointer" onClick={()=>changeImage(1)}>
-                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M6.998 15.9999C6.998 15.4477 7.4453 14.9999 7.998 14.9999L22.1328 14.9999L17.1699 7.55462C16.8633 7.09512 16.9873 6.47402 17.4472 6.16792C17.6182 6.05412 17.8105 5.99992 18.001 5.99992C18.3242 5.99992 18.6416 6.15622 18.834 6.44522L25.2041 15.9999L18.834 25.5546C18.5283 26.0146 17.9092 26.1391 17.4473 25.8319C16.9873 25.5257 16.8633 24.9047 17.17 24.4452L22.1328 16.9999L7.998 16.9999C7.4453 16.9999 6.998 16.5521 6.998 15.9999Z" fill="#333337"/>
+
+                        {/* Right Arrow */}
+                        <div
+                            className="h-[42px] w-[42px] absolute z-10 right-3 top-1/2 -translate-y-1/2 bg-light/78 rounded-[10px] p-[5px] cursor-pointer"
+                            onClick={() => changeImage(1)}
+                        >
+                            <svg
+                            width="32"
+                            height="32"
+                            viewBox="0 0 32 32"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            >
+                            <path
+                                d="M6.998 15.9999C6.998 15.4477 7.4453 14.9999 7.998 14.9999L22.1328 14.9999L17.1699 7.55462C16.8633 7.09512 16.9873 6.47402 17.4472 6.16792C17.6182 6.05412 17.8105 5.99992 18.001 5.99992C18.3242 5.99992 18.6416 6.15622 18.834 6.44522L25.2041 15.9999L18.834 25.5546C18.5283 26.0146 17.9092 26.1391 17.4473 25.8319C16.9873 25.5257 16.8633 24.9047 17.17 24.4452L22.1328 16.9999L7.998 16.9999C7.4453 16.9999 6.998 16.5521 6.998 15.9999Z"
+                                fill="#333337"
+                            />
                             </svg>
                         </div>
                     </div>
@@ -297,13 +350,13 @@ export const RoomTile = (props:RoomTileProps) => {
                     </div>
                 </div>
 
-                <Button className="bg-accent text-light text-lg font-bold h-[54px]" onClick={prebookRoom}>BOOK</Button>
+                <Button className="bg-accent hover:bg-accent/90 text-light text-lg font-bold h-[54px]" onClick={prebookRoom}>BOOK</Button>
 
             </div>
 
             {!loggedIn && <div className="flex flex-row items-center gap-2.5">
                 <div className="w-px h-[50px] bg-primary"/>
-                <Button className="bg-[#A38561] text-light font-medium" onClick={()=>router.push('/login')}>Sign in for member discounts</Button>
+                <Button className="bg-[#A38561] hover:bg-[#A38561]/90 text-light font-medium" onClick={()=>router.push('/login')}>Sign in for member discounts</Button>
             </div>}
         </div>
     )

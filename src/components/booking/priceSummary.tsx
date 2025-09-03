@@ -24,7 +24,7 @@ export const PriceSummary = (props:PriceSummaryProps) => {
             
             <div className="px-[28px] text-lg w-full flex justify-between">
                 <span>{props.booking.room_name}</span>
-                <span>£{props.booking.amount}</span>
+                <span>€{props.booking.amount}</span>
             </div>
 
             {/* <div className="px-[28px] text-lg w-full flex justify-between">
@@ -34,7 +34,7 @@ export const PriceSummary = (props:PriceSummaryProps) => {
 
             {props.booking.amount !== props.amountToCharge && <div className="px-[28px] text-lg w-full flex justify-between">
                 <span>Voucher</span>
-                <span>-£{(+props.booking.amount) - (+props.amountToCharge)}</span>
+                <span>-€{(+props.booking.amount) - (+props.amountToCharge)}</span>
             </div>}
 
             <div className="px-[28px] py-[13px] w-full flex justify-between items-center bg-muted">

@@ -57,14 +57,14 @@ export const BookingDetails = (props:BookingProps) => {
 
     const getImageURL = () => {
         let imageUrl = props.booking.hotel.images[0].url
-        return imageUrl.replace('{size}','240x240')
+        return imageUrl.replace('{size}','x500')
     }
 
 
     return(
-    <div className="flex flex-col items-start border border-primary/50 p-[21px] gap-7.5 max-w-[575px]">
+    <div className="flex flex-col items-start border border-primary/50 p-[21px] gap-7.5 w-[475px]">
 
-        <img className="w-full h-[250px]" src={getImageURL()}/>
+        <img className="w-full h-[250px] object-cover object-center" src={getImageURL()}/>
 
         <div className="w-full flex flex-col items-start gap-4">
             <span className="text-4xl" style={{fontFamily:'Harlow'}}>{props.booking.hotel.hotel_name}</span>

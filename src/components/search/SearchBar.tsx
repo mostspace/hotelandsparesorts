@@ -91,6 +91,10 @@ export const SearchBar = (props:SearchBarProps) => {
 
     const searchClicked = () => {
 
+        setShowCheckInPicker(false)
+        setShowCheckOutPicker(false)
+        setShowGuestPicker(false)
+
         let searchID = Math.random().toString(16).slice(-8)
 
         if(props.existingData.hid){
@@ -167,6 +171,8 @@ export const SearchBar = (props:SearchBarProps) => {
             <MapProvider>
                 <PlacesAutocomplete onPlaceSelected={handlePlaceSelect} locationName={locationName}/>
             </MapProvider>
+
+            {locationName!=="" && <span className="cursor-pointer" onClick={()=>setLocationName("")}>x</span>}
 
         </div>}
 
@@ -245,7 +251,7 @@ export const SearchBar = (props:SearchBarProps) => {
         </div>
 
         <Button 
-            className="h-[80px] md:w-[15%] w-full bg-accent text-lg font-bold" 
+            className="h-[80px] md:w-[15%] w-full bg-accent hover:bg-accent/90 text-lg font-bold" 
             disabled={(!coords && !props.existingData.hid)|| !checkInDate || !checkOutDate || calculateGuests() === 0} 
             onClick={searchClicked}
         >

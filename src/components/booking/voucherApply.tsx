@@ -73,7 +73,7 @@ export const VoucherApply = (props:VoucherApplyProps) => {
                         value={voucherCode} 
                         onChange={(e) => setVoucherCode(e.target.value)}
                     />
-                    <Button className="bg-accent p-[12px] font-medium text-lg" onClick={applyVoucher}>APPLY</Button>
+                    <Button className="bg-accent hover:bg-accent/90 p-[12px] font-medium text-lg" onClick={applyVoucher}>APPLY</Button>
                 </div>
 
                 <span className="text-[red]">{voucherError}</span>

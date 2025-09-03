@@ -49,7 +49,7 @@ export const SearchFilters = (props:SearchFiltersProps) => {
             id:'D',
             title:"Facilities",
             type:'checkList',
-            options:['Car Parking','Disabled Access','Wifi','Family Friendly','Pool','Gym','Breakfast included'],
+            options:['Car Parking','Wheelchair Accessible','Wifi','Family Friendly','Pool','Gym','Breakfast included'],
             selected:getExistingFilterValue('D',[])
         },
         // {

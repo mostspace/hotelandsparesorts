@@ -9,7 +9,7 @@ import { GoogleMap, Marker } from "@react-google-maps/api";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ReactDOMServer from 'react-dom/server';
 import { Button } from "../ui/button";
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { HotelTile } from "../search/HotelTile";
 
 //Map's styling
@@ -61,6 +61,7 @@ const defaultMapOptions = {
 
 
 const router = useRouter();
+const searchParams = useSearchParams();
 
 const [showSearchAgainButton, setShowSearchAgainButton] = useState<any>(false);
 
@@ -82,7 +83,20 @@ useEffect( () => {
 
   }, [props.updateVar]); // eslint-disable-line react-hooks/exhaustive-deps
   
-    
+  
+const getTodayPlusDay = (days: number) => {
+    const today = new Date();
+
+    // add days
+    today.setDate(today.getDate() + days);
+
+    // format YYYY-MM-DD
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0"); 
+    const day = String(today.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
 
 const initMap = useCallback((map: google.maps.Map) => {
     
@@ -129,8 +143,16 @@ const initMap = useCallback((map: google.maps.Map) => {
         markersRef.current.push(marker);
     
         marker.addListener("click", () => {
+
+          console.log("MARKER CLICKED")
+
+          const locationName = searchParams.get('location') || "";
+          const checkIn = searchParams.get('check-in') || getTodayPlusDay(10);
+          const checkOut = searchParams.get('check-out') || getTodayPlusDay(12);
+          const rooms = (searchParams.has('rooms')?JSON.parse(searchParams.get('rooms')||""):[]);
+
           let hid = hotel.hid
-          router.push(`/hotel-profile?hid=${hid}&check-in=${'2025-10-22'}&check-out=${'2025-10-25'}`)
+          router.push(`/hotel-profile?hid=${hid}&check-in=${checkIn}&check-out=${checkOut}&rooms=${JSON.stringify(rooms)}&location=${locationName}`)
 
         });
 

@@ -350,6 +350,7 @@ export default function HotelProfileScreen() {
                             <path d="M15 7.79413C15 3.63972 11.6544 0.294128 7.5 0.294128C3.34559 0.294128 0 3.63972 0 7.79413C0 11.9485 7.5 19.7059 7.5 19.7059C7.5 19.7059 15 11.9485 15 7.79413ZM4.00735 7.64707C4.00735 5.73531 5.58823 4.15442 7.5 4.15442C9.41176 4.15442 10.9926 5.69854 10.9926 7.64707C10.9926 9.55883 9.44853 11.1397 7.5 11.1397C5.58823 11.1397 4.00735 9.55883 4.00735 7.64707Z" fill="#A56658"/>
                           </svg>
                           <span>{hotel.address}</span>
+                          <span className="underline ml-2 cursor-pointer"  onClick={showOnMap}>View on Map</span>
                         </div>
 
                         <div className="hidden md:block h-[20px] w-px bg-primary"/>
@@ -365,11 +366,11 @@ export default function HotelProfileScreen() {
                     <div className="flex flex-row items-center gap-3.5">
                       <span className="text-lg underline cursor-pointer" onClick={()=>(reviewsRef.current?.scrollIntoView({ behavior: 'smooth' }))}>See Reviews</span>
                       <div className="bg-accent p-[8px] font-medium text-xl text-light rounded-[10px]">9.6</div>
-                      <div className="cursor-pointer w-[42px] h-[42px] rounded-full bg-accent flex items-center justify-center">
+                      {/* <div className="cursor-pointer w-[42px] h-[42px] rounded-full bg-accent flex items-center justify-center">
                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M19.9688 5.76563C22.9395 5.76563 25.3535 8.18555 25.3535 11.1738C25.3535 12.709 24.7148 14.0918 23.6953 15.0762L15 23.8535L6.15234 14.918C5.22656 13.9453 4.65234 12.627 4.65234 11.1738C4.65234 8.18555 7.06055 5.76563 10.0371 5.76563C12.2754 5.76563 14.1914 7.13672 15.0059 9.09375C15.8086 7.14258 17.7305 5.76563 19.9688 5.76563ZM19.9688 4.86328C17.9883 4.86328 16.1719 5.78906 15 7.3125C13.8281 5.78906 12.0117 4.86328 10.0312 4.86328C6.56836 4.86328 3.75 7.69336 3.75 11.1738C3.75 12.8086 4.37109 14.3613 5.50195 15.5449L14.3613 24.4922L15 25.1367L15.6387 24.4922L24.3281 15.7148C25.5586 14.5254 26.25 12.9082 26.25 11.1738C26.25 7.69336 23.4316 4.86328 19.9688 4.86328Z" fill="white"/>
                         </svg>
-                      </div>
+                      </div> */}
                     </div>
 
                 </div>
@@ -394,24 +395,24 @@ export default function HotelProfileScreen() {
                   <div className="w-full flex flex-col gap-8 items-start">
                       <span className="text-5xl" style={{fontFamily:'Harlow'}}>Overview</span>
                       <span className={`text-lg max-w-[975px] ${showAllDescription?"":"max-h-[170px]"} overflow-hidden`}>{ showDescriptions(hotel.hotelDescriptions.filter((descr: { kind: string; }) => descr.kind === "description"))}</span>
-                      {!showAllDescription && <span className="text-lg font-bold underline cursor-pointer" onClick={()=>setShowAllDescription(true)}>Read more</span>}
+                      <span className="text-lg font-bold underline cursor-pointer" onClick={()=>setShowAllDescription(!showAllDescription)}>{showAllDescription?"Read less":"Read more"}</span>
                   </div>
 
               </div>
 
-              <div className="flex flex-col w-[455px] gap-5">
+              <div className="flex flex-col w-[600px] gap-5">
 
                 <div className="relative h-[280px] w-full p-[10px] rounded-[20px] bg-muted">
                   <MapProvider>
                     <MapComponent hotels={[hotel]} lat={+hotel.lat||0} lng={+hotel.lng||0} newSearch={null} updateVar={2} mini={true} source={"profileMini"}/>
                   </MapProvider>
-                  <Button className="absolute top-1/2 left-1/2 -translate-x-1/2 z-10 bg-accent border border-light" onClick={showOnMap}>SHOW ON MAP</Button>
+                  <Button className="absolute top-1/2 left-1/2 -translate-x-1/2 z-10 bg-accent hover:bg-accent/90 border border-light" onClick={showOnMap}>VIEW ON MAP</Button>
 
                 </div>
                 
                 {!loggedIn && <div className="w-full flex flex-col p-[30px] gap-8 items-center text-light bg-[#774D46]">
                   <span className="text-4xl text-center" style={{fontFamily:'Harlow'}}>Unlock exclusive discounts at hundreds of top hotels</span>
-                  <Button className="bg-transparent border border-light" onClick={()=>router.push('/login')}>UNLOCK FOR FREE</Button>
+                  <Button className="bg-transparent hover:bg-light/10 border border-light" onClick={()=>router.push('/login')}>UNLOCK FOR FREE</Button>
                 </div>}
               </div>
 
@@ -441,13 +442,13 @@ export default function HotelProfileScreen() {
                   <div className="w-full md:hidden flex flex-col gap-10 items-center">
                       {showAllRates()}
                   </div>
-                  <Button className="hidden md:block h-[42px] w-[42px] z-5 bg-light/78 rounded-[10px]  border border-primary" onClick={()=>scrollRooms(1)} disabled={roomIndex===hotel.rates.length-4}>
+                  <Button className="hidden md:block h-[42px] w-[42px] z-5 bg-light/78 rounded-[10px]  border border-primary" onClick={()=>scrollRooms(1)} disabled={roomIndex===hotel.rates.length-4 || hotel.rates.length<4}>
                         <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M6.998 15.9999C6.998 15.4477 7.4453 14.9999 7.998 14.9999L22.1328 14.9999L17.1699 7.55462C16.8633 7.09512 16.9873 6.47402 17.4472 6.16792C17.6182 6.05412 17.8105 5.99992 18.001 5.99992C18.3242 5.99992 18.6416 6.15622 18.834 6.44522L25.2041 15.9999L18.834 25.5546C18.5283 26.0146 17.9092 26.1391 17.4473 25.8319C16.9873 25.5257 16.8633 24.9047 17.17 24.4452L22.1328 16.9999L7.998 16.9999C7.4453 16.9999 6.998 16.5521 6.998 15.9999Z" fill="#333337"/>
                         </svg>
                     </Button>
                 </div>}
-                {hotel.rates.length === 0 && <span>Unfortunately, there are no rooms available for the dates you have selected.</span>}
+                {hotel.rates.length === 0 && <span className="text-4xl font-medium text-accent">Unfortunately, there are no rooms available for the dates you have selected.</span>}
             </div>
 
             {/* INFO SECTION */}
