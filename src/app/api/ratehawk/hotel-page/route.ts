@@ -132,7 +132,7 @@ export function POST(req:Request) {
 
 }
 
-export const cancellationAtLeastWeekLong = (cancellationDate:string,checkInDate:string) => {
+const cancellationAtLeastWeekLong = (cancellationDate:string,checkInDate:string) => {
 
   let formattedCancellation = cancellationDate.split("T")[0]
 

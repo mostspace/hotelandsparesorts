@@ -1,6 +1,5 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server'
-import { cancellationAtLeastWeekLong } from '../../hotel-page/route';
 
 const KEY_ID = '13324'
 const API_KEY = '66a9de03-3f16-4287-b594-fc9191a3669a' ///RATEHAWK API KEY
@@ -162,6 +161,21 @@ export function POST(req:Request) {
 
     })
 
+}
+
+const cancellationAtLeastWeekLong = (cancellationDate:string,checkInDate:string) => {
+
+  let formattedCancellation = cancellationDate.split("T")[0]
+
+  let d1 = new Date(formattedCancellation)
+  let d2 = new Date(checkInDate)
+
+  const diffMs = Math.abs(d2.getTime() - d1.getTime());
+
+  // convert to days
+  const diffDays = diffMs / (1000 * 60 * 60 * 24);
+
+  return diffDays >= 5;
 }
 
 
