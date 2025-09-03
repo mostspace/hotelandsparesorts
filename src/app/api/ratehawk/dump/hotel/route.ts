@@ -27,7 +27,7 @@ export async function GET(req:Request) {
        
         let jsonArray = []
 
-        const filePath = path.join(os.homedir(), 'Downloads', 'datadump.jsonl');
+        const filePath = path.join(os.homedir(), 'Downloads', 'data_dump.jsonl');
         const fileStream = fs.createReadStream(filePath);
 
         const rl = readline.createInterface({
@@ -36,7 +36,7 @@ export async function GET(req:Request) {
         });
 
         let i = 0;
-        const startingIndex = 25000;
+        const startingIndex = 30000;
 
         for await (const line of rl) {
           try {
@@ -47,7 +47,7 @@ export async function GET(req:Request) {
               }
               i++;
               console.log("COUNT", i)
-              if (i === startingIndex + 5000) {
+              if (i === startingIndex + 10000) {
                 break;
               }
             }
@@ -58,13 +58,15 @@ export async function GET(req:Request) {
 
         console.log("1: Returning JSON with", jsonArray.length, "items");
 
+        
+
         // Convert to JSON string
         const jsonString = JSON.stringify(jsonArray, null, 2);
         return new Response(jsonString, {
           status: 200,
           headers: {
             'Content-Type': 'application/json',
-            'Content-Disposition': 'attachment; filename="five-star-hotels6.json"',
+            'Content-Disposition': 'attachment; filename="five-star-hotels5.json"',
           },
         });
 

@@ -172,7 +172,7 @@ export const HotelTile = (props:HotelTileProps) => {
     return(
     <div className={`w-full ${props.source==="AllBookings"?"md:h-[500px]":"md:h-[300px]"} flex md:flex-row flex-col border border-primary text-primary bg-light`}>
 
-        <img className="md:h-full h-[200px] md:w-[40%] w-full max-w-[480px] object-cover object-center" src={getImageURL()} />
+        <img className="md:h-full h-[200px] md:w-[40%] w-full max-w-[400px] object-cover object-center" src={getImageURL()} />
         
         <div className="w-full h-full flex flex-col justify-between md:p-6 p-2">
 

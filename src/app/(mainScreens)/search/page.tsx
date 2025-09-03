@@ -73,7 +73,7 @@ export default function SearchScreen() {
 
   useEffect( () => {
 
-    loadHotels(latNum||0,lngNum||0,5000,JSON.parse(filtersStr))
+    loadHotels(latNum||0,lngNum||0,50000,JSON.parse(filtersStr))
 
   }, [searchID]); // eslint-disable-line react-hooks/exhaustive-deps
   
@@ -122,10 +122,13 @@ export default function SearchScreen() {
     setLoading(false)
     setUpdateVar(updateVar+1)
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth" // or "auto" for instant jump
-    });
+    if(!mapOpen){
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth" // or "auto" for instant jump
+      });
+    }
+   
   }
 
   const showHotels = () => {
@@ -159,6 +162,7 @@ export default function SearchScreen() {
 
     let radius = Math.floor(radiusKm*1000)
 
+    if(radius>70000){radius=70000}
     
     setLocationName("Map Area")
     setLat(lat)
@@ -375,9 +379,9 @@ export default function SearchScreen() {
              
               {(!mapOpen && !loading) && showHotels()}
               {(!mapOpen && loading) && <span>Loading...</span>}
-              {(!mapOpen && loading) && <LoadingPopUp />}
+              {(loading) && <LoadingPopUp />}
              
-              {mapOpen && <div className="w-full md:h-[100%] h-[500px] flex flex-row gap-2 "  >
+              {mapOpen && <div className="w-full md:h-[800px] h-[500px] flex flex-row gap-2 "  >
                 <MapProvider>
                   <MapComponent hotels={hotels} lat={lat||0} lng={lng||0} newSearch={mapMovedNewSearch} updateVar={updateVar} mini={false} source={"searchPage"}/>
                 </MapProvider>

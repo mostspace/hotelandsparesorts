@@ -58,7 +58,7 @@ export const HotelReview = (props:HotelReviewProps) => {
 
             <span className={expanded?"":"line-clamp-3"}>{props.review.text}</span>
 
-            <Button className="rounded-xl border border-accent/50 bg-transparent text-primary" onClick={()=>setExpanded(!expanded)}>{expanded?"Read Less":"Read More"}</Button>
+            <Button className="rounded-xl border border-accent/50 bg-transparent hover:bg-accent/10 text-primary" onClick={()=>setExpanded(!expanded)}>{expanded?"Read Less":"Read More"}</Button>
 
             <div className="flex flex-col items-start">
                 <div className="flex flex-row items-center gap-2">

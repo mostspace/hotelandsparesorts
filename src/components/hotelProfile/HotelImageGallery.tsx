@@ -78,7 +78,7 @@ export const HotelImageGallery = (props:HotelImageGalleryProps) => {
 
 
 
-            {showPopUp && <div className="fixed z-15 bg-primary/50 inset-0 flex justify-center items-center p-10">
+            {showPopUp && <div className="fixed z-15 bg-primary/50 inset-0 flex justify-center items-center p-10 px-50">
                 <div className="z-10 rounded-xl bg-muted p-5 h-full w-full flex flex-col gap-4 items-center" >
                     <div className="w-full flex flex-row justify-end">
                         <Button onClick={()=>setShowPopUp(false)}>Close</Button>

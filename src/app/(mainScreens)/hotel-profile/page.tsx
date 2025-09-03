@@ -45,6 +45,7 @@ export default function HotelProfileScreen() {
   const [similarHotels, setSimilarHotels] = useState([]);
   const [tripAdvisorID, setTripAdvisorID] = useState<any>("");
 
+  const [showReviews, setShowReviews] = useState<any>(false);
   const [reviews, setReviews] = useState<any[]>([]);
   const [rating, setRating] = useState<any>(0);
 
@@ -164,6 +165,7 @@ export default function HotelProfileScreen() {
     console.log("REVIEW DATA",data)
     setReviews(data.reviews)
     setRating(data.general.rating)
+    setShowReviews(true)
   }
 
 
@@ -363,15 +365,15 @@ export default function HotelProfileScreen() {
                         </div>
                     </div>
 
-                    <div className="flex flex-row items-center gap-3.5">
+                    {showReviews&& <div className="flex flex-row items-center gap-3.5">
                       <span className="text-lg underline cursor-pointer" onClick={()=>(reviewsRef.current?.scrollIntoView({ behavior: 'smooth' }))}>See Reviews</span>
-                      <div className="bg-accent p-[8px] font-medium text-xl text-light rounded-[10px]">9.6</div>
+                      <div className="bg-accent p-[8px] font-medium text-xl text-light rounded-[10px]">{rating}</div>
                       {/* <div className="cursor-pointer w-[42px] h-[42px] rounded-full bg-accent flex items-center justify-center">
                         <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M19.9688 5.76563C22.9395 5.76563 25.3535 8.18555 25.3535 11.1738C25.3535 12.709 24.7148 14.0918 23.6953 15.0762L15 23.8535L6.15234 14.918C5.22656 13.9453 4.65234 12.627 4.65234 11.1738C4.65234 8.18555 7.06055 5.76563 10.0371 5.76563C12.2754 5.76563 14.1914 7.13672 15.0059 9.09375C15.8086 7.14258 17.7305 5.76563 19.9688 5.76563ZM19.9688 4.86328C17.9883 4.86328 16.1719 5.78906 15 7.3125C13.8281 5.78906 12.0117 4.86328 10.0312 4.86328C6.56836 4.86328 3.75 7.69336 3.75 11.1738C3.75 12.8086 4.37109 14.3613 5.50195 15.5449L14.3613 24.4922L15 25.1367L15.6387 24.4922L24.3281 15.7148C25.5586 14.5254 26.25 12.9082 26.25 11.1738C26.25 7.69336 23.4316 4.86328 19.9688 4.86328Z" fill="white"/>
                         </svg>
                       </div> */}
-                    </div>
+                    </div>}
 
                 </div>
             </div>
@@ -457,7 +459,7 @@ export default function HotelProfileScreen() {
             </div>
 
             {/* REVIEWS SECTION */}
-            <div className="w-full flex flex-col gap-10 items-start" ref={reviewsRef}>
+            {showReviews && <div className="w-full flex flex-col gap-10 items-start" ref={reviewsRef}>
                 <span className="text-5xl" style={{fontFamily:'Harlow'}}>REVIEWS</span>
 
                 <div className="p-[21px] flex flex-row gap-5 items-center bg-muted/50 border border-accent rounded-[10px] cursor-pointer" onClick={openTripAdvisor}>
@@ -482,7 +484,7 @@ export default function HotelProfileScreen() {
                 </div>
 
 
-            </div>
+            </div>}
 
 
             {/* FAQ SECTION */}

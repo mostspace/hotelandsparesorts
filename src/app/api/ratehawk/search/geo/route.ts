@@ -48,7 +48,7 @@ export function POST(req:Request) {
           latitude: lat, 
           radius: radius,
           currency: "EUR",
-          limit: exludedHid?5:50
+          limit: exludedHid?5:500
         })
       });
       
