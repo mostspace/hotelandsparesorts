@@ -30,7 +30,7 @@ export const Header = () => {
 
     
     const homeClicked = () => {
-        router.push(`/home`)
+        router.push(`/`)
     }
 
     const loginClicked = () => {
@@ -104,8 +104,8 @@ export const Header = () => {
                     <span className="hover:text-accent cursor-pointer" onClick={()=>openLink("https://www.hotelandsparesorts.com/offers")}>PREFERRED PARTNERS</span>
                     <div className="h-full w-[1.5px] bg-primary"/>
                     <span className="hover:text-accent cursor-pointer" onClick={()=>openLink("https://www.hotelandsparesorts.com/how-it-works")}>HOW IT WORKS</span>
-                    <div className="h-full w-[1.5px] bg-primary"/>
-                    <span className="hover:text-accent cursor-pointer" onClick={()=>openLink("https://www.hotelandsparesorts.com/corporate-gift")}>CORPORATE</span>
+                    <div className="hidden md:block h-full w-[1.5px] bg-primary"/>
+                    <span className="hidden md:block hover:text-accent cursor-pointer" onClick={()=>openLink("https://www.hotelandsparesorts.com/corporate-gift")}>CORPORATE</span>
                 </div>
             </div>
 

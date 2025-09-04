@@ -35,7 +35,7 @@ export const BookingConfirmed = (props:BookingConfirmedProps) => {
 
             <div className="flex flex-row gap-5 mt-4">
                 <Button className="bg-accent text-lg font-bold p-4" onClick={()=>router.push(`/user/my-bookings`)}>MANAGE YOUR BOOKING</Button>
-                <Button className="bg-light text-lg text-accent font-bold p-4 border border-accent" onClick={()=>router.push(`/home`)}>GO TO HOMEPAGE</Button>
+                <Button className="bg-light text-lg text-accent font-bold p-4 border border-accent" onClick={()=>router.push(`/`)}>GO TO HOMEPAGE</Button>
             </div>
         </div>
     )

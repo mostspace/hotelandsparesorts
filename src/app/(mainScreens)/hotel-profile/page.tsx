@@ -402,7 +402,7 @@ export default function HotelProfileScreen() {
 
               </div>
 
-              <div className="flex flex-col w-[600px] gap-5">
+              <div className="flex flex-col w-full md:w-[600px] gap-5">
 
                 <div className="relative h-[280px] w-full p-[10px] rounded-[20px] bg-muted">
                   <MapProvider>
