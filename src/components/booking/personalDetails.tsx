@@ -133,7 +133,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
             </div>
 
 
-            {!auth || !auth.currentUser && <div className="w-full p-[28px] flex flex-col gap-3.5 items-start border border-primary/50">
+            {/* {!auth || !auth.currentUser && <div className="w-full p-[28px] flex flex-col gap-3.5 items-start border border-primary/50">
                 <span className="text-4xl" style={{fontFamily:'Harlow'}}>Optional: Become a member for free</span>
                 <div className="flex flex-row gap-4">
                     <div className="border border-primar/30 flex justify-center items-center">
@@ -150,7 +150,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                     </div>
                     <span className="text-lg">Access member deals and email exclusive offers.</span>
                 </div>
-            </div>}
+            </div>} */}
 
 
             <div className="flex gap-8 items-center">

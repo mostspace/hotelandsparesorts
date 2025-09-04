@@ -146,6 +146,7 @@ export const RoomTile = (props:RoomTileProps) => {
             let orderID = data.data.order_id
             let partnerID = data.data.partner_order_id
             let amount = data.data.payment_types[0].amount
+
             let currencyCode = data.data.payment_types[0].currency_code
 
             createBooking(orderID,partnerID,amount,currencyCode)
@@ -179,7 +180,8 @@ export const RoomTile = (props:RoomTileProps) => {
                     amount:amount,
                     currencyCode: currencyCode,
                     roomName:props.rateObj.room_name,//props.rateObj.room_data_trans.main_name,
-                    amenities:props.rateObj.amenities_data
+                    amenities:props.rateObj.amenities_data,
+                    tax_data:props.rateObj.payment_options.payment_types[0].tax_data.taxes
                 }
             }),
         });
@@ -237,7 +239,7 @@ export const RoomTile = (props:RoomTileProps) => {
     return(
         <div className="w-[375px] flex flex-col items-center gap-3.5">
 
-            {loading && <LoadingPopUp />}
+            {loading && <LoadingPopUp title="Please wait a moment…" subtitle="Loading your booking request."/>}
 
             {showError && <ErrorPopUp 
                 title="Error booking room" 
@@ -344,7 +346,7 @@ export const RoomTile = (props:RoomTileProps) => {
                         <span className="font-medium">€{(+props.rateObj.daily_prices[0]).toFixed(0)}/</span>
                         <span>night</span>
                     </div>
-                    <div className="flex flex-row items-end">
+                    <div className="flex flex-row items-end gap-1.5">
                         <span className="text-2xl font-medium">€{+(props.rateObj.payment_options.payment_types[0].show_amount)}</span>
                         <span>{"(total)"}</span>
                     </div>

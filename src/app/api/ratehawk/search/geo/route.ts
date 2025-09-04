@@ -58,6 +58,8 @@ export function POST(req:Request) {
       var hotels = data.data.hotels
       var filteredHotels:any[] = hotels
 
+      var addedKindFilter = false
+
       const whereClause: any = {
       };
 
@@ -79,6 +81,7 @@ export function POST(req:Request) {
         }
 
         if(filter.id === "B" && filter.selected.length>0){
+          addedKindFilter = true
           whereClause.kind = {
             in:filter.selected
           }
@@ -119,7 +122,12 @@ export function POST(req:Request) {
       whereClause.hid = {
           in: hotelIds,
       }
-      
+
+      if(!addedKindFilter){
+        whereClause.kind = {
+          in: ['Hotel','Castle','Farm','Resort','Boutique & Design']
+        }
+      }
    
 
       const hotelsDB = await prisma.hotels.findMany({
@@ -175,7 +183,7 @@ const cancellationAtLeastWeekLong = (cancellationDate:string,checkInDate:string)
   // convert to days
   const diffDays = diffMs / (1000 * 60 * 60 * 24);
 
-  return diffDays >= 5;
+  return diffDays >= 1;
 }
 
 

@@ -8,9 +8,12 @@ import { BookingPaymentDetails } from "@/components/booking/paymentDetails";
 import { BookingPersonalDetails } from "@/components/booking/personalDetails";
 import { PriceSummary } from "@/components/booking/priceSummary";
 import { VoucherApply } from "@/components/booking/voucherApply";
+import ErrorPopUp from "@/components/general/ErrorPopUp";
+import { LoadingPopUp } from "@/components/LoadingPopUp";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function BookingScreen() {
 
@@ -20,8 +23,11 @@ export default function BookingScreen() {
   const [amountToCharge, setAmountToCharge] = useState(0);
   const [personalDetails, setPersonalDetails] = useState<any>(null);
   const [voucherCode, setVoucherCode] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showError, setShowError] = useState<any>(false);
 
   const searchParams = useSearchParams();
+  const router = useRouter();
   
 
 
@@ -79,7 +85,11 @@ export default function BookingScreen() {
           }),
       });
 
-      if (!res.ok) throw new Error(`Error: ${res.status}`);
+      if (!res.ok) {
+        setLoading(false)
+        setShowError(true)
+        throw new Error(`Error: ${res.status}`);
+      }
       const data = await res.json();
       return(data)
   }
@@ -108,7 +118,11 @@ export default function BookingScreen() {
           }),
       });
 
-      if (!res.ok) throw new Error(`Error: ${res.status}`);
+      if (!res.ok){
+        setLoading(false)
+        setShowError(true)
+        throw new Error(`Error: ${res.status}`);
+      }
       const data = await res.json();
       return(data)
   }
@@ -116,8 +130,11 @@ export default function BookingScreen() {
   const successfulPayment = async (stripeID:string) => {
 
     if(voucherCode!==""){await redeemVoucher()}
+
+    setLoading(true)
     await completeBookingRateHawk()
     await completeBookingDB(stripeID)
+    setLoading(false)
     setCurrentStep(4)
   }
 
@@ -149,7 +166,18 @@ export default function BookingScreen() {
 
   return (
     <div className="w-full flex flex-col items-center bg-light px-5 md:px-[118px] py-[90px] gap-[86px]" >
-      
+    
+    {loading && <LoadingPopUp title="Securing Your Escape…" subtitle="Please hold on as we confirm every detail of your luxury getaway."/>}
+
+    {showError && <ErrorPopUp 
+          title="Error booking room" 
+          subtitle="There was an issue when trying to finalise the booking." 
+          close={()=>setShowError(false)}
+          buttonText="Return to Hotel Profile"
+          buttonClicked={()=>router.back()}
+          
+      />} 
+
     <span className="mt-[-50px] mb-[-30px] font-medium text-lg text-accent">You have 10 minutes to complete this booking, from when rate was selected.</span>
 
     {/* STEP BAR */}
@@ -232,7 +260,7 @@ export default function BookingScreen() {
     </div>}
 
 
-    {currentStep === 4 && <BookingConfirmed email={personalDetails.email}/>}
+    {currentStep === 4 && <BookingConfirmed email={personalDetails.email} bookingNumber={booking.order_id}/>}
 
 
 

@@ -90,9 +90,8 @@ model Bookings {
   amount_paid   Int?
   email         String? 
   stripe_id     String? 
-
   uid           String? // optional user ID
-  // rate_data     Json
+  tax_data      Json?
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

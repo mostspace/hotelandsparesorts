@@ -312,6 +312,27 @@ export default function HotelProfileScreen() {
 
   }
 
+  const sortedImages = () => {
+    
+    let images:any[] = hotel.images
+    const priorityOrder: Record<string, number> = {
+      exterior: 1,
+      lobby: 2,
+    };
+
+    const sorted = images.slice().sort((a, b) => {
+      const rankA = priorityOrder[a.title?.toLowerCase()] || 99; // 99 = default for everything else
+      const rankB = priorityOrder[b.title?.toLowerCase()] || 99;
+
+      if (rankA !== rankB) return rankA - rankB;       // primary sort by rank
+      return 0;                                       // keep original order (or add secondary sorting here)
+    });
+
+    return sorted
+
+
+  }
+
     
   return (
     <>
@@ -324,7 +345,7 @@ export default function HotelProfileScreen() {
       {/* <span>HOTEL PROFILE PAGE</span> */}
 
       {loading && <span>Loading...</span>}
-      {loading && <LoadingPopUp />}
+      {loading && <LoadingPopUp title="Step Inside…" subtitle="Sit back while we open the doors to this luxury destination."/>}
 
    
       {hotel &&<div className="w-full flex flex-col items-center" >
@@ -380,7 +401,7 @@ export default function HotelProfileScreen() {
 
 
             {/* Image Gallery */}
-            <HotelImageGallery images={hotel.images}/>
+            <HotelImageGallery images={sortedImages()}/>
 
             
         </div>

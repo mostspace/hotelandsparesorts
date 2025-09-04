@@ -231,7 +231,7 @@ export default function SearchScreen() {
 
       if (filter.id === "B" && filter.selected.length > 0) {
         filteredList = filteredList.filter(item =>
-          filter.selected.includes(item.kind)
+          item.kind==="Farm"?filter.selected.includes("Sustainable"):item.kind==="Boutique & Design"?filter.selected.includes("Boutique"):filter.selected.includes(item.kind)
         );
       }
       
@@ -379,7 +379,7 @@ export default function SearchScreen() {
              
               {(!mapOpen && !loading) && showHotels()}
               {(!mapOpen && loading) && <span>Loading...</span>}
-              {(loading) && <LoadingPopUp />}
+              {(loading) && <LoadingPopUp title="Finding your Perfect Escape…" subtitle="Please hold on as we uncover your next luxury getaway."/>}
              
               {mapOpen && <div className="w-full md:h-[800px] h-[500px] flex flex-row gap-2 "  >
                 <MapProvider>

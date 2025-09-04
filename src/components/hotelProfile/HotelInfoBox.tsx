@@ -82,18 +82,18 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
                         <span className='cursor-pointer' onClick={()=>setSelectedTab('Key info')}>Key info</span>
                         {selectedTab=="Key info" && <div className="absolute w-[100%] h-[2px] bg-primary top-[35px]"/>}
                     </div>
-                    <div className={`hidden md:block relative ${selectedTab=="Location"?"font-medium":""}`}>
+                    {/* <div className={`hidden md:block relative ${selectedTab=="Location"?"font-medium":""}`}>
                         <span className='cursor-pointer' onClick={()=>setSelectedTab("Location")}>Location</span>
                         {selectedTab=="Location" && <div className="absolute w-[100%] h-[2px] bg-primary top-[35px]"/>}
-                    </div>
+                    </div> */}
                     <div className={`relative ${selectedTab=="Amenities"?"font-medium":""}`}>
                         <span className='cursor-pointer' onClick={()=>setSelectedTab("Amenities")}>Amenities</span>
                         {selectedTab=="Amenities" && <div className="absolute w-[100%] h-[2px] bg-primary top-[35px]"/>}
                     </div>
-                    <div className={`relative ${selectedTab=="Fees"?"font-medium":""}`}>
+                    {/* <div className={`relative ${selectedTab=="Fees"?"font-medium":""}`}>
                         <span className='cursor-pointer' onClick={()=>setSelectedTab("Fees")}>Fees</span>
                         {selectedTab=="Fees" && <div className="absolute w-[100%] h-[2px] bg-primary top-[35px]"/>}
-                    </div>
+                    </div> */}
                     <div className={`relative ${selectedTab=="Map"?"font-medium":""}`}>
                         <span className='cursor-pointer' onClick={()=>setSelectedTab("Map")}>Map</span>
                         {selectedTab=="Map" && <div className="absolute w-[100%] h-[2px] bg-primary top-[35px]"/>}

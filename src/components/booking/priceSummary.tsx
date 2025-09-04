@@ -1,3 +1,5 @@
+import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
+
 interface PriceSummaryProps {
     booking:any
     amountToCharge:number
@@ -17,6 +19,26 @@ export const PriceSummary = (props:PriceSummaryProps) => {
 
     }
 
+    const showTaxes = () => {
+        const compArray:any[] = []
+        props.booking.tax_data.forEach((element: { included_by_supplier: any; amount: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; }) => {
+            if(element.included_by_supplier){
+                compArray.push(<span>+€{element.amount}</span>)
+            }
+        });
+        return compArray
+    }
+
+    const calculatePreTaxPrice = () => {
+        var amount = props.booking.amount
+        props.booking.tax_data.forEach((element: { included_by_supplier: any; amount: string ; }) => {
+            if(element.included_by_supplier){
+                amount -= (+element.amount)
+            }
+        });
+        return amount
+    }
+
     return(
         <div className="flex flex-col items-start border border-primary/50 py-[21px] gap-5 min-w-100 max-w-[575px]">
 
@@ -24,13 +46,13 @@ export const PriceSummary = (props:PriceSummaryProps) => {
             
             <div className="px-[28px] text-lg w-full flex justify-between">
                 <span>{props.booking.room_name}</span>
-                <span>€{props.booking.amount}</span>
+                <span>€{calculatePreTaxPrice()}</span>
             </div>
 
-            {/* <div className="px-[28px] text-lg w-full flex justify-between">
+            <div className="px-[28px] text-lg w-full flex justify-between">
                 <span>Taxes & fees</span>
-                <span>+1,111.79</span>
-            </div> */}
+                {showTaxes()}
+            </div>
 
             {props.booking.amount !== props.amountToCharge && <div className="px-[28px] text-lg w-full flex justify-between">
                 <span>Voucher</span>

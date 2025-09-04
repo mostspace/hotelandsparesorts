@@ -4,7 +4,7 @@ import { auth } from "@/app/firebase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import { useRouter } from "next/navigation";
+import { useRouter,useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
@@ -23,13 +23,17 @@ export default function LoginPage() {
   const providerGoogle = new GoogleAuthProvider();
 
   const router = useRouter();
+  const searchParams = useSearchParams();
   
+  const bookingNumber = searchParams.get('bookingNumber') || "";
+
 
   useEffect(() => {
     if(auth){
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
           router.push(`/`)
+          if(bookingNumber!==""){claimBooking(bookingNumber)}
         }
         else {
 
@@ -192,6 +196,23 @@ export default function LoginPage() {
     } catch (error) {
       console.error("API POST call failed:", error);
     }
+  }
+
+  const claimBooking = async (bookingNumber:string) => {
+        
+        const res = await fetch(`/api/bookings/${bookingNumber}/claim`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+              uid: auth?.currentUser?auth.currentUser.uid:'test-uid-123'
+            }),
+        });
+  
+        if (!res.ok) throw new Error(`Error: ${res.status}`);
+        const data = await res.json();
+ 
   }
     
   return (

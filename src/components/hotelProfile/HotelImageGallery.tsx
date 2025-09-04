@@ -31,7 +31,7 @@ export const HotelImageGallery = (props:HotelImageGalleryProps) => {
         let caption = props.images.length>0?props.images[index].title:props.images[0].title
         if(caption === "unspecified"){return ""}
         else{
-            return caption
+            return toTitleCase(caption)
         }
     }
 
@@ -41,6 +41,14 @@ export const HotelImageGallery = (props:HotelImageGalleryProps) => {
         if(newIndex<0){newIndex = props.images.length-1}
         else if(newIndex===props.images.length){newIndex = 0}
         setIndex(newIndex)
+    }
+
+    function toTitleCase(str: string): string {
+        return str
+            .split(/\s+/)                  // split on spaces
+            .filter(Boolean)               // remove extra empties
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ');
     }
 
     return(
@@ -78,8 +86,8 @@ export const HotelImageGallery = (props:HotelImageGalleryProps) => {
 
 
 
-            {showPopUp && <div className="fixed z-15 bg-primary/50 inset-0 flex justify-center items-center p-10 px-50">
-                <div className="z-10 rounded-xl bg-muted p-5 h-full w-full flex flex-col gap-4 items-center" >
+            {showPopUp && <div className="fixed z-15 bg-primary/50 inset-0 flex justify-center md:items-center p-2 md:p-10 md:px-50">
+                <div className="z-10 rounded-xl bg-muted p-5 md:h-full h-[700px] w-full flex flex-col gap-4 items-center" >
                     <div className="w-full flex flex-row justify-end">
                         <Button onClick={()=>setShowPopUp(false)}>Close</Button>
                     </div>

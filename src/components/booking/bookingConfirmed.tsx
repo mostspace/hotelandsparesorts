@@ -1,8 +1,10 @@
+import { auth } from "@/app/firebase";
 import { Button } from "../ui/button"
 import { useRouter } from "next/navigation";
 
 interface BookingConfirmedProps {
-    email:string
+    email:string,
+    bookingNumber:string
 }
 
 export const BookingConfirmed = (props:BookingConfirmedProps) => {
@@ -29,12 +31,14 @@ export const BookingConfirmed = (props:BookingConfirmedProps) => {
 
             <div className="text-2xl flex flex-col items-center gap-5">
                 <span>Your booking is confirmed</span>
+                <span>Booking Number: {props.bookingNumber}</span>
                 <span>A confirmation email has been sent to:</span>
                 <span className="text-accent font-medium">{props.email}</span>
             </div>
 
             <div className="flex flex-row gap-5 mt-4">
-                <Button className="bg-accent text-lg font-bold p-4" onClick={()=>router.push(`/user/my-bookings`)}>MANAGE YOUR BOOKING</Button>
+                {auth?.currentUser && <Button className="bg-accent text-lg font-bold p-4" onClick={()=>router.push(`/user/my-bookings`)}>MANAGE YOUR BOOKING</Button>}
+                {!auth?.currentUser && <Button className="bg-accent text-lg font-bold p-4" onClick={()=>router.push(`/login?bookingNumber=${props.bookingNumber}`)}>LINK BOOKING TO ACCOUNT</Button>}
                 <Button className="bg-light text-lg text-accent font-bold p-4 border border-accent" onClick={()=>router.push(`/`)}>GO TO HOMEPAGE</Button>
             </div>
         </div>

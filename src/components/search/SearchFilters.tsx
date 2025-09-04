@@ -35,7 +35,7 @@ export const SearchFilters = (props:SearchFiltersProps) => {
             id:'B',
             title:"Venue Type",
             type:'checkList',
-            options:['Hotel','Hotel Spa','Boutique','Resort'],
+            options:['Hotel','Castle','Resort', 'Sustainable', 'Boutique' ],
             selected:getExistingFilterValue('B',[])
         },
         {
