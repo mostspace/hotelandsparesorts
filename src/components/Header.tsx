@@ -60,7 +60,7 @@ export const Header = () => {
     }
 
 
-    return <div className="w-full flex flex-col items-start gap-5.5 px-5 md:px-[182px] py-[6px] text-base font-medium bg-light">
+    return <div className="w-full flex flex-col items-start gap-5.5 px-5 md:px-[182px] py-[22px] text-base font-medium bg-light">
 
         <div className="w-full flex flex-row justify-between">
             <div className="flex flex-row gap-3">
