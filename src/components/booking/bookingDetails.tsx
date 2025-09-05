@@ -56,8 +56,21 @@ export const BookingDetails = (props:BookingProps) => {
     }
 
     const getImageURL = () => {
-        let imageUrl = props.booking.hotel.images[0].url
-        return imageUrl.replace('{size}','x500')
+        var imageUrl 
+
+        if(props.booking.hotel.images.length > 0)
+        {
+            const exterior = props.booking.hotel.images.filter((img: { title: string }) => img.title === "exterior");
+            const lobby = props.booking.hotel.images.filter((img: { title: string }) => img.title === "lobby");
+
+            if(exterior.length>0){imageUrl = exterior[0].url}
+            else if(lobby.length>0){imageUrl = lobby[0].url}
+            else{imageUrl = props.booking.hotel.images[0].url}
+            
+            return imageUrl.replace('{size}','x500')
+        }else{
+            return ""
+        }
     }
 
 

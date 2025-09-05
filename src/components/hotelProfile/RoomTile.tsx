@@ -145,9 +145,14 @@ export const RoomTile = (props:RoomTileProps) => {
 
             let orderID = data.data.order_id
             let partnerID = data.data.partner_order_id
-            let amount = data.data.payment_types[0].amount
+            // let amount = data.data.payment_types[0].amount
+
+            let amount = +getRate()
 
             let currencyCode = data.data.payment_types[0].currency_code
+
+
+            
 
             createBooking(orderID,partnerID,amount,currencyCode)
         }
@@ -234,6 +239,31 @@ export const RoomTile = (props:RoomTileProps) => {
         else{
             return meal + " included"
         }
+    }
+
+    const getRate = () => {
+
+    
+
+           
+            let price = +props.rateObj.payment_options.payment_types[0].show_amount
+            let tax_data = props.rateObj.payment_options.payment_types[0].tax_data.taxes
+                
+          
+            let preTax = price
+            tax_data.forEach((element: { included_by_supplier: any; amount: string | number }) => {
+                    if(element.included_by_supplier){
+                        preTax-= (+element.amount)
+                    }
+                });
+
+            let commissionPercentage = auth?.currentUser?15:20
+            let commission = preTax*(commissionPercentage/100)
+            
+            
+            return (price+commission).toFixed(0)
+        
+    
     }
 
     return(
@@ -343,11 +373,11 @@ export const RoomTile = (props:RoomTileProps) => {
 
                 <div className="w-full justify-between ai-end text-lg flex flex-row">
                     <div className="flex flex-row">
-                        <span className="font-medium">€{(+props.rateObj.daily_prices[0]).toFixed(0)}/</span>
+                        <span className="font-medium">€{(+(getRate())/props.rateObj.daily_prices.length).toFixed(2)}/</span>
                         <span>night</span>
                     </div>
                     <div className="flex flex-row items-end gap-1.5">
-                        <span className="text-2xl font-medium">€{+(props.rateObj.payment_options.payment_types[0].show_amount)}</span>
+                        <span className="text-2xl font-medium">€{(+getRate()).toFixed(0)}</span>
                         <span>{"(total)"}</span>
                     </div>
                 </div>

@@ -8,6 +8,7 @@ interface ErrorPropUp{
     buttonText:string,
     close:any
     buttonClicked:any
+    hideClose?:boolean
 }
 
 
@@ -19,7 +20,7 @@ export default function ErrorPopUp(props:ErrorPropUp) {
 
         <div className="max-w-[700px] flex flex-col bg-light p-[70px] gap-[44px] relative items-center">
 
-            <div className="absolute top-4 right-4 cursor-pointer" onClick={props.close}>
+            {!props.hideClose && <div className="absolute top-4 right-4 cursor-pointer" onClick={props.close()}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_113_839)">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M24 2.4L21.6 0L12 9.6L2.4 0L0 2.4L9.6 12L0 21.6L2.4 24L12 14.4L21.6 24L24 21.6L14.4 12L24 2.4Z" fill="#333337"/>
@@ -30,7 +31,7 @@ export default function ErrorPopUp(props:ErrorPropUp) {
                     </clipPath>
                     </defs>
                 </svg>
-            </div>
+            </div>}
 
             <div className="flex flex-col gap-2">
                 <span className="text-2xl font-medium">{props.title}</span>

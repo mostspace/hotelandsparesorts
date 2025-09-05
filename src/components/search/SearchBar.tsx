@@ -26,6 +26,12 @@ export const SearchBar = (props:SearchBarProps) => {
     const [checkInDate, setCheckInDate] = useState<Date | undefined>(props.existingData.checkInDate||undefined)
     const [checkOutDate, setCheckOutDate] = useState<Date | undefined>(props.existingData.checkOutDate||undefined)
 
+    // type DateRange = { from: Date | undefined; to: Date | undefined };
+    const [dateRange, setDateRange] = useState<any>(props.existingData.checkInDate?{from:props.existingData.checkInDate,to:props.existingData.checkOutDate}:{});
+    const [hasFullDateRange, setHasFullDateRange] = useState<any>(props.existingData.checkInDate);
+    const [hoveredDate, setHoveredDate] = useState<any>()
+
+
     const [showCheckInPicker, setShowCheckInPicker] = useState(false);
     const [showCheckOutPicker, setShowCheckOutPicker] = useState(false);
     const [showGuestPicker, setShowGuestPicker] = useState(false);
@@ -62,18 +68,18 @@ export const SearchBar = (props:SearchBarProps) => {
         setShowGuestPicker(false)
 
         if(type==="checkin"){setShowCheckInPicker(true)}
-        else if(type==="checkout"){setShowCheckOutPicker(true)}
+        // else if(type==="checkout"){setShowCheckOutPicker(true)}
         else if(type==="guests"){setShowGuestPicker(true)}
 
     }
 
-    useEffect(() => {
-        setShowCheckInPicker(false)
-    }, [checkInDate]);
+    // useEffect(() => {
+    //     setShowCheckInPicker(false)
+    // }, [checkInDate]);
 
-    useEffect(() => {
-        setShowCheckOutPicker(false)
-    }, [checkOutDate]);
+    // useEffect(() => {
+    //     setShowCheckOutPicker(false)
+    // }, [checkOutDate]);
 
 
     const handlePlaceSelect = (place: google.maps.places.PlaceResult) => {
@@ -155,6 +161,52 @@ export const SearchBar = (props:SearchBarProps) => {
         return guests
     }
 
+    type OnSelectHandler<T> = (selected: T | undefined) => void
+    function handleDateSelect(range: { from?: Date; to?: Date } | undefined) {
+        if (!range) {
+            // If user cleared the selection, reset state
+            setDateRange({})
+            return
+        }
+
+        console.log("RANGE", range)
+        console.log("DATE RANGE", dateRange)
+        console.log("HAS FULL RANGE", hasFullDateRange)
+
+        let selectedRange = range
+
+        if(range.from === range.to){
+            selectedRange = {from:range.from}
+        }
+
+        
+
+        // If both dates were already selected, start a new range
+        if (selectedRange.from && selectedRange.to) {
+            if(hasFullDateRange){
+                if(selectedRange.from < dateRange.from)
+                {
+                    setDateRange({from:range.from})
+                    setCheckInDate(range.from); setCheckOutDate(undefined)
+                }else{
+                    setDateRange({from:range.to})
+                    setCheckInDate(range.to); setCheckOutDate(undefined)
+                }
+                // setDateRange( range )
+                setHasFullDateRange(false)
+            }
+            else{
+                setHasFullDateRange(true)
+                setDateRange(selectedRange)
+                setCheckInDate(selectedRange.from); setCheckOutDate(selectedRange.to)
+            }
+        } else {
+            setDateRange(selectedRange)
+            setCheckInDate(selectedRange.from); setCheckOutDate(selectedRange.to)
+
+        }
+    }
+
 
 
     return(
@@ -181,59 +233,93 @@ export const SearchBar = (props:SearchBarProps) => {
             <span className="font-bold">Check-in</span>
             <span className={`font-normal`}>{checkInDate===undefined?"Add date":format(checkInDate, "PPP")}</span>
             {showCheckInPicker && <Calendar
-                    mode="single"
-                    selected={checkInDate}
-                    onSelect={setCheckInDate}
-                    defaultMonth={checkInDate ?? new Date()}
+                    mode="range"
+                    numberOfMonths={2}
+                    selected={dateRange}
+                    onSelect={handleDateSelect}
+                    defaultMonth={dateRange?.from ?? new Date()}
+                    showOutsideDays={false}
+                    required={false}     
+                    onDayMouseEnter={(date) => setHoveredDate(date)} // track hovered date
                     disabled={(date) => {
-                        const today = new Date();
-                        if (checkOutDate) {
-                          return date < today || date > checkOutDate;
+                        const today = new Date()
+                        if (date < today) return true
+                        // if (dateRange.from && date <= dateRange.from) return true
+                        if (dateRange.from && !dateRange.to && date <= dateRange.from) return true
+                        return false
+                    }}
+                    className="absolute left-0 top-22 rounded-md border border-primary bg-white z-10"
+                    modifiers={{
+                        hoverRange: (date) => {
+                        // only show preview when from is selected, to is not set, and hovering a future date
+                        if (!dateRange.from || dateRange.to || !hoveredDate) return false
+                        return date >= dateRange.from && date <= hoveredDate
                         }
-                        return date < today;
-                      }}
-                    className="absolute w-full left-0 top-21 rounded-md border border-primary bg-white z-10"
-                />}
+                    }}
+                    modifiersClassNames={{
+                        hoverRange: "bg-accent/30"
+                    }}
+                    />}
         </div>}
 
         <div className={`relative flex flex-row gap-3 bg-light px-[20px] py-[10px] md:w-[30%] w-full ${props.showBorders?"border border-primary":""} rounded-lg`}>
 
             {props.showLocation && <div className=" flex flex-col gap-1 w-full  cursor-pointer" onClick={()=>openPicker('checkin')}>
                 <span className="font-bold">Check-In</span>
-                <span className={`font-normal`}>{checkInDate===undefined?"Add date":format(checkInDate, "PPP")}</span>
+                {/* <span className={`font-normal`}>{checkInDate===undefined?"Add date":format(checkInDate, "PPP")}</span> */}
+                <span>
+                    {dateRange?.from ? format(dateRange.from, "PPP") : "Add date"}
+                </span>
+
                 
                 {showCheckInPicker && <Calendar
-                    mode="single"
-                    selected={checkInDate}
-                    onSelect={setCheckInDate}
-                    defaultMonth={checkInDate ?? new Date()}
+                    mode="range"
+                    numberOfMonths={2}
+                    selected={dateRange}
+                    onSelect={handleDateSelect}
+                    defaultMonth={dateRange?.from ?? new Date()}
+                    showOutsideDays={false}
+                    required={false}     
+                    onDayMouseEnter={(date) => setHoveredDate(date)} // track hovered date
                     disabled={(date) => {
-                        const today = new Date();
-                        if (checkOutDate) {
-                          return date < today || date > checkOutDate;
+                        const today = new Date()
+                        if (date < today) return true
+                        // if (dateRange.from && date <= dateRange.from) return true
+                        if (dateRange.from && !dateRange.to && date <= dateRange.from) return true
+                        return false
+                    }}
+                    className="absolute left-0 top-22 rounded-md border border-primary bg-white z-10"
+                    modifiers={{
+                        hoverRange: (date) => {
+                        // only show preview when from is selected, to is not set, and hovering a future date
+                        if (!dateRange.from || dateRange.to || !hoveredDate) return false
+                        return date >= dateRange.from && date <= hoveredDate
                         }
-                        return date < today;
-                      }}
-                    className="absolute w-full left-0 top-21 rounded-md border border-primary bg-white z-10"
-                />}
+                    }}
+                    modifiersClassNames={{
+                        hoverRange: "bg-accent/30"
+                    }}
+                    />}
               
             </div>}
 
             {props.showLocation && <div className="h-full w-px bg-primary/50"/>}
         
 
-            <div className="flex flex-col gap-1 w-full  cursor-pointer" onClick={()=>openPicker("checkout")}>
+            <div className="flex flex-col gap-1 w-full  cursor-pointer" onClick={()=>openPicker("checkin")}>
                 <span className="font-bold">Check-Out</span>
-                <span className={`font-normal`}>{checkOutDate===undefined?"Add date":format(checkOutDate, "PPP")}</span>
+                <span>
+                    {dateRange?.to ? format(dateRange.to, "PPP") : "Add date"}
+                </span>
 
-                {showCheckOutPicker && <Calendar
+                {/* {showCheckOutPicker && <Calendar
                     mode="single"
                     selected={checkOutDate}
                     onSelect={setCheckOutDate}
                     defaultMonth={checkOutDate ?? checkInDate ?? new Date()}
                     disabled={(date) => date < (checkInDate || new Date())} // disables past dates
                     className="absolute w-full left-0 top-21 rounded-md border border-primary bg-white z-10"
-                />}
+                />} */}
             </div>
 
         </div>

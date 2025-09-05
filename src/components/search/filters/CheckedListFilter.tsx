@@ -24,12 +24,18 @@ export const CheckedListFilter = (props:CheckedListFilterProps) => {
         let compArray:any[] = []
 
         props.options.forEach(option => {
-            compArray.push(<div className="flex flex-row gap-2 items-center">
-                <Checkbox className="data-[state=checked]:bg-accent border border-primary"
-                        checked = {selectedOptions.includes(option)}
-                      onCheckedChange={(isChecked) => handleCheckboxChange(option, isChecked)}/>
-                <span className="text-lg font-light">{option}</span>
-            </div>)
+            compArray.push(
+            <label
+  className="flex flex-row gap-2 items-center cursor-pointer"
+>
+  <Checkbox
+    className="data-[state=checked]:bg-accent border border-primary"
+    checked={selectedOptions.includes(option)}
+    onCheckedChange={(isChecked) => handleCheckboxChange(option, isChecked)}
+  />
+  <span className="text-lg font-light">{option}</span>
+</label>
+)
         });
 
         return compArray

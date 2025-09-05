@@ -92,6 +92,7 @@ model Bookings {
   stripe_id     String? 
   uid           String? // optional user ID
   tax_data      Json?
+  rooms         Json?
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

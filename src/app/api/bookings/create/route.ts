@@ -31,7 +31,8 @@ export function POST(req:Request) {
         status: 'pending',
         room_name: bookingData.roomName,
         amenities: bookingData.amenities.join(', '),
-        tax_data:bookingData.tax_data
+        tax_data:bookingData.tax_data,
+        rooms:rooms
       };
     
       // Only add uid if provided and not empty

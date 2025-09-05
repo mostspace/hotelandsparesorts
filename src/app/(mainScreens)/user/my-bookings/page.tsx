@@ -108,7 +108,7 @@ export default function MyBookings() {
                 hotel={booking.hotel} 
                 checkIn={booking.check_in}
                 checkOut={booking.check_out}
-                rooms = {[]}
+                rooms = {booking.rooms || []}
                 booking={booking}
                 source={"MyBookings"}
                 locationName={""} 

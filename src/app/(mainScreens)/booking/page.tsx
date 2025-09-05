@@ -25,6 +25,10 @@ export default function BookingScreen() {
   const [voucherCode, setVoucherCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [showError, setShowError] = useState<any>(false);
+  const [timedOut, setTimedOut] = useState<any>(false);
+
+  // const [remainingTime, setRemainingTime] = useState(100);
+
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -158,6 +162,36 @@ export default function BookingScreen() {
       return(data)
   }
 
+  function Countdown({ expiry }: { expiry: Date }) {
+    const [remainingTime, setRemainingTime] = useState(
+      Math.max(0, expiry.getTime() - Date.now()) // ms until expiry
+    );
+
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setRemainingTime(Math.max(0, expiry.getTime() - Date.now()));
+      }, 1000); // update every second
+
+      return () => clearInterval(interval); // cleanup
+    }, [expiry]);
+
+    // optional: convert to mm:ss
+    const totalSeconds = Math.floor(remainingTime / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    if(totalSeconds<=0 && !timedOut){
+      setTimedOut(true)
+    }
+
+    return (
+      <div className="w-full flex justify-end">
+        <span className="mt-[-20px] mb-[-10px] font-medium text-lg text-accent">
+          Time Remaining to complete booking: {minutes}:{seconds.toString().padStart(2, "0")}
+        </span>
+      </div>
+    );
+  }
 
   
   const check = <svg width="22" height="18" viewBox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -178,7 +212,18 @@ export default function BookingScreen() {
           
       />} 
 
-    <span className="mt-[-50px] mb-[-30px] font-medium text-lg text-accent">You have 10 minutes to complete this booking, from when rate was selected.</span>
+      {timedOut && <ErrorPopUp 
+          title="Booking Timed Out" 
+          subtitle="You ran out of time to complete the booking, please select a new rate and try again." 
+          close={()=>setShowError(false)}
+          buttonText="Return to Hotel Profile"
+          buttonClicked={()=>router.back()}
+          hideClose={true}
+      />} 
+
+    {/* <span className="mt-[-50px] mb-[-30px] font-medium text-lg text-accent">Time Remaining on booking: {remainingTime}</span> */}
+    {booking && <Countdown expiry={new Date(new Date(booking.created_at).getTime() + 10 * 60 * 1000)} />}
+
 
     {/* STEP BAR */}
     <div className="w-full flex flex-row md:gap-8 gap-2 items-center text-lg font-medium">

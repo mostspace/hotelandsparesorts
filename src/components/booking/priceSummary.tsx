@@ -36,7 +36,7 @@ export const PriceSummary = (props:PriceSummaryProps) => {
                 amount -= (+element.amount)
             }
         });
-        return amount
+        return amount.toFixed(2)
     }
 
     return(

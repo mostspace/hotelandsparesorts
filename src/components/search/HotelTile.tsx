@@ -45,24 +45,40 @@ export const HotelTile = (props:HotelTileProps) => {
         }
     }
 
-    const getRate = () => {
+    const getRate = (commissionPercentage:number) => {
 
         if(props.source.includes("Bookings")){
             return +props.booking.amount
         }else{
 
             let lowestRate:any = null 
+            let lowestTaxData:any =null
+            let tax:number = 0
+            
 
             let rates:any[] = props.hotel.rates
             rates.forEach(rate => {
                 let price = rate.payment_options.payment_types[0].show_amount
+                let tax_data = rate.payment_options.payment_types[0].tax_data.taxes
+                
 
                 if(!lowestRate || +price<lowestRate){
                     lowestRate = +price
+                    lowestTaxData = tax_data
                 }
             });
+
+            let preTax = lowestRate
+            lowestTaxData.forEach((element: { included_by_supplier: any; amount: string | number }) => {
+                    if(element.included_by_supplier){
+                        preTax-= (+element.amount)
+                    }
+                });
+
+            let commission = preTax*(commissionPercentage/100)
             
-            return (lowestRate).toFixed(0)
+            
+            return (lowestRate+commission).toFixed(0)
         }
     
     }
@@ -186,9 +202,9 @@ export const HotelTile = (props:HotelTileProps) => {
     return(
     <div className={`w-full ${props.source==="AllBookings"?"md:h-[500px]":"md:h-[300px]"} flex md:flex-row flex-col border border-primary text-primary bg-light`}>
 
-        <img className="md:h-full h-[200px] md:w-[40%] w-[100%] object-cover object-center" src={getImageURL()} />
+        <img className="md:h-full h-[200px] md:w-[40%] lg:w-[30%] object-cover object-center" src={getImageURL()} />
         
-        <div className="md:w-[60%] w-full h-full flex flex-col justify-between md:p-6 p-2">
+        <div className="md:flex-1 w-[100%] h-full flex flex-col justify-between md:p-6 p-2">
 
             <div className="w-full flex flex-col gap-2.5">
                 
@@ -205,11 +221,11 @@ export const HotelTile = (props:HotelTileProps) => {
                     {showStars()}
                     </div>
                 </div>
-                <span className="md:text-4xl text-xl md:font-normal font-medium text-lg" style={{fontFamily:'Harlow'}}>{props.hotel.hotel_name}</span>
+                <span className="md:text-4xl text-2xl md:font-normal font-medium" style={{fontFamily:'Harlow'}}>{props.hotel.hotel_name}</span>
             </div>  
 
 
-            <div className={`flex md:flex-row flex-col-reverse justify-between items-end w-full`}>
+            <div className={`flex md:flex-row flex-col-reverse justify-between items-end w-full gap-4`}>
                 
                 {!props.source.includes("Bookings")&&<Button onClick={()=>openHotel(props.hotel.hid)} className="bg-accent hover:bg-accent/90 text-light text-lg">VIEW DETAILS & BOOK</Button>}
                 {props.source.includes("Bookings")&&
@@ -221,12 +237,12 @@ export const HotelTile = (props:HotelTileProps) => {
                 }
 
                 <div className="flex flex-col items-end gap-2 text-alt">
-                    <div className="flex gap-2 items-end">
-                        <span className={`text-3xl font-medium ${props.showDiscount?"line-through text-primary/50":""}`}>€{getRate()}</span> 
-                        {props.showDiscount && <span className="text-3xl font-medium">€{(+getRate()*0.8).toFixed(2)}</span> }
-                    </div>
+                    {props.source!=="MyBookings" && <div className="flex gap-2 items-end">
+                        <span className={`text-3xl font-medium ${props.showDiscount?"line-through text-primary/50":""}`}>€{getRate(20)}</span> 
+                        {props.showDiscount && <span className="text-3xl font-medium">€{(+getRate(15)).toFixed(2)}</span> }
+                    </div>}
                     <div className="flex flex-col items-end gap-2 text-alt">
-                        <span className="md:text-lg">1 room, {calculateNights()} nights</span>
+                        <span className="md:text-lg">{props.rooms?.length} room, {calculateNights()} nights</span>
                         <span className="text-accent text-sm">Fully refundable</span>
                      </div>
                 </div>

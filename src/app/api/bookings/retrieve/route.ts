@@ -14,9 +14,7 @@ export function POST(req:Request) {
         include: { 
             hotel: {
               include: {
-                images: {
-                  take: 1 // 👈 only get first image
-                }
+                images: true
               }
             }
           }
