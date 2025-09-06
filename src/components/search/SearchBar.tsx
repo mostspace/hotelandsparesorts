@@ -8,11 +8,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns"
 import { SearchRoom } from "./SearchRoom"
 import { json } from "stream/consumers"
-import dynamic from 'next/dynamic';
 
-const CalendarNoSSR = dynamic(() => import('@/components/ui/calendar').then(mod => mod.Calendar), {
-  ssr: false,
-});
 
 interface SearchBarProps{
     showBorders:boolean
@@ -243,10 +239,10 @@ export const SearchBar = (props:SearchBarProps) => {
             <span className={`font-normal`}>{checkInDate===undefined?"Add date":format(checkInDate, "PPP")}</span>
             {isClient &&showCheckInPicker && (
                 <div
-                    className="absolute left-0 top-22 rounded-md border border-primary bg-white z-[100]"
+                    className="absolute left-0 top-22 rounded-md border border-primary bg-white z-[100] pointer-events-auto"
                     onClick={(e) => e.stopPropagation()}   // << stop parent onClick
                 >
-                    {/* <CalendarNoSSR
+                    <Calendar
                     mode="range"
                     numberOfMonths={2}
                     selected={dateRange}
@@ -270,7 +266,7 @@ export const SearchBar = (props:SearchBarProps) => {
                     modifiersClassNames={{
                         hoverRange: "bg-accent/30",
                     }}
-                    /> */}
+                    />
                 </div>
                 )}
 
@@ -292,10 +288,10 @@ export const SearchBar = (props:SearchBarProps) => {
 
             {isClient && showCheckInPicker && (
                     <div
-                        className="absolute left-0 top-22 rounded-md border border-primary bg-white z-[100]"
+                        className="absolute left-0 top-22 rounded-md border border-primary bg-white z-[100] pointer-events-auto"
                         onClick={(e) => e.stopPropagation()}   // << stop parent onClick
                     >
-                        <CalendarNoSSR
+                        <Calendar
                         mode="range"
                         numberOfMonths={2}
                         selected={dateRange}
