@@ -234,7 +234,7 @@ export const SearchBar = (props:SearchBarProps) => {
             <span className={`font-normal`}>{checkInDate===undefined?"Add date":format(checkInDate, "PPP")}</span>
             {showCheckInPicker && (
                 <div
-                    className="absolute left-0 top-22 rounded-md border border-primary bg-white z-10"
+                    className="absolute left-0 top-22 rounded-md border border-primary bg-white z-[100]"
                     onClick={(e) => e.stopPropagation()}   // << stop parent onClick
                 >
                     <Calendar
@@ -279,7 +279,7 @@ export const SearchBar = (props:SearchBarProps) => {
                 
                 {showCheckInPicker && (
                     <div
-                        className="absolute left-0 top-22 rounded-md border border-primary bg-white z-10"
+                        className="absolute left-0 top-22 rounded-md border border-primary bg-white z-[100]"
                         onClick={(e) => e.stopPropagation()}   // << stop parent onClick
                     >
                         <Calendar
