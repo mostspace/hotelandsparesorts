@@ -8,6 +8,11 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns"
 import { SearchRoom } from "./SearchRoom"
 import { json } from "stream/consumers"
+import dynamic from 'next/dynamic';
+
+const CalendarNoSSR = dynamic(() => import('@/components/ui/calendar').then(mod => mod.Calendar), {
+  ssr: false,
+});
 
 interface SearchBarProps{
     showBorders:boolean
@@ -35,6 +40,7 @@ export const SearchBar = (props:SearchBarProps) => {
     const [showCheckInPicker, setShowCheckInPicker] = useState(false);
     const [showCheckOutPicker, setShowCheckOutPicker] = useState(false);
     const [showGuestPicker, setShowGuestPicker] = useState(false);
+    const [isClient, setIsClient] = useState(false);
 
 
     const [rooms, setRooms] = useState<any[]>(props.existingData.rooms || [{adults:2,children:0,childrenAges:[]}]);
@@ -42,6 +48,8 @@ export const SearchBar = (props:SearchBarProps) => {
 
 
     const today = new Date()
+
+    useEffect(() => setIsClient(true), []);
 
     useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -233,12 +241,12 @@ export const SearchBar = (props:SearchBarProps) => {
         {!props.showLocation && <div className={`relative flex flex-col gap-1 items-start text-base  bg-light px-[20px] py-[10px] md:w-[30%] w-full cursor-pointer ${props.showBorders?"border border-primary":""} rounded-lg`}  onClick={()=>openPicker("checkin")}>
             <span className="font-bold">Check-in</span>
             <span className={`font-normal`}>{checkInDate===undefined?"Add date":format(checkInDate, "PPP")}</span>
-            {showCheckInPicker && (
+            {isClient &&showCheckInPicker && (
                 <div
                     className="absolute left-0 top-22 rounded-md border border-primary bg-white z-[100]"
                     onClick={(e) => e.stopPropagation()}   // << stop parent onClick
                 >
-                    <Calendar
+                    <CalendarNoSSR
                     mode="range"
                     numberOfMonths={2}
                     selected={dateRange}
@@ -282,12 +290,12 @@ export const SearchBar = (props:SearchBarProps) => {
               
             </div>}
 
-            {showCheckInPicker && (
+            {isClient && showCheckInPicker && (
                     <div
                         className="absolute left-0 top-22 rounded-md border border-primary bg-white z-[100]"
                         onClick={(e) => e.stopPropagation()}   // << stop parent onClick
                     >
-                        <Calendar
+                        <CalendarNoSSR
                         mode="range"
                         numberOfMonths={2}
                         selected={dateRange}

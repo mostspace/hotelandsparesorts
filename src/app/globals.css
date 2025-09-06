@@ -225,3 +225,25 @@
     font-size: 18px;
 }
 
+
+html.desktop-zoom {
+  zoom: 0.7; /* works only on desktop */
+}
+
+.app-wrapper {
+  /* default: no scale */
+}
+
+/* Phones and small tablets */
+@media (max-width: 768px) {
+  html.desktop-zoom {
+    zoom: 1; /* neutralize zoom for mobile */
+  }
+
+  .app-wrapper {
+    transform: scale(0.7);
+    transform-origin: top left;
+    width: 142.857%; /* compensate for shrink */
+    overflow-x: hidden; /* kill extra scroll */
+  }
+}
