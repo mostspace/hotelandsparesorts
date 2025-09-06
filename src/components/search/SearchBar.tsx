@@ -246,7 +246,7 @@ export const SearchBar = (props:SearchBarProps) => {
                     className="absolute left-0 top-22 rounded-md border border-primary bg-white z-[100]"
                     onClick={(e) => e.stopPropagation()}   // << stop parent onClick
                 >
-                    <CalendarNoSSR
+                    {/* <CalendarNoSSR
                     mode="range"
                     numberOfMonths={2}
                     selected={dateRange}
@@ -270,7 +270,7 @@ export const SearchBar = (props:SearchBarProps) => {
                     modifiersClassNames={{
                         hoverRange: "bg-accent/30",
                     }}
-                    />
+                    /> */}
                 </div>
                 )}
 
