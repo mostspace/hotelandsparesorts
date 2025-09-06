@@ -67,9 +67,10 @@ export const SearchBar = (props:SearchBarProps) => {
         setShowCheckOutPicker(false)
         setShowGuestPicker(false)
 
-        if(type==="checkin"){setShowCheckInPicker(true)}
-        // else if(type==="checkout"){setShowCheckOutPicker(true)}
-        else if(type==="guests"){setShowGuestPicker(true)}
+        setTimeout(() => {
+            if (type === "checkin") setShowCheckInPicker(true);
+            else if (type === "guests") setShowGuestPicker(true);
+        }, 0);
 
     }
 
@@ -277,7 +278,11 @@ export const SearchBar = (props:SearchBarProps) => {
                 </span>
 
                 
-                {showCheckInPicker && (
+                {/* WHERE CALENDAR WAS */}
+              
+            </div>}
+
+            {showCheckInPicker && (
                     <div
                         className="absolute left-0 top-22 rounded-md border border-primary bg-white z-[100]"
                         onClick={(e) => e.stopPropagation()}   // << stop parent onClick
@@ -310,8 +315,6 @@ export const SearchBar = (props:SearchBarProps) => {
                     </div>
                     )}
 
-              
-            </div>}
 
             {props.showLocation && <div className="h-full w-px bg-primary/50"/>}
         
