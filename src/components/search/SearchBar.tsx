@@ -238,7 +238,7 @@ export const SearchBar = (props:SearchBarProps) => {
         {!props.showLocation && <div className={`relative flex flex-col gap-1 items-start text-base  bg-light px-[20px] py-[10px] md:w-[30%] w-full cursor-pointer ${props.showBorders?"border border-primary":""} rounded-lg`}  onClick={()=>openPicker("checkin")}>
             <span className="font-bold">Check-in</span>
             <span className={`font-normal`}>{checkInDate===undefined?"Add date":format(checkInDate, "PPP")}</span>
-            {/* {isClient &&showCheckInPicker && (
+            {isClient &&showCheckInPicker && (
                 <div
                     className="absolute left-0 top-22 rounded-md border border-primary bg-white z-[100] pointer-events-auto"
                     onClick={(e) => e.stopPropagation()}   // << stop parent onClick
@@ -269,7 +269,7 @@ export const SearchBar = (props:SearchBarProps) => {
                     }}
                     />
                 </div>
-                )} */}
+                )}
 
         </div>}
 
@@ -291,7 +291,6 @@ export const SearchBar = (props:SearchBarProps) => {
                     <div
                         className="absolute left-0 top-22 rounded-md border border-primary bg-white z-[100] pointer-events-auto"
                         onClick={(e) => e.stopPropagation()}  
-                          style={{ border: '2px solid red' }}
                     >
                         <Calendar
                         mode="range"
@@ -308,15 +307,15 @@ export const SearchBar = (props:SearchBarProps) => {
                             if (dateRange.from && !dateRange.to && date <= dateRange.from) return true;
                             return false;
                         }}
-                        // modifiers={{
-                        //     hoverRange: (date) => {
-                        //     if (!dateRange.from || dateRange.to || !hoveredDate) return false;
-                        //     return date >= dateRange.from && date <= hoveredDate;
-                        //     },
-                        // }}
-                        // modifiersClassNames={{
-                        //     hoverRange: "bg-accent/30",
-                        // }}
+                        modifiers={{
+                            hoverRange: (date) => {
+                            if (!dateRange.from || dateRange.to || !hoveredDate) return false;
+                            return date >= dateRange.from && date <= hoveredDate;
+                            },
+                        }}
+                        modifiersClassNames={{
+                            hoverRange: "bg-accent/30",
+                        }}
                         />
                     </div>
                     )}
