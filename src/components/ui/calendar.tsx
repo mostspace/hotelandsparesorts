@@ -46,15 +46,13 @@ function CalendarDayButton({
 //   }
 // }, [modifiers.focused, selected, month])
 
-// Focus once after mount with a tiny delay to let DayPicker settle
-  React.useEffect(() => {
-    if (!hasFocused.current) {
-      const id = setTimeout(() => {
-        ref.current?.focus()
-        hasFocused.current = true
-      }, 5) // 5ms delay mimics DevTools timing
-      return () => clearTimeout(id)
-    }
+ // Focus once after mount using layout effect
+  React.useLayoutEffect(() => {
+    const id = setTimeout(() => {
+      ref.current?.focus()
+      hasFocused.current = true
+    }, 0)
+    return () => clearTimeout(id)
   }, [])
 
   // Optional: keep focusing if DayPicker marks this cell as focused
@@ -62,7 +60,7 @@ function CalendarDayButton({
     if (modifiers.focused) {
       const id = setTimeout(() => {
         ref.current?.focus()
-      }, 0) // 0ms delay ensures internal focus is applied first
+      }, 0)
       return () => clearTimeout(id)
     }
   }, [modifiers.focused])
