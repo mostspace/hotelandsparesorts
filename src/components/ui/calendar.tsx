@@ -166,23 +166,12 @@ function CalendarDayButton({
   const defaultClassNames = getDefaultClassNames()
   const ref = React.useRef<HTMLButtonElement>(null)
 
-  // // Focus the button only after it mounts in the DOM
-  // React.useEffect(() => {
-  //   if (modifiers.selected && ref.current) {
-  //     // Delay focus to next tick so browser layout is complete
-  //     setTimeout(() => {
-  //       ref.current?.focus()
-  //     }, 0)
-  //   }
-  // }, [modifiers.selected])
-
   React.useEffect(() => {
   if (modifiers.focused) {
-    // schedule focus on next tick to avoid conflicts
-    const id = setTimeout(() => ref.current?.focus(), 0)
-    return () => clearTimeout(id)
+    setTimeout(() => ref.current?.focus(), 0);
   }
-}, [modifiers.focused])
+}, [modifiers.focused]);
+  
 
 
   return (
