@@ -73,15 +73,15 @@ export default function CalendarTest() {
             if (dateRange.from && !dateRange.to && date <= dateRange.from) return true;
             return false;
         }}
-        // modifiers={{
-        //     hoverRange: (date) => {
-        //     if (!dateRange.from || dateRange.to || !hoveredDate) return false;
-        //     return date >= dateRange.from && date <= hoveredDate;
-        //     },
-        // }}
-        // modifiersClassNames={{
-        //     hoverRange: "bg-accent/30",
-        // }}
+        modifiers={{
+            hoverRange: (date) => {
+            if (!dateRange.from || dateRange.to || !hoveredDate) return false;
+            return date >= dateRange.from && date <= hoveredDate;
+            },
+        }}
+        modifiersClassNames={{
+            hoverRange: "bg-accent/30",
+        }}
       />
    
     </div>
