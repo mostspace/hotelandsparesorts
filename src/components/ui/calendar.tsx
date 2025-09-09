@@ -29,19 +29,6 @@ function CalendarDayButton({
   const ref = React.useRef<HTMLButtonElement>(null)
   const hasFocused = React.useRef(false) // track if we already focused this button
 
-  // Focus first render to make initial hover work
-  // React.useEffect(() => {
-  //   ref.current?.focus()
-  // }, [])
-
-  // React.useEffect(() => {
-  //       console.log("MF3",modifiers.focused)
-  //   const id = setTimeout(() => {
-  //       ref.current?.focus()
-  //   })
-  //   return () => clearTimeout(id)
-  // }, [modifiers.focused, selected, month])
-
 
   // Focus once on mount
 React.useEffect(() => {
@@ -52,32 +39,22 @@ React.useEffect(() => {
 }, [])
 
 // Focus only when modifiers.focused becomes true
-React.useEffect(() => {
-  // if (!hasFocused.current) {
-    const id = setTimeout(() => {
-      ref.current?.focus()
-      hasFocused.current = true
-    })
-    return () => clearTimeout(id)
-  // }
-}, [modifiers.focused, selected, month])
-
-
-
-
-
-
 // React.useEffect(() => {
-//     console.log("MF2",modifiers.focused)
+//   // if (!hasFocused.current) {
 //     const id = setTimeout(() => {
-//       if (modifiers.focused) {
-//         ref.current?.focus()
-//       }
+//       ref.current?.focus()
+//       hasFocused.current = true
 //     })
 //     return () => clearTimeout(id)
-//   }, [modifiers.focused, selected, month])
+//   // }
+// }, [modifiers.focused, selected, month])
 
-
+// Focus only when this day becomes the focused day
+React.useEffect(() => {
+  if (modifiers.focused) {
+    ref.current?.focus()
+  }
+}, [modifiers.focused, selected, month])
 
 
   return (
