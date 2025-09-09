@@ -170,16 +170,32 @@ function CalendarDayButton({
 //   }
 // }, [modifiers.focused]);
 
-React.useEffect(() => {
+// React.useEffect(() => {
 
-  ref.current?.focus()
+//   ref.current?.focus()
+// }, []);
+
+// React.useEffect(() => {
+//   if (modifiers.focused && ref.current) {
+//     requestAnimationFrame(() => ref.current?.focus());
+//   }
+// }, [modifiers.focused]);
+
+
+React.useEffect(() => {
+  if (typeof window !== "undefined") {
+    // Only run on live (client) once after hydration
+    ref.current?.focus();
+  }
 }, []);
+
+
 
 
 
   return (
     <Button
-      autoFocus={false}
+      // autoFocus={false}
       ref={ref}
       variant="ghost"
       size="icon"
