@@ -179,7 +179,7 @@ function CalendarDayButton({
     if (modifiers.selected && ref.current) {
       ref.current.focus()
     }
-  }, []) // run only once on mount
+  }, [modifiers.selected,ref.current]) // run only once on mount
 
   return (
     <Button
