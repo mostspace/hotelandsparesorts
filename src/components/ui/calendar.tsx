@@ -53,14 +53,15 @@ React.useEffect(() => {
 
 // Focus only when modifiers.focused becomes true
 React.useEffect(() => {
-  if (modifiers.focused && !hasFocused.current) {
+  if (!hasFocused.current) {
     const id = setTimeout(() => {
       ref.current?.focus()
       hasFocused.current = true
     }, 0)
     return () => clearTimeout(id)
   }
-}, [modifiers.focused])
+}, [modifiers.focused, selected, month])
+
 
 
 
