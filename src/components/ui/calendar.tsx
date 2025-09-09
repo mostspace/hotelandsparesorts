@@ -31,12 +31,12 @@ function CalendarDayButton({
 
 
   // Focus once on mount
-React.useEffect(() => {
-  if (!hasFocused.current) {
-    ref.current?.focus()
-    hasFocused.current = true
-  }
-}, [])
+// React.useEffect(() => {
+//   if (!hasFocused.current) {
+//     ref.current?.focus()
+//     hasFocused.current = true
+//   }
+// }, [])
 
 // React.useEffect(() => {
 //   if (modifiers.focused) {
@@ -44,31 +44,27 @@ React.useEffect(() => {
 //   }
 // }, [modifiers.focused, selected, month])
 
-// 2️⃣ Focus the day only if it's actually focused
+// ------------------- 1. Initial mount focus -------------------
 React.useEffect(() => {
-      console.log("MF",modifiers.focused)
+  if (!hasFocused.current) {
+    // Run after browser paints so DayPicker has applied its internal state
+    requestAnimationFrame(() => {
+      ref.current?.focus()
+      hasFocused.current = true
+    })
+  }
+}, [])
+
+// ------------------- 2. Focus whenever DayPicker marks this button focused -------------------
+React.useEffect(() => {
   if (modifiers.focused) {
+    // tiny delay to allow DOM & DayPicker state updates
     const id = setTimeout(() => {
       ref.current?.focus()
-    })
+    }, 1)
     return () => clearTimeout(id)
   }
-}, [modifiers.focused])
-
-
-
-// Focus only when modifiers.focused becomes true
-// React.useEffect(() => {
-//   // if (!hasFocused.current) {
-//     const id = setTimeout(() => {
-//       ref.current?.focus()
-//       hasFocused.current = true
-//     })
-//     return () => clearTimeout(id)
-//   // }
-// }, [modifiers.focused, selected, month])
-
-// Focus only when this day becomes the focused day
+}, [modifiers.focused, selected, month])
 
   return (
     <Button
