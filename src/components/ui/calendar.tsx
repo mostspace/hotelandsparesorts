@@ -181,13 +181,12 @@ function CalendarDayButton({
 //   }
 // }, [modifiers.focused]);
 
+  const mounted = React.useRef(false)
 
-React.useEffect(() => {
-  if (typeof window !== "undefined") {
-    // Only run on live (client) once after hydration
-    ref.current?.focus();
-  }
-}, []);
+  // Only patch hydration mismatch on first mount
+  React.useEffect(() => {
+    mounted.current = true
+  }, [])
 
 
 
