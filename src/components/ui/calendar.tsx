@@ -203,18 +203,19 @@ function CalendarDayButton({
   //   }
   // }, [modifiers.selected, modifiers.range_start, modifiers.range_end])
 
+    // Focus logic
   React.useEffect(() => {
-  if (modifiers.focused) {
-    // Only in production, add a tiny delay
-    const delay = 50;
-
-    const id = setTimeout(() => {
-      ref.current?.focus();
-    }, delay);
-
-    return () => clearTimeout(id);
-  }
-}, [modifiers.focused]);
+    if (modifiers.focused && ref.current) {
+      // Use two-step scheduling to wait for DayPicker internal updates
+      const id = requestAnimationFrame(() => {
+        const id2 = requestAnimationFrame(() => {
+          ref.current?.focus()
+        })
+        return () => cancelAnimationFrame(id2)
+      })
+      return () => cancelAnimationFrame(id)
+    }
+  }, [modifiers.focused])
 
 
   return (
