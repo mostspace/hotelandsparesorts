@@ -176,6 +176,15 @@ function CalendarDayButton({
     }
   }, [modifiers.selected])
 
+  React.useEffect(() => {
+  if (modifiers.focused) {
+    // schedule focus on next tick to avoid conflicts
+    const id = setTimeout(() => ref.current?.focus(), 0)
+    return () => clearTimeout(id)
+  }
+}, [modifiers.focused])
+
+
   return (
     <Button
       ref={ref}
