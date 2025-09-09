@@ -44,27 +44,37 @@ function CalendarDayButton({
 //   }
 // }, [modifiers.focused, selected, month])
 
-React.useEffect(() => {
-  if (!hasFocused.current) {
-    ref.current?.focus()
-    hasFocused.current = true
-    hasFocusedThisDay.current = true
-  }
-}, [])
 
-React.useEffect(() => {
-  if (modifiers.focused && !hasFocusedThisDay.current) {
-    const id = setTimeout(() => {
+
+
+// React.useEffect(() => {
+//   if (!hasFocused.current) {
+//     ref.current?.focus()
+//     hasFocused.current = true
+//     hasFocusedThisDay.current = true
+//   }
+// }, [])
+
+// React.useEffect(() => {
+//   if (modifiers.focused && !hasFocusedThisDay.current) {
+//     const id = setTimeout(() => {
+//       ref.current?.focus()
+//       hasFocusedThisDay.current = true
+//     })
+//     return () => clearTimeout(id)
+//   }
+// }, [modifiers.focused])
+
+// React.useEffect(() => {
+//   hasFocusedThisDay.current = false
+// }, [selected, month])
+
+ React.useEffect(() => {
+    if (!hasFocused.current && modifiers.focused) {
       ref.current?.focus()
-      hasFocusedThisDay.current = true
-    })
-    return () => clearTimeout(id)
-  }
-}, [modifiers.focused])
-
-React.useEffect(() => {
-  hasFocusedThisDay.current = false
-}, [selected, month])
+      hasFocused.current = true
+    }
+  }, [modifiers.focused])
 
 
 
