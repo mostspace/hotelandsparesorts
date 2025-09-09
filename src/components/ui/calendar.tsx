@@ -182,6 +182,11 @@ function CalendarDayButton({
     }
   }, [])
 
+  React.useEffect(() => {
+      ref.current?.focus()
+    // }
+  }, [])
+
   // 2️⃣ Hover sync: re-render when hovered state changes
   React.useEffect(() => {
     if (modifiers.hovered && ref.current) {
