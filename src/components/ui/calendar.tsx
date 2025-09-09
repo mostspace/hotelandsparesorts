@@ -175,47 +175,24 @@ function CalendarDayButton({
   const ref = React.useRef<HTMLButtonElement>(null)
 
 
-  // // 1️⃣ Initial mount focus
-  // React.useEffect(() => {
-  //   if (modifiers.selected && ref.current) {
-  //     ref.current.focus()
-  //   }
-  // }, [])
-
-  // React.useEffect(() => {
-  //     ref.current?.focus()
-  //   // }
-  // }, [])
-
-  // // 2️⃣ Hover sync: re-render when hovered state changes
-  // React.useEffect(() => {
-  //   if (modifiers.hovered && ref.current) {
-  //     // Trigger a reflow to update hover correctly
-  //     ref.current.classList.add('hovered-temp')
-  //     requestAnimationFrame(() => ref.current?.classList.remove('hovered-temp'))
-  //   }
-  // }, [modifiers.hovered])
-
-  // // 3️⃣ Selection focus: when day becomes selected or range changes
-  // React.useEffect(() => {
-  //   if (modifiers.selected && ref.current) {
-  //     ref.current.focus()
-  //   }
-  // }, [modifiers.selected, modifiers.range_start, modifiers.range_end])
-
-    // Focus logic
+ // ✅ Initial focus (fixes production hover not working until devtools open)
   React.useEffect(() => {
-    if (modifiers.focused && ref.current) {
-      // Use two-step scheduling to wait for DayPicker internal updates
-      const id = requestAnimationFrame(() => {
-        const id2 = requestAnimationFrame(() => {
-          ref.current?.focus()
-        })
-        return () => cancelAnimationFrame(id2)
-      })
-      return () => cancelAnimationFrame(id)
+    ref.current?.focus()
+  }, [])
+
+  // ✅ Re-apply focus when the "focused" modifier changes
+  React.useEffect(() => {
+    if (modifiers.focused) {
+      ref.current?.focus()
     }
   }, [modifiers.focused])
+
+  // ✅ Re-apply focus when selected range changes
+  React.useEffect(() => {
+    if (modifiers.selected) {
+      ref.current?.focus()
+    }
+  }, [modifiers.selected, modifiers.range_start, modifiers.range_end])
 
 
   return (
