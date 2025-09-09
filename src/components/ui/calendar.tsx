@@ -25,6 +25,13 @@ function Calendar({
   buttonVariant?: React.ComponentProps<typeof Button>["variant"]
 }) {
   const defaultClassNames = getDefaultClassNames()
+  const [hydrated, setHydrated] = React.useState(false)
+
+  React.useEffect(() => {
+    setHydrated(true)
+  }, [])
+
+  if (!hydrated) return null // prevent SSR hydration issues
 
   return (
     <DayPicker
@@ -136,19 +143,22 @@ function Calendar({
           <div data-slot="calendar" ref={rootRef} className={cn(className)} {...props} />
         ),
         Chevron: ({ className, orientation, ...props }) => {
-          if (orientation === "left") return <ChevronLeftIcon className={cn("size-4", className)} {...props} />
-          if (orientation === "right") return <ChevronRightIcon className={cn("size-4", className)} {...props} />
+          if (orientation === "left")
+            return <ChevronLeftIcon className={cn("size-4", className)} {...props} />
+          if (orientation === "right")
+            return <ChevronRightIcon className={cn("size-4", className)} {...props} />
           return <ChevronDownIcon className={cn("size-4", className)} {...props} />
         },
         DayButton: CalendarDayButton,
         WeekNumber: ({ children, ...props }) => (
           <td {...props}>
-            <div className="flex size-(--cell-size) items-center justify-center text-center">{children}</div>
+            <div className="flex size-(--cell-size) items-center justify-center text-center">
+              {children}
+            </div>
           </td>
         ),
         ...components,
       }}
-      
       {...props}
     />
   )
@@ -164,37 +174,8 @@ function CalendarDayButton({
   const defaultClassNames = getDefaultClassNames()
   const ref = React.useRef<HTMLButtonElement>(null)
 
-// React.useEffect(() => {
-//   if (modifiers.focused) {
-//     setTimeout(() => ref.current?.focus(), 0);
-//   }
-// }, [modifiers.focused]);
-
-// React.useEffect(() => {
-
-//   ref.current?.focus()
-// }, []);
-
-// React.useEffect(() => {
-//   if (modifiers.focused && ref.current) {
-//     requestAnimationFrame(() => ref.current?.focus());
-//   }
-// }, [modifiers.focused]);
-
-  const mounted = React.useRef(false)
-
-  // Only patch hydration mismatch on first mount
-  React.useEffect(() => {
-    mounted.current = true
-  }, [])
-
-
-
-
-
   return (
     <Button
-      // autoFocus={false}
       ref={ref}
       variant="ghost"
       size="icon"
@@ -209,20 +190,15 @@ function CalendarDayButton({
       data-range-end={modifiers.range_end}
       data-range-middle={modifiers.range_middle}
       className={cn(
-        // single selected day
         "data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground",
-        // hovered preview (lighter)
         modifiers.hovered && !modifiers.range_end && !modifiers.range_start
           ? "bg-accent/10 text-accent-foreground"
           : "",
-        // final middle range (darker than hover)
         modifiers.range_middle && !modifiers.hovered
           ? "bg-accent/30 text-accent-foreground"
           : "",
-        // start and end
         "data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground",
         "data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground",
-        // rest of your classes
         "group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 dark:hover:text-accent-foreground",
         "flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px]",
         "data-[range-end=true]:rounded-md data-[range-end=true]:rounded-r-md data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-md data-[range-start=true]:rounded-l-md",
@@ -230,7 +206,6 @@ function CalendarDayButton({
         defaultClassNames.day,
         className
       )}
-
       {...props}
     />
   )
