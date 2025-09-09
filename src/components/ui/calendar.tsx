@@ -33,17 +33,16 @@ function CalendarDayButton({
     ref.current?.focus()
   }, [])
 
-  React.useEffect(() => {
-    console.log("MF",modifiers.focused)
-  // Only try to focus if this day is supposed to be focused
-  if (modifiers.focused) {
-    // Use setTimeout to defer focus until the DOM updates
+React.useEffect(() => {
+    console.log("MF2",modifiers.focus)
     const id = setTimeout(() => {
-      ref.current?.focus()
+      if (modifiers.focused) {
+        ref.current?.focus()
+      }
     })
     return () => clearTimeout(id)
-  }
-}, [modifiers.focused])
+  }, [modifiers.focused, selected, month])
+
 
 
   return (
