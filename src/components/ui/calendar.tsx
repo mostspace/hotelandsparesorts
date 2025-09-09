@@ -34,11 +34,21 @@ function CalendarDayButton({
   }, [])
 
 React.useEffect(() => {
-    console.log("MF2",modifiers.focus)
+    console.log("MF2",modifiers.focused)
     const id = setTimeout(() => {
       if (modifiers.focused) {
         ref.current?.focus()
       }
+    })
+    return () => clearTimeout(id)
+  }, [modifiers.focused, selected, month])
+
+  React.useEffect(() => {
+    // console.log("MF2",modifiers.focused)
+    const id = setTimeout(() => {
+      // if (modifiers.focused) {
+        ref.current?.focus()
+      // }
     })
     return () => clearTimeout(id)
   }, [modifiers.focused, selected, month])
