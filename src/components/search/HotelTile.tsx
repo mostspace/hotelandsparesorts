@@ -202,7 +202,7 @@ export const HotelTile = (props:HotelTileProps) => {
     return(
     <div className={`w-full ${props.source==="AllBookings"?"md:h-[500px]":"md:h-[300px]"} flex md:flex-row flex-col border border-primary text-primary bg-light`}>
 
-        <img className="md:h-full h-[200px] md:w-[40%] lg:w-[30%] object-cover object-center" src={getImageURL()} />
+        <img className="md:h-full h-[200px] md:w-[40%] lg:w-[30%] object-cover object-center cursor-pointer" src={getImageURL()} onClick={()=>openHotel(props.hotel.hid)}/>
         
         <div className="md:flex-1 w-[100%] h-full flex flex-col justify-between md:p-6 p-2">
 
@@ -221,7 +221,7 @@ export const HotelTile = (props:HotelTileProps) => {
                     {showStars()}
                     </div>
                 </div>
-                <span className="md:text-4xl text-2xl md:font-normal font-medium" style={{fontFamily:'Harlow'}}>{props.hotel.hotel_name}</span>
+                <span className="md:text-4xl text-2xl md:font-normal font-medium cursor-pointer hover:text-accent" style={{fontFamily:'Harlow'}} onClick={()=>openHotel(props.hotel.hid)}>{props.hotel.hotel_name}</span>
             </div>  
 
 
@@ -238,8 +238,8 @@ export const HotelTile = (props:HotelTileProps) => {
 
                 <div className="flex flex-col items-end gap-2 text-alt">
                     {props.source!=="MyBookings" && <div className="flex gap-2 items-end">
-                        <span className={`text-3xl font-medium ${props.showDiscount?"line-through text-primary/50":""}`}>€{getRate(20)}</span> 
-                        {props.showDiscount && <span className="text-3xl font-medium">€{(+getRate(15)).toFixed(2)}</span> }
+                        <span className={`text-3xl font-medium ${props.showDiscount?"line-through text-primary/50":""}`}>€{Number(getRate(20)).toLocaleString()}</span> 
+                        {props.showDiscount && <span className="text-3xl font-medium">€{(Number(+getRate(15)).toFixed(2)).toLocaleString()}</span> }
                     </div>}
                     <div className="flex flex-col items-end gap-2 text-alt">
                         <span className="md:text-lg">{props.rooms?.length} room, {calculateNights()} nights</span>

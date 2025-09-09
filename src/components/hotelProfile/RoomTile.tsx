@@ -6,6 +6,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/app/firebase";
 import ErrorPopUp from "../general/ErrorPopUp";
 import { motion, AnimatePresence } from "framer-motion"
+import { Amenities } from "./Amenities";
 
 interface RoomTileProps{
     rateObj:any
@@ -266,6 +267,28 @@ export const RoomTile = (props:RoomTileProps) => {
     
     }
 
+    const getRoomAmenityData = () => {
+        let list:string[] = []
+
+        props.rateObj.amenities_data.forEach((element: string) => {
+            list.push(prettify(element))
+        });
+
+        props.rateObj.serp_filters.forEach((element: string) => {
+            list.push(prettify(element))
+        });
+
+        return list
+    }
+
+    function prettify(text: string) {
+        return text
+            .replace(/_/g, " ")             // replace underscores with spaces
+            .split(" ")                     // split into words
+            .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()) // capitalize
+            .join(" ");
+        }
+
     return(
         <div className="w-[375px] flex flex-col items-center gap-3.5">
 
@@ -283,8 +306,8 @@ export const RoomTile = (props:RoomTileProps) => {
 
             <div className="w-full p-[20px] rounded-[20px] flex flex-col gap-[22px] border border-muted">
                 
-                <div className="w-full flex flex-col gap-4 h-[300px]">
-                    <div className="relative w-full h-[225px] overflow-hidden">
+                <div className="w-full flex flex-col gap-4 h-[400px]">
+                    <div className="relative w-full h-[225px] overflow-hidden rounded-[12px]">
                         <AnimatePresence initial={false} custom={direction}>
                             <motion.img
                             key={index}
@@ -336,11 +359,13 @@ export const RoomTile = (props:RoomTileProps) => {
                             </svg>
                         </div>
                     </div>
-                    <span className="text-xl font-medium select-none">
+                    <span className="text-xl font-medium select-none line-clamp-2">
                         {props.rateObj.allotment>1?props.rateObj.allotment+" ":""}
                         {/* {props.rateObj.room_data_trans.main_name} */}
                         {props.rateObj.room_name}
-                        {props.rateObj.allotment>1?"s":""}</span>
+                        {props.rateObj.allotment>1?"s":""}
+                    </span>
+                    <Amenities amenityList={getRoomAmenityData()} source="roomTile"/>
                 </div>
 
                 <div className="w-full h-px bg-alt/10"/>
@@ -373,11 +398,11 @@ export const RoomTile = (props:RoomTileProps) => {
 
                 <div className="w-full justify-between ai-end text-lg flex flex-row">
                     <div className="flex flex-row">
-                        <span className="font-medium">€{(+(getRate())/props.rateObj.daily_prices.length).toFixed(2)}/</span>
+                        <span className="font-medium">€{Number((+(getRate())/props.rateObj.daily_prices.length).toFixed(2)).toLocaleString()}/</span>
                         <span>night</span>
                     </div>
                     <div className="flex flex-row items-end gap-1.5">
-                        <span className="text-2xl font-medium">€{(+getRate()).toFixed(0)}</span>
+                        <span className="text-2xl font-medium">€{Number((+getRate()).toFixed(0)).toLocaleString()}</span>
                         <span>{"(total)"}</span>
                     </div>
                 </div>

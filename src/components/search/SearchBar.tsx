@@ -254,8 +254,11 @@ export const SearchBar = (props:SearchBarProps) => {
                     onDayMouseEnter={(date) => setHoveredDate(date)}
                     disabled={(date) => {
                         const today = new Date();
-                        if (date < today) return true;
-                        if (dateRange.from && !dateRange.to && date <= dateRange.from) return true;
+                        const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                        const dateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+                        if (dateOnly < todayOnly) return true; // disables only past dates
+                        if (dateRange.from && !dateRange.to && dateOnly <= dateRange.from) return true; // optional for range logic
                         return false;
                     }}
                     modifiers={{
@@ -303,10 +306,14 @@ export const SearchBar = (props:SearchBarProps) => {
                         onDayMouseEnter={(date) => setHoveredDate(date)}
                         disabled={(date) => {
                             const today = new Date();
-                            if (date < today) return true;
-                            if (dateRange.from && !dateRange.to && date <= dateRange.from) return true;
+                            const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                            const dateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+                            if (dateOnly < todayOnly) return true; // disables only past dates
+                            if (dateRange.from && !dateRange.to && dateOnly <= dateRange.from) return true; // optional for range logic
                             return false;
                         }}
+
                         modifiers={{
                             hoverRange: (date) => {
                             if (!dateRange.from || dateRange.to || !hoveredDate) return false;

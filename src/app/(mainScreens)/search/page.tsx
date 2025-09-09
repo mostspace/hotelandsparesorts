@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { MapProvider } from "@/providers/map-provider";
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { auth } from "@/app/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
@@ -49,12 +49,14 @@ export default function SearchScreen() {
   const searchID = searchParams.get('searchID')
   const filtersStr = searchParams.get('filters') || "[]"
 
+  const resultsRef = useRef<any>(null);
 
   console.log("COORDS",latNum,lngNum)
 
     const [loading, setLoading] = useState(false);
     const [hotels, setHotels] = useState<any[]>([]);
     const [filteredHotels, setFilteredHotels] = useState<any[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const [mapOpen, setMapOpen] = useState(false);
     const [updateVar, setUpdateVar] = useState(0);
@@ -91,6 +93,16 @@ export default function SearchScreen() {
   }, [auth]);// eslint-disable-line react-hooks/exhaustive-deps
 
   
+  useEffect( () => {
+
+    if(filteredHotels.length>0){
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
+
+  }, [currentPage]); // eslint-disable-line react-hooks/exhaustive-deps
+
+
+
   const loadHotels = async (latNum:number,lngNum:number,radiusM:number,filters:any[]) => {
 
     console.log("LOAD HOTELS",latNum,lngNum,radiusM,filters)
@@ -117,6 +129,8 @@ export default function SearchScreen() {
     console.log("Hotels:", data);
 
     setHotels(data)
+    
+    setCurrentPage(1)
     setFilteredHotels(data)
 
     setLoading(false)
@@ -143,13 +157,38 @@ export default function SearchScreen() {
     </div>
   )
 
+    let index = 0
+
     filteredHotels.forEach(hotel => {
 
-      compArray.push(<HotelTile hotel={hotel} checkIn={checkIn+""} checkOut={checkOut+""} rooms={rooms} source={"Search"} locationName={locationName} showDiscount={showDiscounts}/>)
+      if(index>= ((currentPage-1)*20) && index<(currentPage*20))
+      {
+        compArray.push(<HotelTile hotel={hotel} checkIn={checkIn+""} checkOut={checkOut+""} rooms={rooms} source={"Search"} locationName={locationName} showDiscount={showDiscounts}/>)
+      }
+      index++
     });
 
     return compArray
 
+  }
+
+
+  const showPages = () => {
+
+    let compArray:any[] = []
+    let amountPages = Math.ceil((filteredHotels.length/20))
+
+    console.log("AMOUNT PAGES",amountPages)
+
+    for(let i=1;i<=amountPages;i++){
+
+      compArray.push(<div className={`w-[32px] h-[32px] border border-accent flex justify-center items-center cursor-pointer ${i===currentPage?'bg-light':'bg-accent'}`} onClick={()=>setCurrentPage(i)}>
+        <span className={`text-lg font-medium ${i===currentPage?'text-accent':'text-light'}`}>{i}</span>
+      </div>)
+
+    }
+
+    return compArray
   }
 
   
@@ -213,9 +252,13 @@ export default function SearchScreen() {
     let filteredList:any[] = []
 
     filters.forEach((filter:any) => {
+
       
       if(filter.id === "A" && filter.selected.length>0){
           
+        if(filter.selected[0]===25){filter.selected[0]===0}
+        if(filter.selected[1]===1000){filter.selected[1]===1000000}
+
         let hotelArray:any[] = []
         hotels.forEach((hotel:any) => {
           let rates = hotel.rates
@@ -274,6 +317,7 @@ export default function SearchScreen() {
 
     });
 
+    setCurrentPage(1)
     setFilteredHotels(filteredList)
 
   }
@@ -321,7 +365,7 @@ export default function SearchScreen() {
             
 
 
-            <div className="w-full flex flex-row justify-between gap-5">
+            <div className="w-full flex flex-row justify-between gap-5" ref={resultsRef}>
               {/* <Button onClick={()=>setMapOpen(!mapOpen)}>Show {mapOpen?"List":"Map"}</Button> */}
 
 
@@ -378,6 +422,12 @@ export default function SearchScreen() {
             <div className="w-full h-[100%] flex flex-col gap-9">
              
               {(!mapOpen && !loading) && showHotels()}
+              {(!mapOpen && !loading && filteredHotels.length>20) && 
+              <div className="flex gap-2">
+                {showPages()}
+              </div>
+              }
+
               {(!mapOpen && loading) && <span>Loading...</span>}
               {(loading) && <LoadingPopUp title="Finding your Perfect Escape…" subtitle="Please hold on as we uncover your next luxury getaway."/>}
              

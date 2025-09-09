@@ -46,6 +46,10 @@ export default function LoginPage() {
   useEffect(() => {
     setErrorMessage("")
   }, [onLogin,onPasswordReset])
+
+  useEffect(() => {
+    if(searchParams.has('register')){setOnLogin(false)}
+  }, [])
   
   const register = () => {
 
@@ -221,8 +225,16 @@ export default function LoginPage() {
 
       {!loggedIn && <div className="flex flex-col items-center gap-8 p-8" >
     
+          <div className="flex flex-col items-center gap-4 " >
+
+            <div className="flex flex-col items-center gap-4 mb-8" >
+
+              <span className="text-7xl font-medium" style={{fontFamily:'Harlow'}}>{onPasswordReset?"Reset Password":onLogin?"Log In":"Create an Account"}</span>
+
+              {!onLogin && <span className="max-w-[600px] text-2xl" style={{fontFamily:'Harlow'}}>Sign up for an account to access exclusive member discounts at hundreds of top hotels. Easily manage your bookings and check your Hotel & 
+                  Spa Resorts Voucher balance.</span>}
+            </div>
           <div className="flex flex-col items-center gap-4" >
-              <span className="text-7xl font-medium mb-8" style={{fontFamily:'Harlow'}}>{onPasswordReset?"Reset Password":onLogin?"Log In":"Register"}</span>
 
               <Input
                   className="w-[500px] border border-accent rounded-xl text-xl"
@@ -277,6 +289,7 @@ export default function LoginPage() {
                 </svg>
                 {`Sign ${onLogin?"in":"up"} With Google`}</Button>}
 
+          </div>
           </div>
 
         

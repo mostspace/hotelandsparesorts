@@ -38,13 +38,13 @@ export const SearchFilters = (props:SearchFiltersProps) => {
             options:['Hotel','Castle','Resort', 'Sustainable', 'Boutique' ],
             selected:getExistingFilterValue('B',[])
         },
-        {
-            id:'C',
-            title:"Star",
-            type:'checkList',
-            options:['5 Stars','4 Stars'],
-            selected:getExistingFilterValue('C',[])
-        },
+        // {
+        //     id:'C',
+        //     title:"Star",
+        //     type:'checkList',
+        //     options:['5 Stars','4 Stars'],
+        //     selected:getExistingFilterValue('C',[])
+        // },
         {
             id:'D',
             title:"Facilities",

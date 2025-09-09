@@ -105,7 +105,7 @@ function Calendar({
           defaultClassNames.day
         ),
         range_start: cn(
-          "rounded-l-md bg-primary",
+          "rounded-l-md bg-accent",
           defaultClassNames.range_start
         ),
         range_middle: cn(
@@ -113,11 +113,11 @@ function Calendar({
           defaultClassNames.range_middle
         ),
         range_end: cn(
-          "rounded-r-md bg-primary",
+          "rounded-r-md bg-accent",
           defaultClassNames.range_end
         ),
         today: cn(
-          "bg-accent text-accent-foreground rounded-md data-[selected=true]:rounded-none",
+          "bg-light border border-accent text-accent-foreground rounded-md data-[selected=true]:rounded-none",
           defaultClassNames.today
         ),
         outside: cn(
@@ -188,7 +188,7 @@ function CalendarDayButton({
       data-range-middle={modifiers.range_middle}
       className={cn(
         // single selected day
-        "data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground",
+        "data-[selected-single=true]:bg-accent data-[selected-single=true]:text-primary-foreground",
         // hovered preview (lighter)
         modifiers.hovered && !modifiers.range_end && !modifiers.range_start
           ? "bg-accent/10 text-accent-foreground"
@@ -198,8 +198,8 @@ function CalendarDayButton({
           ? "bg-accent/30 text-accent-foreground"
           : "",
         // start and end
-        "data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground",
-        "data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground",
+        "data-[range-start=true]:bg-accent data-[range-start=true]:text-primary-foreground",
+        "data-[range-end=true]:bg-accent data-[range-end=true]:text-primary-foreground",
         // rest of your classes
         "group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 dark:hover:text-accent-foreground",
         "flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px]",
