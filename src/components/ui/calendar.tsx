@@ -95,6 +95,7 @@ React.useEffect(() => {
 
   return (
     <Button
+      autoFocus={false}
       ref={ref}
       variant="ghost"
       size="icon"
