@@ -177,8 +177,8 @@ function CalendarDayButton({
 
   // 1️⃣ Initial mount focus
   React.useEffect(() => {
-    if (modifiers.selected && ref.current) {
-      ref.current.focus()
+    if (modifiers.selected) {// && ref.current) {
+      ref.current?.focus()
     }
   }, [])
 
@@ -189,17 +189,17 @@ function CalendarDayButton({
 
   // 2️⃣ Hover sync: re-render when hovered state changes
   React.useEffect(() => {
-    if (modifiers.hovered && ref.current) {
+    if (modifiers.hovered) {// && ref.current) {
       // Trigger a reflow to update hover correctly
-      ref.current.classList.add('hovered-temp')
+      ref.current?.classList.add('hovered-temp')
       requestAnimationFrame(() => ref.current?.classList.remove('hovered-temp'))
     }
   }, [modifiers.hovered])
 
   // 3️⃣ Selection focus: when day becomes selected or range changes
   React.useEffect(() => {
-    if (modifiers.selected && ref.current) {
-      ref.current.focus()
+    if (modifiers.selected) {// && ref.current) {
+      ref.current?.focus()
     }
   }, [modifiers.selected, modifiers.range_start, modifiers.range_end])
 
