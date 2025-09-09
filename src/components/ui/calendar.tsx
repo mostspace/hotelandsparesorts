@@ -38,6 +38,25 @@ React.useEffect(() => {
   }
 }, [])
 
+// React.useEffect(() => {
+//   if (modifiers.focused) {
+//     ref.current?.focus()
+//   }
+// }, [modifiers.focused, selected, month])
+
+// 2️⃣ Focus the day only if it's actually focused
+React.useEffect(() => {
+      console.log("MF",modifiers.focused)
+  if (modifiers.focused) {
+    const id = setTimeout(() => {
+      ref.current?.focus()
+    })
+    return () => clearTimeout(id)
+  }
+}, [modifiers.focused])
+
+
+
 // Focus only when modifiers.focused becomes true
 // React.useEffect(() => {
 //   // if (!hasFocused.current) {
@@ -50,12 +69,6 @@ React.useEffect(() => {
 // }, [modifiers.focused, selected, month])
 
 // Focus only when this day becomes the focused day
-React.useEffect(() => {
-  if (modifiers.focused) {
-    ref.current?.focus()
-  }
-}, [modifiers.focused, selected, month])
-
 
   return (
     <Button
