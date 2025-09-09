@@ -148,7 +148,6 @@ function Calendar({
         ),
         ...components,
       }}
-      
       {...props}
     />
   )
@@ -162,26 +161,9 @@ function CalendarDayButton({
   ...props
 }: React.ComponentProps<typeof DayButton>) {
   const defaultClassNames = getDefaultClassNames()
-  const ref = React.useRef<HTMLButtonElement>(null)
-
-// React.useEffect(() => {
-//   if (modifiers.focused) {
-//     setTimeout(() => ref.current?.focus(), 0);
-//   }
-// }, [modifiers.focused]);
-
-React.useEffect(() => {
-    if (modifiers.focused && ref.current) {
-      // schedule focus on next tick
-      const id = setTimeout(() => ref.current?.focus(), 0)
-      return () => clearTimeout(id)
-    }
-  }, [modifiers.focused])
-
 
   return (
     <Button
-      ref={ref}
       variant="ghost"
       size="icon"
       data-day={day.date.toLocaleDateString()}
@@ -216,7 +198,6 @@ React.useEffect(() => {
         defaultClassNames.day,
         className
       )}
-
       {...props}
     />
   )
