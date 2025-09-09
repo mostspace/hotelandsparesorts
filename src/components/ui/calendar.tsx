@@ -29,9 +29,20 @@ function CalendarDayButton({
   const ref = React.useRef<HTMLButtonElement>(null)
 
   // Focus first render to make initial hover work
+  // React.useEffect(() => {
+  //   ref.current?.focus()
+  // }, [])
   React.useEffect(() => {
-    ref.current?.focus()
-  }, [])
+  // Only try to focus if this day is supposed to be focused
+  if (modifiers.focused) {
+    // Use setTimeout to defer focus until the DOM updates
+    const id = setTimeout(() => {
+      ref.current?.focus()
+    })
+    return () => clearTimeout(id)
+  }
+}, [modifiers.focused])
+
 
   return (
     <Button
