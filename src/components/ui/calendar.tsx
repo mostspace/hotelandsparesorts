@@ -172,12 +172,12 @@ React.useEffect(() => {
   }
 }, [modifiers.focused]);
 
-React.useEffect(() => {
-  const selectedButton = ref.current
-  if (selectedButton) {
-    selectedButton.focus()
-  }
-}, [])
+// React.useEffect(() => {
+//   const selectedButton = ref.current
+//   if (selectedButton) {
+//     selectedButton.focus()
+//   }
+// }, [])
 
 
 
