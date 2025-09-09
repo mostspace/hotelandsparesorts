@@ -69,12 +69,27 @@ function CalendarDayButton({
 //   hasFocusedThisDay.current = false
 // }, [selected, month])
 
- React.useEffect(() => {
-    if (!hasFocused.current && modifiers.focused) {
-      ref.current?.focus()
-      hasFocused.current = true
-    }
-  }, [modifiers.focused])
+
+
+// 1️⃣ Initial focus to make hover work at the start
+React.useEffect(() => {
+  if (!hasFocused.current) {
+    ref.current?.focus()
+    hasFocused.current = true
+  }
+}, [])
+
+// 2️⃣ Focus when DayPicker sets modifiers.focused, but only if needed
+React.useEffect(() => {
+  if (modifiers.focused) {
+    const id = setTimeout(() => {
+      if (ref.current && !ref.current.matches(":focus")) {
+        ref.current.focus()
+      }
+    }, 0)
+    return () => clearTimeout(id)
+  }
+}, [modifiers.focused, selected, month])
 
 
 
