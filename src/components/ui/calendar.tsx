@@ -174,6 +174,13 @@ function CalendarDayButton({
   const defaultClassNames = getDefaultClassNames()
   const ref = React.useRef<HTMLButtonElement>(null)
 
+    // Focus the first selected day on mount
+  React.useEffect(() => {
+    if (modifiers.selected && ref.current) {
+      ref.current.focus()
+    }
+  }, []) // run only once on mount
+
   return (
     <Button
       ref={ref}
