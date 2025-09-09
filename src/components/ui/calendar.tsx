@@ -31,18 +31,18 @@ function CalendarDayButton({
   const hasFocusedThisDay = React.useRef(false)
 
   // Focus once on mount
-// React.useEffect(() => {
-//   if (!hasFocused.current) {
-//     ref.current?.focus()
-//     hasFocused.current = true
-//   }
-// }, [])
+React.useEffect(() => {
+  if (!hasFocused.current) {
+    ref.current?.focus()
+    hasFocused.current = true
+  }
+}, [])
 
-// React.useEffect(() => {
-//   if (modifiers.focused) {
-//     ref.current?.focus()
-//   }
-// }, [modifiers.focused, selected, month])
+React.useEffect(() => {
+  if (modifiers.focused) {
+    ref.current?.focus()
+  }
+}, [modifiers.focused, selected, month])
 
 
 
@@ -71,25 +71,25 @@ function CalendarDayButton({
 
 
 
-// 1️⃣ Initial focus to make hover work at the start
-React.useEffect(() => {
-  if (!hasFocused.current) {
-    ref.current?.focus()
-    hasFocused.current = true
-  }
-}, [])
+// // 1️⃣ Initial focus to make hover work at the start
+// React.useEffect(() => {
+//   if (!hasFocused.current) {
+//     ref.current?.focus()
+//     hasFocused.current = true
+//   }
+// }, [])
 
-// 2️⃣ Focus when DayPicker sets modifiers.focused, but only if needed
-React.useEffect(() => {
-  if (modifiers.focused) {
-    const id = setTimeout(() => {
-      if (ref.current && !ref.current.matches(":focus")) {
-        ref.current.focus()
-      }
-    }, 0)
-    return () => clearTimeout(id)
-  }
-}, [modifiers.focused, selected, month])
+// // 2️⃣ Focus when DayPicker sets modifiers.focused, but only if needed
+// React.useEffect(() => {
+//   if (modifiers.focused) {
+//     const id = setTimeout(() => {
+//       if (ref.current && !ref.current.matches(":focus")) {
+//         ref.current.focus()
+//       }
+//     }, 0)
+//     return () => clearTimeout(id)
+//   }
+// }, [modifiers.focused, selected, month])
 
 
 
