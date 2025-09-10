@@ -128,6 +128,30 @@ export default function SearchScreen() {
     const data = await res.json();
     console.log("Hotels:", data);
 
+
+    const res2 = await fetch("/api/ratehawk/search/hotelid", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+        hid:8473727,
+        checkIn:checkIn, 
+        checkOut:checkOut,
+        rooms:rooms,
+        sandbox:true
+    
+      }),
+    });
+
+    if (!res2.ok) throw new Error(`Error: ${res2.status}`);
+    const data2 = await res2.json();
+    console.log("Hotels Test:", data2);
+
+    let testHotel = data2[0]
+    data.unshift(testHotel);
+
+
     setHotels(data)
     
     setCurrentPage(1)

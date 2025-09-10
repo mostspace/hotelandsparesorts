@@ -34,7 +34,7 @@ export function POST(req:Request) {
         body: JSON.stringify({
           checkin: checkIn,
           checkout: checkOut,
-          residency: "uz",
+          residency: "ie",
           language: "en",
           guests: roomArray,
           timeout:7,

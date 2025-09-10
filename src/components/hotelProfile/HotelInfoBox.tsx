@@ -105,7 +105,7 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
             {/* MAIN CONTENT */}
             
             {selectedTab=="Key info" && <div className="flex flex-row h-full gap-[67px] items-start text-lg">
-                <div className="flex flex-col md:max-h-[900px] gap-[30px] items-start  md:w-[50%] md:flex-wrap">
+                <div className="flex flex-col md:max-h-[1000px] gap-[30px] items-start  md:w-[50%] md:flex-wrap">
                     
                     <div className="flex flex-row gap-[20px] items-end">
                         <span className="text-2xl" style={{fontFamily:'Harlow'}}>Check-in time</span>
