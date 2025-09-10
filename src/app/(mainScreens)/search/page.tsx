@@ -148,8 +148,10 @@ export default function SearchScreen() {
     const data2 = await res2.json();
     console.log("Hotels Test:", data2);
 
-    let testHotel = data2[0]
-    data.unshift(testHotel);
+    if(data2.length>0){
+      let testHotel = data2[0]
+      data.unshift(testHotel);
+    }
 
 
     setHotels(data)

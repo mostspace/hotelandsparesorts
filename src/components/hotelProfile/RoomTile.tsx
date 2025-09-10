@@ -126,13 +126,18 @@ export const RoomTile = (props:RoomTileProps) => {
 
     const createBookingRateHawk = async (bookHash:string) => {
         
+        const hid = searchParams.get('hid');
+
+
         const res = await fetch("/api/ratehawk/booking/create", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({ 
-                hashID: bookHash
+                hashID: bookHash,
+                hid:hid,
+
             }),
         });
 
