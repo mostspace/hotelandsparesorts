@@ -41,16 +41,40 @@ function CalendarDayButton({ className, day, modifiers, ...props }: CalendarDayB
       data-range-middle={modifiers.range_middle}
       className={cn(
         "group/day aspect-square flex w-full min-w-[--cell-size] flex-col gap-1 leading-none font-normal",
-        "data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground",
+        
+        // single selected day
+        modifiers.selected && !modifiers.range_start && !modifiers.range_end
+          ? "bg-accent text-primary-foreground"
+          : "",
+        
+        // start of range → top-left + bottom-left rounded
+        modifiers.range_start
+          ? "bg-accent text-primary-foreground rounded-none rounded-tl-md rounded-bl-md"
+          : "",
+        
+        // end of range → top-right + bottom-right rounded
+        modifiers.range_end
+          ? "bg-accent text-primary-foreground rounded-none rounded-tr-md rounded-br-md"
+          : "",
+        
+        // middle of range → no rounding
+        modifiers.range_middle && !modifiers.hovered
+          ? "bg-accent/30 text-accent-foreground rounded-none"
+          : "",
+        
+        // hovered preview
         modifiers.hovered && !modifiers.range_end && !modifiers.range_start
           ? "bg-accent/10 text-accent-foreground"
           : "",
-        modifiers.range_middle && !modifiers.hovered
-          ? "bg-accent/30 text-accent-foreground"
-          : "",
+
+        modifiers.today ? "border border-accent rounded-md" : "",
+
+        
         defaultClassNames.day,
         className
       )}
+
+
       {...props}
     />
   )
@@ -88,10 +112,15 @@ function Calendar({
         root: cn("w-fit", defaultClassNames.root),
         months: cn("flex gap-4 flex-col md:flex-row relative", defaultClassNames.months),
         month: cn("flex flex-col w-full gap-4", defaultClassNames.month),
-        nav: cn("flex items-center gap-1 w-full justify-between", defaultClassNames.nav),
+        nav: cn("flex items-center justify-between w-full absolute top-0 inset-x-0", defaultClassNames.nav),
         button_previous: cn(buttonVariants({ variant: buttonVariant }), "p-0", defaultClassNames.button_previous),
         button_next: cn(buttonVariants({ variant: buttonVariant }), "p-0", defaultClassNames.button_next),
         day: cn("relative w-full h-full p-0 text-center", defaultClassNames.day),
+        month_caption: cn(
+          "flex items-center justify-center h-[--cell-size] w-full px-[--cell-size] text-center",
+            defaultClassNames.month_caption
+          ),
+
         ...classNames,
       }}
       components={{
