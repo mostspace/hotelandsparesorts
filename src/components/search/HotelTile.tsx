@@ -69,11 +69,13 @@ export const HotelTile = (props:HotelTileProps) => {
             });
 
             let preTax = lowestRate
+            if(lowestTaxData){
             lowestTaxData.forEach((element: { included_by_supplier: any; amount: string | number }) => {
                     if(element.included_by_supplier){
                         preTax-= (+element.amount)
                     }
                 });
+            }
 
             let commission = preTax*(commissionPercentage/100)
             
