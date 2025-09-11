@@ -51,8 +51,9 @@ export function POST(req:Request) {
             resolve(NextResponse.json(booking))
 
           }
-          catch(e){
-            resolve(NextResponse.json({error:e}))
+          catch(e:any){
+            console.error(e); // <-- full error details in server logs
+            resolve(NextResponse.json({ error: e.message, stack: e.stack }));
           }
 
     })
