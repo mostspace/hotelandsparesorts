@@ -45,21 +45,22 @@ export const SearchRoom = (props:SearchRoomProps) => {
 
     }
 
-    const removeChild = () => {
-        let childrenNew = children-1>0?children-1:0
+    const addChild = () => {
+        const childrenNew = children + 1
         setChildren(childrenNew)
-        childrenAges.pop()
-        setChildrenAges(childrenAges)
-        props.updateRoom(props.index,{adults:adults,children:childrenNew,childrenAges})
+        const newAges = [...childrenAges, 10] // new array
+        setChildrenAges(newAges)
+        props.updateRoom(props.index, { adults, children: childrenNew, childrenAges: newAges })
     }
 
-    const addChild = () => {
-        let childrenNew = children+1
+    const removeChild = () => {
+        const childrenNew = children - 1 > 0 ? children - 1 : 0
         setChildren(childrenNew)
-        childrenAges.push(10)
-        setChildrenAges(childrenAges)
-        props.updateRoom(props.index,{adults:adults,children:childrenNew,childrenAges})
+        const newAges = childrenAges.slice(0, -1) // new array without last element
+        setChildrenAges(newAges)
+        props.updateRoom(props.index, { adults, children: childrenNew, childrenAges: newAges })
     }
+
 
     const showChildrenAges = () => {
         
@@ -90,17 +91,16 @@ export const SearchRoom = (props:SearchRoomProps) => {
         return compArray
     }
 
-    const changeChildAge = (index:number,value:number) => {
-
-
-        childrenAges[index] = value
-        setChildrenAges(childrenAges)
-        setUpdateVar(updateVar+1)
-        
-        props.updateRoom(props.index,{adults:adults,children:children,childrenAges})
-
-        console.log("CH AGES",childrenAges,index)
+    const changeChildAge = (index:number, value:number) => {
+        setChildrenAges(prev => {
+            const newAges = [...prev];
+            newAges[index] = value;
+            props.updateRoom(props.index, { adults, children, childrenAges: newAges });
+            return newAges;
+        });
     }
+
+
 
 
     return(

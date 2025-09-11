@@ -37,7 +37,7 @@ export function POST(req:Request) {
           residency: "ie",
           language: "en",
           guests: roomArray,
-          timeout:7,
+          timeout:10,
           hid:hid,
           currency: "EUR"
         })

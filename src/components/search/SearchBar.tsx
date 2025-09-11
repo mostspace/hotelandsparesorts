@@ -135,26 +135,20 @@ export const SearchBar = (props:SearchBarProps) => {
     }
 
     const addRoom = () => {
-        rooms.push({adults:0,children:0})
-        setRooms(rooms)
-        setUpdateVar(updateVar+1)
+        setRooms(prev => [...prev, {adults:0, children:0, childrenAges:[]}]);
     }
 
     const removeRoom = (index:number) => {
-        
-        rooms.splice(index-1, 1);
-        setRooms(rooms)
-        setUpdateVar(updateVar+1)
-
-        console.log("ROOMS REM",rooms)
+        setRooms(prev => prev.filter((_, i) => i !== index-1));
     }
 
-    const updateRoom = (index:number,data:any) => {
-        rooms[index-1] = data
-        setRooms(rooms)
-        setUpdateVar(updateVar+1)
-        console.log("ROOMS UPD",rooms)
+
+    const updateRoom = (index:number, data:any) => {
+        const newRooms = [...rooms];
+        newRooms[index-1] = data;
+        setRooms(newRooms);
     }
+
 
     const calculateGuests = () => {
         let guests = 0
@@ -286,11 +280,7 @@ export const SearchBar = (props:SearchBarProps) => {
                 </span>
 
                 
-                {/* WHERE CALENDAR WAS */}
-              
-            </div>}
-
-            {isClient && showCheckInPicker && (
+                {isClient && showCheckInPicker && (
                     <div
                         className="absolute left-0 top-22 rounded-md border border-primary bg-white z-[100] pointer-events-auto"
                         onClick={(e) => e.stopPropagation()}  
@@ -326,6 +316,10 @@ export const SearchBar = (props:SearchBarProps) => {
                         />
                     </div>
                     )}
+              
+            </div>}
+
+            
 
 
             {props.showLocation && <div className="h-full w-px bg-primary/50"/>}
@@ -353,7 +347,7 @@ export const SearchBar = (props:SearchBarProps) => {
             <span className="font-bold">Guests</span>
             <span className={`font-normal`}>{`${rooms.length} Room, ${calculateGuests()} Guests`}</span>
 
-           {showGuestPicker && <div className="absolute w-full left-0 top-21 rounded-md border border-primary bg-white flex flex-col gap-4 p-5 z-10">
+           {showGuestPicker && <div className="absolute w-full left-0 top-21 rounded-md border border-primary bg-white flex flex-col gap-4 p-5 z-10" onClick={(e) => e.stopPropagation()}>
                 
                 {showRooms()}
 
