@@ -126,9 +126,9 @@ export const Footer = () => {
 
                 <div className="flex flex-col max-w-[638px] gap-3">
                     <div className="w-full flex flex-row gap-5 items-center">
-                        <Input placeholder="Your Email Address" className="text-lg text-accent font-medium placeholder:text-lg placeholder:text-accent placeholder:font-medium"
+                        <Input placeholder="Your Email Address" className="text-sm md:text-lg text-accent font-medium md:placeholder:text-lg placeholder:text-accent placeholder:font-medium"
                         value={email} onChange={(e) => setEmail(e.target.value)}/>
-                        <Button className="h-[65px] w-[209px] bg-accent text-lg font-bold" onClick={addToNewsletter}>SIGN UP</Button>
+                        <Button className="h-[65px] md:w-[209px] bg-accent md:text-lg font-bold" onClick={addToNewsletter}>SIGN UP</Button>
                     </div>
 
                     {addedToList && <span className="text-lg text-accent">Added to mailing list</span>}

@@ -100,10 +100,7 @@ export const RoomTile = (props:RoomTileProps) => {
         if (!res.ok) throw new Error(`Error: ${res.status}`);
         const data = await res.json();
 
-        console.log("PRE BOOK RES",data)
-
-        setLoading(false)
-        
+        console.log("PRE BOOK RES",data)        
 
 
         if(data.error){
@@ -200,6 +197,7 @@ export const RoomTile = (props:RoomTileProps) => {
         if (!res.ok) throw new Error(`Error: ${res.status}`);
         const data = await res.json();
 
+        setLoading(false)
        
         bookRoom(orderID)
         

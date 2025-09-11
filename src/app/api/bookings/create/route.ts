@@ -6,48 +6,54 @@ export function POST(req:Request) {
 
     return new Promise<any>(async (resolve, reject) => {
 
+      try{
 
-    const { bookingData,uid } = await req.json();
+          const { bookingData,uid } = await req.json();
 
-    let rooms:any[] = bookingData.rooms
-    let adults = 0
-    let children = 0
+          let rooms:any[] = bookingData.rooms
+          let adults = 0
+          let children = 0
 
-      rooms.forEach(room => {
-          adults+=room.adults
-          children+=room.children
-      });
-      
-    const bookingCreateData: any = {
-        order_id: bookingData.orderID,
-        partner_id: bookingData.partnerID,
-        hid: +bookingData.hid,
-        check_in: new Date(bookingData.checkIn),
-        check_out: new Date(bookingData.checkOut),
-        adults: adults,
-        children: children,
-        amount: new Prisma.Decimal(bookingData.amount),
-        currency_code: bookingData.currencyCode,
-        status: 'pending',
-        room_name: bookingData.roomName,
-        amenities: bookingData.amenities.join(', '),
-        tax_data:bookingData.tax_data,
-        rooms:rooms
-      };
-    
-      // Only add uid if provided and not empty
-      if (uid && uid.trim() !== '') {
-        bookingCreateData.uid = uid;
-      }
-    
-      const booking = await prisma.bookings.create({
-        data: bookingCreateData,
-      });
-      
-      // booking.order_id is now your PID for /booking?pid=
-      
+            rooms.forEach(room => {
+                adults+=room.adults
+                children+=room.children
+            });
+            
+          const bookingCreateData: any = {
+              order_id: bookingData.orderID,
+              partner_id: bookingData.partnerID,
+              hid: +bookingData.hid,
+              check_in: new Date(bookingData.checkIn),
+              check_out: new Date(bookingData.checkOut),
+              adults: adults,
+              children: children,
+              amount: new Prisma.Decimal(bookingData.amount),
+              currency_code: bookingData.currencyCode,
+              status: 'pending',
+              room_name: bookingData.roomName,
+              amenities: bookingData.amenities.join(', '),
+              tax_data:bookingData.tax_data,
+              rooms:rooms
+            };
+          
+            // Only add uid if provided and not empty
+            if (uid && uid.trim() !== '') {
+              bookingCreateData.uid = uid;
+            }
+          
+            const booking = await prisma.bookings.create({
+              data: bookingCreateData,
+            });
+            
+            // booking.order_id is now your PID for /booking?pid=
+            
 
-      resolve(NextResponse.json(booking))
+            resolve(NextResponse.json(booking))
+
+          }
+          catch(e){
+            resolve(NextResponse.json({error:e}))
+          }
 
     })
 

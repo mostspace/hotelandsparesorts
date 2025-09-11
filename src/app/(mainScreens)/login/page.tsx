@@ -220,7 +220,7 @@ export default function LoginPage() {
   }
     
   return (
-    <div className="flex flex-col items-center gap-12 bg-light" >
+    <div className="flex flex-col items-center gap-12 bg-light pt-10 md:pt-0" >
       
 
       {!loggedIn && <div className="flex flex-col items-center gap-8 p-8" >
