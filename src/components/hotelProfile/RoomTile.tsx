@@ -199,7 +199,9 @@ export const RoomTile = (props:RoomTileProps) => {
 
         setLoading(false)
        
-        bookRoom(orderID)
+        if(!data.error){
+            bookRoom(orderID)
+        }
         
         
     }
