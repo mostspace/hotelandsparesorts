@@ -230,6 +230,11 @@ html.desktop-zoom {
   zoom: 0.85; /* works only on desktop */
 }
 
+
+.pac-container{
+  margin-top: 140px;
+}
+
 }
 
 @media (max-width: 1200px) {

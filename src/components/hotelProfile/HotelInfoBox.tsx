@@ -2,6 +2,7 @@ import { MapProvider } from "@/providers/map-provider";
 import { useEffect, useState } from "react";
 import { MapComponent } from "../maps/googleMaps";
 import { Amenities } from "./Amenities";
+import { FeeList } from "./FeeList";
 
 interface HotelInfoBoxProps{
     hotel:any
@@ -46,7 +47,7 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
         let currentTitle = ""
         let paragraphs:any[] = []
 
-        let descriptions:any[] = props.hotel.hotelDescriptions.filter((descr: { kind: string; }) => descr.kind !== "description")
+        let descriptions:any[] = props.hotel.hotelDescriptions.filter((descr: { kind: string; }) => descr.kind !== "description" && descr.kind !== "policy")
         descriptions.forEach(descr => {
             
             let title = descr.title
@@ -58,7 +59,8 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
             }
             
             if(descr.paragraph.includes('</')){ 
-                paragraphs.push( descr.paragraph )
+                paragraphs.push(<div dangerouslySetInnerHTML={{ __html: descr.paragraph }}/>)
+                // paragraphs.push( descr.paragraph )
             }else{
                 paragraphs.push( <span>{descr.paragraph}</span> )
             }
@@ -69,6 +71,18 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
 
         return compArray
 
+    }
+
+    const showVisa = () => {
+
+        let data = props.hotel.metapolicy_struct.visa
+
+        let compArray:any[] = []
+         compArray.push(<span className="text-2xl" style={{fontFamily:'Harlow'}}>Visa Support</span>)
+
+         compArray.push(<span>{data.visa_support}</span>)
+
+        return compArray
     }
 
     return(
@@ -90,10 +104,10 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
                         <span className='cursor-pointer' onClick={()=>setSelectedTab("Amenities")}>Amenities</span>
                         {selectedTab=="Amenities" && <div className="absolute w-[100%] h-[2px] bg-primary top-[35px]"/>}
                     </div>
-                    {/* <div className={`relative ${selectedTab=="Fees"?"font-medium":""}`}>
+                    <div className={`relative ${selectedTab=="Fees"?"font-medium":""}`}>
                         <span className='cursor-pointer' onClick={()=>setSelectedTab("Fees")}>Fees</span>
                         {selectedTab=="Fees" && <div className="absolute w-[100%] h-[2px] bg-primary top-[35px]"/>}
-                    </div> */}
+                    </div>
                     <div className={`relative ${selectedTab=="Map"?"font-medium":""}`}>
                         <span className='cursor-pointer' onClick={()=>setSelectedTab("Map")}>Map</span>
                         {selectedTab=="Map" && <div className="absolute w-[100%] h-[2px] bg-primary top-[35px]"/>}
@@ -105,7 +119,7 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
             {/* MAIN CONTENT */}
             
             {selectedTab=="Key info" && <div className="flex flex-row h-full gap-[67px] items-start text-lg">
-                <div className="flex flex-col md:max-h-[1000px] gap-[30px] items-start  md:w-[50%] md:flex-wrap">
+                <div className="flex flex-col md:max-h-[1000px] gap-[30px] items-start min-w-[1000px]  md:w-[50%] md:flex-wrap">
                     
                     <div className="flex flex-row gap-[20px] items-end">
                         <span className="text-2xl" style={{fontFamily:'Harlow'}}>Check-in time</span>
@@ -118,6 +132,8 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
                     </div>
 
                     {showDescriptions()}
+
+                    {props.hotel.metapolicy_struct.visa && showVisa()}
                 </div>
 
                 {/* <div className="flex flex-col gap-[30px] items-start w-[50%]">
@@ -139,6 +155,8 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
             </div>}
 
             {selectedTab == "Amenities" && <Amenities amenityList={props.hotel.amenities} source="at-a-glance"/>}
+
+            {selectedTab == "Fees" && <FeeList feeList={props.hotel.metapolicy_struct}/>}
 
             {selectedTab=="Map" && <div className="w-full h-[500px]">
                 <MapProvider>

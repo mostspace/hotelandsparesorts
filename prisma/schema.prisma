@@ -33,6 +33,7 @@ model Hotels {
   front_desk_time_end   String?
   amenities             String?  @db.Text
   tripadvisor_id        Int?
+  metapolicy_struct     Json?
 
   hotelDescriptions HotelDescriptions[]
   images            Images[]
