@@ -243,7 +243,7 @@ export default function HotelProfileScreen() {
     if(rates.length>0){compArray.push(<RoomTile images={hotel.images} rateObj={rates[roomIndex % rates.length]}/>)}
     if(rates.length>1){compArray.push(<RoomTile images={hotel.images} rateObj={rates[(roomIndex+1) % rates.length]}/>)}
     if(rates.length>2){compArray.push(<RoomTile images={hotel.images} rateObj={rates[(roomIndex+2) % rates.length]}/>)}
-    if(rates.length>3){compArray.push(<RoomTile images={hotel.images} rateObj={rates[(roomIndex+3) % rates.length]}/>)}
+    // if(rates.length>3){compArray.push(<RoomTile images={hotel.images} rateObj={rates[(roomIndex+3) % rates.length]}/>)}
 
 
     return compArray
@@ -264,11 +264,11 @@ export default function HotelProfileScreen() {
 
     if(direction>0){
 
-      if((roomIndex+4)<hotel.rates.length-3){setRoomIndex(roomIndex+4)}
-      else if(roomIndex!= hotel.rates.length-4){setRoomIndex(hotel.rates.length-4)}
+      if((roomIndex+3)<hotel.rates.length-2){setRoomIndex(roomIndex+3)}
+      else if(roomIndex!= hotel.rates.length-2){setRoomIndex(hotel.rates.length-3)}
 
     }else{
-      if((roomIndex-4)>=0){setRoomIndex(roomIndex-4)}
+      if((roomIndex-3)>=0){setRoomIndex(roomIndex-3)}
       else if(roomIndex != 0){setRoomIndex(0)}
     }
   }
@@ -351,7 +351,7 @@ export default function HotelProfileScreen() {
       {hotel &&<div className="w-full flex flex-col items-center" >
         
         {/* TOP SECTION */}
-        <div className="w-full px-5 md:px-[120px] py-[55px] flex flex-col gap-[60px] items-start bg-muted">
+        <div className="w-full lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 py-[55px] flex flex-col gap-[60px] items-start bg-muted">
             
             {/* BREADCRUMBS */}
             <div className="flex flex-row items-center gap-2">
@@ -407,7 +407,7 @@ export default function HotelProfileScreen() {
         </div>
 
         {/* MAIN SECTION */}
-        <div className="w-full md:p-[120px] p-5 flex flex-col gap-[80px] bg-light">
+        <div className="w-full lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 py-[100px] flex flex-col gap-[80px] bg-light">
 
             {/* BIO SECTION */}
             <div className=" flex md:flex-row flex-col items-start gap-12">
@@ -459,7 +459,7 @@ export default function HotelProfileScreen() {
                           <path d="M25.002 16.0001C25.002 16.5523 24.5547 17.0001 24.002 17.0001H9.8672L14.8301 24.4454C15.1367 24.9049 15.0127 25.526 14.5528 25.8321C14.3818 25.9459 14.1895 26.0001 13.999 26.0001C13.6758 26.0001 13.3584 25.8438 13.166 25.5548L6.7959 16.0001L13.166 6.44538C13.4717 5.98538 14.0908 5.86088 14.5527 6.16808C15.0127 6.47428 15.1367 7.09528 14.83 7.55478L9.8672 15.0001H24.002C24.5547 15.0001 25.002 15.4479 25.002 16.0001Z" fill="#333337"/>
                       </svg>
                   </Button>
-                  <div className="w-full hidden md:flex flex-row gap-5 items-center flex-wrap">
+                  <div className="w-full hidden md:flex flex-row gap-5 justify-center items-center flex-wrap">
                     {showRates()}
                   </div>
                   <div className="w-full md:hidden flex flex-col gap-10 items-center">
@@ -514,7 +514,7 @@ export default function HotelProfileScreen() {
         </div>
 
          {/* SIMILAR HOTELS */}
-         <div className="w-full p-5 md:p-[120px] flex flex-col gap-[80px] bg-[#D6C6B9]">
+         <div className="w-full lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 py-[120px] flex flex-col gap-[80px] bg-[#D6C6B9]">
             <span className="text-5xl" style={{fontFamily:'Harlow'}}>SIMILAR HOTELS IN {locationName.toUpperCase()}</span>
             <div className="w-full flex md:flex-row flex-col gap-[50px]">
               {similarHotels.length > 0 && <SimilarHotelTile hotel={similarHotels[0]} checkIn={checkInDateP+""} checkOut={checkOutDateP+""} rooms={rooms} source="similarHotel" locationName={locationName} />}

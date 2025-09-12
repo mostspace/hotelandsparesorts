@@ -65,7 +65,7 @@ export const VoucherApply = (props:VoucherApplyProps) => {
 
             <div className="w-full flex flex-col items-start gap-4">
                 <span className="text-lg font-bold">Do you have a Voucher Code?</span>
-                <div className="w-full p-[9px] border border-primary/30 flex flex-row item-center">
+                <div className="w-full p-[9px] border border-primary/30 flex flex-row item-center rounded-sm">
                     <input 
                         className="w-full h-stretch bg-transparent border-none focus:outline-none" 
                         type="text"

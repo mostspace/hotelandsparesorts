@@ -196,10 +196,6 @@
 }
 
 
-.pac-container{
-  margin-top: 250px;
-  margin-left: 50px;
-}
 
 .pac-matched{
     color: #A56658;
@@ -225,15 +221,27 @@
     font-size: 18px;
 }
 
+.pac-container{
+  margin-top: 30px;
+}
+
 @media (max-width: 1500px) {
 html.desktop-zoom {
   zoom: 0.85; /* works only on desktop */
 }
+
 }
 
 @media (max-width: 1200px) {
 html.desktop-zoom {
   zoom: 0.7; /* works only on desktop */
+}
+.slider{
+  zoom: 1.4;
+}
+.pac-container{
+  margin-top: 250px;
+  margin-left: 50px;
 }
 }
 
@@ -247,6 +255,11 @@ html.desktop-zoom {
     zoom: 1; /* neutralize zoom for mobile */
   }
 
+  .slider{
+    zoom: 1;
+  }
+
+
   .app-wrapper {
     transform: scale(0.7);
     transform-origin: top left;
@@ -254,3 +267,5 @@ html.desktop-zoom {
     overflow-x: hidden; /* kill extra scroll */
   }
 }
+
+

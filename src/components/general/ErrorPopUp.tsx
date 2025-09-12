@@ -18,7 +18,7 @@ export default function ErrorPopUp(props:ErrorPropUp) {
 
     return(<div className="fixed top-0 left-0 h-full w-full bg-primary/50 flex justify-center items-center z-20">
 
-        <div className="max-w-[700px] flex flex-col bg-light p-[70px] gap-[44px] relative items-center">
+        <div className="max-w-[700px] flex flex-col bg-light p-[70px] gap-[44px] relative items-center rounded-lg overflow-hidden">
 
             {!props.hideClose && <div className="absolute top-4 right-4 cursor-pointer" onClick={props.close()}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

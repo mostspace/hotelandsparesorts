@@ -199,7 +199,7 @@ export default function BookingScreen() {
   </svg>
 
   return (
-    <div className="w-full flex flex-col items-center bg-light px-5 md:px-[118px] py-[90px] gap-[86px]" >
+    <div className="w-full flex flex-col items-center bg-light lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 py-[90px] gap-[86px]" >
     
     {loading && <LoadingPopUp title="Securing Your Escape…" subtitle="Please hold on as we confirm every detail of your luxury getaway."/>}
 

@@ -32,7 +32,7 @@ export const SliderFilter = (props:CheckedListFilterProps) => {
 
         <span className="text-xl">€{values[0]} – €{values[1]}</span>
 
-        <div className='w-full' style={{zoom:1.4}}>
+        <div className='w-full slider'>
         <Range
             step={10}
             min={MIN}

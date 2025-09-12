@@ -356,7 +356,7 @@ export default function SearchScreen() {
     <div className="w-full flex flex-col gap-[60px] py-10 text-primary bg-light" >
       
 
-      <div className="flex flex-col items-start px-5 md:px-[120px] gap-10">
+      <div className="flex flex-col items-start lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 gap-10">
         <span className="text-lg">{'Home > Hotel Stays'}</span>
         <span className="text-6xl"  style={{fontFamily:'Harlow'}}>BOOK A HOTEL STAY</span>
         <SearchBar showLocation={true} showBorders={true} existingData={{locationName:locationName, coords:{lat:latNum, lng:lngNum},checkInDate:checkIn,checkOutDate:checkOut,rooms}}/>
@@ -364,7 +364,7 @@ export default function SearchScreen() {
       
 
 
-      {!loggedIn && <div className="flex flex-row justify-between items-center px-5 md:px-[120px] py-[40px] bg-accentDark text-light">
+      {!loggedIn && <div className="flex flex-row justify-between items-center lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 py-[40px] bg-accentDark text-light">
           
           <div className="flex flex-row gap-5 items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="44" height="54" viewBox="0 0 44 54" fill="none">
@@ -379,7 +379,7 @@ export default function SearchScreen() {
       </div>}
 
 
-      <div className="w-full flex flex-row gap-5 md:gap-[70px] justify-start px-5 md:px-[120px]">
+      <div className="w-full flex flex-row gap-5 md:gap-[70px] justify-start lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5">
           
           {/* FILTERS */}
           <SearchFilters applyFilters={applyFilters} filters={filters}/>

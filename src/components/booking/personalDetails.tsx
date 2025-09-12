@@ -67,7 +67,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                     <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
                         <span className={`font-medium ${inputError==="firstName"?"text-[red]":""}`}>First Name*</span>
                         <input 
-                            className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl ${inputError==="firstName"?"border-[red]":"border-primary/50"}`} 
+                            className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl rounded-sm ${inputError==="firstName"?"border-[red]":"border-primary/50"}`} 
                             type="text"
                             value={firstName} 
                             onChange={(e) => {setFirstName(e.target.value);if(inputError==="firstName"){setInputError("")}}}
@@ -77,7 +77,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                     <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
                         <span className={`font-medium ${inputError==="lastName"?"text-[red]":""}`}>Last Name*</span>
                         <input 
-                            className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl ${inputError==="lastName"?"border-[red]":"border-primary/50"}`} 
+                            className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl rounded-sm ${inputError==="lastName"?"border-[red]":"border-primary/50"}`} 
                             type="text"
                             value={lastName} 
                             onChange={(e) => {setLastName(e.target.value);if(inputError==="lastName"){setInputError("")}}}
@@ -87,7 +87,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                     <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
                         <span className={`font-medium ${inputError==="email"?"text-[red]":""}`}>Email*</span>
                         <input 
-                            className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl ${inputError==="email"?"border-[red]":"border-primary/50"}`} 
+                            className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl rounded-sm ${inputError==="email"?"border-[red]":"border-primary/50"}`} 
                             type="text"
                             value={email} 
                             onChange={(e) => {setEmail(e.target.value);if(inputError==="email"){setInputError("")}}}
@@ -97,7 +97,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                     <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
                         <span className={`font-medium ${inputError==="phoneNumber"?"text-[red]":""}`}>Phone Number*</span>
                         <input 
-                            className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl ${inputError==="phoneNumber"?"border-[red]":"border-primary/50"}`} 
+                            className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl rounded-sm ${inputError==="phoneNumber"?"border-[red]":"border-primary/50"}`} 
                             type="number"
                             value={phoneNumber} 
                             onChange={(e) => {setPhoneNumber(e.target.value);if(inputError==="phoneNumber"){setInputError("")}}}
@@ -107,7 +107,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                     <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
                         <span className={`font-medium ${inputError==="country"?"text-[red]":""}`}>Country*</span>
                         <input 
-                            className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl ${inputError==="country"?"border-[red]":"border-primary/50"}`} 
+                            className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl rounded-sm ${inputError==="country"?"border-[red]":"border-primary/50"}`} 
                             type="text"
                             value={country} 
                             onChange={(e) => {setCountry(e.target.value);if(inputError==="country"){setInputError("")}}}
@@ -124,7 +124,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                 </div>
 
                 <textarea 
-                    className="w-full h-[144px] border border-accent bg-muted/50 p-[15px] text-xl"
+                    className="w-full h-[144px] border border-accent bg-muted/50 p-[15px] text-xl rounded-sm"
                     placeholder="Pleaste write your requests in English (optional)"
                     value={specialRequest} 
                     onChange={(e) => setSpecialRequest(e.target.value)}

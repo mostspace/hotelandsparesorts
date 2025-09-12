@@ -77,12 +77,21 @@ useEffect( () => {
 
     if(props.updateVar>1){
 
-        
+            // mapRef.current.setCenter({ lat: props.lat, lng: props.lng });
+        if (mapRef.current) {
+          mapRef.current.setCenter({ lat: props.lat, lng: props.lng });
+        }
         placeMarkers()
     }
 
-  }, [props.updateVar]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [props.updateVar,props.lat,props.lng]); // eslint-disable-line react-hooks/exhaustive-deps
   
+  useEffect(() => {
+  if (mapRef.current) {
+    mapRef.current.setCenter({ lat: props.lat, lng: props.lng });
+  }
+}, [props.lat, props.lng]);
+
   
 const getTodayPlusDay = (days: number) => {
     const today = new Date();
@@ -283,6 +292,7 @@ const initMap = useCallback((map: google.maps.Map) => {
                 id="map"
                 mapContainerStyle={defaultMapContainerStyle}
                 // center={defaultMapCenter}
+                center={{ lat: props.lat, lng: props.lng }}
                 zoom={defaultMapZoom}
                 options={defaultMapOptions}
                 onIdle={handleMapIdle}
