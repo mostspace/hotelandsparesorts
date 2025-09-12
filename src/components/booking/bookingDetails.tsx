@@ -75,9 +75,9 @@ export const BookingDetails = (props:BookingProps) => {
 
 
     return(
-    <div className="flex flex-col items-start border border-primary/50 p-[21px] gap-7.5 w-[475px]">
+    <div className="flex flex-col items-start border border-primary/50 p-[21px] gap-7.5 w-[475px]  rounded-lg overflow-hidden">
 
-        <img className="w-full h-[250px] object-cover object-center" src={getImageURL()}/>
+        <img className="w-full h-[250px] object-cover object-center  rounded-lg overflow-hidden" src={getImageURL()}/>
 
         <div className="w-full flex flex-col items-start gap-4">
             <span className="text-4xl" style={{fontFamily:'Harlow'}}>{props.booking.hotel.hotel_name}</span>

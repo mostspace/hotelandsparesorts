@@ -225,9 +225,16 @@
     font-size: 18px;
 }
 
+@media (max-width: 1500px) {
+html.desktop-zoom {
+  zoom: 0.85; /* works only on desktop */
+}
+}
 
+@media (max-width: 1200px) {
 html.desktop-zoom {
   zoom: 0.7; /* works only on desktop */
+}
 }
 
 .app-wrapper {

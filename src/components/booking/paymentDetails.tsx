@@ -90,9 +90,9 @@ export const BookingPaymentDetails = (props:PaymentDetailsProps) => {
     
 
     return(
-        <div className="w-full flex flex-col gap-7.5 items-end">
+        <div className="w-full flex flex-col gap-7.5 items-end ">
 
-            {!noCharge && <div className="w-full p-[28px] flex flex-col gap-[60px] items-start border border-primary/50">
+            {!noCharge && <div className="w-full p-[28px] flex flex-col gap-[60px] items-start border border-primary/50  rounded-lg overflow-hidden">
 
                 <div className="w-full flex flex-col gap-5 items-start">
                     <span className="text-4xl" style={{fontFamily:'Harlow'}}>Step 2: Payment Details</span>

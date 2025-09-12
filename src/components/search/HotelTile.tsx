@@ -202,7 +202,7 @@ export const HotelTile = (props:HotelTileProps) => {
     }
 
     return(
-    <div className={`w-full ${props.source==="AllBookings"?"md:h-[500px]":"md:h-[300px]"} flex md:flex-row flex-col border border-primary text-primary bg-light`}>
+    <div className={`w-full ${props.source==="AllBookings"?"md:h-[500px]":"md:h-[300px]"} flex md:flex-row flex-col border border-primary text-primary bg-light rounded-lg overflow-hidden`}>
 
         <img className="md:h-full h-[200px] md:w-[40%] lg:w-[30%] object-cover object-center cursor-pointer" src={getImageURL()} onClick={()=>openHotel(props.hotel.hid)}/>
         

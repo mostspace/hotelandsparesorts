@@ -59,7 +59,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
 
 
             {/* PERSONAL DETAILS INPUTS */}
-            <div className="p-[28px] flex flex-col gap-5 items-start border border-primary/50">
+            <div className="p-[28px] flex flex-col gap-5 items-start border border-primary/50  rounded-lg overflow-hidden">
                 <span className="text-4xl" style={{fontFamily:'Harlow'}}>Your Details</span>
 
                 <div className="w-full flex flex-row flex-wrap gap-8">
@@ -117,7 +117,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                 </div>
             </div>
 
-            <div className="w-full p-[28px] flex flex-col gap-5 items-start border border-primary/50">
+            <div className="w-full p-[28px] flex flex-col gap-5 items-start border border-primary/50 rounded-lg overflow-hidden">
                 <div className="flex flex-col items-start gap-3.5">
                     <span className="text-2xl font-medium">Special requests</span>
                     <span className="text-lg">Special requests cannot be guaranteed – but the property will do its best to meet your needs.</span>

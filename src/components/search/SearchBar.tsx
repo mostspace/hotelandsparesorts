@@ -210,7 +210,7 @@ export const SearchBar = (props:SearchBarProps) => {
 
 
     return(
-    <div ref={rootRef} className="w-full flex md:flex-row flex-col  gap-4 text-primary justify-center z-10">
+    <div ref={rootRef} className="w-full flex md:flex-row flex-col  gap-4 text-primary justify-between z-10 ">
 
 
 

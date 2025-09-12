@@ -68,7 +68,7 @@ export const SimilarHotelTile = (props:HotelTileProps) => {
     }
 
     return(
-        <div className="relative flex flex-col items-start h-[543px] w-[486px] pb-[40px] gap-5 bg-light cursor-pointer" onClick={()=>openHotel(props.hotel.hid)} >
+        <div className="relative flex flex-col items-start h-[543px] w-[486px] pb-[40px] gap-5 bg-light cursor-pointer rounded-lg overflow-hidden" onClick={()=>openHotel(props.hotel.hid)} >
 
             <div className="absolute top-3 right-5 flex flex-row items-center gap-2.5 bg-accent p-[10px] rounded-[10px] text-light text-lg">
                 <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">

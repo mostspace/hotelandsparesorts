@@ -396,7 +396,7 @@ export default function SearchScreen() {
 
 
               {/* TOGGLE */}
-              <div className="flex flex-row border border-primary font-medium text-lg">
+              <div className="flex flex-row border border-primary font-medium text-lg rounded-lg overflow-hidden">
                   
                   <div className={`flex flex-row items-center gap-2.5 p-2.5 cursor-pointer bg-${mapOpen?'light':'accent'} text-${mapOpen?'primary':'light'}`} onClick={()=>setMapOpen(false)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">

@@ -40,7 +40,7 @@ export const PriceSummary = (props:PriceSummaryProps) => {
     }
 
     return(
-        <div className="flex flex-col items-start border border-primary/50 py-[21px] gap-5 min-w-100 max-w-[575px]">
+        <div className="flex flex-col items-start border border-primary/50 py-[21px] gap-5 min-w-100 max-w-[575px] rounded-lg overflow-hidden">
 
             <span className="px-[28px] text-4xl" style={{fontFamily:'Harlow'}}>Your price summary</span>
             

@@ -54,16 +54,16 @@ export const HotelImageGallery = (props:HotelImageGalleryProps) => {
     return(
         <div className="w-full md:h-[760px] h-[500px] flex flex-row relative gap-6">
             
-            <img className="h-full md:w-[50%] w-full object-cover object-center" src={formatImage(props.images[0])}/>
+            <img className="h-full md:w-[50%] w-full object-cover object-center rounded-lg overflow-hidden" src={formatImage(props.images[0])}/>
 
             <div className="hidden h-full w-[50%] md:flex flex-row gap-6">
                 <div className="h-full w-[50%] flex flex-col gap-6">
-                    <img className="h-[48%] w-full bg-accent object-cover object-center" src={formatImage(props.images[1])}/>
-                    <img className="h-[49%] w-full bg-accent object-cover object-center" src={formatImage(props.images[2])} />
+                    <img className="h-[48%] w-full bg-accent object-cover object-center rounded-lg overflow-hidden" src={formatImage(props.images[1])}/>
+                    <img className="h-[49%] w-full bg-accent object-cover object-center rounded-lg overflow-hidden" src={formatImage(props.images[2])} />
                 </div>
                 <div className="hidden h-full w-[50%] md:flex flex-col gap-6">
-                    <img className="h-[48%] w-full bg-accent object-cover object-cover object-center" src={formatImage(props.images[3])}/>
-                    <img className="h-[49%] w-full bg-accent object-cover object-cover object-center" src={formatImage(props.images[4])}/>
+                    <img className="h-[48%] w-full bg-accent object-cover object-cover object-center rounded-lg overflow-hidden" src={formatImage(props.images[3])}/>
+                    <img className="h-[49%] w-full bg-accent object-cover object-cover object-center rounded-lg overflow-hidden" src={formatImage(props.images[4])}/>
                 </div>
             </div>
 
@@ -106,7 +106,7 @@ export const HotelImageGallery = (props:HotelImageGalleryProps) => {
                         {/* <Button onClick={()=>setShowPopUp(false)}>Close</Button> */}
                     </div>
                     <div className="relative w-full h-[80%]">
-                        <img className="w-full h-full object-cover object-center" src={showImage()}/>
+                        <img className="w-full h-full object-cover object-center rounded-lg overflow-hidden" src={showImage()}/>
                         <div
                             className="h-[55px] w-[55px] absolute z-5 left-3 top-1/2 bg-light/78 rounded-[10px] p-[6.5px] cursor-pointer"
                             onClick={() => changeImage(-1)}
