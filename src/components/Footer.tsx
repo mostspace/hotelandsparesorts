@@ -143,7 +143,7 @@ export const Footer = () => {
 
         <div className="w-full md:md:px-[182px] px-8 py-[62px] bg-[#774D46] flex flex-col gap-11 items-start">
             
-            <div className="w-full flex md:flex-row flex-col md:item-start gap-[85px] text-light mt-13">
+            <div className="w-full flex md:flex-row md:justify-between flex-col md:item-start gap-[85px] text-light mt-13">
                 {displayLinks()}
             </div>
 

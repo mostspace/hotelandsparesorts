@@ -75,7 +75,7 @@ export default function SearchScreen() {
 
   useEffect( () => {
 
-    loadHotels(latNum||0,lngNum||0,50000,JSON.parse(filtersStr))
+    loadHotels(latNum||0,lngNum||0,30000,JSON.parse(filtersStr))
 
   }, [searchID]); // eslint-disable-line react-hooks/exhaustive-deps
   

@@ -64,7 +64,7 @@ export const SimilarHotelTile = (props:HotelTileProps) => {
     }
 
     const openHotel = (hid:number) => {
-        router.push(`/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&rooms=${props.rooms}`)
+        router.push(`/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&rooms=${JSON.stringify(props.rooms)}`)
     }
 
     return(
