@@ -68,8 +68,8 @@ export const Header = () => {
     }
 
 
-    return <div>
-        <div className="hidden lg:block w-full flex flex-col items-start gap-5.5 px-5 lg:px-[10.7%] xl:px-[5.5%] 2xl:px-[6.75%] py-[22px] text-base font-medium bg-light">
+    return <div className="w-full flex flex-col items-center bg-white">
+        <div className="hidden lg:block w-full flex flex-col items-start gap-5.5 px-5 lg:px-[10.7%] xl:px-[5.5%] 2xl:px-[6.75%] py-[22px] text-base font-medium bg-light breakingPoint">
 
             <div className="w-full flex flex-row justify-between">
                 <div className="flex flex-row gap-2 items-center">

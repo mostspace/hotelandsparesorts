@@ -24,6 +24,7 @@
     "date-fns": "^4.1.0",
     "firebase": "^11.9.1",
     "framer-motion": "^12.23.12",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.517.0",
     "mysql2": "^3.14.1",
     "next": "15.3.4",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/lodash": "^4.17.20",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

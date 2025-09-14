@@ -316,8 +316,8 @@ export default function HotelProfileScreen() {
     
     let images:any[] = hotel.images
     const priorityOrder: Record<string, number> = {
-      exterior: 1,
-      lobby: 2,
+      lobby: 1,
+      exterior: 2,
     };
 
     const sorted = images.slice().sort((a, b) => {
@@ -351,7 +351,7 @@ export default function HotelProfileScreen() {
       {hotel &&<div className="w-full flex flex-col items-center" >
         
         {/* TOP SECTION */}
-        <div className="w-full lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 py-[55px] flex flex-col gap-[60px] items-start bg-muted">
+        <div className="w-full lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 py-[55px] flex flex-col gap-[60px] items-start bg-muted breakingPoint">
             
             {/* BREADCRUMBS */}
             <div className="flex flex-row items-center gap-2">
@@ -407,7 +407,7 @@ export default function HotelProfileScreen() {
         </div>
 
         {/* MAIN SECTION */}
-        <div className="w-full lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 py-[100px] flex flex-col gap-[80px] bg-light">
+        <div className="w-full lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 py-[100px] flex flex-col gap-[80px] bg-light breakingPoint">
 
             {/* BIO SECTION */}
             <div className=" flex md:flex-row flex-col items-start gap-12">
@@ -514,7 +514,7 @@ export default function HotelProfileScreen() {
         </div>
 
          {/* SIMILAR HOTELS */}
-         <div className="w-full lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 py-[120px] flex flex-col gap-[80px] bg-[#D6C6B9]">
+         <div className="w-full lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 py-[120px] flex flex-col gap-[80px] bg-[#D6C6B9] breakingPoint">
             <span className="text-5xl" style={{fontFamily:'Harlow'}}>SIMILAR HOTELS IN {locationName.toUpperCase()}</span>
             <div className="w-full flex md:flex-row flex-col gap-[50px]">
               {similarHotels.length > 0 && <SimilarHotelTile hotel={similarHotels[0]} checkIn={checkInDateP+""} checkOut={checkOutDateP+""} rooms={rooms} source="similarHotel" locationName={locationName} />}

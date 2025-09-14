@@ -7,6 +7,7 @@ import { auth } from "@/app/firebase";
 import ErrorPopUp from "../general/ErrorPopUp";
 import { motion, AnimatePresence } from "framer-motion"
 import { Amenities } from "./Amenities";
+import isEqual from "lodash/isEqual";
 
 interface RoomTileProps{
     rateObj:any
@@ -47,7 +48,9 @@ export const RoomTile = (props:RoomTileProps) => {
         
         let roomName = props.rateObj.room_data_trans.main_name
 
-        let images = props.images.filter(item => item.title === roomName);
+        let rg_ext = props.rateObj.rg_ext
+
+        let images = props.images.filter(item => isEqual(item.rg_ext,rg_ext));
         setIndex(0)
         setRoomImages(images)
     }, [props.rateObj.book_hash])
@@ -186,6 +189,7 @@ export const RoomTile = (props:RoomTileProps) => {
                     checkOut:checkOut,
                     rooms:rooms,
                     amount:amount,
+                    ratehawkAmount: props.rateObj.payment_options.payment_types[0].amount,
                     currencyCode: currencyCode,
                     roomName:props.rateObj.room_name,//props.rateObj.room_data_trans.main_name,
                     amenities:props.rateObj.amenities_data,

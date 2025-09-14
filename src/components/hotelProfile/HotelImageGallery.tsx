@@ -87,7 +87,7 @@ export const HotelImageGallery = (props:HotelImageGalleryProps) => {
 
 
             {showPopUp && <div className="fixed z-15 bg-primary/50 inset-0 flex justify-center md:items-center p-2 md:p-10 md:px-50" onClick={() => setShowPopUp(false)}>
-                <div className="z-10 rounded-xl bg-muted p-5 md:h-full h-[700px] w-full flex flex-col gap-4 items-center" onClick={(e) => e.stopPropagation()}>
+                <div className="z-10 rounded-xl bg-muted p-5 md:h-full h-[700px] w-full flex flex-col gap-4 items-center max-w-[1000px]" onClick={(e) => e.stopPropagation()}>
                     <div className="w-full flex flex-row justify-end">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

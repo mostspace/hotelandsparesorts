@@ -41,6 +41,7 @@ const defaultMapOptions = {
   zoomControl: !props.mini,
   disableDefaultUI: props.mini,
   tilt: 0,
+  minZoom: 3,
   gestureHandling: 'greedy',
   draggable: !props.mini,
   streetViewControl: false,
@@ -76,7 +77,8 @@ const markersRef = useRef<google.maps.Marker[]>([]);
 useEffect( () => {
 
     if(props.updateVar>1){
-
+          
+        console.log("MAP LAT LNGS",props.lat,props.lng)
             // mapRef.current.setCenter({ lat: props.lat, lng: props.lng });
         if (mapRef.current) {
           mapRef.current.setCenter({ lat: props.lat, lng: props.lng });
@@ -86,6 +88,11 @@ useEffect( () => {
 
   }, [props.updateVar,props.lat,props.lng]); // eslint-disable-line react-hooks/exhaustive-deps
   
+useEffect( () => {
+    placeMarkers()
+}, [props.hotels.length]); // eslint-disable-line react-hooks/exhaustive-deps
+
+
   useEffect(() => {
   if (mapRef.current) {
     mapRef.current.setCenter({ lat: props.lat, lng: props.lng });
@@ -109,6 +116,8 @@ const getTodayPlusDay = (days: number) => {
 
 const initMap = useCallback((map: google.maps.Map) => {
     
+    console.log("MAP LAT LNGS CURRENT" ,props.lat,props.lng)
+
     mapRef.current = map;
     placeMarkers()
     
@@ -170,7 +179,15 @@ const initMap = useCallback((map: google.maps.Map) => {
 
         // Image
         const img = document.createElement("img");
-        img.src = hotel.images[0].url.replace("{size}", "240x240");
+
+        const exterior = hotel.images.filter((img: { title: string }) => img.title === "exterior");
+        const lobby = hotel.images.filter((img: { title: string }) => img.title === "lobby");
+
+        if(lobby.length>0){img.src = lobby[0].url.replace("{size}", "240x240")}
+        else if(exterior.length>0){img.src = exterior[0].url.replace("{size}", "240x240")}
+        else{img.src = hotel.images[0].url.replace("{size}", "240x240")}
+
+        // img.src = hotel.images[0].url.replace("{size}", "240x240");
         img.className = "h-[100px]";
         contentDiv.appendChild(img);
 

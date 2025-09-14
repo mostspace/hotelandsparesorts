@@ -28,6 +28,7 @@ export function POST(req:Request) {
               adults: adults,
               children: children,
               amount: new Prisma.Decimal(bookingData.amount),
+              ratehawk_amount: new Prisma.Decimal(bookingData.ratehawkAmount),
               currency_code: bookingData.currencyCode,
               status: 'pending',
               room_name: bookingData.roomName,

@@ -85,7 +85,8 @@ export default function BookingScreen() {
       body: JSON.stringify({ 
             partnerID: booking.partner_id,
             personalDetails,
-            amount:booking.amount
+            amount:booking.ratehawk_amount,
+            currencyCode:booking.currency_code
           }),
       });
 
@@ -95,8 +96,59 @@ export default function BookingScreen() {
         throw new Error(`Error: ${res.status}`);
       }
       const data = await res.json();
+
+      if(data.error && data.error!=='5xx' && data.error!=='timeout' && data.error!=='unknown'){
+        setLoading(false)
+        setShowError(true)
+        throw new Error(`Error: ${res.status}`);
+      }
       return(data)
   }
+
+
+  const checkBookingStatusRateHawk = async (attempt:number) => {
+    
+    const res = await fetch("/api/ratehawk/booking/finish", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+            partnerID: booking.partner_id,
+          }),
+      });
+
+      if (!res.ok) {
+        setLoading(false)
+        setShowError(true)
+        throw new Error(`Error: ${res.status}`);
+      }
+      const data = await res.json();
+
+      if(data.status === "ok")
+      {
+        return(data)
+        
+      }
+      else if(data.error && data.error!=="timeout" && data.error!=="unknown" && data.error!=="5xx"){
+        setLoading(false)
+        setShowError(true)
+        throw new Error(`Error: Too many failed attempts`);
+      }
+      else if(attempt<5){
+        await delay(10000)
+        let recurse:any = await checkBookingStatusRateHawk(attempt+1)
+        return(recurse)
+      }else{
+        setLoading(false)
+        setShowError(true)
+        throw new Error(`Error: Too many failed attempts`);
+      }
+
+  }
+
+  const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 
   const completeBookingDB = async (stripeID:string) => {
 
@@ -137,6 +189,7 @@ export default function BookingScreen() {
 
     setLoading(true)
     await completeBookingRateHawk()
+    await checkBookingStatusRateHawk(1)
     await completeBookingDB(stripeID)
     setLoading(false)
     setCurrentStep(4)
@@ -212,7 +265,7 @@ export default function BookingScreen() {
           
       />} 
 
-      {timedOut && <ErrorPopUp 
+      {timedOut && currentStep<4 && <ErrorPopUp 
           title="Booking Timed Out" 
           subtitle="You ran out of time to complete the booking, please select a new rate and try again." 
           close={()=>setShowError(false)}
@@ -222,7 +275,7 @@ export default function BookingScreen() {
       />} 
 
     {/* <span className="mt-[-50px] mb-[-30px] font-medium text-lg text-accent">Time Remaining on booking: {remainingTime}</span> */}
-    {booking && <Countdown expiry={new Date(new Date(booking.created_at).getTime() + 10 * 60 * 1000)} />}
+    {booking && currentStep<4 && <Countdown expiry={new Date(new Date(booking.created_at).getTime() + 10 * 60 * 1000)} />}
 
 
     {/* STEP BAR */}

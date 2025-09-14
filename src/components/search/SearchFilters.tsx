@@ -49,9 +49,11 @@ export const SearchFilters = (props:SearchFiltersProps) => {
             id:'D',
             title:"Facilities",
             type:'checkList',
-            options:['Car Parking','Wheelchair Accessible','Wifi','Family Friendly','Pool','Gym','Breakfast included'],
+            options:['Free Wi-Fi','Free Parking','Air Conditioning','24-Hour Reception','Restaurant / Bar','Breakfast Included','Fitness Facilities / Gym','Pet Friendly','Swimming Pool','Wheelchair Accessible'],
             selected:getExistingFilterValue('D',[])
         },
+
+        
         // {
         //     id:'E',
         //     title:"Payment Type",

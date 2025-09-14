@@ -274,3 +274,14 @@ html.desktop-zoom {
 }
 
 
+
+
+
+@media (min-width: 1900px) {
+
+  .breakingPoint{
+    max-width: 1600px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}

@@ -9,7 +9,7 @@ export async function POST(req:Request) {
 
   return new Promise<any>(async (resolve, reject) => {
 
-    const { partnerID,personalDetails,amount } = await req.json();
+    const { partnerID,personalDetails,amount,currencyCode } = await req.json();
 
 
     const response = await fetch('https://api.worldota.net/api/b2b/v3/hotel/order/booking/finish/', {
@@ -57,7 +57,7 @@ export async function POST(req:Request) {
           payment_type: {
             type: "deposit",
             amount: amount,
-            currency_code: "GBP",
+            currency_code: currencyCode,
           },
           return_path: "https://example.com",
         })

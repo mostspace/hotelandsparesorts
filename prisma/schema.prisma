@@ -59,6 +59,7 @@ model Images {
   hid        Int?
   title      String?
   room_id    Int?
+  rg_ext     Json?
 
   hotel Hotels? @relation(fields: [hid], references: [hid])
 }
@@ -83,6 +84,7 @@ model Bookings {
   adults        Int
   children      Int
   amount        Decimal  @db.Decimal(10, 2)
+  ratehawk_amount Decimal?  @db.Decimal(10, 2)
   currency_code String
   status        String // e.g. 'pending', 'paid', 'confirmed', 'cancelled'
   room_name     String

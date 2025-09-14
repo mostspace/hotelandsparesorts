@@ -21,11 +21,17 @@ export const PriceSummary = (props:PriceSummaryProps) => {
 
     const showTaxes = () => {
         const compArray:any[] = []
-        props.booking.tax_data.forEach((element: { included_by_supplier: any; amount: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; }) => {
+
+        let amount = 0
+
+        props.booking.tax_data.forEach((element: { included_by_supplier: any; amount: string }) => {
             if(element.included_by_supplier){
-                compArray.push(<span>+€{element.amount}</span>)
+                amount += (+element.amount)
             }
         });
+
+        if(amount>0){compArray.push(<span>+€{amount}</span>)}
+
         return compArray
     }
 
@@ -37,6 +43,19 @@ export const PriceSummary = (props:PriceSummaryProps) => {
             }
         });
         return amount.toFixed(2)
+    }
+
+    const showNotIncluded = () => {
+        const compArray:any[] = []
+        props.booking.tax_data.forEach((element: any) => {
+            if(!element.included_by_supplier){
+                compArray.push(<div className="w-full flex justify-between">
+                    <span className="ml-5">{element.name}</span>
+                    <span>+ {element.amount} {element.currency_code}</span>
+                 </div>)
+            }
+        });
+        return compArray
     }
 
     return(
@@ -74,6 +93,13 @@ export const PriceSummary = (props:PriceSummaryProps) => {
                 </svg>
 
                 <span className="font-medium">This price may increase if you book later</span>
+            </div>
+
+            <div className="w-full h-px bg-primary/30"/>
+            
+            <div className="w-full flex flex-col gap-2 px-[28px]">
+                <span className="text-sm font-semibold">Not included in price</span>
+                {showNotIncluded()}
             </div>
 
         </div>

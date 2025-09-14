@@ -75,6 +75,9 @@ export default function SearchScreen() {
 
   useEffect( () => {
 
+    setLat(latNum)
+    setLng(lngNum)
+
     loadHotels(latNum||0,lngNum||0,30000,JSON.parse(filtersStr))
 
   }, [searchID]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -157,6 +160,7 @@ export default function SearchScreen() {
     setHotels(data)
     
     setCurrentPage(1)
+
     setFilteredHotels(data)
 
     setLoading(false)
@@ -185,7 +189,10 @@ export default function SearchScreen() {
 
     let index = 0
 
-    filteredHotels.forEach(hotel => {
+     const sorted = [...filteredHotels].sort((a, b) => a.distance - b.distance);
+
+
+    sorted.forEach(hotel => {
 
       if(index>= ((currentPage-1)*20) && index<(currentPage*20))
       {
@@ -353,10 +360,10 @@ export default function SearchScreen() {
   }
     
   return (
-    <div className="w-full flex flex-col gap-[60px] py-10 text-primary bg-light" >
+    <div className="w-full flex flex-col gap-[60px] py-10 text-primary bg-light items-center" >
       
 
-      <div className="flex flex-col items-start lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 gap-10">
+      <div className="w-full flex flex-col items-start lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 gap-10 breakingPoint">
         <span className="text-lg">{'Home > Hotel Stays'}</span>
         <span className="text-6xl"  style={{fontFamily:'Harlow'}}>BOOK A HOTEL STAY</span>
         <SearchBar showLocation={true} showBorders={true} existingData={{locationName:locationName, coords:{lat:latNum, lng:lngNum},checkInDate:checkIn,checkOutDate:checkOut,rooms}}/>
@@ -364,7 +371,7 @@ export default function SearchScreen() {
       
 
 
-      {!loggedIn && <div className="flex flex-row justify-between items-center lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 py-[40px] bg-accentDark text-light">
+      {!loggedIn && <div className="w-full flex flex-row justify-between items-center lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 py-[40px] bg-accentDark text-light breakingPoint">
           
           <div className="flex flex-row gap-5 items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="44" height="54" viewBox="0 0 44 54" fill="none">
@@ -379,7 +386,7 @@ export default function SearchScreen() {
       </div>}
 
 
-      <div className="w-full flex flex-row gap-5 md:gap-[70px] justify-start lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5">
+      <div className="w-full flex flex-row gap-5 md:gap-[70px] justify-start lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 breakingPoint">
           
           {/* FILTERS */}
           <SearchFilters applyFilters={applyFilters} filters={filters}/>
@@ -459,7 +466,7 @@ export default function SearchScreen() {
              
               {mapOpen && <div className="w-full md:h-[800px] h-[500px] flex flex-row gap-2 "  >
                 <MapProvider>
-                  <MapComponent hotels={hotels} lat={lat||0} lng={lng||0} newSearch={mapMovedNewSearch} updateVar={updateVar} mini={false} source={"searchPage"}/>
+                  <MapComponent hotels={filteredHotels} lat={lat||0} lng={lng||0} newSearch={mapMovedNewSearch} updateVar={updateVar} mini={false} source={"searchPage"}/>
                 </MapProvider>
               </div>}
 

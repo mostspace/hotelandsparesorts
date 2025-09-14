@@ -113,8 +113,8 @@ export const Footer = () => {
     }
 
 
-    return <div className="w-full flex flex-col">
-        <div className="w-full lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 py-[90px] bg-muted">
+    return <div className="w-full flex flex-col items-center">
+        <div className="w-full lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 py-[90px] bg-muted breakingPoint">
 
             <div className="w-full flex md:flex-row flex-col item-end justify-between gap-5">
                 
@@ -141,7 +141,7 @@ export const Footer = () => {
         </div>
 
 
-        <div className="w-full lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 md:py-[50px] py-[62px] bg-[#774D46] flex flex-col gap-11 items-start">
+        <div className="w-full lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 md:py-[50px] py-[62px] bg-[#774D46] flex flex-col gap-11 items-start breakingPoint">
             
             <div className="w-full flex md:flex-row md:justify-between flex-col md:item-start gap-[85px] text-light mt-13">
                 {displayLinks()}

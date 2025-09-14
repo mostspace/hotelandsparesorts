@@ -35,8 +35,8 @@ export const HotelTile = (props:HotelTileProps) => {
             const exterior = props.hotel.images.filter((img: { title: string }) => img.title === "exterior");
             const lobby = props.hotel.images.filter((img: { title: string }) => img.title === "lobby");
 
-            if(exterior.length>0){imageUrl = exterior[0].url}
-            else if(lobby.length>0){imageUrl = lobby[0].url}
+            if(lobby.length>0){imageUrl = lobby[0].url}
+            else if(exterior.length>0){imageUrl = exterior[0].url}
             else{imageUrl = props.hotel.images[0].url}
             
             return imageUrl.replace('{size}','x500')
