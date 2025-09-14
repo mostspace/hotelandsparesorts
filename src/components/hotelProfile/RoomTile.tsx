@@ -51,6 +51,10 @@ export const RoomTile = (props:RoomTileProps) => {
         let rg_ext = props.rateObj.rg_ext
 
         let images = props.images.filter(item => isEqual(item.rg_ext,rg_ext));
+        if(images.length===0){
+            images = props.images.filter(item => item.title === roomName);
+        }
+
         setIndex(0)
         setRoomImages(images)
     }, [props.rateObj.book_hash])
