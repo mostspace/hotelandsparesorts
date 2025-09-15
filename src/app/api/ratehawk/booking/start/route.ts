@@ -9,8 +9,13 @@ export async function POST(req:Request) {
 
   return new Promise<any>(async (resolve, reject) => {
 
-    const { partnerID,personalDetails,amount,currencyCode } = await req.json();
+    const { partnerID,personalDetails,amount,currencyCode,rooms } = await req.json();
 
+    let guestArray:any[] = []
+    rooms.forEach((element:any) => {
+        console.log(element)
+        guestArray.push({ first_name: personalDetails.firstName, last_name: personalDetails.lastName })
+    });
 
     const response = await fetch('https://api.worldota.net/api/b2b/v3/hotel/order/booking/finish/', {
         method: 'POST',
@@ -38,10 +43,7 @@ export async function POST(req:Request) {
           language: "en",
           rooms: [
             {
-              guests: [
-                { first_name: personalDetails.firstName, last_name: personalDetails.lastName },
-                // { first_name: "Saoirse", last_name: "Smith" },
-              ],
+              guests: guestArray,
             },
           ],
           // upsell_data: [

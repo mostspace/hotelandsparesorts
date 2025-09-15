@@ -86,7 +86,8 @@ export default function BookingScreen() {
             partnerID: booking.partner_id,
             personalDetails,
             amount:booking.ratehawk_amount,
-            currencyCode:booking.currency_code
+            currencyCode:booking.currency_code,
+            rooms:booking.rooms
           }),
       });
 
