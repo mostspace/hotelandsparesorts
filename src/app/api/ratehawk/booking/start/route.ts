@@ -14,7 +14,7 @@ export async function POST(req:Request) {
     let guestArray:any[] = []
     rooms.forEach((element:any) => {
         console.log(element)
-        guestArray.push({ first_name: personalDetails.firstName, last_name: personalDetails.lastName })
+        guestArray.push({guests:{ first_name: personalDetails.firstName, last_name: personalDetails.lastName }})
     });
 
     const response = await fetch('https://api.worldota.net/api/b2b/v3/hotel/order/booking/finish/', {
@@ -41,11 +41,7 @@ export async function POST(req:Request) {
             // amount_sell_b2b2c: "10", //This will appear on the invoice they receive, perhaps good for when using voucher
           },
           language: "en",
-          rooms: [
-            {
-              guests: guestArray,
-            },
-          ],
+          rooms: guestArray,
           // upsell_data: [
           //   {
           //     name: "early_checkin",
