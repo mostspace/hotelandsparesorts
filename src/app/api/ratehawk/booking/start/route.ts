@@ -25,7 +25,7 @@ export async function POST(req:Request) {
         },
         body: JSON.stringify({
           user: {
-            email: personalDetails.email,
+            email: 'caolan@journeycreative.ie',//personalDetails.email,
             comment: personalDetails.specialRequest,
             phone: personalDetails.phoneNumber,
           },
