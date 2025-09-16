@@ -136,8 +136,8 @@ export default function BookingScreen() {
         setShowError(true)
         throw new Error(`Error: Too many failed attempts`);
       }
-      else if(attempt<5){
-        await delay(10000)
+      else if(attempt<10){
+        await delay(5000)
         let recurse:any = await checkBookingStatusRateHawk(attempt+1)
         return(recurse)
       }else{
