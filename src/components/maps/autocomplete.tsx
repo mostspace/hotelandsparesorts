@@ -36,7 +36,7 @@ const PlacesAutocomplete = (props: AutocompleteProps) => {
   return (
     <input
       ref={inputRef}
-      disabled={true}
+      // disabled={true}
       type="text"
       value={location}
       onChange={(e) => setLocation(e.target.value)} // keep it controlled
