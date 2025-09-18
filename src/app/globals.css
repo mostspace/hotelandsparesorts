@@ -265,6 +265,12 @@ html.desktop-zoom {
   }
 
 
+.pac-container{
+  margin-top: 0px;
+  margin-left: -30px;
+}
+
+
   .app-wrapper {
     transform: scale(0.7);
     transform-origin: top left;

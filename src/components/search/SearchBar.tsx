@@ -72,10 +72,10 @@ export const SearchBar = (props:SearchBarProps) => {
         setShowCheckOutPicker(false)
         setShowGuestPicker(false)
 
-        setTimeout(() => {
-            if (type === "checkin") setShowCheckInPicker(true);
-            else if (type === "guests") setShowGuestPicker(true);
-        }, 0);
+        // setTimeout(() => {
+        //     if (type === "checkin") setShowCheckInPicker(true);
+        //     else if (type === "guests") setShowGuestPicker(true);
+        // }, 0);
 
     }
 
@@ -358,6 +358,7 @@ export const SearchBar = (props:SearchBarProps) => {
         <Button 
             className="h-[80px] md:w-[15%] w-full bg-accent hover:bg-accent/90 text-lg font-bold" 
             disabled={(!coords && !props.existingData.hid)|| !checkInDate || !checkOutDate || calculateGuests() === 0} 
+            // disabled = {true}
             onClick={searchClicked}
         >
             SEARCH
