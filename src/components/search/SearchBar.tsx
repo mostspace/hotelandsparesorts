@@ -214,7 +214,7 @@ export const SearchBar = (props:SearchBarProps) => {
 
 
 
-        {props.showLocation && <div className={`flex flex-row gap-3 bg-light px-[20px] py-[10px] md:w-[30%] w-full items-center ${props.showBorders?"border border-primary":""} rounded-lg`} onClick={()=>openPicker("")}>
+        {props.showLocation && <div className={`flex flex-row gap-3 bg-light px-[20px] py-[10px] md:w-[30%] w-full items-center ${props.showBorders?"border border-primary":""} rounded-lg md:h-auto h-18`} onClick={()=>openPicker("")}>
             
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                 <path d="M14.6094 12.6875C15.3906 11.4583 15.849 10 15.849 8.43229C15.849 4.05208 12.3021 0.5 7.92708 0.5C3.54687 0.5 0 4.05208 0 8.43229C0 12.8125 3.54688 16.3646 7.92188 16.3646C9.51042 16.3646 10.9896 15.8958 12.2292 15.0938L12.5885 14.8437L18.2448 20.5L20 18.7135L14.349 13.0573L14.6094 12.6875ZM12.3646 4C13.5469 5.18229 14.1979 6.75521 14.1979 8.42708C14.1979 10.099 13.5469 11.6719 12.3646 12.8542C11.1823 14.0365 9.60937 14.6875 7.9375 14.6875C6.26562 14.6875 4.69271 14.0365 3.51042 12.8542C2.32812 11.6719 1.67708 10.099 1.67708 8.42708C1.67708 6.75521 2.32812 5.18229 3.51042 4C4.69271 2.81771 6.26562 2.16667 7.9375 2.16667C9.60937 2.16667 11.1823 2.81771 12.3646 4Z" fill="#4D4D4D"/>
