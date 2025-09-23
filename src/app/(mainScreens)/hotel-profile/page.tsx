@@ -57,6 +57,9 @@ export default function HotelProfileScreen() {
   const [roomIndex, setRoomIndex] = useState(0);
   const [showAllDescription, setShowAllDescription] = useState(false);
 
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
+
 
   const reviewsRef = useRef<any>(null);
   const infoBoxRef = useRef<any>(null);
@@ -121,6 +124,8 @@ export default function HotelProfileScreen() {
 
     loadSimilarHotels(checkIn,checkout,+data.lat,+data.lng)
 
+    setLat(+data.lat)
+    setLng(+data.lng)
   
     if(data.tripadvisor_id != null && data.tripadvisor_id!==0){
       loadReviews(data.tripadvisor_id)
@@ -223,7 +228,7 @@ export default function HotelProfileScreen() {
   const showStars = () => {
     let compArray:any[] = []
 
-    let stars = hotel.star_ratingz || 5
+    let stars = hotel.star_rating || 5
 
     for(var i=0; i<stars; i++){
         compArray.push(<svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -333,12 +338,21 @@ export default function HotelProfileScreen() {
 
   }
 
+  const goHome = () => {
+    router.push(`/`)
+  }
+
+  const goBackToSearch = () => {
+    let searchID = Math.random().toString(16).slice(-8)
+    router.push(`/search?searchID=${searchID}&location=${locationName}&lat=${lat}&lng=${lng}&check-in=${checkInDate}&check-out=${checkOutDate}&rooms=${JSON.stringify(rooms)}`)
+  }
+
     
   return (
     <>
     <Head>
-        <meta name="robots" content="noindex, nofollow" />
-      </Head>
+      <meta name="robots" content="noindex, nofollow" />
+    </Head>
 
     <div className="w-full flex flex-col items-center text-primary gap-[1000px]" >
       
@@ -354,12 +368,12 @@ export default function HotelProfileScreen() {
         <div className="w-full lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 py-[55px] flex flex-col gap-[60px] items-start bg-muted breakingPoint">
             
             {/* BREADCRUMBS */}
-            <div className="flex flex-row items-center gap-2">
-                <span>Home</span>
+            <div className="flex flex-row items-center gap-2 flex-wrap">
+                <span className="hover:underline cursor-pointer" onClick={goHome}>Home</span>
                 <span>{">"}</span>
-                {locationName!=="" && <span>Hotels in {locationName}</span>}
+                {locationName!=="" && <span className="line-clamp-1 hover:underline cursor-pointer" onClick={goBackToSearch}>Hotels in {locationName}</span>}
                 {locationName!=="" && <span>{">"}</span>}
-                <span>{hotel.hotel_name}</span>
+                <span className="line-clamp-1">{hotel.hotel_name}</span>
             </div>
 
             {/* Hotel Basic Details */}
@@ -373,7 +387,7 @@ export default function HotelProfileScreen() {
                             <path d="M15 7.79413C15 3.63972 11.6544 0.294128 7.5 0.294128C3.34559 0.294128 0 3.63972 0 7.79413C0 11.9485 7.5 19.7059 7.5 19.7059C7.5 19.7059 15 11.9485 15 7.79413ZM4.00735 7.64707C4.00735 5.73531 5.58823 4.15442 7.5 4.15442C9.41176 4.15442 10.9926 5.69854 10.9926 7.64707C10.9926 9.55883 9.44853 11.1397 7.5 11.1397C5.58823 11.1397 4.00735 9.55883 4.00735 7.64707Z" fill="#A56658"/>
                           </svg>
                           <span>{hotel.address}</span>
-                          <span className="underline ml-2 cursor-pointer"  onClick={showOnMap}>View on Map</span>
+                          <span className="underline ml-2 cursor-pointer text-right"  onClick={showOnMap}>View on Map</span>
                         </div>
 
                         <div className="hidden md:block h-[20px] w-px bg-primary"/>

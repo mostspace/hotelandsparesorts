@@ -16,7 +16,7 @@ export default function ErrorPopUp(props:ErrorPropUp) {
 
     
 
-    return(<div className="fixed top-0 left-0 h-full w-full bg-primary/50 flex justify-center items-center z-20">
+    return(<div className="fixed top-0 left-0 h-full w-full bg-primary/50 flex justify-center items-center z-20 p-2">
 
         <div className="max-w-[700px] flex flex-col bg-light p-[70px] gap-[44px] relative items-center rounded-lg overflow-hidden">
 

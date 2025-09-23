@@ -70,6 +70,8 @@ export default function SearchScreen() {
     const [loggedIn, setLoggedIn] = useState<any>(false);
     const [showDiscounts, setShowDiscounts] = useState<any>(false);
 
+    const [showFilters, setShowFilters] = useState<any>(false);
+
     console.log("SEARCH PARAMS HERE", locationName,latNum,lngNum,rooms)
 
 
@@ -371,7 +373,7 @@ export default function SearchScreen() {
       
 
 
-      {!loggedIn && <div className="w-full flex flex-row justify-between items-center lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 py-[40px] bg-accentDark text-light breakingPoint">
+      {!loggedIn && <div className="w-full flex md:flex-row gap-4 flex-col md: justify-between items-center lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 py-[40px] bg-accentDark text-light breakingPoint">
           
           <div className="flex flex-row gap-5 items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="44" height="54" viewBox="0 0 44 54" fill="none">
@@ -379,7 +381,7 @@ export default function SearchScreen() {
               <path d="M28.2063 30.3475C28.5271 30.0299 28.5271 29.5167 28.2063 29.1991C19.3717 21.1276 7.25507 33.1493 15.4069 41.8643C21.9958 48.3557 33.0431 41.8968 30.5013 33.0516C30.3697 32.6199 29.909 32.3837 29.4731 32.514C29.0535 32.6443 28.8068 33.0842 28.9219 33.5077C30.0571 37.4009 27.7868 41.4652 23.8548 42.581C19.9229 43.6968 15.8182 41.457 14.6912 37.5638C14.3046 36.2362 14.3046 34.8272 14.6912 33.4996C16.0896 28.2543 23.2379 26.3973 27.0382 30.3475C27.359 30.6652 27.8772 30.6652 28.198 30.3475H28.2063Z" fill="#D5B18D"/>
               <path d="M39.0811 39.6C39.5335 39.6 39.9036 39.2335 39.9036 38.7855V26.5683C39.9036 24.3204 38.0611 22.4959 35.7907 22.4959H34.1456V15.1656C33.471 -1.03437 10.1426 -1.04252 9.46805 15.1656V22.4959H7.82288C5.55255 22.4959 3.70996 24.3204 3.70996 26.5683V44.4869C3.70996 46.7349 5.55255 48.5593 7.82288 48.5593H35.7907C38.0611 48.5593 39.9036 46.7349 39.9036 44.4869V42.8579C39.9036 42.41 39.5335 42.0435 39.0811 42.0435C38.6286 42.0435 38.2585 42.41 38.2585 42.8579V44.4869C38.2585 45.8389 37.1562 46.9303 35.7907 46.9303H7.82288C6.45739 46.9303 5.35513 45.8389 5.35513 44.4869V26.5683C5.35513 25.2163 6.45739 24.1249 7.82288 24.1249H16.0487C16.5011 24.1249 16.8631 23.7502 16.8631 23.3023C16.8631 22.8625 16.5011 22.5041 16.0487 22.4959H14.4035V15.1656C14.4035 11.1177 17.7186 7.83531 21.8068 7.83531C25.895 7.83531 29.2101 11.1177 29.2101 15.1656V22.4959H20.1616C19.7092 22.4959 19.339 22.8625 19.339 23.3104C19.339 23.7584 19.7092 24.1249 20.1616 24.1249H35.7907C37.1562 24.1249 38.2585 25.2163 38.2585 26.5683V38.7855C38.2585 39.2335 38.6286 39.6 39.0811 39.6ZM21.8068 6.20635C16.8137 6.20635 12.7666 10.2217 12.7584 15.1656V22.4959H11.1132V15.1656C11.1132 9.31766 15.9007 4.57739 21.8068 4.57739C27.7129 4.57739 32.5004 9.31766 32.5004 15.1656V22.4959H30.8552V15.1656C30.8552 10.2217 26.7999 6.2145 21.8068 6.20635Z" fill="#D5B18D"/>
             </svg>
-            <span className="text-3xl" style={{fontFamily:'Harlow'}}>Unlock exclusive discounts at hundreds of top hotels</span>
+            <span className="text-3xl max-w-100 md:max-w-1000" style={{fontFamily:'Harlow'}}>Unlock exclusive discounts at hundreds of top hotels</span>
           </div>
 
           <Button className="h-13 border border-light bg-accentDark hover:bg-light/10" onClick={goToLogin}>UNLOCK FOR FREE</Button>
@@ -388,17 +390,38 @@ export default function SearchScreen() {
 
       <div className="w-full flex flex-row gap-5 md:gap-[70px] justify-start lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 breakingPoint">
           
-          {/* FILTERS */}
-          <SearchFilters applyFilters={applyFilters} filters={filters}/>
+        
 
+          {/* FILTERS */}
+          <div className="hidden sm:block flex flex-col gap-10 w-full max-w-[350px]">
+          <SearchFilters applyFilters={applyFilters} filters={filters} fullScreen={false} showFilters={showFilters} setShowFilters={setShowFilters}/>
+          </div>
+
+          <div className="relative h-1000 z-10 sm:hidden overflow-auto">
+ 
+
+            {/* Sliding div */}
+            <div
+              aria-hidden={!showFilters}
+              className={
+                "fixed top-0 left-0 h-full w-full bg-white text-white transform transition-transform duration-500 ease-in-out z-40 " +
+                (showFilters ? "translate-x-0" : "-translate-x-full")
+              }
+              style={{ willChange: "transform" }}
+            >
+              <SearchFilters applyFilters={applyFilters} filters={filters} fullScreen={true} showFilters={showFilters} setShowFilters={setShowFilters}/>
+
+            </div>
+          </div>
 
           {/* RESULTS SECTION */}
-          <div className="w-full flex flex-col gap-10 ">
+          <div className="w-full flex flex-col gap-10 items-center">
 
             
+            <Button className="bg-accent hover:bg-accent/90 sm:hidden p-8 text-lg" onClick={()=>setShowFilters(true)}>Show Filters</Button>
 
 
-            <div className="w-full flex flex-row justify-between gap-5" ref={resultsRef}>
+            <div className="sm:w-full flex flex-col items-center sm:flex-row justify-between gap-5" ref={resultsRef}>
               {/* <Button onClick={()=>setMapOpen(!mapOpen)}>Show {mapOpen?"List":"Map"}</Button> */}
 
 
@@ -425,7 +448,7 @@ export default function SearchScreen() {
               </div>
 
               <div className="flex flex-row gap-7">
-                  <div className="w-[200px] flex flex-row border border-primary justify-between items-center px-[20px] py-[10px] hidden">
+                  {/* <div className="w-[200px] flex flex-row border border-primary justify-between items-center px-[20px] py-[10px] hidden">
                     <span>Sort By</span>
                     
                     <div className="flex flex-col">
@@ -437,9 +460,9 @@ export default function SearchScreen() {
                       </svg>
                     </div>
 
-                  </div>
+                  </div> */}
 
-                  <div className="flex md:flex-row flex-col items-start gap-2">
+                  <div className="flex flex-row items-start gap-2">
                       <Switch className="h-5 w-8 mt-[5px] data-[state=checked]:bg-accent" checked={showDiscounts} onClick={()=>!loggedIn?goToLogin():null} onCheckedChange={(isChecked) => setShowDiscounts(isChecked)}/>
                       <div className="flex flex-col justify-start items-start gap-2">
                         <span className="font-medium text-lg">Member Discounts</span>

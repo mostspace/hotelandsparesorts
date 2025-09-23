@@ -25,13 +25,13 @@ export default function HomeScreen() {
   return (
     <div className="relative flex flex-col justify-center items-start gap-15 lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5  bg-[url('/assets/homeImg.jpg')] bg-cover bg-center md:h-200 h-250" >
       
-      <div className="absolute top-0 left-0 w-full h-full bg-alt/30"/>
+      <div className="absolute top-0 left-0 w-full h-full bg-alt/40"/>
 
       <div className="flex flex-col items-start text-light font-normal z-10">
           {/* <span className="text-[80px]" style={{fontFamily:'Harlow'}}>BOOK A HOTEL STAY</span>  */}
           {/* <span className="text-3xl" style={{fontFamily:'Harlow'}}>Explore and book our curated luxury hotels and redeem your voucher</span> */}
 
-          <span className="md:text-[80px] text-[70px]" style={{fontFamily:'Harlow'}}>UNLOCK GLOBAL LUXURY HOTELS</span> 
+          <span className="md:text-[80px] sm:text-[70px] text-[55px]" style={{fontFamily:'Harlow'}}>UNLOCK GLOBAL LUXURY HOTELS</span> 
           <span className="text-3xl" style={{fontFamily:'Harlow'}}>Exciting news - the world’s most flexible luxury hotel gift voucher will soon unlock <strong>10,000 luxury hotels in 75 countries worldwide.</strong></span>
           <span className="text-3xl" style={{fontFamily:'Harlow'}}>Global redemption arriving 24th September!</span>
 

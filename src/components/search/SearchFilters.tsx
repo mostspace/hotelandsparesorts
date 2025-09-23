@@ -1,15 +1,22 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Input } from "../ui/input"
 import { CheckedListFilter } from "./filters/CheckedListFilter"
 import { SliderFilter } from "./filters/SliderFilter"
+import { Button } from "../ui/button"
 
 
 interface SearchFiltersProps{
     applyFilters:any
     filters:any[]
+    fullScreen:boolean
+    showFilters:boolean
+    setShowFilters:any
 }
 
 export const SearchFilters = (props:SearchFiltersProps) => {
+
+    const divRef = useRef<HTMLDivElement | null>(null);
+    const buttonRef = useRef<HTMLDivElement | null>(null);
 
     console.log("EXISINTG FILTERS", props.filters)
 
@@ -160,11 +167,30 @@ export const SearchFilters = (props:SearchFiltersProps) => {
 
     }, [searchName]);
 
+    useEffect(() => {
+
+         console.log("RUNNING THAT CODE")
+
+
+        if(props.fullScreen && divRef.current)
+        {
+            console.log("RUNNING ThiS CODE")
+            divRef.current.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+    }, []); // empty deps → only runs once when mounted
+
+
 
     return(
-    <div className="flex flex-col gap-10 w-full max-w-[350px]">
+    <div className={`flex flex-col gap-10 ${props.fullScreen?props.showFilters?"w-full z-100 pt-20 p-5 overflow-scroll h-screen":"hidden":"w-full max-w-[350px]"}`} ref={divRef}>
+        
+
+        <Button className="bg-accent hover:bg-accent/90 sm:hidden p-8 text-lg" onClick={()=>props.setShowFilters(false)}>Close Filters</Button>
+
+        
         <div className="w-full p-[28px] bg-muted rounded-[20px] flex flex-col gap-5 items-start border border-primary/50">
-            <span>Search by property name</span>
+            <span className="text-primary">Search by property name</span>
             <div className={`flex w-full flex-row gap-3 bg-white/50 px-[20px] py-[10px] w-[30%] items-center border border-primary/50`}>
                 
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">

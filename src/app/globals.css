@@ -271,12 +271,12 @@ html.desktop-zoom {
 }
 
 
-  .app-wrapper {
+  /* .app-wrapper {
     transform: scale(0.7);
     transform-origin: top left;
-    width: 142.857%; /* compensate for shrink */
-    overflow-x: hidden; /* kill extra scroll */
-  }
+    width: 142.857%; 
+    overflow-x: hidden; 
+  } */
 }
 
 

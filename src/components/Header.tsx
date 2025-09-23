@@ -69,7 +69,7 @@ export const Header = () => {
 
 
     return <div className="w-full flex flex-col items-center bg-white">
-        <div className="hidden lg:block w-full flex flex-col items-start gap-5.5 px-5 lg:px-[10.7%] xl:px-[5.5%] 2xl:px-[6.75%] py-[22px] text-base font-medium bg-light breakingPoint">
+        <div className="hidden lg:block w-full flex flex-col items-start gap-5.5 px-0 sm:px-5 lg:px-[10.7%] xl:px-[5.5%] 2xl:px-[6.75%] py-[22px] text-base font-medium bg-light breakingPoint">
 
             <div className="w-full flex flex-row justify-between">
                 <div className="flex flex-row gap-2 items-center">
@@ -113,7 +113,7 @@ export const Header = () => {
 
             <div className={`w-full flex md:flex-row flex-col justify-between md:items-center items-start gap-2 mt-2 ${pathname==='/'?"mb-5":""}`}>
                 
-                <img className="w-[270px] 2xl:w-[320px] cursor-pointer" src='/assets/hotelLogo.png' onClick={homeClicked}/>
+                <img className="w-[100px] md:w-[270px] 2xl:w-[321px] cursor-pointer" src='/assets/hotelLogo.png' onClick={homeClicked}/>
                 
                 <div className="flex md:flex-row flex-col md:items-center items-start gap-9">
 
@@ -141,10 +141,10 @@ export const Header = () => {
 
         </div>
 
-        <div className="relative lg:hidden w-full px-[10%] flex justify-between items-center ">
+        <div className="relative lg:hidden w-full px-0 sm:px-[10%] flex justify-between items-center ">
             
-            <img className="w-[320px] cursor-pointer" src='/assets/hotelLogo.png' onClick={homeClicked}/>
-            <div className="bg-[#774d46] h-[140px] w-[130px]" onClick={()=>setShowMobileMenu(!showMobileMenu)}>
+            <img className="w-[200px] sm:w-[250px] cursor-pointer" src='/assets/hotelLogo.png' onClick={homeClicked}/>
+            <div className="bg-[#774d46] h-[80px] w-[80px]" onClick={()=>setShowMobileMenu(!showMobileMenu)}>
 
             </div>
 
@@ -170,7 +170,9 @@ export const Header = () => {
                     {/* <span className="text-2xl font-bold text-light p-10 cursor-pointer hover:text-accent" onClick={()=>openLink("https://www.hotelandsparesorts.com/become-partner")}>BECOME A PARTNER</span>
                     <div className="w-full h-px bg-accent"/> */}
 
-                    <span className="text-2xl font-bold text-light p-10 cursor-pointer hover:text-accent"onClick={loginClicked}>LOG IN</span>
+                    {!loggedIn && <span className="text-2xl font-bold text-light p-10 cursor-pointer hover:text-accent"onClick={loginClicked}>LOG IN</span>}
+                    {loggedIn && <span className="hover:text-accent cursor-pointer ml-2 xl:text-[13px]" onClick={logoutClicked}>LOG OUT</span>}
+
                 </div>
 
             </div>

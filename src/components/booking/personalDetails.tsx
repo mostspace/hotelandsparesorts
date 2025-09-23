@@ -64,7 +64,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
 
                 <div className="w-full flex flex-row flex-wrap gap-8">
                     
-                    <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
+                    <div className="flex flex-col gap-1.5 ai-start sm:min-w-[400px]">
                         <span className={`font-medium ${inputError==="firstName"?"text-[red]":""}`}>First Name*</span>
                         <input 
                             className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl rounded-sm ${inputError==="firstName"?"border-[red]":"border-primary/50"}`} 
@@ -74,7 +74,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                         />
                     </div>
 
-                    <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
+                    <div className="flex flex-col gap-1.5 ai-start sm:min-w-[400px]">
                         <span className={`font-medium ${inputError==="lastName"?"text-[red]":""}`}>Last Name*</span>
                         <input 
                             className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl rounded-sm ${inputError==="lastName"?"border-[red]":"border-primary/50"}`} 
@@ -84,7 +84,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                         />
                     </div>
 
-                    <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
+                    <div className="flex flex-col gap-1.5 ai-start sm:min-w-[400px]">
                         <span className={`font-medium ${inputError==="email"?"text-[red]":""}`}>Email*</span>
                         <input 
                             className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl rounded-sm ${inputError==="email"?"border-[red]":"border-primary/50"}`} 
@@ -94,7 +94,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                         />
                     </div>
 
-                    <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
+                    <div className="flex flex-col gap-1.5 ai-start sm:min-w-[400px]">
                         <span className={`font-medium ${inputError==="phoneNumber"?"text-[red]":""}`}>Phone Number*</span>
                         <input 
                             className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl rounded-sm ${inputError==="phoneNumber"?"border-[red]":"border-primary/50"}`} 
@@ -104,7 +104,7 @@ export const BookingPersonalDetails = (props:BPDProps) => {
                         />
                     </div>
 
-                    <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
+                    <div className="flex flex-col gap-1.5 ai-start sm:min-w-[400px]">
                         <span className={`font-medium ${inputError==="country"?"text-[red]":""}`}>Country*</span>
                         <input 
                             className={`w-full h-[54px] bg-transparent border focus:outline-none p-[10px] text-xl rounded-sm ${inputError==="country"?"border-[red]":"border-primary/50"}`} 

@@ -59,10 +59,10 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
             }
             
             if(descr.paragraph.includes('</')){ 
-                paragraphs.push(<div dangerouslySetInnerHTML={{ __html: descr.paragraph }}/>)
+                paragraphs.push(<div  dangerouslySetInnerHTML={{ __html: descr.paragraph }}/>)
                 // paragraphs.push( descr.paragraph )
             }else{
-                paragraphs.push( <span>{descr.paragraph}</span> )
+                paragraphs.push( <span className="">{descr.paragraph}</span> )
             }
             
         });
@@ -86,7 +86,7 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
     }
 
     return(
-        <div className="w-full px-[49px] py-[37px] flex flex-col items-start gap-10 border border-primary">
+        <div className="w-full px-[49px] py-[37px] flex flex-col items-start gap-10 border border-primary overflow-hidden">
             <span className="text-5xl" style={{fontFamily:'Harlow'}}>At a glance</span>
 
             {/* TABS */}
@@ -119,7 +119,7 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
             {/* MAIN CONTENT */}
             
             {selectedTab=="Key info" && <div className="flex flex-row h-full gap-[67px] items-start text-lg">
-                <div className="flex flex-col md:max-h-[1000px] gap-[30px] items-start min-w-[1000px]  md:w-[50%] md:flex-wrap">
+                <div className="flex flex-col md:max-h-[1000px] gap-[30px] items-start md:min-w-[1000px]  md:w-[50%] md:flex-wrap">
                     
                     <div className="flex flex-row gap-[20px] items-end">
                         <span className="text-2xl" style={{fontFamily:'Harlow'}}>Check-in time</span>

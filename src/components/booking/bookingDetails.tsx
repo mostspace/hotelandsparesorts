@@ -75,7 +75,7 @@ export const BookingDetails = (props:BookingProps) => {
 
 
     return(
-    <div className="flex flex-col items-start border border-primary/50 p-[21px] gap-7.5 w-[475px]  rounded-lg overflow-hidden">
+    <div className="flex flex-col items-start border border-primary/50 p-[21px] gap-7.5 sm:w-[475px]  rounded-lg overflow-hidden">
 
         <img className="w-full h-[250px] object-cover object-center  rounded-lg overflow-hidden" src={getImageURL()}/>
 
