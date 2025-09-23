@@ -64,7 +64,9 @@ export const Header = () => {
 
     const openLink = (url:string) => {
         console.log("URL CLICKED",url)
-        window.open(url, "_blank");
+        // window.open(url, "_blank");
+        window.open(url, "_self");
+
     }
 
 
@@ -113,25 +115,25 @@ export const Header = () => {
 
             <div className={`w-full flex md:flex-row flex-col justify-between md:items-center items-start gap-2 mt-2 ${pathname==='/'?"mb-5":""}`}>
                 
-                <img className="w-[100px] md:w-[270px] 2xl:w-[321px] cursor-pointer" src='/assets/hotelLogo.png' onClick={homeClicked}/>
+                <img className="w-[100px] md:w-[250px] 2xl:w-[321px] cursor-pointer" src='/assets/hotelLogo.png' onClick={homeClicked}/>
                 
                 <div className="flex md:flex-row flex-col md:items-center items-start gap-9">
 
                     <div className="flex flex-row mb-1">
-                        <div className="flex flex-row gap-5 items-center text-base">
-                            <span className="hover:text-accent cursor-pointer xl:text-[15px] 2xl:text-xl" onClick={()=>openLink("/")}>BOOK A HOTEL STAY</span>
+                        <div className="flex flex-row gap-2 xl:gap-5 items-center text-base">
+                            <span className="hover:text-accent cursor-pointer text-[13px] min-[1250px]:text-[15px] min-[1750px]:text-xl" onClick={()=>openLink("/")}>BOOK A HOTEL STAY</span>
                             <div className="h-[17px] w-[1.2px] bg-primary"/>
-                            <span className="hover:text-accent cursor-pointer xl:text-[15px] 2xl:text-xl" onClick={()=>openLink("https://www.hotelandsparesorts.com/packages")}>BOOK A PACKAGE</span>
+                            <span className="hover:text-accent cursor-pointer text-[13px] min-[1250px]:text-[15px] min-[1750px]:text-xl" onClick={()=>openLink("https://www.hotelandsparesorts.com/packages")}>BOOK A PACKAGE</span>
                             {/* <div className="h-full w-[1.5px] bg-primary"/>
                             <span className="hover:text-accent cursor-pointer" onClick={()=>openLink("https://www.hotelandsparesorts.com/offers")}>PREFERRED PARTNERS</span> */}
                             <div className="h-[17px] w-[1.2px] bg-primary"/>
-                            <span className="hover:text-accent cursor-pointer xl:text-[15px] 2xl:text-xl" onClick={()=>openLink("https://www.hotelandsparesorts.com/how-it-works")}>HOW IT WORKS</span>
+                            <span className="hover:text-accent cursor-pointer text-[13px] min-[1250px]:text-[15px] min-[1750px]:text-xl" onClick={()=>openLink("https://www.hotelandsparesorts.com/how-it-works")}>HOW IT WORKS</span>
                             <div className="h-[17px] w-[1.2px] bg-primary"/>
-                            <span className="hover:text-accent cursor-pointer xl:text-[15px] 2xl:text-xl" onClick={()=>openLink("https://www.hotelandsparesorts.com/corporate-gift")}>CORPORATE GIFTING</span>
+                            <span className="hover:text-accent cursor-pointer text-[13px] min-[1250px]:text-[15px] min-[1750px]:text-xl" onClick={()=>openLink("https://www.hotelandsparesorts.com/corporate-gift")}>CORPORATE GIFTING</span>
                         </div>
                     </div>
 
-                    <Button className="bg-accent hover:bg-accent/90 font-bold text-[16.5px] px-6.5 py-7.75 xl:py-6.5 rounded-x xl:text-[15px]  2xl:text-xl" onClick={()=>openLink("https://hotelandsparesorts.com/shop-gift-voucher")}>BUY A GIFT VOUCHER</Button>
+                    <Button className="bg-accent hover:bg-accent/90 font-bold text-[14px] px-6.5 py-7.75 xl:py-6.5 rounded-x min-[1250px]:text-[15px]  min-[1750px]:text-xl" onClick={()=>openLink("https://hotelandsparesorts.com/shop-gift-voucher")}>BUY A GIFT VOUCHER</Button>
             
                 </div>    
 
@@ -141,37 +143,65 @@ export const Header = () => {
 
         </div>
 
-        <div className="relative lg:hidden w-full px-0 sm:px-[10%] flex justify-between items-center ">
+        <div className="relative lg:hidden w-full h-[80px] px-0 flex justify-between items-center ">
             
-            <img className="w-[200px] sm:w-[250px] cursor-pointer" src='/assets/hotelLogo.png' onClick={homeClicked}/>
-            <div className="bg-[#774d46] h-[80px] w-[80px]" onClick={()=>setShowMobileMenu(!showMobileMenu)}>
+            <img className="h-[70px] cursor-pointer" src='/assets/hotelLogo.png' onClick={homeClicked}/>
+            <div className="bg-[#774d46] h-[80px] w-[80px] flex justify-center items-center p-7" onClick={()=>setShowMobileMenu(!showMobileMenu)}>
+
+                {/* <svg 
+                    width="32" 
+                    height="32" 
+                    viewBox="0 0 24 24" 
+                    aria-hidden="true" 
+                    focusable="false" 
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="white"
+                    >
+                    <rect x="3" y="5"  width="18" height="2" rx="1" />
+                    <rect x="3" y="11" width="18" height="2" rx="1" />
+                    <rect x="3" y="17" width="18" height="2" rx="1" />
+                    </svg> */}
+
+                    <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        viewBox="0 0 25.42 18.38" 
+                        width="32" 
+                        height="32" 
+                        aria-hidden="true" 
+                        focusable="false"
+                        >
+                        <rect fill="white" x=".1" width="25.32" height="2.57"/>
+                        <rect fill="white" y="7.59" width="25.32" height="2.57"/>
+                        <rect fill="white" x=".1" y="15.41" width="25.32" height="2.57"/>
+                    </svg>
+
 
             </div>
 
-            <div className={`absolute top-[140px] right-0 w-full bg-[#774d46] z-100 flex justify-center overflow-hidden transition-all duration-700 ${
+            <div className={`absolute top-[80px] right-0 w-full bg-[#774d46] z-100 flex justify-center overflow-hidden transition-all duration-700 ${
                     showMobileMenu ? "max-h-[1000px] opacity-100 pt-8 pb-8" : "max-h-0 opacity-0 pt-0 pb-0"
                 }`}>
                 <div className="flex flex-col items-center">
 
-                    <Button className="bg-accent hover:bg-accent/90 font-bold text-2xl px-6.5 py-9 rounded-xl" onClick={()=>openLink("https://hotelandsparesorts.com/shop-gift-voucher")}>BUY A GIFT VOUCHER</Button>
+                    <Button className="bg-accent hover:bg-accent/90 font-bold text-lg px-6.5 py-9 rounded-xl" onClick={()=>openLink("https://hotelandsparesorts.com/shop-gift-voucher")}>BUY A GIFT VOUCHER</Button>
                     
-                    <span className="text-2xl font-bold text-light p-10 cursor-pointer hover:text-accent" onClick={()=>openLink("/")}>BOOK A HOTEL STAY</span>
+                    <span className="text-lg font-bold text-light p-8 cursor-pointer hover:text-accent" onClick={()=>openLink("/")}>BOOK A HOTEL STAY</span>
                     <div className="w-full h-px bg-accent"/>
 
-                    <span className="text-2xl font-bold text-light p-10 cursor-pointer hover:text-accent" onClick={()=>openLink("https://www.hotelandsparesorts.com/packages")}>BOOK A PACKAGE</span>
+                    <span className="text-lg font-bold text-light p-8 cursor-pointer hover:text-accent" onClick={()=>openLink("https://www.hotelandsparesorts.com/packages")}>BOOK A PACKAGE</span>
                     <div className="w-full h-px bg-accent"/>
 
-                    <span className="text-2xl font-bold text-light p-10 cursor-pointer hover:text-accent" onClick={()=>openLink("https://www.hotelandsparesorts.com/how-it-works")}>HOW IT WORKS</span>
+                    <span className="text-lg font-bold text-light p-8 cursor-pointer hover:text-accent" onClick={()=>openLink("https://www.hotelandsparesorts.com/how-it-works")}>HOW IT WORKS</span>
                     <div className="w-full h-px bg-accent"/>
 
-                    <span className="text-2xl font-bold text-light p-10 cursor-pointer hover:text-accent" onClick={()=>openLink("https://www.hotelandsparesorts.com/corporate-gift")}>CORPORATE GIFTING</span>
+                    <span className="text-lg font-bold text-light p-8 cursor-pointer hover:text-accent" onClick={()=>openLink("https://www.hotelandsparesorts.com/corporate-gift")}>CORPORATE GIFTING</span>
                     <div className="w-full h-px bg-accent"/>
 
-                    {/* <span className="text-2xl font-bold text-light p-10 cursor-pointer hover:text-accent" onClick={()=>openLink("https://www.hotelandsparesorts.com/become-partner")}>BECOME A PARTNER</span>
+                    {/* <span className="text-2xl font-bold text-light p-8 cursor-pointer hover:text-accent" onClick={()=>openLink("https://www.hotelandsparesorts.com/become-partner")}>BECOME A PARTNER</span>
                     <div className="w-full h-px bg-accent"/> */}
 
-                    {!loggedIn && <span className="text-2xl font-bold text-light p-10 cursor-pointer hover:text-accent"onClick={loginClicked}>LOG IN</span>}
-                    {loggedIn && <span className="hover:text-accent cursor-pointer ml-2 xl:text-[13px]" onClick={logoutClicked}>LOG OUT</span>}
+                    {!loggedIn && <span className="text-lg font-bold text-light p-8 cursor-pointer hover:text-accent"onClick={loginClicked}>LOG IN</span>}
+                    {loggedIn && <span className="hover:text-accent cursor-pointer ml-2 text-lg" onClick={logoutClicked}>LOG OUT</span>}
 
                 </div>
 

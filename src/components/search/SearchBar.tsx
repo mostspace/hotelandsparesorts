@@ -361,7 +361,7 @@ export const SearchBar = (props:SearchBarProps) => {
             disabled = {true}
             onClick={searchClicked}
         >
-            SEARCH (Coming Soon)
+            SEARCH <br/>(Coming Soon)
         </Button>
 
 
