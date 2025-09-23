@@ -245,9 +245,9 @@ export default function HotelProfileScreen() {
 
     let rates:any[] = hotel.rates
 
-    if(rates.length>0){compArray.push(<RoomTile images={hotel.images} rateObj={rates[roomIndex % rates.length]}/>)}
-    if(rates.length>1){compArray.push(<RoomTile images={hotel.images} rateObj={rates[(roomIndex+1) % rates.length]}/>)}
-    if(rates.length>2){compArray.push(<RoomTile images={hotel.images} rateObj={rates[(roomIndex+2) % rates.length]}/>)}
+    if(rates.length>0){compArray.push(<RoomTile images={hotel.images} rooms={hotel.rooms} rateObj={rates[roomIndex % rates.length]}/>)}
+    if(rates.length>1){compArray.push(<RoomTile images={hotel.images} rooms={hotel.rooms} rateObj={rates[(roomIndex+1) % rates.length]}/>)}
+    if(rates.length>2){compArray.push(<RoomTile images={hotel.images} rooms={hotel.rooms} rateObj={rates[(roomIndex+2) % rates.length]}/>)}
     // if(rates.length>3){compArray.push(<RoomTile images={hotel.images} rateObj={rates[(roomIndex+3) % rates.length]}/>)}
 
 
@@ -260,7 +260,7 @@ export default function HotelProfileScreen() {
     let rates:any[] = hotel.rates
 
     rates.forEach(rate => {
-      compArray.push(<RoomTile images={hotel.images} rateObj={rate}/>)
+      compArray.push(<RoomTile images={hotel.images} rooms={hotel.rooms} rateObj={rate}/>)
     });
     return compArray
   }

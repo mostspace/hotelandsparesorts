@@ -12,6 +12,7 @@ import isEqual from "lodash/isEqual";
 interface RoomTileProps{
     rateObj:any
     images:any[]
+    rooms:any[]
     
 }
 
@@ -224,7 +225,7 @@ export const RoomTile = (props:RoomTileProps) => {
         if(cancellationBefore){
 
             let formattedDate = formatDate(cancellationBefore)
-            return "Full refund before " + formattedDate
+            return "Full refund before " + formattedDate + " GMT"
         }
         else{
             return "No refund"
@@ -290,6 +291,35 @@ export const RoomTile = (props:RoomTileProps) => {
         props.rateObj.serp_filters.forEach((element: string) => {
             list.push(prettify(element))
         });
+
+        let rg_ext = props.rateObj.rg_ext
+        let rooms = props.rooms.filter(item => isEqual(item.rg_ext,rg_ext));
+
+        if(rooms.length>0){
+            let staticAmenities = rooms[0].amenities.split(',')
+            staticAmenities.forEach((element: string) => {
+                list.push(prettify(element))
+            });
+        }
+
+
+        //PRIORITISE CONFLICTS
+        if(list.includes("No-window") && list.includes("Window")){
+            list = list.filter(item => item !== "Window");
+        }
+
+        if(list.includes("Non-smoking") && list.includes("Smoking")){
+            list = list.filter(item => item !== "Smoking");
+        }
+
+        if(list.includes("External-private-bathroom") && list.includes("Private-bathroom")){
+            list = list.filter(item => item !== "Private-bathroom");
+        }
+
+        if(list.includes("Shared-bathroom") && (list.includes("External-private-bathroom") || list.includes("Private-bathroom"))){
+            list = list.filter(item => item !== "External-private-bathroom");
+            list = list.filter(item => item !== "Private-bathroom");
+        }
 
         return list
     }
@@ -378,7 +408,9 @@ export const RoomTile = (props:RoomTileProps) => {
                         {props.rateObj.room_name}
                         {props.rateObj.allotment>1?"s":""}
                     </span>
-                    <Amenities amenityList={getRoomAmenityData()} source="roomTile"/>
+                    <div className="max-h-[100px] overflow-scroll">
+                        <Amenities amenityList={getRoomAmenityData()} source="roomTile"/>
+                    </div>
                 </div>
 
                 <div className="w-full h-px bg-alt/10"/>
@@ -390,7 +422,7 @@ export const RoomTile = (props:RoomTileProps) => {
                             <rect x="0.25" y="0.25" width="14.5" height="14.5" rx="7.25" stroke="#333337" stroke-opacity="0.2" stroke-width="0.5"/>
                             <circle cx="7.5" cy="7.5" r="4.5" fill="#333337"/>
                         </svg>
-                        <span className="text-lg">{getCancellationDate()}</span>
+                        <span className="text-normal">{getCancellationDate()}</span>
                     </div>
                 </div>
 

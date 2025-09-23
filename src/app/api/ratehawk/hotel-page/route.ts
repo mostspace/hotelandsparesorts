@@ -120,6 +120,7 @@ export function POST(req:Request) {
         include: {
           hotelDescriptions: true,
           images: true,
+          rooms:true
         },
       });
 

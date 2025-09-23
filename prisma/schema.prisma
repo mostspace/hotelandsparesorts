@@ -37,6 +37,7 @@ model Hotels {
 
   hotelDescriptions HotelDescriptions[]
   images            Images[]
+  rooms             Rooms[]   // ✅ new relation
 
   Bookings Bookings[]
 }
@@ -102,4 +103,17 @@ model Bookings {
 
   hotel Hotels @relation(fields: [hid], references: [hid])
   user  Users? @relation(fields: [uid], references: [uid])
+}
+
+
+
+model Rooms {
+  room_id   Int
+  hid       Int
+  rg_ext    Json?
+  amenities String? @db.Text
+
+  hotel Hotels @relation(fields: [hid], references: [hid])
+
+  @@id([room_id, hid]) // composite primary key
 }

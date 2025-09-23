@@ -357,8 +357,8 @@ export const SearchBar = (props:SearchBarProps) => {
 
         <Button 
             className="h-[80px] md:w-[15%] w-full bg-accent hover:bg-accent/90 text-lg font-bold" 
-            // disabled={(!coords && !props.existingData.hid)|| !checkInDate || !checkOutDate || calculateGuests() === 0} 
-            disabled = {true}
+            disabled={(!coords && !props.existingData.hid)|| !checkInDate || !checkOutDate || calculateGuests() === 0} 
+            // disabled = {true}
             onClick={searchClicked}
         >
             SEARCH <br/>(Coming Soon)
