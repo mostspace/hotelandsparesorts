@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
       stripe.paymentIntents.create(
       {    
-          customer: body.customerID,
+          // customer: body.customerID,
           payment_method_types: ['card'],
           amount: body.amount, 
           currency: "eur",

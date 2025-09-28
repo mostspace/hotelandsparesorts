@@ -237,7 +237,7 @@ export default function LoginPage() {
           <div className="flex flex-col items-center gap-4" >
 
               <Input
-                  className="w-[500px] border border-accent rounded-xl text-xl"
+                  className="w-[350px] md:w-[500px] border border-accent rounded-xl text-xl"
                   placeholder="email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -245,7 +245,7 @@ export default function LoginPage() {
 
               {!onPasswordReset && (
                 <Input
-                  className="w-[500px] border border-accent rounded-xl text-xl"
+                  className="w-[350px] md:w-[500px] border border-accent rounded-xl text-xl"
                   type="password"
                   placeholder="password"
                   value={password}
@@ -255,7 +255,7 @@ export default function LoginPage() {
 
               {!onPasswordReset && !onLogin && (
                 <Input
-                  className="w-[500px] border border-accent rounded-xl text-xl"
+                  className="w-[350px] md:w-[500px] border border-accent rounded-xl text-xl"
                   type="password"
                   placeholder="confirm password"
                   value={confirmPassword}

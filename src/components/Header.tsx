@@ -201,7 +201,12 @@ export const Header = () => {
                     <div className="w-full h-px bg-accent"/> */}
 
                     <span className="text-lg font-bold text-light p-8 cursor-pointer hover:text-accent" onClick={loggedIn ? myAccountClicked : loginClicked}>MY ACCOUNT</span>
-                    {loggedIn && <span className="hover:text-accent cursor-pointer ml-2 text-lg" onClick={logoutClicked}>LOG OUT</span>}
+                    {loggedIn && <div className="w-full h-px bg-accent"/>}
+
+
+                    {loggedIn && <span className="text-lg font-bold text-light p-8 cursor-pointer hover:text-accent" onClick={logoutClicked}>LOG OUT</span>}
+                    
+                    
 
                 </div>
 
