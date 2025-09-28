@@ -134,29 +134,29 @@ export default function SearchScreen() {
     console.log("Hotels:", data);
 
 
-    // const res2 = await fetch("/api/ratehawk/search/hotelid", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ 
-    //     hid:8473727,
-    //     checkIn:checkIn, 
-    //     checkOut:checkOut,
-    //     rooms:rooms,
-    //     sandbox:true
+    const res2 = await fetch("/api/ratehawk/search/hotelid", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+        hid:8473727,
+        checkIn:checkIn, 
+        checkOut:checkOut,
+        rooms:rooms,
+        sandbox:true
     
-    //   }),
-    // });
+      }),
+    });
 
-    // if (!res2.ok) throw new Error(`Error: ${res2.status}`);
-    // const data2 = await res2.json();
-    // console.log("Hotels Test:", data2);
+    if (!res2.ok) throw new Error(`Error: ${res2.status}`);
+    const data2 = await res2.json();
+    console.log("Hotels Test:", data2);
 
-    // if(data2.length>0){
-    //   let testHotel = data2[0]
-    //   data.unshift(testHotel);
-    // }
+    if(data2.length>0){
+      let testHotel = data2[0]
+      data.unshift(testHotel);
+    }
 
 
     setHotels(data)
