@@ -318,25 +318,33 @@ export default function HotelProfileScreen() {
   }
 
   const sortedImages = () => {
-    
-    let images:any[] = hotel.images
+    let images: any[] = hotel.images;
+
     const priorityOrder: Record<string, number> = {
-      lobby: 1,
-      exterior: 2,
+      lead: 0,        // highest priority (by image_type)
+      lobby: 1,       // next
+      exterior: 2,    // then
     };
 
     const sorted = images.slice().sort((a, b) => {
-      const rankA = priorityOrder[a.title?.toLowerCase()] || 99; // 99 = default for everything else
-      const rankB = priorityOrder[b.title?.toLowerCase()] || 99;
+      // First check if image_type is "lead"
+      const rankA =
+        a.image_type?.toLowerCase() === "lead"
+          ? priorityOrder["lead"]
+          : priorityOrder[a.title?.toLowerCase()] || 99;
 
-      if (rankA !== rankB) return rankA - rankB;       // primary sort by rank
-      return 0;                                       // keep original order (or add secondary sorting here)
+      const rankB =
+        b.image_type?.toLowerCase() === "lead"
+          ? priorityOrder["lead"]
+          : priorityOrder[b.title?.toLowerCase()] || 99;
+
+      if (rankA !== rankB) return rankA - rankB; // sort by rank
+      return 0; // keep original order if rank same
     });
 
-    return sorted
+    return sorted;
+  };
 
-
-  }
 
   const goHome = () => {
     router.push(`/`)

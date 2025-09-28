@@ -34,7 +34,8 @@ export function POST(req:Request) {
               room_name: bookingData.roomName,
               amenities: bookingData.amenities.join(', '),
               tax_data:bookingData.tax_data,
-              rooms:rooms
+              rooms:rooms,
+              free_cancellation_before:new Date(bookingData.free_cancellation_before)
             };
           
             // Only add uid if provided and not empty

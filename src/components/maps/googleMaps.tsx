@@ -180,10 +180,12 @@ const initMap = useCallback((map: google.maps.Map) => {
         // Image
         const img = document.createElement("img");
 
+        const lead = hotel.images.filter((img: { image_type: string }) => img.image_type === "lead");
         const exterior = hotel.images.filter((img: { title: string }) => img.title === "exterior");
         const lobby = hotel.images.filter((img: { title: string }) => img.title === "lobby");
 
-        if(lobby.length>0){img.src = lobby[0].url.replace("{size}", "240x240")}
+        if(lead.length>0){img.src = lead[0].url.replace("{size}", "240x240")}
+        else if(lobby.length>0){img.src = lobby[0].url.replace("{size}", "240x240")}
         else if(exterior.length>0){img.src = exterior[0].url.replace("{size}", "240x240")}
         else{img.src = hotel.images[0].url.replace("{size}", "240x240")}
 

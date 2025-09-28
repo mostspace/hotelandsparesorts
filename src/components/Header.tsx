@@ -200,7 +200,7 @@ export const Header = () => {
                     {/* <span className="text-2xl font-bold text-light p-8 cursor-pointer hover:text-accent" onClick={()=>openLink("https://www.hotelandsparesorts.com/become-partner")}>BECOME A PARTNER</span>
                     <div className="w-full h-px bg-accent"/> */}
 
-                    {!loggedIn && <span className="text-lg font-bold text-light p-8 cursor-pointer hover:text-accent"onClick={loginClicked}>LOG IN</span>}
+                    <span className="text-lg font-bold text-light p-8 cursor-pointer hover:text-accent" onClick={loggedIn ? myAccountClicked : loginClicked}>MY ACCOUNT</span>
                     {loggedIn && <span className="hover:text-accent cursor-pointer ml-2 text-lg" onClick={logoutClicked}>LOG OUT</span>}
 
                 </div>

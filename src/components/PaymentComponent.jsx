@@ -65,7 +65,7 @@ const PaymentComponent = ({stripeResponse, submitCount, payment,savedCard,intent
             stripeResVar = await stripe.confirmPayment({
               elements,
               confirmParams: {
-                return_url: 'http://localhost:3000/pay',
+                return_url: 'https://booking.hotelandsparesorts.com/pay',
             },
             redirect: "if_required"
             });
@@ -79,7 +79,7 @@ const PaymentComponent = ({stripeResponse, submitCount, payment,savedCard,intent
           stripeResVar = await stripe.confirmSetup({
             elements,
             confirmParams: {
-              return_url: 'http://localhost:3000/pay',
+              return_url: 'https://booking.hotelandsparesorts.com/pay',
           },
           redirect: "if_required"
           });

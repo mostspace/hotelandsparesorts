@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { sendTemplateEmail } from "@/utils/email";
 
 export default function BookingScreen() {
 
@@ -194,6 +195,8 @@ export default function BookingScreen() {
     await completeBookingDB(stripeID)
     setLoading(false)
     setCurrentStep(4)
+    sendConfirmationEmail()
+    
   }
 
   const redeemVoucher = async () => {
@@ -215,6 +218,54 @@ export default function BookingScreen() {
       const data = await res.json();
       return(data)
   }
+
+
+  const sendConfirmationEmail = async () => {
+
+    let rooms = booking.rooms
+    let adults = 0
+    let children = 0
+
+    rooms.forEach((element:any)=> {
+      adults += element.adults
+      children += element.children
+    });
+
+    const order = +(searchParams.get('order') ||0);
+
+     await sendTemplateEmail(personalDetails.email, "Booking Confirmation Template for HS", {
+            FIRST_NAME: personalDetails.firstName,
+            HOTEL_NAME: booking.hotel.hotel_name,
+            BOOKING_ID: order,
+            ROOMS_COUNT: booking.rooms.length,
+            ROOMS_TYPE: booking.room_name,
+            GUESTS_COUNT: adults+children,
+            ADULTS_COUNT: adults,
+            CHILDREN_COUNT: children,
+            CHECKIN_DATE: formatDate(booking.check_in),
+            CHECKOUT_DATE: formatDate(booking.check_out),
+            CANCEL_NOTE:"Free Cancellation before " + formatDate(booking.free_cancellation_before),
+            CANCEL_URL:"https://www.hotelandsparesorts.com/contact-us",
+            TOTAL_AMOUNT:"€"+booking.amount,
+            PDF_LINK: `https://booking.hotelandsparesorts.com/api/ratehawk/pdf?partnerID=${booking.partner_id}`,
+            SUPPORT_EMAIL:"hello@hotelandsparesorts.com",
+            SUPPORT_PHONE:"+35315446883"
+    
+        });
+  }
+
+  const formatDate = (dateStr:string) => {
+        const date = new Date(dateStr);
+
+        const formatted = date.toLocaleDateString("en-US", {
+          weekday: "short",
+          month: "short",
+          day: "numeric",
+          year: "numeric"
+        });
+        
+        return (formatted); // Wed, Oct 15, 2025
+    }
 
   function Countdown({ expiry }: { expiry: Date }) {
     const [remainingTime, setRemainingTime] = useState(

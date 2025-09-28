@@ -85,19 +85,19 @@ export const VoucherApply = (props:VoucherApplyProps) => {
 
                 <div className="w-full flex flex-row justify-between items-center">
                     <span className="font-medium">Booking Total</span>
-                    <span>£{props.amount}</span>
+                    <span>€{props.amount}</span>
                 </div>
 
                 <div className="w-full h-px border-t border-dashed border-primary/50"/>
 
                 <div className="w-full flex flex-row justify-between items-center">
                     <span className="font-normal">Gift card total:</span>
-                    <span>£{voucherApplied?+voucherApplied.balance:0}</span>
+                    <span>€{voucherApplied?+voucherApplied.balance:0}</span>
                 </div>
 
                 <div className="w-full flex flex-row justify-between items-center">
                     <span className="font-normal">Remainder Payable</span>
-                    <span>£{calculateNewPrice(voucherApplied?+voucherApplied.balance:0)}</span>
+                    <span>€{calculateNewPrice(voucherApplied?+voucherApplied.balance:0)}</span>
                 </div>
             </div>
 

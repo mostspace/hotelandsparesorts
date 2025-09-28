@@ -230,6 +230,9 @@ html.desktop-zoom {
   zoom: 0.85; /* works only on desktop */
 }
 
+.slider{
+  zoom: 1.2;
+}
 
 .pac-container{
   margin-top: 140px;

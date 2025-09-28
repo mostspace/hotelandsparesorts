@@ -60,10 +60,12 @@ export const BookingDetails = (props:BookingProps) => {
 
         if(props.booking.hotel.images.length > 0)
         {
+            const lead = props.booking.hotel.images.filter((img: { image_type: string }) => img.image_type === "lead");
             const exterior = props.booking.hotel.images.filter((img: { title: string }) => img.title === "exterior");
             const lobby = props.booking.hotel.images.filter((img: { title: string }) => img.title === "lobby");
 
-            if(lobby.length>0){imageUrl = lobby[0].url}
+            if(lead.length>0){imageUrl = lead[0].url}
+            else if(lobby.length>0){imageUrl = lobby[0].url}
             else if(exterior.length>0){imageUrl = exterior[0].url}
             else{imageUrl = props.booking.hotel.images[0].url}
             
@@ -93,7 +95,7 @@ export const BookingDetails = (props:BookingProps) => {
             <span className="font-medium">Rooms</span>
             <div className="w-full flex justify-between">
                 <span>{props.booking.room_name}</span>
-                <span>£{props.booking.amount}</span>
+                <span>€{props.booking.amount}</span>
             </div>
         </div>
 

@@ -1,6 +1,6 @@
 import { metadata } from '@/app/layout';
 import { NextResponse } from 'next/server'
-const stripe = require('stripe')('STRIPE_SECRET_REMOVED');
+const stripe = require('stripe')(process.env.NEXT_PUBLIC_STRIPE_ID);
 
 export async function GET() {
   return NextResponse.json({ message: 'Hello from Spa API!' })

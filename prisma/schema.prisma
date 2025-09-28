@@ -97,6 +97,8 @@ model Bookings {
   uid           String? // optional user ID
   tax_data      Json?
   rooms         Json?
+  free_cancellation_before     DateTime?
+
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

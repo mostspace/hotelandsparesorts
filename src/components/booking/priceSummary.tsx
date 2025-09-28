@@ -83,7 +83,7 @@ export const PriceSummary = (props:PriceSummaryProps) => {
                     <span className="font-medium">Price</span>
                     <span>{`(for ${amountOfDays()} & all guests)`}</span>
                 </div>
-                <span className="text-lg">£{+props.booking.amount + 0 - ((+props.booking.amount) - (+props.amountToCharge))}</span>
+                <span className="text-lg">€{+props.booking.amount + 0 - ((+props.booking.amount) - (+props.amountToCharge))}</span>
             </div>
 
             <div className="px-[28px] flex flex-row item-start gap-2">

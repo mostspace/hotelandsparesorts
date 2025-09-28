@@ -17,7 +17,7 @@ export const Footer = () => {
             {title:"Alternative Getaways",link:"https://www.hotelandsparesorts.com/packages?category=alternative-getaways"},
             {title:"Day Spa Packages",link:"https://www.hotelandsparesorts.com/packages?category=day-spa-packages"},
             {title:"Autumn Getaways",link:"https://www.hotelandsparesorts.com/packages?category=autumn-getaways"},
-            {title:"Girl Getaways",link:"https://www.hotelandsparesorts.com/packages?category=girls-getaways"},
+            {title:"Girls Getaways",link:"https://www.hotelandsparesorts.com/packages?category=girls-getaways"},
             {title:"Suitable for Families",link:"https://www.hotelandsparesorts.com/packages?category=suitable-for-families"},
             {title:"Romantic Getaways",link:"https://www.hotelandsparesorts.com/packages?category=romantic-getaways"},
             {title:"Hotel Breaks",link:"https://www.hotelandsparesorts.com/packages?category=hotel-breaks"},

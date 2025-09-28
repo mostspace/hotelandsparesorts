@@ -1,8 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server'
 
-const KEY_ID = '13324'
-const API_KEY = '66a9de03-3f16-4287-b594-fc9191a3669a' ///RATEHAWK API KEY
 
 export function POST(req:Request) {
 
@@ -26,14 +24,14 @@ export function POST(req:Request) {
       });
      
 
-      console.log("ROOM ARRAY", roomArray)
+      console.log("ENV VARIABLES", process.env.NEXT_RATEHAWK_KEY_ID,process.env.NEXT_RATEHAWK_API_KEY)
 
 
     const response = await fetch('https://api.worldota.net/api/b2b/v3/search/serp/geo/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Basic ' + btoa(`${KEY_ID}:${API_KEY}`)
+          'Authorization': 'Basic ' + btoa(`${process.env.NEXT_RATEHAWK_KEY_ID}:${process.env.NEXT_RATEHAWK_API_KEY}`)
         },
         body: JSON.stringify({
           checkin: checkIn,

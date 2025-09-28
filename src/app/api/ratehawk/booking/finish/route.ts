@@ -1,9 +1,5 @@
 import { NextResponse } from 'next/server'
 
-const KEY_ID = '13324'
-const API_KEY = '66a9de03-3f16-4287-b594-fc9191a3669a' ///RATEHAWK API KEY
-
-const bookHash = 'h-995615c2-b3c3-530f-b2cb-5b29faf313ae'
 
 export async function POST(req:Request) {
 
@@ -15,7 +11,7 @@ export async function POST(req:Request) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Basic ' + btoa(`${KEY_ID}:${API_KEY}`)
+          'Authorization': 'Basic ' + btoa(`${process.env.NEXT_RATEHAWK_KEY_ID}:${process.env.NEXT_RATEHAWK_API_KEY}`)
         },
         body: JSON.stringify({
           partner_order_id:partnerID

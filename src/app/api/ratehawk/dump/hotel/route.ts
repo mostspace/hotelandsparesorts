@@ -36,12 +36,14 @@ export async function GET(req:Request) {
         });
 
         let i = 0;
-        const startingIndex = 30000;
+        const startingIndex = 0;
 
         for await (const line of rl) {
           try {
             const json = JSON.parse(line);
-            if (json.star_rating > 4) {
+            // if (json.star_rating > 4) {
+            if (json.region.country_code === "IE") {
+
               if (i >= startingIndex) {
                 jsonArray.push(json);
               }
@@ -66,7 +68,7 @@ export async function GET(req:Request) {
           status: 200,
           headers: {
             'Content-Type': 'application/json',
-            'Content-Disposition': 'attachment; filename="five-star-hotels5.json"',
+            'Content-Disposition': 'attachment; filename="ireland-hotels.json"',
           },
         });
 

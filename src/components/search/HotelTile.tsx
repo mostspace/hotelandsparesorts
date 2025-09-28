@@ -32,10 +32,12 @@ export const HotelTile = (props:HotelTileProps) => {
 
         if(props.hotel.images.length > 0)
         {
+            const lead = props.hotel.images.filter((img: { image_type: string }) => img.image_type === "lead");
             const exterior = props.hotel.images.filter((img: { title: string }) => img.title === "exterior");
             const lobby = props.hotel.images.filter((img: { title: string }) => img.title === "lobby");
 
-            if(lobby.length>0){imageUrl = lobby[0].url}
+            if(lead.length>0){imageUrl = lead[0].url}
+            else if(lobby.length>0){imageUrl = lobby[0].url}
             else if(exterior.length>0){imageUrl = exterior[0].url}
             else{imageUrl = props.hotel.images[0].url}
             

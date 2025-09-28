@@ -179,6 +179,11 @@ export const RoomTile = (props:RoomTileProps) => {
 
         const rooms = (searchParams.has('rooms')?JSON.parse(searchParams.get('rooms')||""):[]);
 
+        let fcb = props.rateObj.payment_options.payment_types[0].cancellation_penalties.free_cancellation_before
+
+        if(fcb){
+            fcb = fcb.split("T")[0]
+        }
 
         const res = await fetch("/api/bookings/create", {
         method: "POST",
@@ -198,7 +203,8 @@ export const RoomTile = (props:RoomTileProps) => {
                     currencyCode: currencyCode,
                     roomName:props.rateObj.room_name,//props.rateObj.room_data_trans.main_name,
                     amenities:props.rateObj.amenities_data,
-                    tax_data:props.rateObj.payment_options.payment_types[0].tax_data.taxes
+                    tax_data:props.rateObj.payment_options.payment_types[0].tax_data.taxes,
+                    free_cancellation_before: fcb
                 }
             }),
         });

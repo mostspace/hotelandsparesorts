@@ -12,8 +12,8 @@ const appearance = {
   theme:'light'
 };
 
-const stripeTest = loadStripe('pk_test_51Pt4eIP0VWupOVM4V6pnDzuRafZp1xjCMslMceihfV2nKbbBjkm2QkLeGYBWGlCWCznxB4GMkZv7TnyjkgIglOY600TtaK2Q9s');
-// const stripeLive = loadStripe(process.env.NEXT_PUBLIC_STRIPE_LIVE);
+let stripeKey = process.env.NEXT_PUBLIC_STRIPE_PUBLIC
+const stripeTest = loadStripe(stripeKey || "");// const stripeLive = loadStripe(process.env.NEXT_PUBLIC_STRIPE_LIVE);
 
 interface PaymentDetailsProps {
     bookingID:any
