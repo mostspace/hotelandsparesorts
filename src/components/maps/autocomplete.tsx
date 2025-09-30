@@ -17,7 +17,9 @@ const PlacesAutocomplete = (props: AutocompleteProps) => {
     if (!inputRef.current || !window.google) return;
 
     autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
-      types: ['(cities)'],
+      // types: ['(cities)'],
+      types: ['(regions)'],
+      // types:['administrative_area_level_1','administrative_area_level_2']
     });
 
     autocompleteRef.current.addListener('place_changed', () => {
