@@ -67,3 +67,4 @@ pnpm-debug.log*
 .yarn/install-state.gz
 
 /src/generated/prisma
+.vercel

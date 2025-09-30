@@ -80,7 +80,7 @@ export default function SearchScreen() {
     setLat(latNum)
     setLng(lngNum)
 
-    loadHotels(latNum||0,lngNum||0,30000,JSON.parse(filtersStr))
+    loadHotels(latNum||0,lngNum||0,70000,JSON.parse(filtersStr))
 
   }, [searchID]); // eslint-disable-line react-hooks/exhaustive-deps
   
@@ -134,29 +134,33 @@ export default function SearchScreen() {
     console.log("Hotels:", data);
 
 
-    // const res2 = await fetch("/api/ratehawk/search/hotelid", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ 
-    //     hid:8473727,
-    //     checkIn:checkIn, 
-    //     checkOut:checkOut,
-    //     rooms:rooms,
-    //     sandbox:true
+    if(process.env.NEXT_PUBLIC_ENVIRONMENT ==="dev")
+    {
+      const res2 = await fetch("/api/ratehawk/search/hotelid", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+          hid:8473727,
+          checkIn:checkIn, 
+          checkOut:checkOut,
+          rooms:rooms,
+          sandbox:true
+      
+        }),
+      });
     
-    //   }),
-    // });
 
-    // if (!res2.ok) throw new Error(`Error: ${res2.status}`);
-    // const data2 = await res2.json();
-    // console.log("Hotels Test:", data2);
+    if (!res2.ok) throw new Error(`Error: ${res2.status}`);
+    const data2 = await res2.json();
+    console.log("Hotels Test:", data2);
 
-    // if(data2.length>0){
-    //   let testHotel = data2[0]
-    //   data.unshift(testHotel);
-    // }
+    if(data2.length>0){
+      let testHotel = data2[0]
+      data.unshift(testHotel);
+    }
+  }
 
 
     setHotels(data)
@@ -360,13 +364,20 @@ export default function SearchScreen() {
   const goToLogin = () => {
         router.push(`/login`)
   }
+  const goHome = () => {
+    router.push(`/`)
+  }
     
   return (
     <div className="w-full flex flex-col gap-[60px] py-10 text-primary bg-light items-center" >
       
 
       <div className="w-full flex flex-col items-start lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 gap-10 breakingPoint">
-        <span className="text-lg">{'Home > Hotel Stays'}</span>
+         <div className="flex flex-row items-center gap-2 flex-wrap">
+              <span className="hover:underline cursor-pointer" onClick={goHome}>Home</span>
+              <span>{">"}</span>
+              <span className="line-clamp-1">Hotel Stays</span>
+          </div>
         <span className="text-6xl"  style={{fontFamily:'Harlow'}}>BOOK A HOTEL STAY</span>
         <SearchBar showLocation={true} showBorders={true} existingData={{locationName:locationName, coords:{lat:latNum, lng:lngNum},checkInDate:checkIn,checkOutDate:checkOut,rooms}}/>
       </div>
