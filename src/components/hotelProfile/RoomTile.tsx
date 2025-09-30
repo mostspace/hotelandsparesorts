@@ -462,9 +462,9 @@ export const RoomTile = (props:RoomTileProps) => {
 
             </div>
 
-            {!loggedIn && <div className="flex flex-row items-center gap-2.5">
+            {!loggedIn && <div className="w-full flex flex-row items-center gap-2.5">
                 {/* <div className="w-px h-[50px] bg-primary"/> */}
-                <Button className="bg-[#d5b18d] hover:bg-[#d5b18d]/90 text-light font-medium" onClick={()=>router.push('/login')}>Sign in for member discounts</Button>
+                <Button className="w-full bg-[#d5b18d] hover:bg-[#d5b18d]/90 text-light font-medium" onClick={()=>router.push('/login')}>Sign in for member discounts</Button>
             </div>}
         </div>
     )

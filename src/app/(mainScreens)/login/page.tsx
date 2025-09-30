@@ -231,8 +231,8 @@ export default function LoginPage() {
 
               <span className="text-7xl font-medium" style={{fontFamily:'Harlow'}}>{onPasswordReset?"Reset Password":onLogin?"Log In":"Create an Account"}</span>
 
-              {!onLogin && <span className="max-w-[600px] text-2xl" style={{fontFamily:'Harlow'}}>Sign up for an account to access exclusive member discounts at hundreds of top hotels. Easily manage your bookings and check your Hotel & 
-                  Spa Resorts Voucher balance.</span>}
+              {onLogin && !onPasswordReset && <span className="max-w-[600px] text-2xl" style={{fontFamily:'Harlow'}}>Log in to your account to access exclusive member discounts and thousands of top hotels. Easily manage your bookings and check your Hotel & Spa Resorts Gift Voucher balance. Don’t have an account? Register below.</span>}
+              {!onLogin && <span className="max-w-[600px] text-2xl" style={{fontFamily:'Harlow'}}>Register for an account to access exclusive member discounts and thousands of top hotels. Easily manage your bookings and check your Hotel & Spa Resorts Gift Voucher balance.</span>}
             </div>
           <div className="flex flex-col items-center gap-4" >
 

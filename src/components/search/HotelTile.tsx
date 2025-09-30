@@ -225,7 +225,7 @@ export const HotelTile = (props:HotelTileProps) => {
                     {showStars()}
                     </div>
                 </div>
-                <span className="md:text-4xl text-2xl md:font-normal font-medium cursor-pointer hover:text-accent" style={{fontFamily:'Harlow'}} onClick={()=>openHotel(props.hotel.hid)}>{props.hotel.hotel_name}</span>
+                <span className="md:text-4xl text-[28px] md:font-normal font-medium cursor-pointer hover:text-accent" style={{fontFamily:'Harlow',lineHeight:'110%'}} onClick={()=>openHotel(props.hotel.hid)}>{props.hotel.hotel_name}</span>
             </div>  
 
 
@@ -242,8 +242,8 @@ export const HotelTile = (props:HotelTileProps) => {
 
                 <div className="flex flex-col items-end gap-2 text-alt">
                     {props.source!=="MyBookings" && <div className="flex gap-2 items-end">
-                        <span className={`text-3xl font-medium ${props.showDiscount?"line-through text-primary/50":""}`}>€{Number(getRate(20)).toLocaleString()}</span> 
-                        {props.showDiscount && <span className="text-3xl font-medium">€{(Number(+getRate(15)).toFixed(2)).toLocaleString()}</span> }
+                        <span className={`md:text-3xl text-xl font-medium ${props.showDiscount?"line-through text-primary/50":""}`}>€{Number(getRate(20)).toLocaleString()}</span> 
+                        {props.showDiscount && <span className="md:text-3xl text-xl font-medium">€{(Number(+getRate(15)).toFixed(2)).toLocaleString()}</span> }
                     </div>}
                     <div className="flex flex-col items-end gap-2 text-alt">
                         <span className="md:text-lg">{props.rooms?.length} room, {calculateNights()} nights</span>

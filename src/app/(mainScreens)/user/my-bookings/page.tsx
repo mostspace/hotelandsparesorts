@@ -136,7 +136,7 @@ export default function MyBookings() {
 
 
 
-            <span className="text-6xl text-accent font-medium">My Bookings</span>
+            <span className="text-6xl text-accent font-medium" style={{fontFamily:'Harlow'}}>My Bookings</span>
 
             {auth?.currentUser && <div className="flex flex-col gap-1.5 ai-start">
                 <span className="text-2xl text-accent font-medium ">Add Booking</span>

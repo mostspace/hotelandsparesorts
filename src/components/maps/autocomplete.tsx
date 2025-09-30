@@ -42,7 +42,7 @@ const PlacesAutocomplete = (props: AutocompleteProps) => {
       type="text"
       value={location}
       onChange={(e) => setLocation(e.target.value)} // keep it controlled
-      placeholder="Location, country"
+      placeholder="Enter city / town / county"
       className="w-full font-normal text-primary text-base placeholder:font-normal placeholder:text-primary placeholder:text-base border-none focus:outline-none"
     />
   );

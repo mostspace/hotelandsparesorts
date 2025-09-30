@@ -80,7 +80,7 @@ export const SimilarHotelTile = (props:HotelTileProps) => {
                 <span className="font-bold">9.4</span>
             </div>
 
-            <img className="w-full h-[300px] object-cover object-center" src={getImageURL()}/>
+            <img className="w-full h-[280px] object-cover object-center" src={getImageURL()}/>
 
             <div className="w-full flex flex-col items-start gap-4 px-[34px] ">
                 <span className="w-full text-3xl whitespace-nowrap overflow-hidden text-ellipsis"  style={{fontFamily:'Harlow'}}>{props.hotel.hotel_name}</span>
