@@ -50,12 +50,18 @@ export const PriceSummary = (props:PriceSummaryProps) => {
         props.booking.tax_data.forEach((element: any) => {
             if(!element.included_by_supplier){
                 compArray.push(<div className="w-full flex justify-between">
-                    <span className="ml-5">{element.name}</span>
+                    <span className="ml-5">{formatKey(element.name)}</span>
                     <span>+ {element.amount} {element.currency_code}</span>
                  </div>)
             }
         });
         return compArray
+    }
+
+    function formatKey(str: string): string {
+    return str
+        .replace(/_/g, " ") // replace underscores with spaces
+        .replace(/\b\w/g, (c: string) => c.toUpperCase()); // capitalize first letter of each word
     }
 
     return(

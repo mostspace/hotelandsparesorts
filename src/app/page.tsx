@@ -23,7 +23,9 @@ export default function HomeScreen() {
   
 
   return (
-    <div className="relative flex flex-col justify-center items-start gap-15 lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5  bg-[url('/assets/homeImg.jpg')] bg-cover bg-center md:h-200 h-250" >
+    <div className="relative bg-[url('/assets/homeImg.jpg')] bg-cover bg-center md:h-200 h-250 flex justify-center">
+
+    <div className="flex flex-col justify-center items-start gap-15 lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 breakingPoint" >
       
       <div className="absolute top-0 left-0 w-full h-full bg-alt/40"/>
 
@@ -39,6 +41,7 @@ export default function HomeScreen() {
 
       <SearchBar showLocation={true} showBorders={false} existingData={{}}/>    
 
+      </div>
     </div>
   );
 }

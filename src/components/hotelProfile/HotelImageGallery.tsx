@@ -144,7 +144,7 @@ export const HotelImageGallery = (props:HotelImageGalleryProps) => {
                         </div>
 
                     </div>
-                    <span className="text-4xl font-medium mt-4 text-accent">{getCaption()}</span>
+                    {/* <span className="text-4xl font-medium mt-4 text-accent">{getCaption()}</span> */}
                 </div>
             </div>}
         </div>
