@@ -233,7 +233,7 @@ export default function BookingScreen() {
 
     const order = +(searchParams.get('order') ||0);
 
-     await sendTemplateEmail(personalDetails.email, "Booking Confirmation Template for HS", {
+     await sendTemplateEmail(personalDetails.email, "HS Booking Confirmation Template V2", {
             FIRST_NAME: personalDetails.firstName,
             HOTEL_NAME: booking.hotel.hotel_name,
             BOOKING_ID: order,
