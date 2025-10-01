@@ -33,9 +33,10 @@ export default function HomeScreen() {
           {/* <span className="text-[80px]" style={{fontFamily:'Harlow'}}>BOOK A HOTEL STAY</span>  */}
           {/* <span className="text-3xl" style={{fontFamily:'Harlow'}}>Explore and book our curated luxury hotels and redeem your voucher</span> */}
 
-          <span className="md:text-[80px] sm:text-[70px] text-[60px]" style={{fontFamily:'Harlow', lineHeight:'110%'}}>UNLOCK GLOBAL LUXURY HOTELS</span> 
-          <span className="text-3xl" style={{fontFamily:'Harlow'}}>Exciting news - the world’s most flexible luxury hotel gift voucher will soon unlock <strong>10,000 luxury hotels in 75 countries worldwide.</strong></span>
-          <span className="text-3xl" style={{fontFamily:'Harlow'}}>Global redemption arriving 24th September!</span>
+          <span className="md:text-[80px] sm:text-[70px] text-[60px]" style={{fontFamily:'Harlow', lineHeight:'110%'}}>BOOK A HOTEL STAY</span> 
+          {/* <span className="text-3xl" style={{fontFamily:'Harlow'}}>Exciting news - the world’s most flexible luxury hotel gift voucher will soon unlock <strong>10,000 luxury hotels in 75 countries worldwide.</strong></span>
+          <span className="text-3xl" style={{fontFamily:'Harlow'}}>Global redemption arriving 24th September!</span> */}
+          <span className="text-3xl" style={{fontFamily:'Harlow'}}>Explore and book our curated collection of luxury hotels and redeem your gift voucher.</span>
 
       </div>
 
