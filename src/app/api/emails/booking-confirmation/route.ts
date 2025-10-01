@@ -7,7 +7,7 @@ export async function GET(req: Request) {
   
 
   try {
-    await sendTemplateEmail("caolangm@gmail.com", "Booking Confirmation Template for HS", {
+    await sendTemplateEmail("caolangm@gmail.com", "HS Booking Confirmation Template V2", {
         FIRST_NAME: "Caolan",
         HOTEL_NAME: "The Grand Hotel",
         BOOKING_ID: "12345",
