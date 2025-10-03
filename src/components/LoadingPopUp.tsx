@@ -10,7 +10,7 @@ interface LoadingPropUp{
 export const LoadingPopUp = (props:LoadingPropUp) => {
 
 
-    return <div className="fixed z-100 top-0 left-0 w-full h-full bg-primary/50 flex justify-center items-center">
+    return <div className="fixed z-100 top-0 left-0 w-full h-full bg-primary/50 flex justify-center items-center text-center">
 
         <div className="w-[600px] bg-light rounded-xl flex flex-col justify-center items-center gap-12 p-10 rounded-lg overflow-hidden p-2 font-normal">
 
