@@ -52,9 +52,9 @@ export default function RootLayout({
             {children}
           </Suspense>
         </div>
+        
+        <Footer />
       </body>
-      
-      <Footer />
     </html>
   );
 }

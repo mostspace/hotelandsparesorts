@@ -87,27 +87,6 @@
   --accentDark: #774D46;
   --light: #FFFFFF;
   --muted: #EEE9E6;
-
-  --base: #333333;
-  --burlywood: #e4c095;
-  --darkgray-1: #b3b3b3;
-  --darkgray-2: #999999;
-  --darkolivegreen: #7c703b;
-  --dimgray: #666666;
-  --primary: #a56658;
-  --primarydark: #774d46;
-  --primarydark-100: #4b4139;
-  --rosybrown: #a06856;
-  --secondary: #b78579;
-  --silver: #d6c6b9;
-  --tan: #ab8158;
-  --white: #ffffff;
-  --whitesmoke: #eee9e6;
-  --color-4d4d4d:#4D4D4D;
-  --primary-font:"Harlow Duo Serif";
-  --secondry-font:"Gotham Book";
-  --secondry-font-dark:"Gotham";
-
 }
 
 .dark {
@@ -168,7 +147,7 @@
 @font-face {
   font-family: "Harlow Duo Serif";
   src:
-    /* url("../fonts/harlow/HarlowDuoSerif-regular.woff2") format("woff2"), */
+    url("../fonts/harlow/HarlowDuoSerif-regular.woff2") format("woff2"),
     url("../fonts/harlow/HarlowDuoSerif-regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;

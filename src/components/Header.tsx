@@ -64,14 +64,14 @@ export const Header = () => {
               {/* Left side - Partner Links */}
               <div className="flex items-center gap-2">
                   <button 
-                    className="hover:text-accent cursor-pointer transition-colors text-[11px] text-base"
+                    className="hover:text-accent cursor-pointer transition-colors text-[11px] text-[#333333]"
                     onClick={() => openLink("https://www.hotelandsparesorts.com/partner/login")}
                   >
                     PARTNER SIGN IN
                   </button>
                 <span className="text-gray-900 font-thin">|</span>
                 <button 
-                  className="hover:text-accent cursor-pointer transition-colors text-[11px] text-base"
+                  className="hover:text-accent cursor-pointer transition-colors text-[11px] text-[#333333]"
                   onClick={() => openLink("https://www.hotelandsparesorts.com/become-partner")}
                 >
                   BECOME A PARTNER
@@ -81,7 +81,7 @@ export const Header = () => {
               {/* Right side - Account */}
               <div className="flex items-center gap-4">
                 <button 
-                  className="flex items-center gap-2 hover:text-accent transition-colors cursor-pointer" 
+                  className="flex items-center gap-2 hover:text-accent transition-colors cursor-pointer text-[11px] text-[#333333]" 
                   onClick={loggedIn ? myAccountClicked : loginClicked}
                 >
                   <svg
@@ -92,7 +92,7 @@ export const Header = () => {
                     <circle cx="7.06" cy="3.53" r="3.53" />
                     <path d="M14.12,13.24v.88c0,.49-.4.88-.88.88H.88c-.49,0-.88-.4-.88-.88v-.88c0-2.92,2.37-5.29,5.29-5.29h3.53c2.92,0,5.29,2.37,5.29,5.29Z"/>
                   </svg>
-                  <span className="text-[11px] text-base">MY ACCOUNT</span>
+                  <span className="">MY ACCOUNT</span>
                 </button>
 
                 {loggedIn && (
@@ -123,28 +123,28 @@ export const Header = () => {
               {/* Navigation Links */}
               <nav className="hidden lg:flex items-center gap-5 font-medium">
                 <button 
-                  className="hover:text-accent cursor-pointer transition-colors text-sm md:text-md lg:text-[16px] text-base"
+                  className="hover:text-accent cursor-pointer transition-colors text-sm md:text-md lg:text-[17px] text-[#333333]"
                   onClick={() => openLink("/")}
                 >
                   BOOK A HOTEL STAY
                 </button>
                 <div className="h-4 w-px bg-gray-700"/>
                 <button 
-                  className="hover:text-accent cursor-pointer transition-colors text-sm md:text-md lg:text-[16px] text-base"
+                  className="hover:text-accent cursor-pointer transition-colors text-sm md:text-md lg:text-[17px] text-[#333333]"
                   onClick={() => openLink("https://www.hotelandsparesorts.com/packages")}
                 >
                   BOOK A PACKAGE
                 </button>
                 <div className="h-4 w-px bg-gray-700"/>
                 <button 
-                  className="hover:text-accent cursor-pointer transition-colors text-sm md:text-md lg:text-[16px] text-base"
+                  className="hover:text-accent cursor-pointer transition-colors text-sm md:text-md lg:text-[17px] text-[#333333]"
                   onClick={() => openLink("https://www.hotelandsparesorts.com/how-it-works")}
                 >
                   HOW IT WORKS
                 </button>
                 <div className="h-4 w-px bg-gray-700"/>
                 <button 
-                  className="hover:text-accent cursor-pointer transition-colors text-sm md:text-md lg:text-[16px] text-base"
+                  className="hover:text-accent cursor-pointer transition-colors text-sm md:text-md lg:text-[17px] text-[#333333]"
                   onClick={() => openLink("https://www.hotelandsparesorts.com/corporate-gift")}
                 >
                   CORPORATE GIFTING
@@ -152,7 +152,7 @@ export const Header = () => {
 
                 {/* CTA Button */}
                 <button
-                    className="bg-primary hover:bg-[#774d46] text-white px-5 py-3 rounded-md transition-colors duration-200 font-medium text-sm md:text-md lg:text-[16px] whitespace-nowrap cursor-pointer"
+                    className="bg-accent hover:bg-accentDark text-white px-5 py-3 rounded-md transition-colors duration-200 font-medium text-sm md:text-md lg:text-[16px] whitespace-nowrap cursor-pointer"
                     onClick={() => openLink("https://hotelandsparesorts.com/shop-gift-voucher")}
                 >
                     BUY A GIFT VOUCHER
