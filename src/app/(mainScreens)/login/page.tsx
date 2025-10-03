@@ -224,9 +224,9 @@ export default function LoginPage() {
       {!loggedIn && <div className="flex flex-col items-center gap-8 p-8" >
           <div className="flex flex-col items-center gap-4 " >
             <div className="flex flex-col items-center gap-4 mb-8" >
-              <span className="text-7xl font-medium" style={{fontFamily:'Harlow Duo Serif'}}>{onPasswordReset?"Reset Password":onLogin?"Log In":"Create an Account"}</span>
-              {onLogin && !onPasswordReset && <span className="max-w-[600px] text-[24px] md:text-2xl font-medium" style={{fontFamily:'Harlow Duo Serif'}}>Log in to your account to access exclusive member discounts and thousands of top hotels. Easily manage your bookings and check your Hotel & Spa Resorts Gift Voucher balance. Don’t have an account? Register below.</span>}
-              {!onLogin && <span className="max-w-[600px] text-[24px] md:text-2xl font-medium" style={{fontFamily:'Harlow Duo Serif'}}>Register for an account to access exclusive member discounts and thousands of top hotels. Easily manage your bookings and check your Hotel & Spa Resorts Gift Voucher balance.</span>}
+              <span className="text-7xl font-medium" style={{fontFamily:'Harlow'}}>{onPasswordReset?"Reset Password":onLogin?"Log In":"Create an Account"}</span>
+              {onLogin && !onPasswordReset && <span className="max-w-[600px] text-[24px] md:text-2xl font-medium" style={{fontFamily:'Harlow'}}>Log in to your account to access exclusive member discounts and thousands of top hotels. Easily manage your bookings and check your Hotel & Spa Resorts Gift Voucher balance. Don't have an account? Register below.</span>}
+              {!onLogin && <span className="max-w-[600px] text-[24px] md:text-2xl font-medium" style={{fontFamily:'Harlow'}}>Register for an account to access exclusive member discounts and thousands of top hotels. Easily manage your bookings and check your Hotel & Spa Resorts Gift Voucher balance.</span>}
             </div>
           <div className="flex flex-col items-center gap-4" >
 

@@ -145,7 +145,7 @@
 }
 
 @font-face {
-  font-family: "Harlow Duo Serif";
+  font-family: "Harlow";
   src:
     url("../fonts/harlow/HarlowDuoSerif-regular.woff2") format("woff2"),
     url("../fonts/harlow/HarlowDuoSerif-regular.woff") format("woff");

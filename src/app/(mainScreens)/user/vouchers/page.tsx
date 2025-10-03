@@ -61,7 +61,9 @@ export default function Vouchers() {
                         value={voucherCode} 
                         onChange={(e) => setVoucherCode(e.target.value)}
                     />
-                    <Button onClick={applyVoucher}>CHECK BALANCE</Button>
+                    {/* <Button onClick={applyVoucher}>CHECK BALANCE</Button> */}
+
+                    <Button className="bg-accent hover:bg-accent/9" onClick={applyVoucher}>CHECK BALANCE</Button>
 
                 </div>
 

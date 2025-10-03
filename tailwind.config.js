@@ -10,7 +10,7 @@ module.exports = {
       fontFamily: {
         'gotham': ['Gotham', 'sans-serif'],
         'gotham-book': ['Gotham Book', 'sans-serif'],
-        'harlow-serif': ['Harlow Duo Serif', 'serif'],
+        'harlow-serif': ['Harlow', 'serif'],
       },
       fontWeight: {
         'light': '300',

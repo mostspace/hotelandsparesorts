@@ -91,7 +91,7 @@ export const Footer = () => {
                             className={`footer-arrow cursor-pointer py-2 ${isExpanded ? 'expanded' : ''}`}
                             onClick={() => toggleSection(secTitle)}
                         >
-                            <span className="text-[20px]" style={{fontFamily:'Harlow Duo Serif'}}>{secTitle}</span>
+                            <span className="text-[20px]" style={{fontFamily:'Harlow'}}>{secTitle}</span>
                         </div>
                         <div className={`footer-content ${isExpanded ? 'expanded' : ''}`}>
                             <div className="flex flex-col gap-2 pl-4">
@@ -102,7 +102,7 @@ export const Footer = () => {
                 )
             } else {
                 compArray.push(<div key={`section-${secTitle}`} className="flex flex-col gap-6 items-start">
-                    <span className="text-[24px]" style={{fontFamily:'Harlow Duo Serif'}}>{secTitle}</span>
+                    <span className="text-[24px]" style={{fontFamily:'Harlow'}}>{secTitle}</span>
                     <div className="flex flex-col gap-5 items-start">
                         {subArray}
                     </div>
@@ -116,19 +116,35 @@ export const Footer = () => {
 
     const openLink = (url:string) => {
 
-
         if(url.includes('https://booking.hotelandsparesorts.com'))
         {
-            // let route = url.replace("https://booking.hotelandsparesorts.com","")
-            // router.push(route)
-            router.push('/')
-
-        }else{
-            console.log("URL CLICKED",url)
+            // Parse the booking URL to extract search parameters
+            try {
+                const urlObj = new URL(url);
+                const searchParams = new URLSearchParams(urlObj.search);
+                
+                const location = searchParams.get('location');
+                const lat = searchParams.get('lat');
+                const lng = searchParams.get('lng');
+                const rooms = searchParams.get('rooms');
+                const searchID = searchParams.get('searchID');
+                
+                // Generate a simple search ID if none exists
+                const finalSearchID = searchID || `search_${Date.now()}`;
+                
+                // Build the internal search route
+                const searchRoute = `/search?searchID=${finalSearchID}&location=${encodeURIComponent(location || '')}&lat=${lat}&lng=${lng}&rooms=${encodeURIComponent(rooms || '[]')}`;
+                
+                router.push(searchRoute);
+            } catch (error) {
+                console.error('Error parsing URL:', error);
+                router.push('/');
+            }
+        } else {
+            console.log("URL CLICKED", url)
             // window.open(url, "_blank");
             window.open(url, "_self");
         }
-       
     }
 
     const addToNewsletter = () => {
