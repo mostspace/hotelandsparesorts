@@ -170,8 +170,14 @@ export default function UserLayout({
         <div className='flex flex-col w-full gap-7.5 items-start'>
             {showSideBarOptions()}
         </div>
-        
-        <Button className='mr-4 hidden sm:block' onClick={logoutClicked}>Logout</Button>
+
+        <Button
+            variant="default"
+            className="px-5 py-6.5 text-sm md:text-md lg:text-[16px] mr-4"
+            onClick={logoutClicked}
+        >
+            Logout
+        </Button>
       </div>
       
       <main className="flex-1 p-6 bg-muted px-5 md:px-[100px] py-[68px]">

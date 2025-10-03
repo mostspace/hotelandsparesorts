@@ -141,7 +141,7 @@ export default function MyBookings() {
             {auth?.currentUser && <div className="flex flex-col gap-1.5 ai-start">
                 <span className="text-2xl text-accent font-medium ">Add Booking</span>
                 <span className="font-medium">If you made a booking in guest mode, you can link it to your account here</span>
-                <div className="flex gap-3 items-center">
+                <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
                     <input 
                         className="w-full h-[54px] bg-white border border-primary/50 focus:outline-none p-[10px] text-xl" 
                         type="text"

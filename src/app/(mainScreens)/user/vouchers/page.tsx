@@ -24,7 +24,6 @@ export default function Vouchers() {
 
         found = data.found
 
-
         if(!found){setVoucherError("Invalid Voucher Code")}
         else{
             amount = +data.voucher.balance
@@ -33,28 +32,25 @@ export default function Vouchers() {
     }
 
     const formatDate = (date:string) => {
-
         let split = date.split("-")
         return split[2]+'-'+split[1]+'-'+split[0]
     }
-    
 
-    return(<div className="flex flex-col gap-[50px] items-start">
-
-        <div className="flex flex-col gap-5 items-start text-primary/70 text-lg">
-            {/* BREADCRUMBS */}
-            <div className="flex flex-row items-center gap-2">
-                <span>My Account</span>
-                <span>{">"}</span>
-                <span>Vouchers</span>
+    return(
+        <div className="flex flex-col gap-[50px] items-start">
+            <div className="flex flex-col gap-5 items-start text-primary/70 text-lg">
+                {/* BREADCRUMBS */}
+                <div className="flex flex-row items-center gap-2">
+                    <span>My Account</span>
+                    <span>{">"}</span>
+                    <span>Vouchers</span>
+                </div>
+                <span className="text-6xl text-accent font-medium" style={{fontFamily:'Harlow'}}>Vouchers</span>
             </div>
-            <span className="text-6xl text-accent font-medium" style={{fontFamily:'Harlow'}}>Vouchers</span>
-        </div>
-
-            <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
+            <div className="flex flex-col gap-1.5 ai-start min-w-[300px]">
                 <span className="font-medium">Voucher Code*</span>
 
-                <div className="w-full flex flex-row items-center gap-5">
+                <div className="w-full flex flex-col sm:flex-row gap-5">
                     <input 
                         className="w-full h-[54px] bg-white border border-primary/50 focus:outline-none p-[10px] text-xl" 
                         type="text"
@@ -67,7 +63,7 @@ export default function Vouchers() {
                         className="px-5 py-6.5 text-sm md:text-md lg:text-[16px]"
                         onClick={applyVoucher}
                     >
-                        CHECK BALANCE
+                        Check Balance
                     </Button>
 
                 </div>
@@ -88,8 +84,6 @@ export default function Vouchers() {
                 {voucherError && <span className="text-[red]">{voucherError}</span>}
 
             </div>
-
-
-    </div>)
-
+        </div>
+    )
 }
