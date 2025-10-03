@@ -81,7 +81,7 @@ export const Footer = () => {
 
             var subArray:any = []
             secOptions.forEach((option, index) => {
-                subArray.push(<span key={`${secTitle}-option-${index}`} className="text-base text-[16px] font-light hover:text-[#e4c095] cursor-pointer py-2"  onClick={()=>openLink(option.link)}>{option.title}</span>)
+                subArray.push(<span key={`${secTitle}-option-${index}`} className="text-base text-[16px] font-light hover:text-[#e4c095] cursor-pointer"  onClick={()=>openLink(option.link)}>{option.title}</span>)
             });
 
             if (isMobile) {
