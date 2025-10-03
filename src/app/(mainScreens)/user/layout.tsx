@@ -171,7 +171,7 @@ export default function UserLayout({
 
         <Button
             variant="default"
-            className="px-5 py-6.5 text-sm md:text-md lg:text-[16px] mr-4 hidden sm:block"
+            className="px-5 py-6.5 text-sm md:text-md lg:text-[16px] mr-4 hidden lg:block"
             onClick={logoutClicked}
         >
             Logout
