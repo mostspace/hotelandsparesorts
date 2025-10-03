@@ -48,7 +48,7 @@ export default function Vouchers() {
                 <span>{">"}</span>
                 <span>Vouchers</span>
             </div>
-            <span className="text-6xl text-accent font-medium">Vouchers</span>
+            <span className="text-6xl text-accent font-medium" style={{fontFamily:'Harlow'}}>Vouchers</span>
         </div>
 
             <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
