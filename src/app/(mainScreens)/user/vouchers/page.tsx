@@ -48,7 +48,7 @@ export default function Vouchers() {
                 <span>{">"}</span>
                 <span>Vouchers</span>
             </div>
-            <span className="text-6xl text-accent font-medium">Vouchers</span>
+            <span className="text-6xl text-accent font-medium" style={{fontFamily:'Harlow'}}>Vouchers</span>
         </div>
 
             <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
@@ -61,7 +61,9 @@ export default function Vouchers() {
                         value={voucherCode} 
                         onChange={(e) => setVoucherCode(e.target.value)}
                     />
-                    <Button onClick={applyVoucher}>CHECK BALANCE</Button>
+                    {/* <Button onClick={applyVoucher}>CHECK BALANCE</Button> */}
+
+                    <Button className="bg-accent hover:bg-accent/9" onClick={applyVoucher}>CHECK BALANCE</Button>
 
                 </div>
 

@@ -87,7 +87,6 @@
   --accentDark: #774D46;
   --light: #FFFFFF;
   --muted: #EEE9E6;
-
 }
 
 .dark {
@@ -127,13 +126,14 @@
 .text-accent {
   color: var(--accent);
 }
+
 .text-bgMuted {
   color: var(--bgMuted);
 }
+
 .bg-bgLight {
   background-color: var(--bgLight);
 }
-
 
 @layer base {
   * {
@@ -145,70 +145,86 @@
 }
 
 @font-face {
-  font-family: 'Gotham';
-  src: url('/fonts/gotham/gotham_thin.otf') format('opentype');
-  font-weight: 100;
+  font-family: "Harlow";
+  src:
+    url("../fonts/harlow/HarlowDuoSerif-regular.woff2") format("woff2"),
+    url("../fonts/harlow/HarlowDuoSerif-regular.woff") format("woff");
+  font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'Gotham';
-  src: url('../fonts/gotham/gotham_book.otf') format('opentype');
-  font-weight: 400; /* Use Book as Regular */
-  font-style: normal;
+  font-family: "Gotham Book";
+  src:
+    url("../fonts/gotham/Gotham-BookItalic.woff2") format("woff2"),
+    url("../fonts/gotham/Gotham-BookItalic.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'Gotham';
-  src: url('../fonts/gotham/gotham_medium.otf') format('opentype');
+  font-family: "Gotham Book";
+  src:
+    url("../fonts/gotham/Gotham-Book.woff2") format("woff2"),
+    url("../fonts/gotham/Gotham-Book.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src:
+    url("../fonts/gotham/Gotham-Bold.woff2") format("woff2"),
+    url("../fonts/gotham/Gotham-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src:
+    url("../fonts/gotham/Gotham-MediumItalic.woff2") format("woff2"),
+    url("../fonts/gotham/Gotham-MediumItalic.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src:
+    url("../fonts/gotham/Gotham-Medium.woff2") format("woff2"),
+    url("../fonts/gotham/Gotham-Medium.woff") format("woff");
   font-weight: 500;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'Gotham';
-  src: url('../fonts/gotham/gotham_bold.otf') format('opentype');
-  font-weight: 700;
+  font-family: "Gotham";
+  src:
+    url("../fonts/gotham/Gotham-Light.woff2") format("woff2"),
+    url("../fonts/gotham/Gotham-Light.woff") format("woff");
+  font-weight: 300;
   font-style: normal;
+  font-display: swap;
 }
-
-@font-face {
-  font-family: 'Gotham';
-  src: url('../fonts/gotham/gotham_black.otf') format('opentype');
-  font-weight: 900;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Gotham';
-  src: url('../fonts/gotham/gotham_ultra.otf') format('opentype');
-  font-weight: 950;
-  font-style: normal;
-}
-
-
-
-@font-face {
-  font-family: 'Harlow';
-  src: url('../fonts/harlow/HarlowDuoSerif-regular.woff') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-}
-
-
 
 .pac-matched{
-    color: #A56658;
+  color: #A56658;
 }
 
-
 .pac-item{
-    font-family: 'Gotham';
-    font-size: 16px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    padding-left: 10px;
+  font-family: 'Gotham';
+  font-size: 16px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
 }
 
 .pac-item:hover{
@@ -216,9 +232,9 @@
 }
 
 .pac-item-query	{
-    font-family: 'Gotham';
-    font-weight: 500;
-    font-size: 18px;
+  font-family: 'Gotham';
+  font-weight: 500;
+  font-size: 18px;
 }
 
 .pac-container{
@@ -298,4 +314,50 @@ html.desktop-zoom {
     padding-left: 20px;
     padding-right: 20px;
   }
+}
+
+/* Footer Accordion Arrow Styles */
+.footer-arrow {
+  position: relative;
+  padding-right: 2rem;
+}
+
+.footer-arrow::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 1.5rem;
+  transform: rotate(45deg) translateY(-50%);
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 2px solid var(--light);
+  border-top-width: 0;
+  border-left-width: 0;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.footer-arrow.expanded::after {
+  border-top-width: 2px;
+  border-left-width: 2px;
+  border-bottom-width: 0;
+  border-right-width: 0;
+}
+
+/* Footer Accordion Content Animation */
+.footer-content {
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.footer-content.expanded {
+  max-height: 1000px;
+  opacity: 1;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
 }
