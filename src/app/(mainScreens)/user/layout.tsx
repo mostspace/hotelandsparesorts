@@ -155,10 +155,8 @@ export default function UserLayout({
 
         if(auth){
             signOut(auth).then(() => {
-                // Sign-out successful.
                 router.push(`/login`)
             }).catch((error) => {
-                // An error happened.
                 console.log("ERROR: ", error.message);
             });
         }
