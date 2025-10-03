@@ -46,11 +46,11 @@ export default function RootLayout({
         className="font-sans antialiased bg-[#f7f7f7] "
       >
         <div className="app-wrapper">
-        <Header />
+          <Header />
 
-        <Suspense fallback={<div>Loading...</div>}>
-          {children}
-        </Suspense>
+          <Suspense fallback={<div>Loading...</div>}>
+            {children}
+          </Suspense>
         </div>
       </body>
       

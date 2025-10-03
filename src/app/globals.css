@@ -88,6 +88,26 @@
   --light: #FFFFFF;
   --muted: #EEE9E6;
 
+  --base: #333333;
+  --burlywood: #e4c095;
+  --darkgray-1: #b3b3b3;
+  --darkgray-2: #999999;
+  --darkolivegreen: #7c703b;
+  --dimgray: #666666;
+  --primary: #a56658;
+  --primarydark: #774d46;
+  --primarydark-100: #4b4139;
+  --rosybrown: #a06856;
+  --secondary: #b78579;
+  --silver: #d6c6b9;
+  --tan: #ab8158;
+  --white: #ffffff;
+  --whitesmoke: #eee9e6;
+  --color-4d4d4d:#4D4D4D;
+  --primary-font:"Harlow Duo Serif";
+  --secondry-font:"Gotham Book";
+  --secondry-font-dark:"Gotham";
+
 }
 
 .dark {
@@ -127,13 +147,14 @@
 .text-accent {
   color: var(--accent);
 }
+
 .text-bgMuted {
   color: var(--bgMuted);
 }
+
 .bg-bgLight {
   background-color: var(--bgLight);
 }
-
 
 @layer base {
   * {
@@ -145,70 +166,86 @@
 }
 
 @font-face {
-  font-family: 'Gotham';
-  src: url('/fonts/gotham/gotham_thin.otf') format('opentype');
-  font-weight: 100;
+  font-family: "Harlow Duo Serif";
+  src:
+    /* url("../fonts/harlow/HarlowDuoSerif-regular.woff2") format("woff2"), */
+    url("../fonts/harlow/HarlowDuoSerif-regular.woff") format("woff");
+  font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'Gotham';
-  src: url('../fonts/gotham/gotham_book.otf') format('opentype');
-  font-weight: 400; /* Use Book as Regular */
-  font-style: normal;
+  font-family: "Gotham Book";
+  src:
+    url("../fonts/gotham/Gotham-BookItalic.woff2") format("woff2"),
+    url("../fonts/gotham/Gotham-BookItalic.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'Gotham';
-  src: url('../fonts/gotham/gotham_medium.otf') format('opentype');
+  font-family: "Gotham Book";
+  src:
+    url("../fonts/gotham/Gotham-Book.woff2") format("woff2"),
+    url("../fonts/gotham/Gotham-Book.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src:
+    url("../fonts/gotham/Gotham-Bold.woff2") format("woff2"),
+    url("../fonts/gotham/Gotham-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src:
+    url("../fonts/gotham/Gotham-MediumItalic.woff2") format("woff2"),
+    url("../fonts/gotham/Gotham-MediumItalic.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src:
+    url("../fonts/gotham/Gotham-Medium.woff2") format("woff2"),
+    url("../fonts/gotham/Gotham-Medium.woff") format("woff");
   font-weight: 500;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'Gotham';
-  src: url('../fonts/gotham/gotham_bold.otf') format('opentype');
-  font-weight: 700;
+  font-family: "Gotham";
+  src:
+    url("../fonts/gotham/Gotham-Light.woff2") format("woff2"),
+    url("../fonts/gotham/Gotham-Light.woff") format("woff");
+  font-weight: 300;
   font-style: normal;
+  font-display: swap;
 }
-
-@font-face {
-  font-family: 'Gotham';
-  src: url('../fonts/gotham/gotham_black.otf') format('opentype');
-  font-weight: 900;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Gotham';
-  src: url('../fonts/gotham/gotham_ultra.otf') format('opentype');
-  font-weight: 950;
-  font-style: normal;
-}
-
-
-
-@font-face {
-  font-family: 'Harlow';
-  src: url('../fonts/harlow/HarlowDuoSerif-regular.woff') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-}
-
-
 
 .pac-matched{
-    color: #A56658;
+  color: #A56658;
 }
 
-
 .pac-item{
-    font-family: 'Gotham';
-    font-size: 16px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    padding-left: 10px;
+  font-family: 'Gotham';
+  font-size: 16px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
 }
 
 .pac-item:hover{
@@ -216,9 +253,9 @@
 }
 
 .pac-item-query	{
-    font-family: 'Gotham';
-    font-weight: 500;
-    font-size: 18px;
+  font-family: 'Gotham';
+  font-weight: 500;
+  font-size: 18px;
 }
 
 .pac-container{
