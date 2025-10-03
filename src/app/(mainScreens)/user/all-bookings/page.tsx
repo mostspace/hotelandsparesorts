@@ -111,7 +111,7 @@ export default function AllBookings() {
             <span className="text-6xl text-accent font-medium">All Bookings</span>
 
             <div className="flex gap-8 items-end">
-            <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
+            <div className="flex flex-col gap-1.5 ai-start min-w-[300px]">
                 <span className="font-medium">Search by Order ID</span>
                 <input 
                     className="w-full h-[54px] bg-white border border-primary/50 focus:outline-none p-[10px] text-xl" 
@@ -120,7 +120,7 @@ export default function AllBookings() {
                     onChange={(e) => setOrderSearch(e.target.value)}
                 />
             </div>
-            <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
+            <div className="flex flex-col gap-1.5 ai-start min-w-[300px]">
                 <span className="font-medium">Booking Status</span>
                 <select 
                     className="w-[200px] h-[54px] bg-white border border-primary/50 focus:outline-none p-[10px] text-xl" 

@@ -125,7 +125,7 @@ export default function MyDetails() {
 
         <div className="w-full flex flex-row flex-wrap gap-8">
                     
-            <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
+            <div className="flex flex-col gap-1.5 ai-start min-w-[300px]">
                 <span className="font-medium">First Name*</span>
                 <input 
                     className="w-full h-[54px] bg-white border border-primary/50 focus:outline-none p-[10px] text-xl" 
@@ -135,7 +135,7 @@ export default function MyDetails() {
                 />
             </div>
 
-            <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
+            <div className="flex flex-col gap-1.5 ai-start min-w-[300px]">
                 <span className="font-medium">Last Name*</span>
                 <input 
                     className="w-full h-[54px] bg-white border border-primary/50 focus:outline-none p-[10px] text-xl" 
@@ -145,7 +145,7 @@ export default function MyDetails() {
                 />
             </div>
 
-            <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
+            <div className="flex flex-col gap-1.5 ai-start min-w-[300px]">
                 <span className="font-medium">Email*</span>
                 <input 
                     className="w-full h-[54px] bg-white border border-primary/50 focus:outline-none p-[10px] text-xl" 
@@ -155,7 +155,7 @@ export default function MyDetails() {
                 />
             </div>
 
-            <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
+            <div className="flex flex-col gap-1.5 ai-start min-w-[300px]">
                 <span className="font-medium">Phone Number</span>
                 <input 
                     className="w-full h-[54px] bg-white border border-primary/50 focus:outline-none p-[10px] text-xl" 
@@ -181,7 +181,7 @@ export default function MyDetails() {
 
             <span className="text-3xl font-medium">Currency</span>
 
-            <div className="flex flex-col gap-1.5 ai-start min-w-[400px]">
+            <div className="flex flex-col gap-1.5 ai-start min-w-[300px]">
                 <span className="font-medium">Default Currency*</span>
                 <input 
                     className="w-full h-[54px] bg-white border border-primary/50 focus:outline-none p-[10px] text-xl" 
