@@ -147,7 +147,6 @@ export default function UserLayout({
         return compArray
     }
 
-
     const changePage = (path:string) => {
         router.push(`/user/${path}`)
     }
@@ -165,14 +164,9 @@ export default function UserLayout({
         }
     }
 
-
-
-
   return (
     <div className="flex flex-row w-full">
-      
-      <div className='md:w-[330px] h-full flex flex-col justify-between  pl-[20px] py-[32px]' style={{ minHeight: "calc(100vh - 200px)" }}>
-
+      <div className='md:w-[330px] flex flex-col justify-between  pl-[20px] py-[32px]' style={{ minHeight: "calc(100vh - 200px)" }}>
         <div className='flex flex-col w-full gap-7.5 items-start'>
             {showSideBarOptions()}
         </div>
