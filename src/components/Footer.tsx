@@ -74,11 +74,11 @@ export const Footer = () => {
             let secOptions = section.options
 
             var subArray:any = []
-            secOptions.forEach(option => {
-                subArray.push(<span className="text-base xl:text-lg 2xl:text-xl hover:text-[#e4c095] cursor-pointer font-medium 2xl:font-normal"  onClick={()=>openLink(option.link)}>{option.title}</span>)
+            secOptions.forEach((option, index) => {
+                subArray.push(<span key={`${secTitle}-option-${index}`} className="text-base xl:text-lg 2xl:text-xl hover:text-[#e4c095] cursor-pointer font-medium 2xl:font-normal"  onClick={()=>openLink(option.link)}>{option.title}</span>)
             });
 
-            compArray.push(<div className="flex flex-col gap-6 items-start">
+            compArray.push(<div key={`section-${secTitle}`} className="flex flex-col gap-6 items-start">
                 <span className="text-[28px] xl:text-[26px] 2xl:text-3xl font-semibold xl:font-medium 2xl:font-semibold" style={{fontFamily:'Harlow'}}>{secTitle}</span>
                 <div className="flex flex-col gap-5 items-start">
                     {subArray}
