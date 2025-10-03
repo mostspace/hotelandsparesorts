@@ -97,7 +97,7 @@ export const Header = () => {
 
                 {loggedIn && (
                   <button 
-                    className="hover:text-accent cursor-pointer transition-colors text-[11px] text-base"
+                    className="flex items-center hover:text-accent cursor-pointer transition-colors text-[11px] text-[#333333]"
                     onClick={logoutClicked}
                   >
                     LOGOUT
@@ -224,7 +224,7 @@ export const Header = () => {
               ].map((item, index) => (
                 <div key={index}>
                   <button 
-                    className="w-full text-left text-white font-medium text-lg py-4 px-4 hover:bg-accent/20 transition-colors" 
+                    className="w-full text-center text-white font-medium text-lg py-4 px-4 hover:bg-accent/20 transition-colors" 
                     onClick={() => {
                       openLink(item.url);
                       setShowMobileMenu(false);
@@ -239,7 +239,7 @@ export const Header = () => {
               {/* Account Section */}
               <div className="mx-4 h-px bg-accent/30"/>
               <button 
-                className="text-left text-white font-medium text-lg py-4 px-4 hover:bg-accent/20 transition-colors" 
+                className="text-center text-white font-medium text-lg py-4 px-4 hover:bg-accent/20 transition-colors" 
                 onClick={loggedIn ? myAccountClicked : loginClicked}
               >
                 MY ACCOUNT
@@ -249,7 +249,7 @@ export const Header = () => {
                 <>
                   <div className="mx-4 h-px bg-accent/30"/>
                   <button 
-                    className="text-left text-white font-medium text-lg py-4 px-4 hover:bg-accent/20 transition-colors" 
+                    className="text-center text-white font-medium text-lg py-4 px-4 hover:bg-accent/20 transition-colors" 
                     onClick={() => {
                       logoutClicked();
                       setShowMobileMenu(false);
