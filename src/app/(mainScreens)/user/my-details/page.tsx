@@ -167,7 +167,12 @@ export default function MyDetails() {
 
         </div>
 
-        <Button>UPDATE</Button>
+        <Button
+            variant="primary"
+            className="px-5 py-3 text-sm md:text-md lg:text-[16px]"
+        >
+            Update
+        </Button>
 
 
         <div className="w-full h-px bg-primary/30"/>
@@ -186,7 +191,12 @@ export default function MyDetails() {
                 />
             </div>
 
-            <Button>UPDATE</Button>
+            <Button
+                variant="primary"
+                className="px-5 py-3 text-sm md:text-md lg:text-[16px]"
+            >
+                Update
+            </Button>
         </div>
 
     
@@ -230,8 +240,12 @@ export default function MyDetails() {
 
 
             </div>
-
-                <Button onClick={handleUpdatePassword}>UPDATE PASSWORD</Button>
+                <Button
+                    variant="primary"
+                    className="px-5 py-3 text-sm md:text-md lg:text-[16px]"
+                >
+                    Update Password
+                </Button>
                 <span>{passwordStatus}</span>
         </div>
 

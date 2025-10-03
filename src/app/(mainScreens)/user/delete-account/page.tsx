@@ -17,13 +17,19 @@ export default function DeleteAccount() {
                 <span>{">"}</span>
                 <span>Delete Account</span>
             </div>
-            <span className="text-6xl text-accent font-medium">Delete Account</span>
+            <span className="text-6xl text-accent font-medium" style={{fontFamily:'Harlow'}}>Delete Account</span>
 
             <span className="text-xl">If you delete your account, all your personal information, booking history, and saved preferences will be permanently removed.
             This action cannot be undone.</span>
         </div>
 
-        <Button onClick={()=>setShowPopUp(true)}>DELETE ACCOUNT</Button>
+        <Button
+            variant="primary"
+            className="px-5 py-3 text-sm md:text-md lg:text-[16px]"
+            onClick={()=>setShowPopUp(true)}
+        >
+            DELETE ACCOUNT
+        </Button>
 
         {showPopUp &&<div className="fixed top-0 left-0 h-full w-full bg-primary/50 flex justify-center items-center z-10">
 
