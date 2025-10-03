@@ -315,3 +315,49 @@ html.desktop-zoom {
     padding-right: 20px;
   }
 }
+
+/* Footer Accordion Arrow Styles */
+.footer-arrow {
+  position: relative;
+  padding-right: 2rem;
+}
+
+.footer-arrow::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 1.5rem;
+  transform: rotate(45deg) translateY(-50%);
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 2px solid var(--light);
+  border-top-width: 0;
+  border-left-width: 0;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.footer-arrow.expanded::after {
+  border-top-width: 2px;
+  border-left-width: 2px;
+  border-bottom-width: 0;
+  border-right-width: 0;
+}
+
+/* Footer Accordion Content Animation */
+.footer-content {
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.footer-content.expanded {
+  max-height: 1000px;
+  opacity: 1;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+}

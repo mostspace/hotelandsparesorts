@@ -9,6 +9,7 @@ export const Footer = () => {
 
     const [email, setEmail] = useState("");
     const [addedToList, setAddedToList] = useState(false);
+    const [expandedSections, setExpandedSections] = useState<{[key: string]: boolean}>({});
     const router = useRouter();
 
 
@@ -59,12 +60,16 @@ export const Footer = () => {
             {title:"Guide",link:"https://www.hotelandsparesorts.com/blogs"},
 
         ]}
-
     ]
 
+    const toggleSection = (sectionTitle: string) => {
+        setExpandedSections(prev => ({
+            ...prev,
+            [sectionTitle]: !prev[sectionTitle]
+        }));
+    };
 
-
-    const displayLinks = () => {
+    const displayLinks = (isMobile: boolean = false) => {
 
         var compArray:any = []
 
@@ -72,18 +77,37 @@ export const Footer = () => {
             
             let secTitle = section.title
             let secOptions = section.options
+            const isExpanded = expandedSections[secTitle];
 
             var subArray:any = []
             secOptions.forEach((option, index) => {
-                subArray.push(<span key={`${secTitle}-option-${index}`} className="text-base xl:text-lg 2xl:text-xl hover:text-[#e4c095] cursor-pointer font-medium 2xl:font-normal"  onClick={()=>openLink(option.link)}>{option.title}</span>)
+                subArray.push(<span key={`${secTitle}-option-${index}`} className="text-base text-[16px] font-light hover:text-[#e4c095] cursor-pointer py-2"  onClick={()=>openLink(option.link)}>{option.title}</span>)
             });
 
-            compArray.push(<div key={`section-${secTitle}`} className="flex flex-col gap-6 items-start">
-                <span className="text-[28px] xl:text-[26px] 2xl:text-3xl font-semibold xl:font-medium 2xl:font-semibold" style={{fontFamily:'Harlow'}}>{secTitle}</span>
-                <div className="flex flex-col gap-5 items-start">
-                    {subArray}
-                </div>
-            </div>)
+            if (isMobile) {
+                compArray.push(
+                    <div key={`section-${secTitle}`} className="w-full border-b border-[#e4c095]/20 pb-4 mb-4 font-medium">
+                        <div 
+                            className={`footer-arrow cursor-pointer py-2 ${isExpanded ? 'expanded' : ''}`}
+                            onClick={() => toggleSection(secTitle)}
+                        >
+                            <span className="text-[20px]" style={{fontFamily:'Harlow Duo Serif'}}>{secTitle}</span>
+                        </div>
+                        <div className={`footer-content ${isExpanded ? 'expanded' : ''}`}>
+                            <div className="flex flex-col gap-2 pl-4">
+                                {subArray}
+                            </div>
+                        </div>
+                    </div>
+                )
+            } else {
+                compArray.push(<div key={`section-${secTitle}`} className="flex flex-col gap-6 items-start">
+                    <span className="text-[24px]" style={{fontFamily:'Harlow Duo Serif'}}>{secTitle}</span>
+                    <div className="flex flex-col gap-5 items-start">
+                        {subArray}
+                    </div>
+                </div>)
+            }
         });
 
 
@@ -104,8 +128,6 @@ export const Footer = () => {
             // window.open(url, "_blank");
             window.open(url, "_self");
         }
-        
-
        
     }
 
@@ -142,19 +164,22 @@ export const Footer = () => {
             </div>
 
         </div> */}
-
-
-        <div className="w-full lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 md:py-[50px] py-[62px]  flex flex-col gap-11 items-start breakingPoint">
+        
+        <div className="w-full lg:px-[11%] xl:px-[5.5%] 2xl:px-[7%] px-5 md:py-10 py-10 flex flex-col gap-11 items-start breakingPoint">
             
-            <div className="w-full flex md:flex-row md:justify-between flex-col md:item-start gap-[85px] text-light mt-13">
-                {displayLinks()}
+            <div className="w-full flex flex-col md:hidden text-light mt-13">
+                {displayLinks(true)}
+            </div>
+            
+            <div className="w-full hidden md:flex md:flex-row md:justify-between flex-col md:item-start gap-[85px] text-light mt-13">
+                {displayLinks(false)}
             </div>
 
-            <div className="w-full h-px bg-accent mt-4"/>
+            <div className="w-full h-px bg-accent mt-4 hidden md:block"/>
             
             <div className="flex flex-col sm:flex-row w-full items-center justify-between gap-3">
                 <div className="flex flex-row gap-4.5 xl:gap-3 2xl:gap-4">
-                    <div className="w-[60px] h-[60px] xl:w-[55px] xl:h-[55px] 2xl:w-[60px] 2xl:h-[60px] rounded-full bg-accent p-[12px] cursor-pointer hover:bg-accent/70 flex justify-center items-center" onClick={()=>openLink("https://www.instagram.com/hotelandsparesorts/")}>
+                    <div className="w-10 h-10 rounded-full bg-accent p-2 cursor-pointer hover:bg-accent/70 flex justify-center items-center" onClick={()=>openLink("https://www.instagram.com/hotelandsparesorts/")}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
                             <path d="M29.8414 17.6719C22.434 17.6719 16.2964 23.7036 16.2964 31.2168C16.2964 38.7301 22.3281 44.7618 29.8414 44.7618C37.3546 44.7618 43.3863 38.6243 43.3863 31.2168C43.3863 23.8094 37.2488 17.6719 29.8414 17.6719ZM29.8414 39.8941C25.0795 39.8941 21.1641 35.9788 21.1641 31.2168C21.1641 26.4549 25.0795 22.5396 29.8414 22.5396C34.6033 22.5396 38.5186 26.4549 38.5186 31.2168C38.5186 35.9788 34.6033 39.8941 29.8414 39.8941Z" fill="white"/>
                             <path d="M43.9155 20.4232C45.6103 20.4232 46.9842 19.0493 46.9842 17.3544C46.9842 15.6596 45.6103 14.2856 43.9155 14.2856C42.2206 14.2856 40.8467 15.6596 40.8467 17.3544C40.8467 19.0493 42.2206 20.4232 43.9155 20.4232Z" fill="white"/>
@@ -162,13 +187,13 @@ export const Footer = () => {
                         </svg>
                     </div>
 
-                    <div className="w-[60px] h-[60px] xl:w-[55px] xl:h-[55px] 2xl:w-[60px] 2xl:h-[60px]  rounded-full bg-accent p-[12px] cursor-pointer hover:bg-accent/70 flex justify-center items-center" onClick={()=>openLink("https://www.facebook.com/profile.php?id=61566485924572")}>
+                    <div className="w-10 h-10 rounded-full bg-accent p-2 cursor-pointer hover:bg-accent/70 flex justify-center items-center" onClick={()=>openLink("https://www.facebook.com/profile.php?id=61566485924572")}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
                             <path d="M42.7882 23.0071H34.6972V17.7007C34.6972 15.7078 36.018 15.2432 36.9483 15.2432C37.8765 15.2432 42.658 15.2432 42.658 15.2432V6.48235L34.7946 6.45166C26.0655 6.45166 24.079 12.9858 24.079 17.1673V23.0071H19.0308V32.0347H24.079C24.079 43.6203 24.079 57.5797 24.079 57.5797H34.6972C34.6972 57.5797 34.6972 43.4827 34.6972 32.0347H41.8622L42.7882 23.0071Z" fill="white"/>
                         </svg>
                     </div>
 
-                    <div className="w-[60px] h-[60px] xl:w-[55px] xl:h-[55px] 2xl:w-[60px] 2xl:h-[60px]  rounded-full bg-accent p-[15px] cursor-pointer hover:bg-accent/70 flex justify-center items-center" onClick={()=>openLink("https://www.tiktok.com/@hotelandsparesorts")}>
+                    <div className="w-10 h-10  rounded-full bg-accent p-2.5 cursor-pointer hover:bg-accent/70 flex justify-center items-center" onClick={()=>openLink("https://www.tiktok.com/@hotelandsparesorts")}>
                         {/* <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60" fill="none">
                             <path d="M55.9193 15.9437C54.0027 16.7956 51.94 17.3703 49.7757 17.6275C51.9855 16.3045 53.6799 14.2091 54.4789 11.7093C52.412 12.9359 50.1239 13.8259 47.6865 14.3064C45.736 12.2279 42.9558 10.9282 39.8792 10.9282C33.9727 10.9282 29.1837 15.7172 29.1837 21.6248C29.1837 22.4619 29.2779 23.2779 29.461 24.0621C20.571 23.6155 12.6886 19.3578 7.41279 12.8861C6.49204 14.4652 5.96499 16.3024 5.96499 18.2646C5.96499 21.9751 7.85306 25.2496 10.7233 27.1673C8.97066 27.1112 7.32072 26.6296 5.87821 25.8285C5.87715 25.8729 5.87715 25.9184 5.87715 25.9639C5.87715 31.1455 9.56438 35.4678 14.4581 36.452C13.5606 36.6954 12.6156 36.8267 11.6398 36.8267C10.9497 36.8267 10.2798 36.76 9.62682 36.634C10.9889 40.8832 14.9386 43.9767 19.6185 44.0625C15.9578 46.9316 11.3466 48.6419 6.33435 48.6419C5.47181 48.6419 4.61986 48.5911 3.78271 48.4916C8.51769 51.5279 14.1395 53.2975 20.1794 53.2975C39.8549 53.2975 50.6128 36.9992 50.6128 22.8641C50.6128 22.4005 50.6033 21.938 50.5832 21.4787C52.6723 19.9738 54.4863 18.0889 55.9193 15.9437Z" fill="white"/>
                         </svg> */}
@@ -184,12 +209,9 @@ export const Footer = () => {
                             d="M382.31 103.3c-27.76-18.1-47.79-47.07-54.04-80.82-1.35-7.29-2.1-14.8-2.1-22.48h-88.6l-.15 355.09c-1.48 39.77-34.21 71.68-74.33 71.68-12.47 0-24.21-3.11-34.55-8.56-23.71-12.47-39.94-37.32-39.94-65.91 0-41.07 33.42-74.49 74.48-74.49 7.67 0 15.02 1.27 21.97 3.44V190.8c-7.2-.99-14.51-1.59-21.97-1.59C73.16 189.21 0 262.36 0 352.3c0 55.17 27.56 104 69.63 133.52 26.48 18.61 58.71 29.56 93.46 29.56 89.93 0 163.08-73.16 163.08-163.08V172.23c34.75 24.94 77.33 39.64 123.28 39.64v-88.61c-24.75 0-47.8-7.35-67.14-19.96z"
                             />
                         </svg>
-
                     </div>
-
                 </div>
-
-                <span className="text-light text-base font-medium">Copyright Hotel & Spa Resorts 2025</span>
+                <span className="text-sm text-white font-light">Copyright Hotel & Spa Resorts 2025</span>
             </div>
 
         </div>
