@@ -2,7 +2,7 @@ import { MapProvider } from "@/providers/map-provider"
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import PlacesAutocomplete from "../maps/autocomplete"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation";
 
 export interface HotelTileProps{
@@ -19,6 +19,12 @@ export interface HotelTileProps{
 export const HotelTile = (props:HotelTileProps) => {
 
     const [status, setStatus] = useState<string>(props.booking?props.booking.status:"");
+
+    const [locationName, setLocationName] = useState<string>(props.locationName);
+
+    useEffect(() => {
+        setLocationName(props.locationName)
+    }, [props.locationName]);// eslint-disable-line react-hooks/exhaustive-deps
 
 
     console.log("HT ROOMs",props.rooms)
@@ -114,7 +120,7 @@ export const HotelTile = (props:HotelTileProps) => {
     const openHotel = (hid:number) => {
 
 
-        let url = `/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&rooms=${JSON.stringify(props.rooms)}&location=${props.locationName}`
+        let url = `/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&rooms=${JSON.stringify(props.rooms)}&location=${locationName}`
         window.open(url, "_blank");
 
     }

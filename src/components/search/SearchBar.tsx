@@ -199,6 +199,7 @@ export const SearchBar = (props:SearchBarProps) => {
                 setHasFullDateRange(true)
                 setDateRange(selectedRange)
                 setCheckInDate(selectedRange.from); setCheckOutDate(selectedRange.to)
+                setShowCheckInPicker(false)
             }
         } else {
             setDateRange(selectedRange)

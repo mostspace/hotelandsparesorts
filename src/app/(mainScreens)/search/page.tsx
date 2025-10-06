@@ -79,6 +79,7 @@ export default function SearchScreen() {
 
     setLat(latNum)
     setLng(lngNum)
+    setLocationName(searchParams.get('location') || "")
 
     loadHotels(latNum||0,lngNum||0,70000,JSON.parse(filtersStr))
 
