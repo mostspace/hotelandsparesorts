@@ -135,6 +135,7 @@ export default function SearchScreen() {
     console.log("Hotels:", data);
 
 
+
     if(process.env.NEXT_PUBLIC_ENVIRONMENT ==="dev")
     {
       const res2 = await fetch("/api/ratehawk/search/hotelid", {
@@ -179,6 +180,27 @@ export default function SearchScreen() {
         behavior: "smooth" // or "auto" for instant jump
       });
     }
+
+
+    const res2 = await fetch("/api/ratehawk/search/geo", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+        lat: latNum,
+        lng:lngNum, 
+        checkIn:checkIn, 
+        checkOut:checkOut,
+        radius:radiusM,
+        rooms:rooms,
+        filters:filters,
+        type:"premium"
+      }),
+    });
+    if (!res2.ok) throw new Error(`Error: ${res.status}`);
+    const data2 = await res2.json();
+    console.log("Hotels 2:", data2);
    
   }
 

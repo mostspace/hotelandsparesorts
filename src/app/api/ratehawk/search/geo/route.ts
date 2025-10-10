@@ -6,7 +6,7 @@ export function POST(req:Request) {
 
     return new Promise<any>(async (resolve, reject) => {
 
-      const { lat,lng,checkIn,checkOut,rooms,radius,filters,exludedHid } = await req.json();
+      const { lat,lng,checkIn,checkOut,rooms,radius,filters,exludedHid,type } = await req.json();
 
       let roomArray:any[] = []
       rooms.forEach((room: { adults:number, children: number, childrenAges:any[]; }) => {
@@ -24,14 +24,14 @@ export function POST(req:Request) {
       });
      
 
-      console.log("ENV VARIABLES", process.env.NEXT_RATEHAWK_KEY_ID,process.env.NEXT_RATEHAWK_API_KEY)
+      console.log("ENV VARIABLES", type==="premium"?process.env.NEXT_RATEHAWK_KEY_ID_PREMIUM:process.env.NEXT_RATEHAWK_KEY_ID,type==="premium"?process.env.NEXT_RATEHAWK_API_KEY_PREMIUM:process.env.NEXT_RATEHAWK_API_KEY)
 
 
     const response = await fetch('https://api.worldota.net/api/b2b/v3/search/serp/geo/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Basic ' + btoa(`${process.env.NEXT_RATEHAWK_KEY_ID}:${process.env.NEXT_RATEHAWK_API_KEY}`)
+          'Authorization': 'Basic ' + btoa(`${type==="premium"?process.env.NEXT_RATEHAWK_KEY_ID_PREMIUM:process.env.NEXT_RATEHAWK_KEY_ID}:${type==="premium"?process.env.NEXT_RATEHAWK_API_KEY_PREMIUM:process.env.NEXT_RATEHAWK_API_KEY}`)
         },
         body: JSON.stringify({
           checkin: checkIn,
@@ -162,6 +162,11 @@ export function POST(req:Request) {
           }
 
       });
+
+
+
+
+
 
 
     resolve(NextResponse.json(hotelsWithCancellation))
