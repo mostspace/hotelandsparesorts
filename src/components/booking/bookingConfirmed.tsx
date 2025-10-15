@@ -1,15 +1,52 @@
 import { auth } from "@/app/firebase";
 import { Button } from "../ui/button"
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { trackPurchase } from "@/utils/dataLayer";
 
 interface BookingConfirmedProps {
     email:string,
-    bookingNumber:string
+    bookingNumber:string,
+    booking:any,
+    amountPaid:number,
+    voucherCode:string,
+    personalDetails:any
 }
 
 export const BookingConfirmed = (props:BookingConfirmedProps) => {
 
     const router = useRouter();
+    
+    // Track purchase event - CRITICAL: Only fires once using permanent deduplication
+    useEffect(() => {
+        if(props.booking && props.personalDetails) {
+            // Calculate tax (sum of all taxes)
+            let totalTax = 0;
+            if(props.booking.tax_data && Array.isArray(props.booking.tax_data)) {
+                props.booking.tax_data.forEach((tax: any) => {
+                    totalTax += parseFloat(tax.amount || 0);
+                });
+            }
+            
+            // Calculate discount from voucher
+            const originalAmount = parseFloat(props.booking.amount);
+            const amountPaid = parseFloat(props.amountPaid);
+            const discount = originalAmount - amountPaid;
+            
+            trackPurchase(
+                props.booking.order_id.toString(),
+                props.booking.room_name,
+                amountPaid,
+                totalTax,
+                0, // shipping (not applicable for hotels)
+                props.voucherCode || '',
+                props.personalDetails.email,
+                `${props.personalDetails.firstName} ${props.personalDetails.lastName}`,
+                1,
+                'EUR'
+            );
+        }
+    }, [props.booking, props.personalDetails, props.amountPaid, props.voucherCode]);
 
     return(
         <div className="w-full h-full flex flex-col items-center gap-10">
