@@ -6,7 +6,7 @@ export async function GET(
     context: any   // 👈 loosen type here
   ) {
     
-    let approvedUsers = ['zuynyjOJ9qgPvD3ROkhAROoWYRH3']
+    let approvedUsers = ['zuynyjOJ9qgPvD3ROkhAROoWYRH3','V5H33HzInaWTOi8jPuRHOk2MaqT2','7RfA1m304LMgM8AnlTbykdX2oCV2']
 
     const uid = context.params.id;
 

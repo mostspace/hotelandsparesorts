@@ -11,6 +11,7 @@ export default function AllBookings() {
     const [errorMessage, setErrorMessage] = useState<any>("");
     const [orderSearch, setOrderSearch] = useState("");
     const [bookingType, setBookingType] = useState("all");
+    const [orderBy, setOrderBy] = useState("createdDate");
 
     useEffect(() => {
         if(auth){
@@ -74,6 +75,19 @@ export default function AllBookings() {
             )
         }
 
+        if(orderBy === 'createdDate')
+        {
+            selectedBookings.sort((a, b) => {
+                return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+            });
+        }
+        else if(orderBy === 'checkIn')
+        {
+            selectedBookings.sort((a, b) => {
+                return new Date(a.check_in).getTime() - new Date(b.check_in).getTime();
+            });
+        }
+
         selectedBookings.forEach(booking => {
             if((booking.order_id+"").includes(orderSearch))
             {
@@ -89,6 +103,9 @@ export default function AllBookings() {
                     />)
             }
         });
+
+        
+        
 
 
         if(compArray.length>0){
@@ -111,29 +128,42 @@ export default function AllBookings() {
             <span className="text-6xl text-accent font-medium">All Bookings</span>
 
             <div className="flex gap-8 items-end">
-            <div className="flex flex-col gap-1.5 ai-start min-w-[300px]">
-                <span className="font-medium">Search by Order ID</span>
-                <input 
-                    className="w-full h-[54px] bg-white border border-primary/50 focus:outline-none p-[10px] text-xl" 
-                    type="text"
-                    value={orderSearch} 
-                    onChange={(e) => setOrderSearch(e.target.value)}
-                />
-            </div>
-            <div className="flex flex-col gap-1.5 ai-start min-w-[300px]">
-                <span className="font-medium">Booking Status</span>
-                <select 
-                    className="w-[200px] h-[54px] bg-white border border-primary/50 focus:outline-none p-[10px] text-xl" 
-                    value={bookingType} 
-                    onChange={(e) => setBookingType(e.target.value)}
-                >
-                        <option key={1} value={"All"}>All</option>
-                        <option key={1} value={"current"}>Current</option>
-                        <option key={1} value={"past"}>Past</option>
-                        <option key={1} value={"cancelled"}>Cancelled</option>
+                <div className="flex flex-col gap-1.5 ai-start min-w-[300px]">
+                    <span className="font-medium">Search by Order ID</span>
+                    <input 
+                        className="w-full h-[54px] bg-white border border-primary/50 focus:outline-none p-[10px] text-xl" 
+                        type="text"
+                        value={orderSearch} 
+                        onChange={(e) => setOrderSearch(e.target.value)}
+                    />
+                </div>
+                <div className="flex flex-col gap-1.5 ai-start ">
+                    <span className="font-medium">Booking Status</span>
+                    <select 
+                        className="w-[200px] h-[54px] bg-white border border-primary/50 focus:outline-none p-[10px] text-xl" 
+                        value={bookingType} 
+                        onChange={(e) => setBookingType(e.target.value)}
+                    >
+                            <option key={1} value={"All"}>All</option>
+                            <option key={1} value={"current"}>Current</option>
+                            <option key={1} value={"past"}>Past</option>
+                            <option key={1} value={"cancelled"}>Cancelled</option>
 
-                </select>
-            </div>
+                    </select>
+                </div>
+
+                <div className="flex flex-col gap-1.5 ai-start min-w-[300px]">
+                    <span className="font-medium">Order By</span>
+                    <select 
+                        className="w-[300px] h-[54px] bg-white border border-primary/50 focus:outline-none p-[10px] text-xl" 
+                        value={orderBy} 
+                        onChange={(e) => setOrderBy(e.target.value)}
+                    >
+                        <option key={1} value={"createdDate"}>Date Booking Made</option> 
+                        <option key={1} value={"checkIn"}>Check In Date</option>
+
+                    </select>
+                </div>
 
                 
 

@@ -264,6 +264,7 @@ export const HotelTile = (props:HotelTileProps) => {
                 
                 <span className="font-bold text-xl underline">Admin Tools</span>
                 <div className="flex flex-col items-start gap-2 text-alt">
+                    <span className="text-lg"><strong>Booking Made:</strong> {formatDate(props.booking.created_at)}</span>
                     <span className="text-lg"><strong>User:</strong> {props.booking.user?props.booking.user.email:"N/A"}</span>
                     <span className="text-lg"><strong>Status: </strong>{status}</span>
                     <span className="text-lg"><strong>Voucher Used: </strong>{props.booking.voucher_used || "N/A"}</span>
