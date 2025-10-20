@@ -48,7 +48,7 @@ export const BookingPaymentDetails = (props:PaymentDetailsProps) => {
             trackAddPaymentInfo(
                 props.booking.order_id.toString(),
                 props.booking.room_name,
-                parseFloat(props.amountToCharge),
+                parseFloat(props.amountToCharge+""),
                 'Card',
                 1,
                 'EUR'
@@ -92,7 +92,7 @@ export const BookingPaymentDetails = (props:PaymentDetailsProps) => {
             trackPaymentInitiated(
                 props.booking.order_id.toString(),
                 props.booking.room_name,
-                parseFloat(props.amountToCharge),
+                parseFloat(props.amountToCharge+""),
                 response.response.paymentIntent.id,
                 1,
                 'EUR'
