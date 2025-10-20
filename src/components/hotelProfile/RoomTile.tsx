@@ -8,6 +8,7 @@ import ErrorPopUp from "../general/ErrorPopUp";
 import { motion, AnimatePresence } from "framer-motion"
 import { Amenities } from "./Amenities";
 import isEqual from "lodash/isEqual";
+import { trackAddToCart } from "@/utils/dataLayer";
 
 interface RoomTileProps{
     rateObj:any
@@ -215,6 +216,16 @@ export const RoomTile = (props:RoomTileProps) => {
         setLoading(false)
        
         if(!data.error){
+            // Track add_to_cart event
+            const totalPrice = +getRate();
+            trackAddToCart(
+                orderID.toString(),
+                props.rateObj.room_name,
+                totalPrice,
+                1,
+                'EUR'
+            );
+            
             bookRoom(orderID)
         }
         

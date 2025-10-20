@@ -5,6 +5,7 @@ import { PaymentComponent } from "../PaymentComponent";
 import { BillingAddressComponent } from "../BillingAddressComponent";
 
 import { Button } from "../ui/button";
+import { trackAddPaymentInfo, trackPaymentInitiated } from "@/utils/dataLayer";
 
 const appearance = {
   variables: {},
@@ -19,6 +20,7 @@ interface PaymentDetailsProps {
     bookingID:any
     successfulPayment:any
     amountToCharge:number
+    booking:any
 }
 
 export const BookingPaymentDetails = (props:PaymentDetailsProps) => {
@@ -39,6 +41,20 @@ export const BookingPaymentDetails = (props:PaymentDetailsProps) => {
         }
 
     }, [props.amountToCharge]);
+    
+    // Track add_payment_info when payment form is displayed
+    useEffect(() => {
+        if(props.booking && intentID) {
+            trackAddPaymentInfo(
+                props.booking.order_id.toString(),
+                props.booking.room_name,
+                parseFloat(props.amountToCharge),
+                'Card',
+                1,
+                'EUR'
+            );
+        }
+    }, [intentID, props.booking, props.amountToCharge]);
 
 
     const createPaymentIntent = async (amount:number) => {
@@ -71,6 +87,18 @@ export const BookingPaymentDetails = (props:PaymentDetailsProps) => {
     console.log('STRIPRE RESPONSE', response);
 
     if (response.success) {
+        // Track payment_initiated event
+        if(props.booking) {
+            trackPaymentInitiated(
+                props.booking.order_id.toString(),
+                props.booking.room_name,
+                parseFloat(props.amountToCharge),
+                response.response.paymentIntent.id,
+                1,
+                'EUR'
+            );
+        }
+        
         setIntentID(null);
         props.successfulPayment(response.response.paymentIntent.id)
 

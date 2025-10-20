@@ -18,6 +18,7 @@ import { LoadingPopUp } from "@/components/LoadingPopUp";
 import { auth } from "@/app/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import ErrorPopUp from "@/components/general/ErrorPopUp";
+import { trackViewItem } from "@/utils/dataLayer";
 
 
 
@@ -131,6 +132,19 @@ export default function HotelProfileScreen() {
       loadReviews(data.tripadvisor_id)
       setTripAdvisorID(data.tripadvisor_id)
     }
+    
+    // Track view_item event - get lowest price from rates
+    if(data.rates && data.rates.length > 0) {
+      const lowestRate = data.rates[0];
+      const price = lowestRate.payment_options?.payment_types?.[0]?.show_amount || 0;
+      trackViewItem(
+        data.hid.toString(),
+        data.hotel_name,
+        parseFloat(price),
+        'EUR'
+      );
+    }
+    
     setLoading(false)
     
   }

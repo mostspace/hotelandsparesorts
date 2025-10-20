@@ -15,6 +15,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { sendTemplateEmail } from "@/utils/email";
+import { trackViewCart, trackBeginCheckout, trackAddShippingInfo } from "@/utils/dataLayer";
 
 export default function BookingScreen() {
 
@@ -53,7 +54,32 @@ export default function BookingScreen() {
       behavior: "smooth" // or "auto" for instant jump
     });
 
-  }, [currentStep]);
+    // Track begin_checkout when moving to step 3 (payment)
+    if(currentStep === 3 && booking) {
+      trackBeginCheckout(
+        booking.order_id.toString(),
+        booking.room_name,
+        parseFloat(booking.amount),
+        1,
+        'EUR'
+      );
+      
+      // Also track add_shipping_info (adapted for hotel booking)
+      const checkInDate = new Date(booking.check_in).toLocaleDateString();
+      const checkOutDate = new Date(booking.check_out).toLocaleDateString();
+      const shippingTier = `Check-in: ${checkInDate}, Check-out: ${checkOutDate}`;
+      
+      trackAddShippingInfo(
+        booking.order_id.toString(),
+        booking.room_name,
+        parseFloat(booking.amount),
+        shippingTier,
+        1,
+        'EUR'
+      );
+    }
+
+  }, [currentStep, booking]);
 
   const retrieveBooking = async (order:number) => {
         
@@ -73,6 +99,17 @@ export default function BookingScreen() {
       console.log("BOOKING RETRIEVED",data )
       setBooking(data)
       setAmountToCharge(data.amount)
+      
+      // Track view_cart event when booking page loads (step 2)
+      if(data && data.order_id) {
+        trackViewCart(
+          data.order_id.toString(),
+          data.room_name,
+          parseFloat(data.amount),
+          1,
+          'EUR'
+        );
+      }
       
   }
 
@@ -404,13 +441,13 @@ export default function BookingScreen() {
 
       <div className="w-full flex flex-col gap-7.5">
         <VoucherApply amount={booking.amount} setAmount={setAmountToCharge} setVoucherCode={setVoucherCode}/>
-        <BookingPaymentDetails bookingID={booking.order_id} successfulPayment={successfulPayment} amountToCharge={amountToCharge}/>
+        <BookingPaymentDetails bookingID={booking.order_id} successfulPayment={successfulPayment} amountToCharge={amountToCharge} booking={booking}/>
       </div>
 
     </div>}
 
 
-    {currentStep === 4 && <BookingConfirmed email={personalDetails.email} bookingNumber={booking.order_id}/>}
+    {currentStep === 4 && <BookingConfirmed email={personalDetails.email} bookingNumber={booking.order_id} booking={booking} amountPaid={amountToCharge} voucherCode={voucherCode} personalDetails={personalDetails}/>}
 
 
 
