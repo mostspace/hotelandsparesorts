@@ -17,6 +17,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [voucherCode, setVoucherCode] = useState("");
 
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -51,7 +52,7 @@ export default function LoginPage() {
     if(searchParams.has('register')){setOnLogin(false)}
   }, [])
   
-  const register = () => {
+  const register = async () => {
 
     if(email === "" || !validateEmail(email)){
       setErrorMessage("Please fill in a valid email");
@@ -72,8 +73,9 @@ export default function LoginPage() {
 
     console.log("REGISTER")
 
+    let validVoucher = await checkVoucher()
 
-    if(auth){
+    if(auth && validVoucher){
 
       setErrorMessage("")
 
@@ -94,6 +96,18 @@ export default function LoginPage() {
     }
   }
 
+
+  const checkVoucher = async () => {
+
+        const res = await fetch(`/api/vouchers/validate?voucherID=${voucherCode}`);
+        if (!res.ok) throw new Error(`Error: ${res.status}`);
+        const data = await res.json();
+
+        let found = data.found
+
+        if(!found){setErrorMessage("Invalid voucher code")}
+        return found
+  }
 
 
   const signIn = () => {
@@ -257,6 +271,16 @@ export default function LoginPage() {
                 />
               )}
 
+              {!onPasswordReset && !onLogin && (
+                <Input
+                  className="w-[350px] md:w-[500px] border border-accent rounded-xl text-xl"
+                  type="text"
+                  placeholder="voucher code"
+                  value={voucherCode}
+                  onChange={(e) => setVoucherCode(e.target.value)}
+                />
+              )}
+
               <Button className="text-lg p-8 w-full bg-accent hover:bg-accent/90 text-xl" onClick={onPasswordReset?resetPassword:onLogin?signIn:register}>{onPasswordReset?"Reset Password":onLogin?"Sign in":"Register"}</Button>
 
               {errorMessage && <span className="text-[red] max-w-[300px]">{errorMessage}</span>}
@@ -266,7 +290,7 @@ export default function LoginPage() {
                 {onLogin && <span className=" text-accent cursor-pointer font-medium text-lg" onClick={()=>setOnPasswordReset(!onPasswordReset)}>{onPasswordReset?"Back to Login":"Forgotten Password"}</span>}
               </div>
 
-               {!onPasswordReset && <div className="w-full flex items-center gap-2">
+               {/* {!onPasswordReset && <div className="w-full flex items-center gap-2">
                   <div className="w-full h-px bg-primary/50"/>
                   <span className="text-xl text-primary/50">or</span>
                   <div className="w-full h-px bg-primary/50"/>
@@ -281,7 +305,7 @@ export default function LoginPage() {
                   <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
                   <path fill="none" d="M0 0h48v48H0z"></path>
                 </svg>
-                {`Sign ${onLogin?"in":"up"} With Google`}</Button>}
+                {`Sign ${onLogin?"in":"up"} With Google`}</Button>} */}
 
           </div>
           </div>

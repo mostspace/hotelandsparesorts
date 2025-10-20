@@ -114,7 +114,10 @@ export default function SearchScreen() {
     console.log("LOAD HOTELS",latNum,lngNum,radiusM,filters)
 
     setLoading(true)
-    const res = await fetch("/api/ratehawk/search/geo", {
+
+    var promises = []
+
+   promises.push( await fetch("/api/ratehawk/search/geo", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -128,61 +131,10 @@ export default function SearchScreen() {
         rooms:rooms,
         filters:filters
       }),
-    });
+    })
+  )
 
-    if (!res.ok) throw new Error(`Error: ${res.status}`);
-    const data = await res.json();
-    console.log("Hotels:", data);
-
-
-
-    if(process.env.NEXT_PUBLIC_ENVIRONMENT ==="dev")
-    {
-      const res2 = await fetch("/api/ratehawk/search/hotelid", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ 
-          hid:8473727,
-          checkIn:checkIn, 
-          checkOut:checkOut,
-          rooms:rooms,
-          sandbox:true
-      
-        }),
-      });
-    
-
-    if (!res2.ok) throw new Error(`Error: ${res2.status}`);
-    const data2 = await res2.json();
-    console.log("Hotels Test:", data2);
-
-    if(data2.length>0){
-      let testHotel = data2[0]
-      data.unshift(testHotel);
-    }
-  }
-
-
-    setHotels(data)
-    
-    setCurrentPage(1)
-
-    setFilteredHotels(data)
-
-    setLoading(false)
-    setUpdateVar(updateVar+1)
-
-    if(!mapOpen){
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth" // or "auto" for instant jump
-      });
-    }
-
-
-    const res2 = await fetch("/api/ratehawk/search/geo", {
+  promises.push( await fetch("/api/ratehawk/search/geo", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -197,10 +149,105 @@ export default function SearchScreen() {
         filters:filters,
         type:"premium"
       }),
-    });
+    })
+  )
+    
+
+  if(process.env.NEXT_PUBLIC_ENVIRONMENT ==="dev")
+  {
+    promises.push( await fetch("/api/ratehawk/search/hotelid", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+        hid:8473727,
+        checkIn:checkIn, 
+        checkOut:checkOut,
+        rooms:rooms,
+        sandbox:true
+    
+      }),
+    })
+    )
+  }
+
+  Promise.all(promises)
+  .then(async (results: any[]) => {
+    
+    let res = results[0]
+    let res2 = results[1]
+
+    if (!res.ok) throw new Error(`Error: ${res.status}`);
+    const data = await res.json();
+    console.log("Hotels:", data);
+
     if (!res2.ok) throw new Error(`Error: ${res.status}`);
-    const data2 = await res2.json();
+    const data2:any = await res2.json();
     console.log("Hotels 2:", data2);
+
+
+    data2.forEach((hotel:any) => {
+      
+      let hid = hotel.hid
+      let rates = hotel.rates
+      rates.forEach((rate:any) => {
+        rate.premium = true
+      });
+
+      const foundHotel = data.find((hotel:any) => hotel.hid === hid);
+
+      if(foundHotel){
+        foundHotel.rates.push(...rates)
+      }else{
+        data.push(hotel)
+      }
+
+
+    });
+
+    if(process.env.NEXT_PUBLIC_ENVIRONMENT ==="dev")
+    {
+      let res3 = results[2]
+      if (!res3.ok) throw new Error(`Error: ${res3.status}`);
+      const data3 = await res3.json();
+      console.log("Hotels Test:", data3);
+
+      if(data3.length>0){
+        let testHotel = data3[0]
+        data.unshift(testHotel);
+      }
+    }
+
+    setHotels(data)
+    setFilteredHotels(data)
+
+
+  })
+  .catch((error) => {
+    console.error("At least one promise failed:", error);
+  });
+
+    
+
+    
+
+
+    
+    setCurrentPage(1)
+
+    setLoading(false)
+    setUpdateVar(updateVar+1)
+
+    if(!mapOpen){
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth" // or "auto" for instant jump
+      });
+    }
+
+
+    
    
   }
 

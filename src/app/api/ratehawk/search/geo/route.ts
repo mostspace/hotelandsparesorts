@@ -53,6 +53,8 @@ export function POST(req:Request) {
       const data = await response.json();
       console.log("DATA",data);
 
+      if(!data.data){    resolve(NextResponse.json([]))}
+
       var hotels = data.data.hotels
       var filteredHotels:any[] = hotels
 
