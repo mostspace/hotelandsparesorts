@@ -219,6 +219,9 @@ export default function SearchScreen() {
       }
     }
 
+
+    console.log("Combined hotels", data)
+
     setHotels(data)
     setFilteredHotels(data)
 
