@@ -30,7 +30,7 @@ export const BookingConfirmed = (props:BookingConfirmedProps) => {
             
             // Calculate discount from voucher
             const originalAmount = parseFloat(props.booking.amount);
-            const amountPaid = parseFloat(props.amountPaid);
+            const amountPaid = parseFloat(props.amountPaid+"");
             const discount = originalAmount - amountPaid;
             
             trackPurchase(
