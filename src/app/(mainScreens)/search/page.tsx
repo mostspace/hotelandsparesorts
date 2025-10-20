@@ -195,7 +195,7 @@ export default function SearchScreen() {
         rate.premium = true
       });
 
-      const foundHotel = data.find((hotel:any) => hotel.hid === hid);
+      let foundHotel = data.find((hotel:any) => hotel.hid === hid);
 
       if(foundHotel){
         foundHotel.rates.push(...rates)
