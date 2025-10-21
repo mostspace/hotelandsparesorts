@@ -27,7 +27,8 @@ export function POST(req:Request) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Basic ' + btoa(`${type==="premium"?process.env.NEXT_RATEHAWK_KEY_ID_PREMIUM:process.env.NEXT_RATEHAWK_KEY_ID}:${type==="premium"?process.env.NEXT_RATEHAWK_API_KEY_PREMIUM:process.env.NEXT_RATEHAWK_API_KEY}`)
+          // 'Authorization': 'Basic ' + btoa(`${type==="premium"?process.env.NEXT_RATEHAWK_KEY_ID_PREMIUM:process.env.NEXT_RATEHAWK_KEY_ID}:${type==="premium"?process.env.NEXT_RATEHAWK_API_KEY_PREMIUM:process.env.NEXT_RATEHAWK_API_KEY}`)
+          'Authorization': 'Basic ' + btoa(`${process.env.NEXT_RATEHAWK_KEY_ID_PREMIUM}:${process.env.NEXT_RATEHAWK_API_KEY_PREMIUM}`)
         },
         body: JSON.stringify({
           checkin: checkIn,

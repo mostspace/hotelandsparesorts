@@ -10,17 +10,17 @@ export function POST(req:Request) {
 
     const { hashID,hid } = await req.json();
 
-    let bookHash = testHash
+    let bookHash = hashID
     if(+hid===8473727){
       console.log("TEST HOTEL")
-      bookHash = hashID
+      bookHash = testHash
     }
 
     const response = await fetch('https://api.worldota.net/api/b2b/v3/hotel/order/booking/form/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Basic ' + btoa(`${process.env.NEXT_RATEHAWK_KEY_ID}:${process.env.NEXT_RATEHAWK_API_KEY}`)
+          'Authorization': 'Basic ' + btoa(`${process.env.NEXT_RATEHAWK_KEY_ID_PREMIUM}:${process.env.NEXT_RATEHAWK_API_KEY_PREMIUM}`)
         },
         body: JSON.stringify({
           partner_order_id: Math.random().toString(36).slice(-8),
