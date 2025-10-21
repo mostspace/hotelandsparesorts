@@ -33,7 +33,9 @@ export default function LoginPage() {
     if(auth){
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
-          router.push(`/`)
+            const redirect = searchParams.get("redirect") || "/";
+            router.push(redirect)
+
           if(bookingNumber!==""){claimBooking(bookingNumber)}
         }
         else {
@@ -104,9 +106,12 @@ export default function LoginPage() {
         const data = await res.json();
 
         let found = data.found
+        let error = data.error
 
         if(!found){setErrorMessage("Invalid voucher code")}
-        return found
+        else if(error){setErrorMessage("Cannot register with voucher code: " + error)}
+
+        return found && !error
   }
 
 
@@ -246,7 +251,7 @@ export default function LoginPage() {
 
               <Input
                   className="w-[350px] md:w-[500px] border border-accent rounded-xl text-xl"
-                  placeholder="email address"
+                  placeholder="Email Address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -255,7 +260,7 @@ export default function LoginPage() {
                 <Input
                   className="w-[350px] md:w-[500px] border border-accent rounded-xl text-xl"
                   type="password"
-                  placeholder="password"
+                  placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -265,7 +270,7 @@ export default function LoginPage() {
                 <Input
                   className="w-[350px] md:w-[500px] border border-accent rounded-xl text-xl"
                   type="password"
-                  placeholder="confirm password"
+                  placeholder="Confirm Password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
@@ -275,13 +280,13 @@ export default function LoginPage() {
                 <Input
                   className="w-[350px] md:w-[500px] border border-accent rounded-xl text-xl"
                   type="text"
-                  placeholder="voucher code"
+                  placeholder="Voucher Code"
                   value={voucherCode}
                   onChange={(e) => setVoucherCode(e.target.value)}
                 />
               )}
 
-              <Button className="text-lg p-8 w-full bg-accent hover:bg-accent/90 text-xl" onClick={onPasswordReset?resetPassword:onLogin?signIn:register}>{onPasswordReset?"Reset Password":onLogin?"Sign in":"Register"}</Button>
+              <Button className="text-lg p-8 w-full bg-accent hover:bg-accent/90 text-xl" onClick={onPasswordReset?resetPassword:onLogin?signIn:register}>{onPasswordReset?"Reset Password":onLogin?"Log in":"Register"}</Button>
 
               {errorMessage && <span className="text-[red] max-w-[300px]">{errorMessage}</span>}
 
@@ -313,7 +318,7 @@ export default function LoginPage() {
         
           {!onPasswordReset && <div className="flex flex-col gap-3 items-center">
               <span className="text-xl font-medium">{onLogin?"Don't have an account?":"Already have an account?"}</span>
-              <span className="text-2xl underline font-medium text-accent cursor-pointer" onClick={()=>setOnLogin(!onLogin)}>{onLogin?"Register":"Sign In"}</span>
+              <span className="text-2xl underline font-medium text-accent cursor-pointer" onClick={()=>setOnLogin(!onLogin)}>{onLogin?"Register":"Log In"}</span>
           </div>}
 
       </div>}

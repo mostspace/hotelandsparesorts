@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Button } from "../ui/button"
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { LoadingPopUp } from "@/components/LoadingPopUp";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/app/firebase";
@@ -14,13 +14,15 @@ interface RoomTileProps{
     rateObj:any
     images:any[]
     rooms:any[]
-    
+    amountRooms:number
 }
 
 export const RoomTile = (props:RoomTileProps) => {
 
     const router = useRouter();
+    const pathname = usePathname();
     const searchParams = useSearchParams();
+    const fullPath = `${pathname}${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
 
     const [roomImages, setRoomImages] = useState<any[]>([]);
     const [index, setIndex] = useState(0);
@@ -276,21 +278,19 @@ export const RoomTile = (props:RoomTileProps) => {
 
     const getRate = () => {
 
-    
-
            
-            let price = +props.rateObj.payment_options.payment_types[0].show_amount
+            let price = +props.rateObj.payment_options.payment_types[0].show_amount// * props.amountRooms
             let tax_data = props.rateObj.payment_options.payment_types[0].tax_data.taxes
                 
           
             let preTax = price
             tax_data.forEach((element: { included_by_supplier: any; amount: string | number }) => {
                     if(element.included_by_supplier){
-                        preTax-= (+element.amount)
+                        preTax-= (+element.amount)//  * props.amountRooms)
                     }
                 });
 
-            let commissionPercentage = auth?.currentUser?15:20
+            let commissionPercentage = 15 //auth?.currentUser?15:20
             let commission = preTax*(commissionPercentage/100)
             
             
@@ -425,10 +425,10 @@ export const RoomTile = (props:RoomTileProps) => {
                         </div>
                     </div>
                     <span className="text-xl font-medium select-none line-clamp-2">
-                        {props.rateObj.allotment>1?props.rateObj.allotment+" ":""}
+                        {props.amountRooms>1?props.amountRooms+" ":""}
                         {/* {props.rateObj.room_data_trans.main_name} */}
                         {props.rateObj.room_name}
-                        {props.rateObj.allotment>1?"s":""}
+                        {props.amountRooms>1?"s":""}
                     </span>
                     <div className="max-h-[100px] overflow-scroll">
                         <Amenities amenityList={getRoomAmenityData()} source="roomTile"/>
@@ -483,11 +483,12 @@ export const RoomTile = (props:RoomTileProps) => {
             </div>} */}
 
             {showPremiumError && <ErrorPopUp 
-                title="Members-only"
-                subtitle="You must be a member to access this hotel. Sign up to be a member and get better rates and access to more hotel listings. If you have used the platform before, you just need to log into your account."
-                buttonText="Sign In"
+                title="Exclusive Member Rate"
+                subtitle={`This exclusive rate is available to Hotel & Spa Resorts Members. Register now using your Hotel & Spa Resorts Gift Voucher to enjoy lifetime membership. `}
+                subtitle2="If you have used the platform before, you just need to log into your account."
+                buttonText="Register"
                 close={closePopUp}
-                buttonClicked={()=>router.push('/login')}
+                buttonClicked={()=>router.push(`/login?register=true&redirect=${encodeURIComponent(fullPath)}`)}
             />}
         </div>
     )

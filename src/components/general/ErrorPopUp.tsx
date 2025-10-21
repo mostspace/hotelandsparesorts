@@ -5,6 +5,7 @@ import { useState } from "react";
 interface ErrorPropUp{
     title:string,
     subtitle:string,
+    subtitle2?:string,
     buttonText:string,
     close:any
     buttonClicked:any
@@ -34,8 +35,9 @@ export default function ErrorPopUp(props:ErrorPropUp) {
             </div>}
 
             <div className="flex flex-col gap-2">
-                <span className="text-2xl font-medium">{props.title}</span>
-                <span className="text-xl">{props.subtitle}</span>
+                <span className="text-3xl font-medium" style={{fontFamily:'Harlow', lineHeight:'110%'}}>{props.title}</span>
+                <span className="text-lg ">{props.subtitle}</span>
+                {props.subtitle2 && <span className="text-lg">{props.subtitle2}</span>}
             </div>
          
             <div className="flex flex-row gap-5">

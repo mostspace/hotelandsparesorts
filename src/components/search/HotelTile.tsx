@@ -23,7 +23,6 @@ export const HotelTile = (props:HotelTileProps) => {
     const [status, setStatus] = useState<string>(props.booking?props.booking.status:"");
 
     const [locationName, setLocationName] = useState<string>(props.locationName);
-    const [showPremiumError, setShowPremiumError] = useState<any>(false);
 
     useEffect(() => {
         setLocationName(props.locationName)
@@ -225,12 +224,10 @@ export const HotelTile = (props:HotelTileProps) => {
         }
     }
 
-    const closePopUp = () => {
-        setShowPremiumError(false)
-    }
+    
 
     return(
-    <div className={`w-full ${props.source==="AllBookings"?"md:h-[500px]":"md:h-[300px]"} flex md:flex-row flex-col border border-primary text-primary bg-light rounded-lg overflow-hidden`}>
+    <div className={`w-full ${props.source==="AllBookings"?"md:h-[500px]":"lg:h-[300px] md:h-[350px]"} flex md:flex-row flex-col border border-primary text-primary bg-light rounded-lg overflow-hidden`}>
 
         <img className="md:h-full h-[200px] md:w-[40%] lg:w-[30%] object-cover object-center cursor-pointer" src={getImageURL()} onClick={()=>openHotel(props.hotel.hid)}/>
         
@@ -266,7 +263,7 @@ export const HotelTile = (props:HotelTileProps) => {
                     </div>
                 }
 
-                <div className="flex flex-col items-end gap-2 text-alt">
+                <div className="flex flex-col items-end gap-2 text-alt mt-3 sm:mt-0">
                     
                     {props.source!=="MyBookings" && getRate(20,false) && <div className="flex gap-2 items-end">
                         <span>Standard Rate:</span>
@@ -274,7 +271,7 @@ export const HotelTile = (props:HotelTileProps) => {
                         {/* {props.showDiscount && <span className="md:text-3xl text-xl font-medium">€{(Number(+getRate(15)).toFixed(2)).toLocaleString()}</span> } */}
                     </div>}
                     {props.source!=="MyBookings" && <div className="flex gap-2 items-end">
-                        <span>Members Rate:</span>
+                        <span>Member Rate:</span>
                         <span className={`md:text-3xl text-xl font-medium ${props.showDiscount?"line-through text-primary/50":""}`}>€{Number(getRate(15,true)).toLocaleString()}</span> 
 
                         {/* {props.showDiscount && <span className="md:text-3xl text-xl font-medium">€{(Number(+getRate(15)).toFixed(2)).toLocaleString()}</span> } */}
@@ -319,14 +316,7 @@ export const HotelTile = (props:HotelTileProps) => {
 
         </div>
 
-        {showPremiumError && <ErrorPopUp 
-      
-            title="Members-only hotel"
-            subtitle="You must be a member to access this hotel. Sign up to be a member and get better rates and access to more hotel listings. If you are a member and you are seeing this, we are just making updates to the site and you will be able to access this listing soon."
-            buttonText="Sign Up"
-            close={closePopUp}
-            buttonClicked={()=>router.push('/login')}
-        />}
+        
 
     </div>
     )
