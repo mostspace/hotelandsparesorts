@@ -270,12 +270,12 @@ export const HotelTile = (props:HotelTileProps) => {
                 <div className="flex flex-col items-end gap-2 text-alt">
                     
                     {props.source!=="MyBookings" && getRate(20,false) && !auth?.currentUser && <div className="flex gap-2 items-end">
-                        <span>Basic Rate:</span>
+                        <span>Standard Rate:</span>
                         <span className={`md:text-2xl text-xl font-medium text-primary/80 ${props.showDiscount?"line-through text-primary/50":""}`}>€{Number(getRate(20,false)).toLocaleString()}</span> 
                         {/* {props.showDiscount && <span className="md:text-3xl text-xl font-medium">€{(Number(+getRate(15)).toFixed(2)).toLocaleString()}</span> } */}
                     </div>}
                     {props.source!=="MyBookings" && <div className="flex gap-2 items-end">
-                        <span>Premium Rate:</span>
+                        <span>Members Rate:</span>
                         <span className={`md:text-3xl text-xl font-medium ${props.showDiscount?"line-through text-primary/50":""}`}>€{Number(getRate(15,true)).toLocaleString()}</span> 
 
                         {/* {props.showDiscount && <span className="md:text-3xl text-xl font-medium">€{(Number(+getRate(15)).toFixed(2)).toLocaleString()}</span> } */}
