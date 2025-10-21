@@ -4,6 +4,7 @@ import { Input } from "../ui/input"
 import PlacesAutocomplete from "../maps/autocomplete"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation";
+import { auth } from "@/app/firebase"
 
 export interface HotelTileProps{
     hotel:any
@@ -53,7 +54,7 @@ export const HotelTile = (props:HotelTileProps) => {
         }
     }
 
-    const getRate = (commissionPercentage:number) => {
+    const getRate = (commissionPercentage:number,premium:boolean) => {
 
         if(props.source.includes("Bookings")){
             return +props.booking.amount
@@ -66,13 +67,17 @@ export const HotelTile = (props:HotelTileProps) => {
 
             let rates:any[] = props.hotel.rates
             rates.forEach(rate => {
-                let price = rate.payment_options.payment_types[0].show_amount
-                let tax_data = rate.payment_options.payment_types[0].tax_data.taxes
-                
 
-                if(!lowestRate || +price<lowestRate){
-                    lowestRate = +price
-                    lowestTaxData = tax_data
+                if(!premium || rate.premium){
+
+                    let price = rate.payment_options.payment_types[0].show_amount
+                    let tax_data = rate.payment_options.payment_types[0].tax_data.taxes
+                    
+
+                    if(!lowestRate || +price<lowestRate){
+                        lowestRate = +price
+                        lowestTaxData = tax_data
+                    }
                 }
             });
 
@@ -87,8 +92,13 @@ export const HotelTile = (props:HotelTileProps) => {
 
             let commission = preTax*(commissionPercentage/100)
             
-            
-            return (lowestRate+commission).toFixed(0)
+            if(lowestRate){
+                return (lowestRate+commission).toFixed(0)
+            }
+            else{
+                return null
+            }
+
         }
     
     }
@@ -247,10 +257,20 @@ export const HotelTile = (props:HotelTileProps) => {
                 }
 
                 <div className="flex flex-col items-end gap-2 text-alt">
-                    {props.source!=="MyBookings" && <div className="flex gap-2 items-end">
-                        <span className={`md:text-3xl text-xl font-medium ${props.showDiscount?"line-through text-primary/50":""}`}>€{Number(getRate(20)).toLocaleString()}</span> 
-                        {props.showDiscount && <span className="md:text-3xl text-xl font-medium">€{(Number(+getRate(15)).toFixed(2)).toLocaleString()}</span> }
+                    
+                    {props.source!=="MyBookings" && getRate(20,false) && !auth?.currentUser && <div className="flex gap-2 items-end">
+                        <span>Basic Rate:</span>
+                        <span className={`md:text-2xl text-xl font-medium text-primary/80 ${props.showDiscount?"line-through text-primary/50":""}`}>€{Number(getRate(20,false)).toLocaleString()}</span> 
+                        {/* {props.showDiscount && <span className="md:text-3xl text-xl font-medium">€{(Number(+getRate(15)).toFixed(2)).toLocaleString()}</span> } */}
                     </div>}
+                    {props.source!=="MyBookings" && <div className="flex gap-2 items-end">
+                        <span>Premium Rate:</span>
+                        <span className={`md:text-3xl text-xl font-medium ${props.showDiscount?"line-through text-primary/50":""}`}>€{Number(getRate(15,true)).toLocaleString()}</span> 
+
+                        {/* {props.showDiscount && <span className="md:text-3xl text-xl font-medium">€{(Number(+getRate(15)).toFixed(2)).toLocaleString()}</span> } */}
+                    </div>}
+
+
                     <div className="flex flex-col items-end gap-2 text-alt">
                         <span className="md:text-lg">{props.rooms?.length} room, {calculateNights()} nights</span>
                         <span className="text-accent text-sm">Fully refundable</span>
