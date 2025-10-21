@@ -5,6 +5,7 @@ import PlacesAutocomplete from "../maps/autocomplete"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation";
 import { auth } from "@/app/firebase"
+import ErrorPopUp from "../general/ErrorPopUp"
 
 export interface HotelTileProps{
     hotel:any
@@ -22,6 +23,7 @@ export const HotelTile = (props:HotelTileProps) => {
     const [status, setStatus] = useState<string>(props.booking?props.booking.status:"");
 
     const [locationName, setLocationName] = useState<string>(props.locationName);
+    const [showPremiumError, setShowPremiumError] = useState<any>(false);
 
     useEffect(() => {
         setLocationName(props.locationName)
@@ -129,9 +131,14 @@ export const HotelTile = (props:HotelTileProps) => {
 
     const openHotel = (hid:number) => {
 
+        if(getRate(20,false)){
+            setShowPremiumError(true)
+        }
+        else{
+            let url = `/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&rooms=${JSON.stringify(props.rooms)}&location=${locationName}`
+            window.open(url, "_blank"); 
+        }
 
-        let url = `/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&rooms=${JSON.stringify(props.rooms)}&location=${locationName}`
-        window.open(url, "_blank");
 
     }
 
@@ -217,6 +224,10 @@ export const HotelTile = (props:HotelTileProps) => {
         } catch (error) {
             console.error("API POST call failed:", error);
         }
+    }
+
+    const closePopUp = () => {
+        setShowPremiumError(false)
     }
 
     return(
@@ -308,6 +319,15 @@ export const HotelTile = (props:HotelTileProps) => {
             
 
         </div>
+
+        {showPremiumError && <ErrorPopUp 
+      
+            title="Members-only hotel"
+            subtitle="You must be a member to access this hotel. Sign up to be a member and get better rates and access to more hotel listings"
+            buttonText="Sign Up"
+            close={closePopUp}
+            buttonClicked={()=>router.push('/login')}
+        />}
 
     </div>
     )

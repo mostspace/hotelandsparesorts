@@ -12,6 +12,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from "react";
 import { auth } from "@/app/firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import ErrorPopUp from "@/components/general/ErrorPopUp";
 
 export default function SearchScreen() {
 
@@ -153,24 +154,24 @@ export default function SearchScreen() {
   )
     
 
-  if(process.env.NEXT_PUBLIC_ENVIRONMENT ==="dev")
-  {
-    promises.push( await fetch("/api/ratehawk/search/hotelid", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ 
-        hid:8473727,
-        checkIn:checkIn, 
-        checkOut:checkOut,
-        rooms:rooms,
-        sandbox:true
+  // if(process.env.NEXT_PUBLIC_ENVIRONMENT ==="dev")
+  // {
+  //   promises.push( await fetch("/api/ratehawk/search/hotelid", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ 
+  //       hid:8473727,
+  //       checkIn:checkIn, 
+  //       checkOut:checkOut,
+  //       rooms:rooms,
+  //       sandbox:true
     
-      }),
-    })
-    )
-  }
+  //     }),
+  //   })
+  //   )
+  // }
 
   Promise.all(promises)
   .then(async (results: any[]) => {
@@ -206,18 +207,18 @@ export default function SearchScreen() {
 
     });
 
-    if(process.env.NEXT_PUBLIC_ENVIRONMENT ==="dev")
-    {
-      let res3 = results[2]
-      if (!res3.ok) throw new Error(`Error: ${res3.status}`);
-      const data3 = await res3.json();
-      console.log("Hotels Test:", data3);
+    // if(process.env.NEXT_PUBLIC_ENVIRONMENT ==="dev")
+    // {
+    //   let res3 = results[2]
+    //   if (!res3.ok) throw new Error(`Error: ${res3.status}`);
+    //   const data3 = await res3.json();
+    //   console.log("Hotels Test:", data3);
 
-      if(data3.length>0){
-        let testHotel = data3[0]
-        data.unshift(testHotel);
-      }
-    }
+    //   if(data3.length>0){
+    //     let testHotel = data3[0]
+    //     data.unshift(testHotel);
+    //   }
+    // }
 
 
     console.log("Combined hotels", data)
@@ -550,13 +551,13 @@ export default function SearchScreen() {
 
                   </div> */}
 
-                  <div className="flex flex-row items-start gap-2">
+                  {/* <div className="flex flex-row items-start gap-2">
                       <Switch className="h-5 w-8 mt-[5px] data-[state=checked]:bg-accent" checked={showDiscounts} onClick={()=>!loggedIn?goToLogin():null} onCheckedChange={(isChecked) => setShowDiscounts(isChecked)}/>
                       <div className="flex flex-col justify-start items-start gap-2">
                         <span className="font-medium text-lg">Member Discounts</span>
                         <span className="font-light">Save up to 15%</span>
                       </div>
-                  </div>
+                  </div> */}
               </div>
 
             </div>
@@ -590,6 +591,8 @@ export default function SearchScreen() {
       </div>
 
 
+      
+      
 
     </div>
   );

@@ -6,7 +6,7 @@ export function POST(req:Request) {
 
     return new Promise<any>(async (resolve, reject) => {
 
-    const { hid,checkIn,checkOut,rooms} = await req.json();
+    const { hid,checkIn,checkOut,rooms,type} = await req.json();
 
     let roomArray:any[] = []
       rooms.forEach((room: { adults:number, children: number, childrenAges:any[]; }) => {
@@ -27,7 +27,7 @@ export function POST(req:Request) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Basic ' + btoa(`${process.env.NEXT_RATEHAWK_KEY_ID}:${process.env.NEXT_RATEHAWK_API_KEY}`)
+          'Authorization': 'Basic ' + btoa(`${type==="premium"?process.env.NEXT_RATEHAWK_KEY_ID_PREMIUM:process.env.NEXT_RATEHAWK_KEY_ID}:${type==="premium"?process.env.NEXT_RATEHAWK_API_KEY_PREMIUM:process.env.NEXT_RATEHAWK_API_KEY}`)
         },
         body: JSON.stringify({
           checkin: checkIn,
