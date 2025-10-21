@@ -68,7 +68,7 @@ export const HotelTile = (props:HotelTileProps) => {
             let rates:any[] = props.hotel.rates
             rates.forEach(rate => {
 
-                if(!premium || rate.premium){
+                if((premium && rate.premium) || (!premium && !rate.premium)){
 
                     let price = rate.payment_options.payment_types[0].show_amount
                     let tax_data = rate.payment_options.payment_types[0].tax_data.taxes
