@@ -31,6 +31,7 @@ export const RoomTile = (props:RoomTileProps) => {
     const [loggedIn, setLoggedIn] = useState<any>(false);
 
     const [showError, setShowError] = useState<any>(false);
+    const [showPremiumError, setShowPremiumError] = useState<any>(false);
 
     useEffect(() => {
     if(auth){
@@ -349,6 +350,10 @@ export const RoomTile = (props:RoomTileProps) => {
             .join(" ");
         }
 
+    const closePopUp = () => {
+        setShowPremiumError(false)
+    }
+
     return(
         <div className="w-[375px] flex flex-col items-center gap-3.5">
 
@@ -469,14 +474,21 @@ export const RoomTile = (props:RoomTileProps) => {
                     </div>
                 </div>
 
-                <Button className="bg-accent hover:bg-accent/90 text-light text-lg font-bold h-[54px]" onClick={prebookRoom}>BOOK</Button>
+                <Button className="bg-accent hover:bg-accent/90 text-light text-lg font-bold h-[54px]" onClick={()=>loggedIn?prebookRoom():setShowPremiumError(true)}>BOOK</Button>
 
             </div>
 
-            {!loggedIn && <div className="w-full flex flex-row items-center gap-2.5">
-                {/* <div className="w-px h-[50px] bg-primary"/> */}
+            {/* {!loggedIn && <div className="w-full flex flex-row items-center gap-2.5">
                 <Button className="w-full bg-[#d5b18d] hover:bg-[#d5b18d]/90 text-light font-medium" onClick={()=>router.push('/login')}>Sign in for member discounts</Button>
-            </div>}
+            </div>} */}
+
+            {showPremiumError && <ErrorPopUp 
+                title="Members-only"
+                subtitle="You must be a member to access this hotel. Sign up to be a member and get better rates and access to more hotel listings. If you have used the platform before, you just need to log into your account."
+                buttonText="Sign In"
+                close={closePopUp}
+                buttonClicked={()=>router.push('/login')}
+            />}
         </div>
     )
 }

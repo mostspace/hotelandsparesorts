@@ -131,14 +131,13 @@ export const HotelTile = (props:HotelTileProps) => {
 
     const openHotel = (hid:number) => {
 
-        if(!getRate(20,false)){
-            setShowPremiumError(true)
-        }
-        else{
+        // if(!getRate(20,false)){
+        //     setShowPremiumError(true)
+        // }
+        // else{
             let url = `/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&rooms=${JSON.stringify(props.rooms)}&location=${locationName}`
             window.open(url, "_blank"); 
-        }
-
+        // }
 
     }
 
@@ -269,7 +268,7 @@ export const HotelTile = (props:HotelTileProps) => {
 
                 <div className="flex flex-col items-end gap-2 text-alt">
                     
-                    {props.source!=="MyBookings" && getRate(20,false) && !auth?.currentUser && <div className="flex gap-2 items-end">
+                    {props.source!=="MyBookings" && getRate(20,false) && <div className="flex gap-2 items-end">
                         <span>Standard Rate:</span>
                         <span className={`md:text-2xl text-xl font-medium text-primary/80 ${props.showDiscount?"line-through text-primary/50":""}`}>€{Number(getRate(20,false)).toLocaleString()}</span> 
                         {/* {props.showDiscount && <span className="md:text-3xl text-xl font-medium">€{(Number(+getRate(15)).toFixed(2)).toLocaleString()}</span> } */}
