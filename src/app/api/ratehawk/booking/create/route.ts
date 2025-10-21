@@ -26,7 +26,7 @@ export function POST(req:Request) {
           partner_order_id: Math.random().toString(36).slice(-8),
           book_hash: bookHash,
           language: "en",
-          // user_ip: "82.29.0.86"
+          user_ip: "31.97.115.248"
         })
       });
       
