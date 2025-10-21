@@ -15,7 +15,7 @@ export async function GET(req: Request) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        'Authorization': 'Basic ' + btoa(`${process.env.NEXT_RATEHAWK_KEY_ID}:${process.env.NEXT_RATEHAWK_API_KEY}`)
+        'Authorization': 'Basic ' + btoa(`${process.env.NEXT_RATEHAWK_KEY_ID_PREMIUM}:${process.env.NEXT_RATEHAWK_API_KEY_PREMIUM}`)
       },
       body: JSON.stringify({
         partner_order_id: partnerID,
