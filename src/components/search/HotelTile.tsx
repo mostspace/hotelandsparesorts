@@ -131,7 +131,7 @@ export const HotelTile = (props:HotelTileProps) => {
 
     const openHotel = (hid:number) => {
 
-        if(getRate(20,false)){
+        if(!getRate(20,false)){
             setShowPremiumError(true)
         }
         else{
@@ -323,7 +323,7 @@ export const HotelTile = (props:HotelTileProps) => {
         {showPremiumError && <ErrorPopUp 
       
             title="Members-only hotel"
-            subtitle="You must be a member to access this hotel. Sign up to be a member and get better rates and access to more hotel listings"
+            subtitle="You must be a member to access this hotel. Sign up to be a member and get better rates and access to more hotel listings. If you are a member and you are seeing this, we are just making updates to the site and you will be able to access this listing soon."
             buttonText="Sign Up"
             close={closePopUp}
             buttonClicked={()=>router.push('/login')}
