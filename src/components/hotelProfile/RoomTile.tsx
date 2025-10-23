@@ -478,17 +478,19 @@ export const RoomTile = (props:RoomTileProps) => {
 
             </div>
 
-            {/* {!loggedIn && <div className="w-full flex flex-row items-center gap-2.5">
+            {!loggedIn && <div className="w-full flex flex-row items-center gap-2.5">
                 <Button className="w-full bg-[#d5b18d] hover:bg-[#d5b18d]/90 text-light font-medium" onClick={()=>router.push('/login')}>Sign in for member discounts</Button>
-            </div>} */}
+            </div>}
 
             {showPremiumError && <ErrorPopUp 
                 title="Exclusive Member Rate"
                 subtitle={`This exclusive rate is available to Hotel & Spa Resorts Members. Register now using your Hotel & Spa Resorts Gift Voucher to enjoy lifetime membership. `}
                 subtitle2="If you have used the platform before, you just need to log into your account."
-                buttonText="Register"
                 close={closePopUp}
+                buttonText="REGISTER"
                 buttonClicked={()=>router.push(`/login?register=true&redirect=${encodeURIComponent(fullPath)}`)}
+                button2Text="LOG IN"
+                button2Clicked={()=>router.push(`/login?redirect=${encodeURIComponent(fullPath)}`)}
             />}
         </div>
     )

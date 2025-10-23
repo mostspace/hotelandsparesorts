@@ -10,6 +10,10 @@ interface ErrorPropUp{
     close:any
     buttonClicked:any
     hideClose?:boolean
+
+    button2Text?:string,
+    button2Clicked?:any
+
 }
 
 
@@ -19,7 +23,7 @@ export default function ErrorPopUp(props:ErrorPropUp) {
 
     return(<div className="fixed top-0 left-0 h-full w-full bg-primary/50 flex justify-center items-center z-20 p-2">
 
-        <div className="max-w-[700px] flex flex-col bg-light p-[70px] gap-[44px] relative items-center rounded-lg overflow-hidden">
+        <div className="max-w-[90%] lg:max-w-[700px] flex flex-col bg-light p-[30px] lg:p-[70px] gap-[44px] relative items-center rounded-lg overflow-hidden">
 
             {!props.hideClose && <div className="absolute top-4 right-4 cursor-pointer" onClick={props.close}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -34,15 +38,15 @@ export default function ErrorPopUp(props:ErrorPropUp) {
                 </svg>
             </div>}
 
-            <div className="flex flex-col gap-2">
-                <span className="text-3xl font-medium" style={{fontFamily:'Harlow', lineHeight:'110%'}}>{props.title}</span>
-                <span className="text-lg ">{props.subtitle}</span>
-                {props.subtitle2 && <span className="text-lg">{props.subtitle2}</span>}
+            <div className="flex flex-col gap-5 items-center">
+                <span className="text-4xl" style={{fontFamily:'Harlow', lineHeight:'110%'}}>{props.title}</span>
+                <span className="text-base font-normal text-center">{props.subtitle}</span>
+                {props.subtitle2 && <span className="text-base font-normal text-center">{props.subtitle2}</span>}
             </div>
          
-            <div className="flex flex-row gap-5">
-                <Button onClick={props.buttonClicked}>{props.buttonText}</Button>
-               
+            <div className="flex flex-col lg:flex-row gap-5">
+                <Button className="bg-accent w-[200px] h-[40px] hover:bg-accent/90" onClick={props.buttonClicked}>{props.buttonText}</Button>
+                {props.button2Text && <Button className="bg-accent/30 border-2 border-accent w-[200px] h-[40px] text-accent hover:bg-accent/20" onClick={props.button2Clicked}>{props.button2Text}</Button>   }            
             </div>
 
         </div>

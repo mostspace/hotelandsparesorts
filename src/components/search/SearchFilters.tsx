@@ -198,7 +198,7 @@ export const SearchFilters = (props:SearchFiltersProps) => {
                 </svg>
 
                 <input 
-                    className="w-full h-full bg-transparent border-none focus:outline-none" 
+                    className="w-full h-full bg-transparent border-none focus:outline-none text-primary" 
                     type="text"
                     placeholder="Enter hotel name" 
                     value={searchName} 

@@ -8,7 +8,7 @@ export function POST(req:Request) {
 
     const { uid  } = await req.json();
 
-    let approvedUsers = ['zuynyjOJ9qgPvD3ROkhAROoWYRH3']
+    let approvedUsers = ['zuynyjOJ9qgPvD3ROkhAROoWYRH3','V5H33HzInaWTOi8jPuRHOk2MaqT2']
 
     if(!approvedUsers.includes(uid)){
       resolve(NextResponse.json({error:"You do not have permission to view this."}))

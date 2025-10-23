@@ -21,7 +21,7 @@ export async function POST(req:Request) {
         },
         body: JSON.stringify({
           user: {
-            email: 'partners@hotelandsparesorts.com',//personalDetails.email,
+            email: 'bookings@hotelandsparesorts.com',//personalDetails.email,
             comment: personalDetails.specialRequest,
             phone: personalDetails.phoneNumber,
           },

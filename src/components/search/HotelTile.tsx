@@ -227,15 +227,15 @@ export const HotelTile = (props:HotelTileProps) => {
     
 
     return(
-    <div className={`w-full ${props.source==="AllBookings"?"md:h-[500px]":"lg:h-[300px] md:h-[350px]"} flex md:flex-row flex-col border border-primary text-primary bg-light rounded-lg overflow-hidden`}>
+    <div className={`w-full ${props.source==="AllBookings"?"md:h-[550px]":"lg:h-[300px] md:h-[350px]"} flex md:flex-row flex-col border border-primary/30 lg:border-primary text-primary bg-light rounded-lg overflow-hidden`}>
 
         <img className="md:h-full h-[200px] md:w-[40%] lg:w-[30%] object-cover object-center cursor-pointer" src={getImageURL()} onClick={()=>openHotel(props.hotel.hid)}/>
         
         <div className="md:flex-1 w-[100%] h-full flex flex-col justify-between md:p-6 p-2">
 
-            <div className="w-full flex flex-col gap-2.5">
+            <div className="w-full flex flex-col-reverse lg:flex-col gap-2.5">
                 
-                <div className="flex md:flex-row flex-col-reverse justify-between md:items-center items-end">
+                <div className="flex md:flex-row flex-col justify-between gap-2 lg:gap-0 md:items-center lg:items-end items-start">
                     
                     <div className="flex flex-row gap-3 items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="16" viewBox="0 0 13 16" fill="none">
@@ -254,7 +254,7 @@ export const HotelTile = (props:HotelTileProps) => {
 
             <div className={`flex md:flex-row flex-col-reverse justify-between items-end w-full gap-4`}>
                 
-                {!props.source.includes("Bookings")&&<Button onClick={()=>openHotel(props.hotel.hid)} className="bg-accent hover:bg-accent/90 text-light text-lg">VIEW DETAILS & BOOK</Button>}
+                {!props.source.includes("Bookings")&&<Button onClick={()=>openHotel(props.hotel.hid)} className="bg-accent hover:bg-accent/90 text-light lg:text-lg  w-full h-[30px] lg:h-auto lg:w-auto">VIEW DETAILS & BOOK</Button>}
                 {props.source.includes("Bookings")&&
                     <div className="flex flex-col items-start gap-2 text-alt">
                         <span className="text-lg"><strong>Check-In:</strong> {formatDate(props.checkIn)}</span>
@@ -263,22 +263,26 @@ export const HotelTile = (props:HotelTileProps) => {
                     </div>
                 }
 
-                <div className="flex flex-col items-end gap-2 text-alt mt-3 sm:mt-0">
+                <div className="flex flex-col items-start lg:items-end gap-2 text-alt mt-3 sm:mt-0 w-full">
                     
-                    {props.source!=="MyBookings" && getRate(20,false) && <div className="flex gap-2 items-end">
-                        <span>Standard Rate:</span>
-                        <span className={`md:text-2xl text-xl font-medium text-primary/80 ${props.showDiscount?"line-through text-primary/50":""}`}>€{Number(getRate(20,false)).toLocaleString()}</span> 
-                        {/* {props.showDiscount && <span className="md:text-3xl text-xl font-medium">€{(Number(+getRate(15)).toFixed(2)).toLocaleString()}</span> } */}
+                    <div className="h-px w-full bg-primary/30 mt-2 mb-2 block lg:hidden"/>
+
+                    {props.source!=="MyBookings" && <div className="flex flex-col-reverse lg:flex-col items-start lg:items-end gap-2 w-full">
+
+                        {props.source!=="MyBookings" && getRate(20,false) && <div className="flex gap-2 items-end">
+                            <span className="">Standard Rate:</span>
+                            <span className={`md:text-2xl lg:text-xl text-base font-medium text-primary/80 ${props.showDiscount?"line-through text-primary/50":""}`}>€{Number(getRate(20,false)).toLocaleString()}</span> 
+                            {/* {props.showDiscount && <span className="md:text-3xl text-xl font-medium">€{(Number(+getRate(15)).toFixed(2)).toLocaleString()}</span> } */}
+                        </div>}
+                        {props.source!=="MyBookings" && <div className="flex gap-2 items-end">
+                            <span className="text-xl lg:text-base lg:font-normal font-semibold">Member Rate:</span>
+                            <span className={`md:text-3xl text-xl lg:font-medium font-semibold ${props.showDiscount?"line-through text-primary/50":""}`}>€{Number(getRate(15,true)).toLocaleString()}</span> 
+
+                            {/* {props.showDiscount && <span className="md:text-3xl text-xl font-medium">€{(Number(+getRate(15)).toFixed(2)).toLocaleString()}</span> } */}
+                        </div>}
                     </div>}
-                    {props.source!=="MyBookings" && <div className="flex gap-2 items-end">
-                        <span>Member Rate:</span>
-                        <span className={`md:text-3xl text-xl font-medium ${props.showDiscount?"line-through text-primary/50":""}`}>€{Number(getRate(15,true)).toLocaleString()}</span> 
 
-                        {/* {props.showDiscount && <span className="md:text-3xl text-xl font-medium">€{(Number(+getRate(15)).toFixed(2)).toLocaleString()}</span> } */}
-                    </div>}
-
-
-                    <div className="flex flex-col items-end gap-2 text-alt">
+                    <div className="flex flex-col items-start lg:items-end gap-2 text-alt">
                         <span className="md:text-lg">{props.rooms?.length} room, {calculateNights()} nights</span>
                         <span className="text-accent text-sm">Fully refundable</span>
                      </div>

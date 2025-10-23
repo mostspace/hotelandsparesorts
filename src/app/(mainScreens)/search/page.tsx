@@ -39,7 +39,7 @@ export default function SearchScreen() {
   const lngP = searchParams.get('lng');
 
   const checkIn = searchParams.get('check-in') || getTodayPlusDay(10);
-  const checkOut = searchParams.get('check-out') || getTodayPlusDay(12);
+  const checkOut = searchParams.get('check-out') || getTodayPlusDay(11);
 
   const rooms = (searchParams.has('rooms')?JSON.parse(searchParams.get('rooms')||""):[]);
 
@@ -54,7 +54,7 @@ export default function SearchScreen() {
 
   console.log("COORDS",latNum,lngNum)
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [hotels, setHotels] = useState<any[]>([]);
     const [filteredHotels, setFilteredHotels] = useState<any[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -154,24 +154,24 @@ export default function SearchScreen() {
   )
     
 
-  // if(process.env.NEXT_PUBLIC_ENVIRONMENT ==="dev")
-  // {
-  //   promises.push( await fetch("/api/ratehawk/search/hotelid", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ 
-  //       hid:8473727,
-  //       checkIn:checkIn, 
-  //       checkOut:checkOut,
-  //       rooms:rooms,
-  //       sandbox:true
+  if(process.env.NEXT_PUBLIC_ENVIRONMENT ==="dev")
+  {
+    promises.push( await fetch("/api/ratehawk/search/hotelid", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ 
+        hid:8473727,
+        checkIn:checkIn, 
+        checkOut:checkOut,
+        rooms:rooms,
+        sandbox:true
     
-  //     }),
-  //   })
-  //   )
-  // }
+      }),
+    })
+    )
+  }
 
   Promise.all(promises)
   .then(async (results: any[]) => {
@@ -207,18 +207,18 @@ export default function SearchScreen() {
 
     });
 
-    // if(process.env.NEXT_PUBLIC_ENVIRONMENT ==="dev")
-    // {
-    //   let res3 = results[2]
-    //   if (!res3.ok) throw new Error(`Error: ${res3.status}`);
-    //   const data3 = await res3.json();
-    //   console.log("Hotels Test:", data3);
+    if(process.env.NEXT_PUBLIC_ENVIRONMENT ==="dev")
+    {
+      let res3 = results[2]
+      if (!res3.ok) throw new Error(`Error: ${res3.status}`);
+      const data3 = await res3.json();
+      console.log("Hotels Test:", data3);
 
-    //   if(data3.length>0){
-    //     let testHotel = data3[0]
-    //     data.unshift(testHotel);
-    //   }
-    // }
+      if(data3.length>0){
+        let testHotel = data3[0]
+        data.unshift(testHotel);
+      }
+    }
 
 
     console.log("Combined hotels", data)
@@ -257,13 +257,12 @@ export default function SearchScreen() {
 
   const showHotels = () => {
 
-    let compArray:any[] = []
+  let compArray:any[] = []
 
     compArray.push(
     <div className="flex flex-col items-start">
       <span className="text-5xl" style={{fontFamily:'Harlow'}}>{`Showing ${filteredHotels.length} Hotels`}</span>
       <span className="text-xl text-primary/70">{`out of ${hotels.length} results`}</span>
-
     </div>
   )
 

@@ -328,7 +328,7 @@ export default function BookingScreen() {
 
     return (
       <div className="w-full flex justify-end">
-        <span className="mt-[-20px] mb-[-10px] font-medium text-lg text-accent">
+        <span className="mt-[-20px] mb-[-10px] font-medium text-base lg:text-lg text-accent">
           Time Remaining to complete booking: {minutes}:{seconds.toString().padStart(2, "0")}
         </span>
       </div>
