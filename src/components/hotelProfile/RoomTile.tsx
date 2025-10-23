@@ -117,11 +117,13 @@ export const RoomTile = (props:RoomTileProps) => {
 
         if(data.error){
             setShowError(true)
+            setLoading(false)
         }else{
             let priceChanged = data.data.changes.price_changed
 
             if(priceChanged){
                 setShowError(true)
+                setLoading(false)
             }else{
                 let bookHash = data.data.hotels[0].rates[0].book_hash
                 createBookingRateHawk(bookHash)
