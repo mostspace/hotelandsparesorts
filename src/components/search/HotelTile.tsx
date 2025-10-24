@@ -254,7 +254,7 @@ export const HotelTile = (props:HotelTileProps) => {
 
             <div className={`flex md:flex-row flex-col-reverse justify-between items-end w-full gap-4`}>
                 
-                {!props.source.includes("Bookings")&&<Button onClick={()=>openHotel(props.hotel.hid)} className="bg-accent hover:bg-accent/90 text-light lg:text-lg  w-full h-[30px] lg:h-auto lg:w-auto">VIEW DETAILS & BOOK</Button>}
+                {!props.source.includes("Bookings")&&<Button onClick={()=>openHotel(props.hotel.hid)} className="bg-accent hover:bg-accent/90 text-light lg:text-lg  w-full h-[30px] lg:h-auto sm:w-auto">VIEW DETAILS & BOOK</Button>}
                 {props.source.includes("Bookings")&&
                     <div className="flex flex-col items-start gap-2 text-alt">
                         <span className="text-lg"><strong>Check-In:</strong> {formatDate(props.checkIn)}</span>

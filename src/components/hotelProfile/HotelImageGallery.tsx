@@ -54,9 +54,9 @@ export const HotelImageGallery = (props:HotelImageGalleryProps) => {
     return(
         <div className="w-full md:h-[760px] h-[500px] flex flex-row relative gap-6">
             
-            <img className="h-full md:w-[50%] w-full object-cover object-center rounded-lg overflow-hidden" src={formatImage(props.images[0])}/>
+            <img className={`h-full ${props.images.length>1?"md:w-[50%]":""} w-full object-cover object-center rounded-lg overflow-hidden`} src={formatImage(props.images[0])}/>
 
-            <div className="hidden h-full w-[50%] md:flex flex-row gap-6">
+            {props.images.length>1 && <div className="hidden h-full w-[50%] md:flex flex-row gap-6">
                 <div className="h-full w-[50%] flex flex-col gap-6">
                     <img className="h-[48%] w-full bg-accent object-cover object-center rounded-lg overflow-hidden" src={formatImage(props.images[1])}/>
                     <img className="h-[49%] w-full bg-accent object-cover object-center rounded-lg overflow-hidden" src={formatImage(props.images[2])} />
@@ -65,7 +65,7 @@ export const HotelImageGallery = (props:HotelImageGalleryProps) => {
                     <img className="h-[48%] w-full bg-accent object-cover object-cover object-center rounded-lg overflow-hidden" src={formatImage(props.images[3])}/>
                     <img className="h-[49%] w-full bg-accent object-cover object-cover object-center rounded-lg overflow-hidden" src={formatImage(props.images[4])}/>
                 </div>
-            </div>
+            </div>}
 
             <Button className="bg-accent hover:bg-accent/90 text-light text-lg p-8 absolute z-10 right-8 bottom-8" onClick={()=>setShowPopUp(true)}>
                 <svg width="28" height="29" viewBox="0 0 28 29" fill="none" xmlns="http://www.w3.org/2000/svg">
