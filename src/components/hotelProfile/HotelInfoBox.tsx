@@ -94,7 +94,7 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
                 <div className="flex flex-row gap-4 text-xl">
                     <div className={`relative ${selectedTab=="Key info"?"font-medium":""}`}>
                         <span className='cursor-pointer' onClick={()=>setSelectedTab('Key info')}>Key info</span>
-                        {selectedTab=="Key info" && <div className="absolute w-[100%] h-[2px] bg-primary top-[35px]"/>}
+                        {selectedTab=="Key info" && <div className="absolute w-[100%] h-[2px] bg-primary sm:top-[35px] top-[65px]"/>}
                     </div>
                     {/* <div className={`hidden md:block relative ${selectedTab=="Location"?"font-medium":""}`}>
                         <span className='cursor-pointer' onClick={()=>setSelectedTab("Location")}>Location</span>
@@ -102,15 +102,15 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
                     </div> */}
                     <div className={`relative ${selectedTab=="Amenities"?"font-medium":""}`}>
                         <span className='cursor-pointer' onClick={()=>setSelectedTab("Amenities")}>Amenities</span>
-                        {selectedTab=="Amenities" && <div className="absolute w-[100%] h-[2px] bg-primary top-[35px]"/>}
+                        {selectedTab=="Amenities" && <div className="absolute w-[100%] h-[2px] bg-primary  sm:top-[35px] top-[65px]"/>}
                     </div>
                     <div className={`relative ${selectedTab=="Fees"?"font-medium":""}`}>
                         <span className='cursor-pointer' onClick={()=>setSelectedTab("Fees")}>Fees</span>
-                        {selectedTab=="Fees" && <div className="absolute w-[100%] h-[2px] bg-primary top-[35px]"/>}
+                        {selectedTab=="Fees" && <div className="absolute w-[100%] h-[2px] bg-primary  sm:top-[35px] top-[65px]"/>}
                     </div>
                     <div className={`relative ${selectedTab=="Map"?"font-medium":""}`}>
                         <span className='cursor-pointer' onClick={()=>setSelectedTab("Map")}>Map</span>
-                        {selectedTab=="Map" && <div className="absolute w-[100%] h-[2px] bg-primary top-[35px]"/>}
+                        {selectedTab=="Map" && <div className="absolute w-[100%] h-[2px] bg-primary  sm:top-[35px] top-[65px]"/>}
                     </div>
                 </div>
                 <div className="w-full h-px bg-primary/50"/>

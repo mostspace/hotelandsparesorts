@@ -156,7 +156,7 @@ export default function MyBookings() {
 
             <div className="bg-primary/50 w-full h-px mt-5"/>
 
-            <span className="text-primary font-medium mt-7">To cancel any bookings, please reach out to our team.</span>
+            <span className="text-primary font-medium mt-7">To cancel a booking, please reach out to our team by emailing bookings@hotelandsparesorts.com</span>
 
 
             <span className="text-3xl text-accent font-medium ">Current Bookings</span>

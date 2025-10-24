@@ -335,6 +335,11 @@ export default function BookingScreen() {
     );
   }
 
+  const openTerms = () => {
+    let url = 'https://www.hotelandsparesorts.com/terms-condition'
+    window.open(url, "_blank");
+    // window.open(url, "_self");
+  }
   
   const check = <svg width="22" height="18" viewBox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path fill-rule="evenodd" clip-rule="evenodd" d="M7.33321 12.84L2.19988 7.8L0.48877 9.48L7.33321 16.2L21.9999 1.8L20.2888 0.119995L7.33321 12.84Z" fill="white"/>
@@ -434,7 +439,7 @@ export default function BookingScreen() {
 
         <div className="flex flex-col gap-2.5 items-start text-sm">
           <span><strong>Please note.</strong> This secures your booking. You won’t be charged until you check - in.</span>
-          <span>By completing this booking, you’re agreeing to the <span className="underline text-accent pointer">terms & conditions.</span></span>
+          <span>By completing this booking, you’re agreeing to the <span className="underline text-accent cursor-pointer" onClick={openTerms}>terms & conditions.</span></span>
         </div>
 
       </div>

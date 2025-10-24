@@ -362,10 +362,10 @@ export const RoomTile = (props:RoomTileProps) => {
             {loading && <LoadingPopUp title="Please wait a moment…" subtitle="Loading your booking request."/>}
 
             {showError && <ErrorPopUp 
-                title="Error booking room" 
-                subtitle="There was an issue when trying to create the booking. Perhaps the reate is no longer available. Please try again or refresh the page to view latest available rates" 
+                title="Let’s Refresh Your Options" 
+                subtitle="The selected rate is no longer available. Kindly refresh the page to view the latest available options." 
                 close={()=>setShowError(false)}
-                buttonText="Refresh page"
+                buttonText="Refresh Availability"
                 buttonClicked={()=>window.location.reload()}
                 
             />}

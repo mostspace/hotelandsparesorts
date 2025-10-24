@@ -120,12 +120,12 @@ export const BookingPersonalDetails = (props:BPDProps) => {
             <div className="w-full p-[28px] flex flex-col gap-5 items-start border border-primary/50 rounded-lg overflow-hidden">
                 <div className="flex flex-col items-start gap-3.5">
                     <span className="text-2xl font-medium">Special requests</span>
-                    <span className="text-lg">Special requests cannot be guaranteed – but the property will do its best to meet your needs.</span>
+                    <span className="text-lg">While special requests cannot be guaranteed, the property will always do its utmost to accomodate your preferences.</span>
                 </div>
 
                 <textarea 
                     className="w-full h-[144px] border border-accent bg-muted/50 p-[15px] text-xl rounded-sm"
-                    placeholder="Pleaste write your requests in English (optional)"
+                    placeholder="Share any special request or preferences here."
                     value={specialRequest} 
                     onChange={(e) => setSpecialRequest(e.target.value)}
                 />

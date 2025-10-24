@@ -186,7 +186,7 @@ export const SearchFilters = (props:SearchFiltersProps) => {
     <div className={`flex flex-col gap-10 ${props.fullScreen?props.showFilters?"w-full z-100 pt-20 p-5 overflow-scroll h-screen":"hidden":"w-full max-w-[350px]"}`} ref={divRef}>
         
 
-        <Button className="bg-accent hover:bg-accent/90 sm:hidden p-8 text-lg" onClick={()=>props.setShowFilters(false)}>Close Filters</Button>
+        <Button className="bg-accent hover:bg-accent/90 sm:hidden p-8 text-lg" onClick={()=>props.setShowFilters(false)}>Hide Filters</Button>
 
         
         <div className="w-full p-[28px] bg-muted rounded-[20px] flex flex-col gap-5 items-start border border-primary/50">

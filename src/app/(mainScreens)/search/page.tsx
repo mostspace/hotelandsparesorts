@@ -180,32 +180,38 @@ export default function SearchScreen() {
     let res2 = results[1]
 
     if (!res.ok) throw new Error(`Error: ${res.status}`);
-    const data = await res.json();
-    console.log("Hotels:", data);
+    const data2 = await res.json();
+    console.log("Hotels:", data2);
 
     if (!res2.ok) throw new Error(`Error: ${res.status}`);
-    const data2:any = await res2.json();
-    console.log("Hotels 2:", data2);
+    const data:any = await res2.json();
+    console.log("Hotels 2:", data);
 
 
-    data2.forEach((hotel:any) => {
+    data.forEach((hotel:any) => {
       
-      let hid = hotel.hid
       let rates = hotel.rates
       rates.forEach((rate:any) => {
         rate.premium = true
       });
 
+      
+    });
+
+    data2.forEach((hotel:any) => {
+      
+      let hid = hotel.hid
+      let rates = hotel.rates
+
       let foundHotel = data.find((hotel:any) => hotel.hid === hid);
 
       if(foundHotel){
         foundHotel.rates.push(...rates)
-      }else{
-        data.push(hotel)
       }
 
-
     });
+
+
 
     if(process.env.NEXT_PUBLIC_ENVIRONMENT ==="dev")
     {
