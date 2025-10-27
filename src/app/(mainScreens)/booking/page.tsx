@@ -420,27 +420,31 @@ export default function BookingScreen() {
       <div className="flex flex-col gap-7.5">
         <PriceSummary booking={booking} amountToCharge={amountToCharge}/>
         
-        <div className="w-full border border-primary/50 p-6 flex flex-row gap-2 items-center">
-          <span className="font-medium text-accent text-2xl">Cancellation policy</span>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clip-path="url(#clip0_200_1537)">
-            <path d="M14.0963 5.745H9.90382C9.79882 5.745 9.69382 5.79375 9.62632 5.8725C9.55132 5.95125 9.52132 6.06 9.53257 6.165L10.3988 13.4662C10.4213 13.6575 10.5788 13.8 10.7701 13.8H13.2301C13.4213 13.8 13.5788 13.6575 13.6013 13.4662L14.4676 6.165C14.4788 6.06 14.4488 5.95125 14.3738 5.8725C14.3063 5.79375 14.2013 5.745 14.0963 5.745Z" fill="#A56658"/>
-            <path d="M12.0003 14.5162C10.9691 14.5162 10.1328 15.3525 10.1328 16.3837C10.1328 17.415 10.9691 18.255 12.0003 18.255C13.0316 18.255 13.8678 17.415 13.8678 16.3837C13.8678 15.3525 13.0316 14.5162 12.0003 14.5162Z" fill="#A56658"/>
-            <path d="M12 0.75C5.7975 0.75 0.75 5.7975 0.75 12C0.75 18.2025 5.7975 23.25 12 23.25C18.2025 23.25 23.25 18.2025 23.25 12C23.25 5.7975 18.2025 0.75 12 0.75ZM12 22.5C6.21 22.5 1.5 17.79 1.5 12C1.5 6.21 6.21 1.5 12 1.5C17.79 1.5 22.5 6.21 22.5 12C22.5 17.79 17.79 22.5 12 22.5Z" fill="#A56658"/>
-            </g>
-            <defs>
-            <clipPath id="clip0_200_1537">
-            <rect width="24" height="24" fill="white"/>
-            </clipPath>
-            </defs>
-          </svg>
+        <div className="w-full border border-primary/50 p-6 flex flex-col gap-2 items-start">
+          <div className="w-full flex flex-row gap-2 items-center">
+            <span className="font-medium text-accent text-2xl">Cancellation policy</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_200_1537)">
+              <path d="M14.0963 5.745H9.90382C9.79882 5.745 9.69382 5.79375 9.62632 5.8725C9.55132 5.95125 9.52132 6.06 9.53257 6.165L10.3988 13.4662C10.4213 13.6575 10.5788 13.8 10.7701 13.8H13.2301C13.4213 13.8 13.5788 13.6575 13.6013 13.4662L14.4676 6.165C14.4788 6.06 14.4488 5.95125 14.3738 5.8725C14.3063 5.79375 14.2013 5.745 14.0963 5.745Z" fill="#A56658"/>
+              <path d="M12.0003 14.5162C10.9691 14.5162 10.1328 15.3525 10.1328 16.3837C10.1328 17.415 10.9691 18.255 12.0003 18.255C13.0316 18.255 13.8678 17.415 13.8678 16.3837C13.8678 15.3525 13.0316 14.5162 12.0003 14.5162Z" fill="#A56658"/>
+              <path d="M12 0.75C5.7975 0.75 0.75 5.7975 0.75 12C0.75 18.2025 5.7975 23.25 12 23.25C18.2025 23.25 23.25 18.2025 23.25 12C23.25 5.7975 18.2025 0.75 12 0.75ZM12 22.5C6.21 22.5 1.5 17.79 1.5 12C1.5 6.21 6.21 1.5 12 1.5C17.79 1.5 22.5 6.21 22.5 12C22.5 17.79 17.79 22.5 12 22.5Z" fill="#A56658"/>
+              </g>
+              <defs>
+              <clipPath id="clip0_200_1537">
+              <rect width="24" height="24" fill="white"/>
+              </clipPath>
+              </defs>
+            </svg>
+          </div>
+
+          <div className="flex flex-col gap-2.5 items-start text-sm">
+            <span><strong>Please note.</strong> This secures your booking. You won’t be charged until you check - in.</span>
+            <span>By completing this booking, you’re agreeing to the <span className="underline text-accent cursor-pointer" onClick={openTerms}>terms & conditions.</span></span>
+          </div>
 
         </div>
 
-        <div className="flex flex-col gap-2.5 items-start text-sm">
-          <span><strong>Please note.</strong> This secures your booking. You won’t be charged until you check - in.</span>
-          <span>By completing this booking, you’re agreeing to the <span className="underline text-accent cursor-pointer" onClick={openTerms}>terms & conditions.</span></span>
-        </div>
+        
 
       </div>
 

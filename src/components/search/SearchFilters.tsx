@@ -188,7 +188,8 @@ export const SearchFilters = (props:SearchFiltersProps) => {
 
         <Button className="bg-accent hover:bg-accent/90 sm:hidden p-8 text-lg" onClick={()=>props.setShowFilters(false)}>Hide Filters</Button>
 
-        
+        <span className="w-full text-lg text-primary text-center sm:hidden">Filters will be automatically applied to search when selected</span>
+
         <div className="w-full p-[28px] bg-muted rounded-[20px] flex flex-col gap-5 items-start border border-primary/50">
             <span className="text-primary">Search by property name</span>
             <div className={`flex w-full flex-row gap-3 bg-white/50 px-[20px] py-[10px] w-[30%] items-center border border-primary/50`}>
