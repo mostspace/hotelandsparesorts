@@ -459,7 +459,7 @@ export default function HotelProfileScreen() {
                       <span className="text-5xl" style={{fontFamily:'Harlow'}}>Overview</span>
                       <span className={`text-lg max-w-[975px] ${showAllDescription?"":"max-h-[170px]"} overflow-hidden`}>{ 
                         showDescriptions(hotel.hotelDescriptions.filter((descr: { kind: string; }) => descr.kind === "description")
-                        .sort((a:any, b:any) => (a.title === "Location" ? -1 : b.title === "Location" ? 1 : 0)))
+                        .sort((a:any, b:any) => (a.title.includes("Location") ? -1 : b.title.includes("Location") ? 1 : 0)))
                         }</span>
                       <span className="text-lg font-bold underline cursor-pointer" onClick={()=>setShowAllDescription(!showAllDescription)}>{showAllDescription?"Read less":"Read more"}</span>
                   </div>
