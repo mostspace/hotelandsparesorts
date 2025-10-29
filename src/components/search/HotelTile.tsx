@@ -3,9 +3,10 @@ import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import PlacesAutocomplete from "../maps/autocomplete"
 import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { auth } from "@/app/firebase"
 import ErrorPopUp from "../general/ErrorPopUp"
+import { onAuthStateChanged } from "firebase/auth"
 
 export interface HotelTileProps{
     hotel:any
@@ -23,6 +24,24 @@ export const HotelTile = (props:HotelTileProps) => {
     const [status, setStatus] = useState<string>(props.booking?props.booking.status:"");
 
     const [locationName, setLocationName] = useState<string>(props.locationName);
+    const [showPremiumError, setShowPremiumError] = useState<any>(false);
+    const [loggedIn, setLoggedIn] = useState<any>(false);
+    const [redirectLink, setRedurectLink] = useState<any>("");
+
+    useEffect(() => {
+        if(auth){
+            const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setLoggedIn(true)
+            }else{
+                setLoggedIn(false)
+            }
+            })
+            return () => unsubscribe();
+        }
+    }, [auth]);// eslint-disable-line react-hooks/exhaustive-deps
+    
+
 
     useEffect(() => {
         setLocationName(props.locationName)
@@ -32,6 +51,9 @@ export const HotelTile = (props:HotelTileProps) => {
     console.log("HT ROOMs",props.rooms)
 
     const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const fullPath = `${pathname}${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
     
     
     const getImageURL = () => {
@@ -133,10 +155,16 @@ export const HotelTile = (props:HotelTileProps) => {
         // if(!getRate(20,false)){
         //     setShowPremiumError(true)
         // }
-        // else{
-            let url = `/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&rooms=${JSON.stringify(props.rooms)}&location=${locationName}`
+        let url = `/hotel-profile?hid=${hid}&check-in=${props.checkIn}&check-out=${props.checkOut}&rooms=${JSON.stringify(props.rooms)}&location=${locationName}`
+
+        if(!loggedIn){
+
+            setRedurectLink(url)
+            setShowPremiumError(true)
+        }
+        else{
             window.open(url, "_blank"); 
-        // }
+        }
 
     }
 
@@ -224,7 +252,9 @@ export const HotelTile = (props:HotelTileProps) => {
         }
     }
 
-    
+    const closePopUp = () => {
+        setShowPremiumError(false)
+    }
 
     return(
     <div className={`w-full ${props.source==="AllBookings"?"md:h-[550px]":"lg:h-[300px] md:h-[350px]"} flex md:flex-row flex-col border border-primary/30 lg:border-primary text-primary bg-light rounded-lg overflow-hidden`}>
@@ -320,6 +350,17 @@ export const HotelTile = (props:HotelTileProps) => {
 
         </div>
 
+
+        {showPremiumError && <ErrorPopUp 
+            title="Exclusive Member Rate"
+            subtitle={`This exclusive rate is available to Hotel & Spa Resorts Members. Register now using your Hotel & Spa Resorts Gift Voucher to enjoy lifetime membership. `}
+            subtitle2="If you have used the platform before, you just need to log into your account."
+            close={closePopUp}
+            buttonText="REGISTER"
+            buttonClicked={()=>router.push(`/login?register=true&redirect=${encodeURIComponent(redirectLink)}`)}
+            button2Text="LOG IN"
+            button2Clicked={()=>router.push(`/login?redirect=${encodeURIComponent(redirectLink)}`)}
+        />}
         
 
     </div>

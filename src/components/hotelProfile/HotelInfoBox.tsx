@@ -50,6 +50,8 @@ export const HotelInfoBox = (props:HotelInfoBoxProps) => {
         let descriptions:any[] = props.hotel.hotelDescriptions.filter((descr: { kind: string; }) => descr.kind !== "description" && descr.kind !== "policy")
         descriptions.forEach(descr => {
             
+            console.log("DESCRS",descr)
+
             let title = descr.title
             if(title!==currentTitle){
                 currentTitle = title

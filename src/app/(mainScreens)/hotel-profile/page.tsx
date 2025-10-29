@@ -226,7 +226,7 @@ export default function HotelProfileScreen() {
         paragraphArray.push(<span className="leading-snug">{paragraph}</span>)
       });
 
-      compArray.push(<div className="flex flex-col gap-2 w-full h-full">
+      compArray.push(<div className="flex flex-col mt-2 w-full h-full">
         {/* <span className="text-lg">{element.title}</span> */}
         <div className="flex flex-col gap-2 w-full h-full leading-snug">
           {paragraphArray}
@@ -260,9 +260,9 @@ export default function HotelProfileScreen() {
 
     let rates:any[] = hotel.rates
 
-    if(rates.length>0){compArray.push(<RoomTile images={hotel.images} rooms={hotel.rooms} rateObj={rates[roomIndex % rates.length]} amountRooms={rooms.length}/>)}
-    if(rates.length>1){compArray.push(<RoomTile images={hotel.images} rooms={hotel.rooms} rateObj={rates[(roomIndex+1) % rates.length]} amountRooms={rooms.length}/>)}
-    if(rates.length>2){compArray.push(<RoomTile images={hotel.images} rooms={hotel.rooms} rateObj={rates[(roomIndex+2) % rates.length]} amountRooms={rooms.length}/>)}
+    if(rates.length>0){compArray.push(<RoomTile images={sortedImages()} rooms={hotel.rooms} rateObj={rates[roomIndex % rates.length]} amountRooms={rooms.length}/>)}
+    if(rates.length>1){compArray.push(<RoomTile images={sortedImages()} rooms={hotel.rooms} rateObj={rates[(roomIndex+1) % rates.length]} amountRooms={rooms.length}/>)}
+    if(rates.length>2){compArray.push(<RoomTile images={sortedImages()} rooms={hotel.rooms} rateObj={rates[(roomIndex+2) % rates.length]} amountRooms={rooms.length}/>)}
     // if(rates.length>3){compArray.push(<RoomTile images={hotel.images} rateObj={rates[(roomIndex+3) % rates.length]}/>)}
 
 
@@ -275,7 +275,7 @@ export default function HotelProfileScreen() {
     let rates:any[] = hotel.rates
 
     rates.forEach(rate => {
-      compArray.push(<RoomTile images={hotel.images} rooms={hotel.rooms} rateObj={rate} amountRooms={rooms.length}/>)
+      compArray.push(<RoomTile images={sortedImages()} rooms={hotel.rooms} rateObj={rate} amountRooms={rooms.length}/>)
     });
     return compArray
   }
@@ -457,7 +457,10 @@ export default function HotelProfileScreen() {
 
                   <div className="w-full flex flex-col gap-8 items-start">
                       <span className="text-5xl" style={{fontFamily:'Harlow'}}>Overview</span>
-                      <span className={`text-lg max-w-[975px] ${showAllDescription?"":"max-h-[170px]"} overflow-hidden`}>{ showDescriptions(hotel.hotelDescriptions.filter((descr: { kind: string; }) => descr.kind === "description"))}</span>
+                      <span className={`text-lg max-w-[975px] ${showAllDescription?"":"max-h-[170px]"} overflow-hidden`}>{ 
+                        showDescriptions(hotel.hotelDescriptions.filter((descr: { kind: string; }) => descr.kind === "description")
+                        .sort((a:any, b:any) => (a.title === "Location" ? -1 : b.title === "Location" ? 1 : 0)))
+                        }</span>
                       <span className="text-lg font-bold underline cursor-pointer" onClick={()=>setShowAllDescription(!showAllDescription)}>{showAllDescription?"Read less":"Read more"}</span>
                   </div>
 
