@@ -72,7 +72,7 @@ export default function Vouchers() {
                 {voucherApplied && <div className="flex flex-col gap-2">
                     <div className="flex flex-row text-lg gap-2">
                         <span>Remaining balance:</span>
-                        <span className="font-bold">£{voucherApplied.balance}</span>
+                        <span className="font-bold">€{voucherApplied.balance}</span>
                     </div>
 
                     <div className="flex flex-row text-lg gap-2">

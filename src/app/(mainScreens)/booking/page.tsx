@@ -145,7 +145,7 @@ export default function BookingScreen() {
   }
 
 
-  const checkBookingStatusRateHawk = async (attempt:number) => {
+  const checkBookingStatusRateHawk = async (attempt:number,stripeID:string) => {
     
     const res = await fetch("/api/ratehawk/booking/finish", {
       method: "POST",
@@ -172,15 +172,17 @@ export default function BookingScreen() {
       else if(data.error && data.error!=="timeout" && data.error!=="unknown" && data.error!=="5xx"){
         setLoading(false)
         setShowError(true)
+        await reimburse(stripeID)
         throw new Error(`Error: Too many failed attempts`);
       }
       else if(attempt<10){
         await delay(5000)
-        let recurse:any = await checkBookingStatusRateHawk(attempt+1)
+        let recurse:any = await checkBookingStatusRateHawk(attempt+1,stripeID)
         return(recurse)
       }else{
         setLoading(false)
         setShowError(true)
+        await reimburse(stripeID)
         throw new Error(`Error: Too many failed attempts`);
       }
 
@@ -228,7 +230,7 @@ export default function BookingScreen() {
 
     setLoading(true)
     await completeBookingRateHawk()
-    await checkBookingStatusRateHawk(1)
+    await checkBookingStatusRateHawk(1,stripeID)
     await completeBookingDB(stripeID)
     setLoading(false)
     setCurrentStep(4)
@@ -303,6 +305,57 @@ export default function BookingScreen() {
         
         return (formatted); // Wed, Oct 15, 2025
     }
+
+  const reimburse = async (stripeID:string) => {
+    if(amountToCharge>0){await refundStripe(stripeID)}
+    await refundVoucher()
+  }
+
+
+  const refundStripe = async (stripeID:string) => {
+    try {
+        const res = await fetch("/api/stripe/refunds", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ paymentID: stripeID}),
+        });
+    
+        if (!res.ok) throw new Error(`Error: ${res.status}`);
+    
+        const data = await res.json();
+        console.log("REFUND DATA",data)
+
+
+    } catch (error) {
+        console.error("API POST call failed:", error);
+    }
+}
+
+  const refundVoucher = async () => {
+
+    let overallAmount = booking.amount
+    let amountPaid = amountToCharge
+
+    try {
+        const res = await fetch("/api/vouchers/refund", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ voucherCode: voucherCode,amount:overallAmount-amountPaid}),
+        });
+    
+        if (!res.ok) throw new Error(`Error: ${res.status}`);
+    
+        const data = await res.json();
+        console.log("REFUND DATA",data)
+
+    } catch (error) {
+        console.error("API POST call failed:", error);
+    }
+}
 
   function Countdown({ expiry }: { expiry: Date }) {
     const [remainingTime, setRemainingTime] = useState(
