@@ -86,11 +86,12 @@ export const SearchFilters = (props:SearchFiltersProps) => {
         var index = 0
         selectedFilters.forEach(filter => {
             
-            if(index!==0){compArray.push(<div className="h-px w-full bg-primary/50"/>)}
+            if(index!==0){compArray.push(<div key={`divider-${filter.id}`} className="h-px w-full bg-primary/50"/>)}
 
             if(filter.type === "checkList"){
                 compArray.push(
                     <CheckedListFilter
+                        key={filter.id}
                         filterID={filter.id}
                         title={filter.title}
                         options={filter.options||[]}
@@ -102,6 +103,7 @@ export const SearchFilters = (props:SearchFiltersProps) => {
             else if(filter.type === "slider"){
                 compArray.push(
                     <SliderFilter
+                        key={filter.id}
                         filterID={filter.id}
                         title={filter.title}
                         selected={filter.selected||[25,1000]}
