@@ -510,15 +510,9 @@ export default function SearchScreen() {
 
           {/* RESULTS SECTION */}
           <div className="w-full flex flex-col gap-10 items-center  mr-5 sm:mr-0">
-
-            
             <Button className="bg-accent hover:bg-accent/90 sm:hidden p-8 text-lg" onClick={()=>setShowFilters(true)}>Show Filters</Button>
-
-
             <div className="sm:w-full flex flex-col items-center sm:flex-row justify-between gap-5" ref={resultsRef}>
               {/* <Button onClick={()=>setMapOpen(!mapOpen)}>Show {mapOpen?"List":"Map"}</Button> */}
-
-
               {/* TOGGLE */}
               <div className="flex flex-row border border-primary font-medium text-lg rounded-lg overflow-hidden">
                   
@@ -564,10 +558,7 @@ export default function SearchScreen() {
                       </div>
                   </div> */}
               </div>
-
             </div>
-
-
 
             <div className="w-full h-[100%] flex flex-col gap-9">
              
@@ -586,19 +577,9 @@ export default function SearchScreen() {
                   <MapComponent hotels={filteredHotels} lat={lat||0} lng={lng||0} newSearch={mapMovedNewSearch} updateVar={updateVar} mini={false} source={"searchPage"}/>
                 </MapProvider>
               </div>}
-
             </div>
-
           </div>
-
-
-
       </div>
-
-
-      
-      
-
     </div>
   );
 }
