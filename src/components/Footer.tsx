@@ -24,9 +24,8 @@ export const Footer = () => {
             {title:"Destinations in Porto",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=Porto&lat=41.1579438&lng=-8.629105299999999&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
             {title:"Destinations in Bodrum",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=Bodrum&lat=37.034407&lng=27.43054&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
             {title:"Destinations in Sydney",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=Sydney&lat=-33.8727409&lng=151.2057136&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
-
         ]},
-        {title:'PACKAGES', options:[
+        {title:'PACKAGES IN IRELAND AND NI', options:[
             {title:"Alternative Getaways",link:"https://www.hotelandsparesorts.com/packages?category=alternative-getaways"},
             {title:"Day Spa Packages",link:"https://www.hotelandsparesorts.com/packages?category=day-spa-packages"},
             {title:"Autumn Getaways",link:"https://www.hotelandsparesorts.com/packages?category=autumn-getaways"},

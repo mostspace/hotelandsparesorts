@@ -103,6 +103,7 @@ function Calendar({
       showOutsideDays={showOutsideDays}
       className={cn("bg-background p-3", className)}
       captionLayout={captionLayout}
+      weekStartsOn={1}
       formatters={{
         formatMonthDropdown: (date) =>
           date.toLocaleString("default", { month: "short" }),
