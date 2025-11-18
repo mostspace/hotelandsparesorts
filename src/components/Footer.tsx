@@ -14,6 +14,18 @@ export const Footer = () => {
 
 
     const footerLinks = [
+        {title:'TRENDING DESTINATIONS', options:[
+            {title:"Destinations in Dublin",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=Dublin&lat=53.3498053&lng=-6.2603097&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
+            {title:"Destinations in London",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=London&lat=51.5072178&lng=-0.1275862&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
+            {title:"Destinations in New York",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=New%20York&lat=40.7127753&lng=-74.0059728&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
+            {title:"Destinations in Paris",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=Paris&lat=48.8575475&lng=2.3513765&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
+            {title:"Destinations in Rome",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=Rome&lat=41.8967068&lng=12.4822025&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
+            {title:"Destinations in Miami",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=Miami&lat=25.7616798&lng=-80.1917902&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
+            {title:"Destinations in Porto",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=Porto&lat=41.1579438&lng=-8.629105299999999&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
+            {title:"Destinations in Bodrum",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=Bodrum&lat=37.034407&lng=27.43054&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
+            {title:"Destinations in Sydney",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=Sydney&lat=-33.8727409&lng=151.2057136&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
+
+        ]},
         {title:'PACKAGES', options:[
             {title:"Alternative Getaways",link:"https://www.hotelandsparesorts.com/packages?category=alternative-getaways"},
             {title:"Day Spa Packages",link:"https://www.hotelandsparesorts.com/packages?category=day-spa-packages"},
@@ -33,18 +45,6 @@ export const Footer = () => {
             {title:"Verify a Voucher",link:"https://www.hotelandsparesorts.com/corporate-gift"},
             {title:"My Account",link:"http://booking.hotelandsparesorts.com/login"},
             {title:"Terms & Conditions",link:"https://www.hotelandsparesorts.com/terms-condition"},
-        ]},
-        {title:'TRENDING DESTINATIONS', options:[
-            {title:"Destinations in Dublin",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=Dublin&lat=53.3498053&lng=-6.2603097&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
-            {title:"Destinations in London",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=London&lat=51.5072178&lng=-0.1275862&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
-            {title:"Destinations in New York",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=New%20York&lat=40.7127753&lng=-74.0059728&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
-            {title:"Destinations in Paris",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=Paris&lat=48.8575475&lng=2.3513765&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
-            {title:"Destinations in Rome",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=Rome&lat=41.8967068&lng=12.4822025&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
-            {title:"Destinations in Miami",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=Miami&lat=25.7616798&lng=-80.1917902&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
-            {title:"Destinations in Porto",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=Porto&lat=41.1579438&lng=-8.629105299999999&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
-            {title:"Destinations in Bodrum",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=Bodrum&lat=37.034407&lng=27.43054&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
-            {title:"Destinations in Sydney",link:"https://booking.hotelandsparesorts.com/search?searchID=acbde&location=Sydney&lat=-33.8727409&lng=151.2057136&rooms=[{%22adults%22:2,%22children%22:0,%22childrenAges%22:[]}]"},
-
         ]},
         {title:'PARTNERS', options:[
             {title:"Partner Log In",link:"https://www.hotelandsparesorts.com/partner/login"},
