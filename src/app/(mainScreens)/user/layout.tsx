@@ -50,7 +50,8 @@ export default function UserLayout({
         
         if(data.isAdmin){
             console.log("IS ADMIN")
-            options.push('all-bookings')
+            options.push('admin-bookings')
+            options.push('admin-vouchers')
             setOptions(options)
             setUpdateVar(updateVar+1)
         }
@@ -59,6 +60,8 @@ export default function UserLayout({
 
 
     const titleCase = (kebab:string) => {
+        if(kebab === 'admin-bookings') return 'All Bookings';
+        if(kebab === 'admin-vouchers') return 'Voucher Redeemed';
         return kebab
         .split('-')
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -118,6 +121,26 @@ export default function UserLayout({
                     </clipPath>
                     </defs>
                     </svg>)
+            case 'admin-bookings':
+                return(<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clip-path="url(#clip0_105_570)">
+                    <path d="M14.25 21.75H0.75V2.25H23.25V15" stroke={isActive?"#A56658":"#333337"} stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M0.75 6.75H23.25" stroke={isActive?"#A56658":"#333337"} stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M3 4.5H4.5" stroke={isActive?"#A56658":"#333337"} stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M6 4.5H7.5" stroke={isActive?"#A56658":"#333337"} stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M15.75 18.75L18 21L22.5 16.5" stroke={isActive?"#A56658":"#333337"} stroke-width="2" stroke-linejoin="round"/>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_105_570">
+                    <rect width="24" height="24" fill="white"/>
+                    </clipPath>
+                    </defs>
+                    </svg>)
+            case 'admin-vouchers':
+                return(<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.94517 11.1889H2.63672V22.4121H19.9499V13.916M4.94517 11.1889H19.9499V13.916M4.94517 11.1889V7.83237M19.9499 13.916H22.3633V7.83237M4.94517 7.83237H22.3633M4.94517 7.83237V5.21016M22.3633 7.83237V5.21016M4.94517 5.21016V2.58789H22.3633V5.21016M4.94517 5.21016H22.3633M4.94517 13.916H8.82749M4.52543 19.9997H5.8895M7.3585 19.9997H8.61763M10.0866 19.9997H11.5557M17.7464 14.9649C17.7464 15.7759 17.0887 16.4334 16.2774 16.4334C15.4661 16.4334 14.8084 15.7759 14.8084 14.9649C14.8084 14.1539 15.4661 13.4964 16.2774 13.4964C17.0887 13.4964 17.7464 14.1539 17.7464 14.9649Z" stroke={isActive?"#A56658":"#333337"} stroke-width="1.5"/>
+                    </svg>
+                    )
         }
     }
 
@@ -125,20 +148,59 @@ export default function UserLayout({
     const showSideBarOptions = () => {
 
         const compArray:any = []
+        const adminOptions = ['admin-bookings', 'admin-vouchers'];
+        const regularOptions = options.filter(opt => !adminOptions.includes(opt));
+        const adminOptionsList = options.filter(opt => adminOptions.includes(opt));
 
-        options.forEach(option => {
-
-            const isActive = pathname.includes(option); 
+        // Render regular options
+        regularOptions.forEach(option => {
+            let isActive = pathname.includes(option);
             
-            compArray.push(<div className='w-full flex flex-row md:gap-8 gap-2 items-start'>
-                <div className='w-full flex flex-col gap-5 items-start'>
-                    <div className='flex flex-row justify-start items-center md:gap-8.5 cursor-pointer' onClick={()=>changePage(option)}>
+            compArray.push(<div key={option} className='w-full flex flex-row md:gap-8 gap-2 items-center md:items-start'>
+                <div className='w-full flex flex-col gap-2 md:gap-5 items-center md:items-start'>
+                    <div className='flex flex-row justify-center md:justify-start items-center gap-0 md:gap-8.5 cursor-pointer w-full py-2 md:py-0 hover:opacity-70 transition-opacity' onClick={()=>changePage(option)}>
                         {getIcon(option,isActive)}
                         <span className={`hidden md:block text-xl ${isActive?"font-bold text-accent":""}`}>{titleCase(option)}</span>
                     </div>
-                    <div className='w-full h-px bg-primary/50'/>
+                    <div className='w-full h-px bg-primary/50 hidden md:block'/>
                 </div>
-                <div className={`w-[8px] h-[30px] ${isActive?"bg-accent":"bg-transparent"} `}/>
+                <div className={`w-[4px] md:w-[8px] h-[30px] ${isActive?"bg-accent":"bg-transparent"} hidden md:block`}/>
+            </div>)
+        });
+
+        // Add Admin header separator if there are admin options
+        if(adminOptionsList.length > 0) {
+            compArray.push(
+                <div key="admin-header" className='w-full flex flex-row md:gap-8 gap-2 items-center md:items-start mt-2 md:mt-4'>
+                    <div className='w-full flex flex-col gap-2 md:gap-5 items-center md:items-start'>
+                        <div className='flex flex-row justify-center md:justify-start items-center gap-0 md:gap-8.5 py-2 md:py-0'>
+                            <span className='hidden md:block text-xl font-bold text-primary/70 uppercase'>Admin</span>
+                        </div>
+                        <div className='w-full h-px bg-primary/50 hidden md:block'/>
+                    </div>
+                </div>
+            );
+        }
+
+        // Render admin options
+        adminOptionsList.forEach(option => {
+            let isActive = pathname.includes(option);
+            // Special handling for admin routes
+            if(option === 'admin-bookings' && pathname.includes('/user/all-bookings')){
+                isActive = true;
+            } else if(option === 'admin-vouchers' && pathname.includes('/user/voucher-redeemed')){
+                isActive = true;
+            } 
+            
+            compArray.push(<div key={option} className='w-full flex flex-row md:gap-8 gap-2 items-center md:items-start'>
+                <div className='w-full flex flex-col gap-2 md:gap-5 items-center md:items-start'>
+                    <div className='flex flex-row justify-center md:justify-start items-center gap-0 md:gap-8.5 cursor-pointer w-full py-2 md:py-0 hover:opacity-70 transition-opacity' onClick={()=>changePage(option)}>
+                        {getIcon(option,isActive)}
+                        <span className={`hidden md:block text-xl ${isActive?"font-bold text-accent":""}`}>{titleCase(option)}</span>
+                    </div>
+                    <div className='w-full h-px bg-primary/50 hidden md:block'/>
+                </div>
+                <div className={`w-[4px] md:w-[8px] h-[30px] ${isActive?"bg-accent":"bg-transparent"} hidden md:block`}/>
             </div>)
         });
 
@@ -146,7 +208,13 @@ export default function UserLayout({
     }
 
     const changePage = (path:string) => {
-        router.push(`/user/${path}`)
+        if(path === 'admin-bookings'){
+            router.push(`/user/all-bookings`)
+        } else if(path === 'admin-vouchers'){
+            router.push(`/user/voucher-redeemed`)
+        } else {
+            router.push(`/user/${path}`)
+        }
     }
 
     const logoutClicked = () => {
@@ -161,22 +229,22 @@ export default function UserLayout({
     }
 
   return (
-    <div className="flex flex-row w-full">
-      <div className='md:w-[330px] flex flex-col justify-between  pl-[20px] py-[32px]' style={{ minHeight: "calc(100vh - 200px)" }}>
-        <div className='flex flex-col w-full gap-7.5 items-start'>
+    <div className="flex flex-row w-full min-h-screen">
+      <div className='w-[80px] md:w-[330px] flex flex-col justify-between pl-[10px] md:pl-[20px] pr-[10px] md:pr-0 py-[20px] md:py-[32px] border-r border-primary/20 bg-white shrink-0'>
+        <div className='flex flex-col w-full gap-3 md:gap-7.5 items-center md:items-start'>
             {showSideBarOptions()}
         </div>
 
         <Button
             variant="default"
-            className="px-5 text-sm md:text-md lg:text-[16px] mr-4 hidden lg:block"
+            className="px-3 md:px-5 text-xs md:text-sm lg:text-[16px] mr-0 md:mr-4 mt-4 w-full md:w-auto hidden md:block"
             onClick={logoutClicked}
         >
             Logout
         </Button>
       </div>
       
-      <main className="flex-1 p-6 bg-muted px-5 md:px-[100px] py-[68px]">
+      <main className="flex-1 min-w-0 p-4 sm:p-6 bg-muted px-4 sm:px-5 md:px-[100px] py-[30px] sm:py-[50px] md:py-[68px]">
         {children}
       </main>
     </div>
