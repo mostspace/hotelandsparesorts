@@ -6,6 +6,7 @@ import { useEffect, useState, useRef } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 
 export default function VoucherRedeemed() {
 
@@ -21,19 +22,56 @@ export default function VoucherRedeemed() {
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [refundingVoucher, setRefundingVoucher] = useState<string | null>(null);
     const [refundMessage, setRefundMessage] = useState<{type: 'success' | 'error', text: string} | null>(null);
+    const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
     const fromCalendarRef = useRef<HTMLDivElement>(null);
     const toCalendarRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
 
     useEffect(() => {
         if(auth){
           const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-              retrieveVouchers()
+              checkAdminAndRetrieve()
+            } else {
+              router.push('/login');
             }
           })
           return () => unsubscribe();
         }
     }, [auth]);// eslint-disable-line react-hooks/exhaustive-deps
+
+    const checkAdminAndRetrieve = async () => {
+        const uid = auth?.currentUser?.uid;
+        if (!uid) {
+            router.push('/login');
+            return;
+        }
+
+        try {
+            const res = await fetch(`/api/users/${uid}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (!res.ok) throw new Error(`Error: ${res.status}`);
+            const data = await res.json();
+
+            if (data && data.isAdmin) {
+                setIsAdmin(true);
+                retrieveVouchers();
+            } else {
+                setIsAdmin(false);
+                // Redirect non-admin users to my-details page
+                router.push('/user/my-details');
+            }
+        } catch (error) {
+            console.error("Error checking admin status:", error);
+            setIsAdmin(false);
+            router.push('/user/my-details');
+        }
+    }
 
     // Close calendar when clicking outside
     useEffect(() => {
@@ -477,19 +515,25 @@ export default function VoucherRedeemed() {
                     </div>
                 )}
                 
-                {loading ? (
+                {isAdmin === false && (
+                    <div className="w-full flex justify-center items-center py-20">
+                        <span className="text-lg text-primary/70">You do not have permission to view this page.</span>
+                    </div>
+                )}
+                
+                {isAdmin === true && loading ? (
                     <div className="w-full flex justify-center items-center py-20">
                         <div className="flex flex-col items-center gap-4">
                             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent"></div>
                             <span className="text-lg text-primary/70">Loading vouchers...</span>
                         </div>
                     </div>
-                ) : (
+                ) : isAdmin === true && !loading ? (
                     <>
                         {showVouchers()}
                         {showPagination()}
                     </>
-                )}
+                ) : null}
             </div>
 
         </div>

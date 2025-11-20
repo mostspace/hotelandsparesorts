@@ -48,12 +48,17 @@ export default function UserLayout({
         if (!res.ok) throw new Error(`Error: ${res.status}`);
         const data = await res.json();
         
-        if(data.isAdmin){
+        // Always start with base options
+        const baseOptions = ['my-details','my-bookings','vouchers','delete-account'];
+        
+        if(data && data.isAdmin){
             console.log("IS ADMIN")
-            options.push('admin-bookings')
-            options.push('admin-vouchers')
-            setOptions(options)
+            // Only add admin options if user is admin
+            setOptions([...baseOptions, 'admin-bookings', 'admin-vouchers'])
             setUpdateVar(updateVar+1)
+        } else {
+            // Reset to base options for non-admin users
+            setOptions(baseOptions)
         }
     }
 

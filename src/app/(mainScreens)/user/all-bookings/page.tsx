@@ -4,6 +4,7 @@ import { auth } from "@/app/firebase";
 import { HotelTile } from "@/components/search/HotelTile";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function AllBookings() {
 
@@ -14,18 +15,55 @@ export default function AllBookings() {
     const [orderBy, setOrderBy] = useState("createdDate");
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
+    const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
     const itemsPerPage = 10;
+    const router = useRouter();
 
     useEffect(() => {
         if(auth){
           const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-              retrieveBookings()
+              checkAdminAndRetrieve()
+            } else {
+              router.push('/login');
             }
           })
           return () => unsubscribe();
         }
     }, [auth]);// eslint-disable-line react-hooks/exhaustive-deps
+
+    const checkAdminAndRetrieve = async () => {
+        const uid = auth?.currentUser?.uid;
+        if (!uid) {
+            router.push('/login');
+            return;
+        }
+
+        try {
+            const res = await fetch(`/api/users/${uid}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (!res.ok) throw new Error(`Error: ${res.status}`);
+            const data = await res.json();
+
+            if (data && data.isAdmin) {
+                setIsAdmin(true);
+                retrieveBookings();
+            } else {
+                setIsAdmin(false);
+                // Redirect non-admin users to my-details page
+                router.push('/user/my-details');
+            }
+        } catch (error) {
+            console.error("Error checking admin status:", error);
+            setIsAdmin(false);
+            router.push('/user/my-details');
+        }
+    }
     
 
     const retrieveBookings = async () => {
@@ -257,21 +295,26 @@ export default function AllBookings() {
             </div>
 
             {errorMessage!=="" && <span className="text-[red] text-sm sm:text-base">{errorMessage}</span>}
-            {loading ? (
+            {isAdmin === false && (
+                <div className="w-full flex justify-center items-center py-20">
+                    <span className="text-lg text-primary/70">You do not have permission to view this page.</span>
+                </div>
+            )}
+            {isAdmin === true && loading ? (
                 <div className="w-full flex justify-center items-center py-20">
                     <div className="flex flex-col items-center gap-4">
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent"></div>
                         <span className="text-base sm:text-lg text-primary/70">Loading bookings...</span>
                     </div>
                 </div>
-            ) : (
+            ) : isAdmin === true && !loading ? (
                 <>
                     <div className="w-full">
                         {showBookings(bookingType)}
                     </div>
                     {showPagination(bookingType)}
                 </>
-            )}
+            ) : null}
         </div>
 
     </div>)
